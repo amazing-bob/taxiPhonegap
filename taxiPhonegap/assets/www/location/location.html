@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>위치검색</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- JQuery -->
+<link rel="stylesheet" href="../css/jquery.mobile-1.3.2.css">
+<!-- Theme -->
+<link rel="stylesheet" href="../css/themes/taxi.css" />
+<!-- Added -->
+<link rel="stylesheet" href="location.css">
+
+<!-- JQuery -->
+<script src="../js/jquery-1.10.2.js"></script>
+<script>
+$(document).on("mobileinit", function() {
+	$.mobile.ignoreContentEnabled = true;
+});
+</script>
+<script src="../js/jquery.mobile-1.3.2.js"></script>
+<!-- Olleh Map -->
+<script src="http://map.ktgis.com/MapAPI/serviceJSP/AuthAPI.jsp?key=MXBmMnRvUnhPOVdCMEtMdjdYaHdTOFdKREg2SW9nNkhKQXBXVXpab0Ezd1J4UWVlT3M6QmJxR0h4Y2JnYmdaRGUxcDR1djdqYU5oMlhEbFZGWnpNOUlRZzZwckdyNTdxS3A4MHo=&module=Map,Geocoder,Directions"></script>
+<!-- iscroll 관련 js  -->
+<script src="../js/iscroll.js"></script>
+<!-- Cordova -->
+<script src="../cordova.js"></script>
+<!-- Added -->
+<script src="../js/common.js"></script>
+<script src="location.js"></script>
+</head>
+
+<body>	
+<div id="pageLocation" data-role="page" data-title="위치검색">
+	<!-- content -->
+	<section id="contentLocation" data-role="content">
+		<!-- 검색 -->
+		<div id = "divSearchInput" data-enhance="false">
+			<input type='text' id="searchInput" placeholder="장소" data-clear-btn="true" readonly>
+			<img id = "magnifyingGlass" src="../images/common/magnifying-glass.png" >
+			<a id="aSearchClear">
+				<img id = "cancleIcon" src="../images/common/cancle-icon.png" >
+			</a>
+		</div>
+		
+		<div id="divMapWrap">
+			<div id="canvas_map"></div>
+		</div>	
+		<!-- 위치 리스트 -->
+		<div id="wrapper">
+			<div id="scroller">			
+				<ul id="ulLocationList" data-role="none" data-enhance="false">
+				</ul>
+			</div>
+		</div>
+		
+		<!-- 맵 -->
+		
+	</section><!-- //content -->
+</div><!-- //page -->
+</body>
+
+</html>

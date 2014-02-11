@@ -1,0 +1,545 @@
+@CHARSET "UTF-8";
+
+@font-face {
+    font-family: 'Nanum Gothic';
+    src: url('../fonts/NanumGothic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Nanum Gothic Bold';
+    src: url('../fonts/NanumGothicBold.ttf') format('truetype');
+}
+
+section[data-role=content] {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+/* 출발지 목적지 */
+#divStartEndLoc {
+	margin: 0px;
+	padding: 6px;
+	width: 100%;
+	height: 70px;
+	position: absolute;
+	top: 0px;
+	z-index: 1;
+	background: #fafbfd;
+	box-shadow: 0px 1px 10px #ccc;
+}
+.divLocationInput {
+ 	position: relative;
+	width: 100%;
+	height: 34px;,
+}
+#startInput {
+	border: 1px solid #aaa;
+ 	position: absolute;
+	width: 100%;
+	height: 33px;
+	padding: 0px 30px;
+	z-index:99;
+	font-size:12pt;
+	border-radius: 3px 3px 0px 0px;
+	font-family: Nanum Gothic;
+	font-size: small;
+	text-shadow: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+#endInput {
+	border: 1px solid #aaa;
+ 	position: absolute;
+	width: 100%;
+	height: 33px;
+	padding: 0px 30px;
+	z-index: 99;
+	font-size:12pt;
+	border-radius: 0px 0px 3px 3px;
+	font-family: Nanum Gothic;
+	font-size: small;
+	text-shadow: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.aSearchClear {
+	float: right;
+	position: absolute;
+	right:0px;
+	margin : 0px 12px 0px 0px;
+	cursor: pointer;
+ 	width: 35px;
+	height: 35px;
+ 	z-index:100;
+}
+.cancleIcon {
+  	width: 12px;
+ 	height: 12px;
+ 	z-index:100;
+ 	padding: 11px 0px 0px 10px;
+}
+.aCurrentLocAndFavoriteIcon {
+	float: left;
+	position: absolute;
+	left: 0px;
+	margin: 0px;
+	cursor: pointer;
+	width: 35px;
+	height: 35px;
+	z-Index:100;
+}
+.imgCurrentLocAndFavoriteIcon {
+	width: 17px;
+ 	height: 17px;
+ 	z-index:100;
+ 	padding: 9px 0px 0px 8px;
+}
+
+
+/* 맵 관련 */
+div#divMapWrap {
+	width: 100%;
+	height: 400px;
+	position: relative;
+	margin-top: 82px;
+}
+div#canvas_map {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+
+
+/* 등록 버튼 */
+a#btnAddViewRoom {
+	cursor: pointer;
+	position: absolute;
+	border: 0.1em solid #eee;
+	z-index: 999;
+	right: 0.1em;
+	bottom: 153px;
+	width: 60px;
+	height: 60px;
+	text-align:  center;
+	background: #fafbfd;
+	box-shadow: 0px 1px 5px #dadada;
+	border-radius: 50px;
+	visibility: hidden;
+}
+a#btnAddViewRoom:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; }
+#btnAddViewRoom img {
+	width: 45px;
+	height: 45px;
+	display: block;
+	margin: 7.5px auto;
+}
+
+/* 방목록 */
+#wrapper {
+	width: 100%;
+	height: 140px;
+	float: left;
+	position: absolute;
+	z-index: 999;
+	overflow: hidden;
+	background: #fafbfd;
+	box-shadow: 0px 1px 10px #ccc;
+}
+#scroller {
+	width: 10000px;
+	height: 100%;
+	float: left;
+	padding: 0;
+}
+#scroller ul {
+	list-style: none;
+	display: block;
+	float: left;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	text-align:left;
+}
+#scroller li {
+	width: 100%;
+	height: 127px;
+	display: block; float: left;
+	text-align: center;
+	font-family: georgia;
+	font-size: 18px;
+}
+div.divMsgArea {
+	top: 0px;
+	margin: 0px;
+	padding: 0px;
+	line-height: 33px;
+}
+div.divMsgArea h1 {
+	font-size: 1.4em;
+	color: #aaa;
+	margin: 1.0em 0 0 0.5em;
+	padding: 0px;
+}
+div.divMsgArea h2 {
+	font-size: 1.0em;
+	color: #aaa;
+	margin: 1.0em 0 0 0.5em;
+	padding: 0px;
+}
+div.divRoomInfoArea {
+	top: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+div.divRoomInfoArea h2 {
+	float: left;
+	font-family: Arial Black;
+	font-size: 2.6em;
+	font-weight: bolder;
+	margin: 0.1em 0.1em 0.1em 0.3em;
+	padding: 0px;
+}
+div.divRoomInfoArea > span.spanStartLabel {
+	float: left;
+	margin: 2.3em 0 0 0;
+	font-size: 80%;
+	font-family: "Nanum Gothic Bold";
+	color: #999;
+	font-weight: bold;
+}
+div.divRoomMbrThumbs {
+	height: 2.7em;
+	text-align: right;
+	margin: 0px;
+	padding: 0.5em 1em;
+}
+div.divRoomMbrThumbs img {
+	width: 2.0em;
+	heigth: 2.0em;
+	margin: 0.3em 0.1em;
+	padding: 0px;
+	border-radius: 50px;
+}
+
+div.divBtnArea {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	height: 2.5em;
+}
+a.btnJoinRoom {
+	cursor: pointer;
+	width: 94%;
+	height: 3em;
+	border-top: 0.1em solid #eee;
+	border-right: 0.1em solid #eee;
+	border-bottom: 0.1em solid #eee;
+	border-left: 0.1em solid #ddd;
+	text-decoration:none;
+	padding: 10px 30%;
+	background: white;
+	font-family: 'Nanum Gothic';
+	font-weight: bold;
+	box-shadow: 0px 1px 5px #dadada;
+	border-radius: 3px;
+}
+a.btnJoinRoom:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; }
+a.btnJoinRoom span {
+	font-size: 1.2em;
+	color: #33b4e4;
+	font-family: 'Nanum Gothic Bold';
+	font-weight: bold;
+	text-shadow: none;
+}
+
+.headerVar{
+    width: 100%;
+    margin-top: 0px;
+}
+
+.divHeaderLine{
+	height: 17px !important;
+    z-index: 5001;
+    padding: 0 auto;
+    margin: -4px;
+}
+
+.divHeaderLine a{
+	cursor:default;
+}
+
+/* 방목록 키웠을 때*/
+.liRoomList {
+	height:100%;
+}
+.divRoomDistanceAndFare {
+	height: 2.8em;
+	text-align: right;
+	margin: 0px;
+	padding: 0.2em 1em 0.5em 1em;
+}
+.distance{
+	heigth: 2.5em;
+	margin: 0.1em;
+	padding: 0px;
+}
+.fare{
+	margin-top:0px;
+}
+.divRoomDetailInfo {
+	width:100%;
+	height:27em;
+	background: #fafbfd;
+}
+.divRoomPathInfo {
+	border-top:1px solid #a6a6a6;
+	background: #fafbfd;
+	height: 5em;
+	text-align: left;
+	left: 100px;
+	margin: 0px 10px;
+}
+.imgDownArrow {
+	left:15px;
+	top:95px;
+	float:left;
+	width:45px;
+	height:60px;
+	margin:17px 0px 0px 0px;
+}
+.startLocName {
+	border-bottom: 1px solid #e8e8e8;
+	margin-top: 14px;
+	margin-left: 50px;
+	padding-bottom: 11px;
+	font-family: Nanum Gothic;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.endLocName {
+	margin-top:-13px;
+	margin-left: 50px;
+	font-family: Nanum Gothic;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.divCanvas {
+	border-top:1.5px solid #dddddd;
+	border-bottom:1.5px solid #dddddd;
+	padding:10px 0px;
+	margin: 0px 10px;
+}
+
+
+
+/* 방등록 팝업 */
+#headerAddRoomPopup{
+	background: ghostwhite;
+	color: dimgrey;
+	font-family: 'Nanum Gothic Bold';
+	font-weight: bold;
+	text-shadow: none;
+	text-align: center;
+	font-size: medium;
+	height: 30px;
+	line-height: 30px;
+	border-radius: 3px 3px 0px 0px;
+}
+
+.liDayArea {
+	padding: 0px;
+    height: 30px;
+    line-height: 30px;
+}
+#divToday{
+	width: 50%;
+    float: left;
+    text-align: center;
+    border-right: 0.8px solid #CCCCCC;
+    height: 30px;
+    line-height: 30px;
+}
+#divTomorrow{
+	background: whitesmoke;
+	width: 50%;
+    float: left;
+    text-align: center;
+    position: absolute;
+    margin-left: 50%;
+    height: 30px;
+    line-height: 30px;
+}
+#bToday{
+    color: dimgrey;
+    font-family: 'Nanum Gothic';
+    font-size: 15px;
+    text-shadow: none;
+}
+#bTomorrow{
+    color: dimgrey;
+    font-family: 'Nanum Gothic';
+    font-size: 15px;
+    text-shadow: none;
+}
+#outText{
+    font-family: 'Nanum Gothic';
+    font-size: 15px;
+    text-align: center;
+    font-weight: 300;
+    border-bottom: 0.8px solid #CCCCCC;
+    background:white;
+}
+
+.liBtnArea {
+    padding: 0px;
+    height: 45px;
+    line-height: 45px;
+/*     border-radius: 0px 0px 3px 3px; */
+}
+.divLeftSection{
+    width: 50%;
+    float: left;
+    text-align: center;
+    border-right: 0.8px solid #CCCCCC;
+    height: 45px;
+    line-height: 45px;
+/*     border-radius: 0px 0px 0px 3px; */
+}
+div#divCancel {
+	background: #ffffff;  
+	box-shadow: 0px 1px -1px #c6ecf8; 
+	z-index: 999;
+/* 	border-radius: 0px 0px 0px 3px; */
+}
+div#divCancel:hover { background: #c6ecf8;  box-shadow: 0px 1px -1px #c6ecf8; z-index: 999; }
+.aRightSection{
+    text-decoration: none;
+}
+#spanCancel{
+    color: #999;
+    font-family: 'nanum gothic Bold';
+    font-weight: bold;
+    font-size: 15px;
+    text-shadow: none;
+}
+.divRightSection{
+    width: 50%;
+    float: left;
+    text-align: center;
+    position: absolute;
+    margin-left: 50%;
+    height: 45px;
+    line-height: 45px;
+/*     border-radius: 0px 0px 3px 0px; */
+}
+div#divAddRoom {
+	background: #ffffff;  
+	box-shadow: 0px 1px -1px #c6ecf8; 
+	z-index: 999;
+/* 	border-radius: 0px 0px 3px 0px; */
+}
+div#divAddRoom:hover { background: #c6ecf8;  box-shadow: 0px 1px -1px #c6ecf8; z-index: 999; }
+.aLeftSection{
+    text-decoration: none;
+}
+#spanAddRoom{
+    color: #33b4e4;
+    font-family: 'nanum gothic Bold';
+    font-weight: bold;
+    font-size: 15px;
+    text-shadow: none;
+}
+
+
+/* 즐겨찾는 위치 */
+#favoriteUl{
+	height: auto;
+}
+#favoriteList{
+    height: 40px;
+	overflow: hidden;
+}
+#favoriteLink.ui-link-inherit{
+  margin: 0px;
+}
+
+
+/* 패널버튼*/
+#btnShowMenu {
+	cursor: pointer;
+	position: absolute;
+	z-index: 999;
+	left: 0em;
+	bottom: 150px;
+	width: 20px;
+	height: 52px;
+}
+#btnShowMenu img {
+	width: 20px;
+	height: 52px;
+}
+
+
+/* 패널*/
+#btnShowMenu {
+	z-index: 1;
+}
+#leftPanel {
+	background-color: #5a5959;
+	z-index: 9999;
+	margin-left: -1px;
+}
+#leftPanel ul {
+	margin: 0;
+	padding: 0;
+	width: inherit;
+}
+#leftPanel ul li a:link,
+#leftPanel ul li a:visited {
+	border-bottom: solid #333 1px;
+	box-shadow: 0 1px 0 #727272;
+	color: #fff;
+	display: block;
+	font-family: arial;
+	font-size: 14px;
+	padding: 10px 0 10px 10px;
+	text-decoration: none;
+	text-shadow: 0 1px 1px #000;
+	width: 262px;
+}
+#leftPanel ul li a:hover,
+#leftPanel ul li a:active {
+	background-color: #716f6f;
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(30,29,29,1)),color-stop(21%,rgba(56,55,55,1)));
+	color: #fff;
+	text-shadow: 0 1px 1px #000;
+}
+.ui-body-c {
+	background-color: #fff;
+	line-height: 18px;
+}
+.active {
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(30,29,29,1)),color-stop(21%,rgba(56,55,55,1)));
+	color: #fff;
+	text-shadow: 0 1px 1px #000;
+}
+
+.ui-panel-inner { padding: 0 !important }
+
+
+
+.ui-li, .ui-li.ui-field-contain{
+
+border-top-width: 0px;
+}
+
+.ui-btn-up-d {
+border: 0.5px solid silver;
+}

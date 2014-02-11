@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.taxi" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Hello Cordova</name>
+    <preference name="loglevel" value="DEBUG" />
+    <name>TaxiPhonegap</name>
+    <description>
+        TAXI 같이타자 Cordova Application
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Oldboy Team
+    </author>
+    <content src="auth/auth.html" />
+<!-- 	<content src="test/test.html" /> -->
+    <access origin="*" />
+    <feature name="App">
+        <param name="android-package" value="org.apache.cordova.App" />
+    </feature>
+    <feature name="Battery">
+        <param name="android-package" value="org.apache.cordova.batterystatus.BatteryListener" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="Vibration">
+        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    </feature>
+    <feature name="Media">
+        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+    </feature>
+    <access origin="https://m.facebook.com" />
+    <access origin="https://graph.facebook.com" />
+    <access origin="https://api.facebook.com" />
+    <access origin="https://*.fbcdn.net" />
+    <access origin="https://*.akamaihd.net" />
+    <feature name="org.apache.cordova.facebook.Connect">
+        <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin" />
+    </feature>
+    <feature name="PushPlugin">
+        <param name="android-package" value="com.plugin.gcm.PushPlugin" />
+    </feature>
+    <feature name="PhoneNumber">
+        <param name="android-package" value="org.apache.cordova.phonenumber.PhoneNumber" />
+    </feature>
+    <feature name="ToastPlugin">
+        <param name="android-package" value="org.apache.cordova.toast.ToastPlugin" />
+    </feature>
+    <feature name="Contacts">
+        <param name="android-package" value="org.apache.cordova.contacts.ContactManager" />
+    </feature>
+    <feature name="PhoneDialer">
+        <param name="android-package" value="com.teamnemitoff.phonedialer.PhoneDialer" />
+    </feature>
+</widget>

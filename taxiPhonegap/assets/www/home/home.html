@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>홈</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- JQuery -->
+<link rel="stylesheet" href="../css/jquery.mobile-1.3.2.css">
+<!-- JQueryMobile DataBox -->
+<link rel="stylesheet" href="../css/mobiscroll.core-2.6.2.css"/>
+<link rel="stylesheet" href="../css/mobiscroll.android-ics-2.6.2.css"/>
+<!-- Theme -->
+<link rel="stylesheet" href="../css/themes/taxi.css" />
+<!-- Added -->
+<link rel="stylesheet" href="home.css">
+
+<!-- JQuery -->
+<script src="../js/jquery-1.10.2.js"></script>
+<script>
+$(document).on("mobileinit", function() {
+	$.mobile.ignoreContentEnabled = true;
+});
+</script>
+<script src="../js/jquery.transit.js"></script>
+<script src="../js/jquery.mobile-1.3.2.js"></script>
+<!-- mobiscroll datetime -->
+<script src="../js/mobiscroll.core-2.6.2.js" type="text/javascript"></script>
+<script src="../js/mobiscroll.datetime-2.6.2.js" type="text/javascript"></script>
+<script src="../js/mobiscroll.android-ics-2.6.2.js" type="text/javascript"></script>
+<!-- Olleh Map -->
+<script src="http://map.ktgis.com/MapAPI/serviceJSP/AuthAPI.jsp?key=MXBmMnRvUnhPOVdCMEtMdjdYaHdTOFdKREg2SW9nNkhKQXBXVXpab0Ezd1J4UWVlT3M6QmJxR0h4Y2JnYmdaRGUxcDR1djdqYU5oMlhEbFZGWnpNOUlRZzZwckdyNTdxS3A4MHo=&module=Map,Geocoder,Directions"></script>
+<!-- iscroll 관련 js  -->
+<script src="../js/iscroll.js"></script>
+<!-- Cordova -->
+<script src="../cordova.js"></script>
+<script src="../js/PushNotification.js"></script>
+<!-- Added -->
+<script src="../js/common.js"></script>
+<script src="home.js"></script>
+<script src="../js/relation-canvas.js"></script>
+
+
+</head>
+
+<body>
+<div id="pageHome" data-role="page" data-title="홈" data-theme="d">
+
+	<!-- content -->
+	<section id="contentHome" data-role="content" data-theme="d">
+
+		<!-- 출발지/목적지 -->
+		<div id="divStartEndLoc"  data-enhance="false">
+			<div class = "divLocationInput" data-enhance="false">
+				<a class="aCurrentLocAndFavoriteIcon" id="btnCurrentLoc" href="#">
+					<img class="imgCurrentLocAndFavoriteIcon" src="../images/common/currentLocation-icon.png" >
+				</a>
+				<a class="aSearchClear" id="aStartSearchClear">
+					<img class = "cancleIcon" src="../images/common/cancle-icon.png" >
+				</a>
+				<input type='text' id="startInput" class="searchInput" placeholder="출발지" value="">
+			</div>
+
+ 			<div class = "divLocationInput" data-enhance="false">
+				<a class="aCurrentLocAndFavoriteIcon" id="btnFavoriteLoc" href="#">
+					<img class="imgCurrentLocAndFavoriteIcon" src="../images/common/favorite-icon.png" >
+				</a>
+				<a class="aSearchClear" id="aEndSearchClear">
+					<img class = "cancleIcon" src="../images/common/cancle-icon.png" >
+				</a>
+				<input type='text' id="endInput" class="searchInput" placeholder="도착지" value="">
+			</div>
+		</div>
+
+
+		<!-- 맵 -->
+		<div id="divMapWrap">
+			<!-- map -->
+			<div id="canvas_map"></div>
+		</div><!-- //divMapWrap -->
+
+		<!-- 등록/보기 버튼 -->
+		<a id="btnAddViewRoom" data-enhance="false">
+			<img src="../images/common/button/add_btn.png">
+		</a>
+
+		<!-- 방목록 -->
+		<div id="wrapper">
+			<div id="scroller">
+				<ul id="ulRoomList" data-role="none" data-enhance="false"></ul>
+			</div>
+		</div>
+
+		<!-- 왼쪽패널 버튼 -->
+		<a id="btnShowMenu" data-enhance="false">
+			<img src="../images/common/menu.png">
+		</a>
+
+	</section>
+
+
+	<!-- 왼쪽패널 -->
+	<div data-role="panel" id="leftPanel" data-display="overlay"
+		data-position="left" data-theme="none">
+		<ul>
+			<li><a href="#btnSettings" id="btnSettings" class="contentLink">설정 </a></li>
+			<li><a href="#home" class="contentLink">의견보내기</a></li>
+		</ul>
+	</div>
+
+	<!-- 	방등록 팝업 -->
+	<div id="divAddRoomCondition_popup" data-role="popup" data-theme="none" data-dismissible="true"
+			data-inset="true" data-corners="false">
+		<ul id="exitUi" data-role="listview" data-inset="true"  data-theme="d"  data-corners="false">
+			<li id="headerAddRoomPopup" class="title_li"  data-role="list-divider" data-theme="c">
+				<span>방 출발시간</span>
+			</li>
+			
+			<li class="liDayArea">
+				<div id="divToday">
+					<span id="spanToday">
+						<b id="bToday">오늘</b>
+					</span>
+				</div>
+				<div id="divTomorrow">
+                	<span id="spanTomorrow">
+                		<b id="bTomorrow">내일</b>
+                	</span>
+				</div>
+			</li>
+			
+			<li id="outText">
+				<input type="text" name="test_default" id="inputTime" data-val="today"/>
+			</li>
+			<li class="liBtnArea">
+				<div id="divCancel" class="divLeftSection">
+					<a class="aLeftSection" data-theme="none" data-rel="back" href="#" data-corners="false">
+						<span id="spanCancel">취소</span>
+					</a>
+				</div>
+				<div id="divAddRoom"class="divRightSection" id="createRoom">
+                	<a class="aRightSection" href="#" data-theme="none" data-corners="false">
+                		<span id="spanAddRoom">만들기</span>
+                	</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+	
+	
+	<!-- 즐겨찾기 -->
+	<div id="divFavoriteLoc_popup" data-role="popup" data-theme="f" data-dismissible="true"
+			data-inset="true" data-corners="false">
+		<ul id="favoriteUl" data-role="listview" data-inset="true"  data-theme="f"  data-corners="false">
+			<li id="favoriteHeader" class="title_li"  data-role="list-divider" data-theme="f">자주가는 목적지</li>
+		</ul>
+	</div>
+
+
+</div><!-- //page -->
+</body>
+</html>

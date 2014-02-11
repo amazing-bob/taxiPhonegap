@@ -1,0 +1,237 @@
+@CHARSET "UTF-8"; 
+
+@font-face {
+    font-family: 'Nanum Gothic';
+    src: url('../fonts/NanumGothic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Nanum Gothic Bold';
+    src: url('../fonts/NanumGothicBold.ttf') format('truetype');
+}
+
+#pageLocation { 
+    background: #fafbfd; 
+} 
+  
+section[data-role=content] { 
+    margin : 0px; 
+    padding : 0px; 
+} 
+  
+/* 맵 */
+div#divMapWrap { 
+    width: 100%; 
+    height: 400px; 
+    position: relative; 
+} 
+div#canvas_map { 
+    width: 100%; 
+    height: 100%; 
+    position: absolute; 
+} 
+  
+  
+/* 검색 입력 */
+#divSearchInput { 
+    float:left; 
+    position: relative;  
+    width: 100%; 
+    height: 38px; 
+} 
+#magnifyingGlass { 
+    float: left;  
+    position: relative; 
+    vertical-align: center; 
+    margin : 15px 0px 0px 14px; 
+    width: 17px;   
+    height: 17px; 
+    z-index:100;   
+}  
+#aSearchClear { 
+    float: right; 
+    position: absolute; 
+    vertical-align: center; 
+    right:0px; 
+    cursor: pointer; 
+    margin :7px 6px 0px 0px; 
+    width: 35px; 
+    height: 35px; 
+    z-index:100; 
+} 
+#cancleIcon { 
+    width: 12px; 
+    height: 12px; 
+    z-index:100; 
+    padding: 11px 0px 0px 11px; 
+} 
+#searchInput { 
+    border: 1px solid #aaa; 
+    position: absolute; 
+    width: 100%; 
+    height: 33px; 
+    padding: 0px 30px; 
+    margin: 6px; 
+    z-index:1; 
+    background: white; 
+    box-shadow: 0px 1px 10px #ccc; 
+    border-radius: 3px; 
+    font-family: Nanum Gothic; 
+    font-size: small; 
+    text-shadow: none; 
+} 
+  
+  
+/* 위치 리스트 */
+/* 스크롤 */
+#wrapper { 
+    width: 100%;  
+    height: 8em; 
+    position:absolute;    
+    z-index:1; 
+    bottom:0px; 
+    overflow:hidden; 
+    box-shadow: 0px 1px 10px #ccc;  
+} 
+#scroller { 
+    width: 100%; 
+    height: 100%; 
+    float:left; 
+    padding:0; 
+} 
+#scroller ul { 
+    width:100%; 
+    height: 100%; 
+    text-align:left; 
+    margin: 0px; 
+    padding: 0px; 
+    position : absolute; 
+    z-index:999; 
+} 
+#scroller li { 
+    width: 100%;     
+    height: 8em; 
+    line-height:140%; 
+    z-index:999; 
+    display:block; float:left; 
+    position:absolute; 
+    bottom: 0px; 
+    margin:0px;  
+    padding:0;    
+    display:inline-block; 
+    background: #fafbfd; 
+} 
+div.divMsgArea {
+	top: 0px;
+	margin: 50px;
+	padding: 0px;
+	text-align: center;
+}
+div.divMsgArea h1 {
+	font-size: 1.5em;
+	color: #aaa;
+	margin: 1.0em 0 0 0.5em;
+	padding: 0px;
+}
+a.divFavoriteIcon { 
+    position: absolute; 
+    top: 7px; 
+    left: 0.6em; 
+    cursor: pointer; 
+} 
+a.divFavoriteIcon img { 
+    width: 23px;  
+    height: 23px;  
+} 
+  
+.locationNameAndAddress { 
+    margin: 2px 0.3em 0px 0.3em; 
+    padding:0px; 
+    text-decoration:none; 
+} 
+  
+.locationName{ 
+    width: 88%; 
+    height: 100%; 
+    margin-left: 35px; 
+    padding:0px; 
+    line-height:150%; 
+    font-family: Nanum Gothic Bold; 
+    font-size: 150%; 
+    font-weight: bold; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+} 
+.locationAddress { 
+    width:100%; 
+    height: 100%; 
+    margin: 0px; 
+    line-height: 140%; 
+    font-family: Nanum Gothic; 
+    color: #707070; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+} 
+.locationTheme { 
+    color: #888; 
+    margin: 0px; 
+    font-family: Nanum Gothic; 
+    font-size: 80%; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+} 
+  
+.locationStartAndEnd { 
+    position: absolute; 
+    width: 100%; 
+    height: 2.3em; 
+    bottom: 0px; 
+    text-align: center; 
+    margin-left: auto; 
+    margin-right: auto; 
+} 
+a.locationStart { 
+    width: 52%; 
+    height: 3em; 
+    border-top: 1px solid #eee; 
+    border-right: 1px solid #eee;  
+    border-bottom: 1px solid #ddd; 
+    border-left: 1px solid #eee; 
+    padding: 0.5em 15%;  
+    text-decoration:none; 
+    background: white; 
+    box-shadow: 0px 1px 5px #dadada; 
+    border-radius: 3px 0px 0px 3px; 
+} 
+a.locationStart:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; } 
+a.locationStart span { 
+    font-size: 1.2em; 
+    font-family: Nanum Gothic Bold; 
+    color: #33b4e4; 
+    font-weight: bold; 
+    text-shadow: none; 
+} 
+a.locationEnd { 
+    width: 52%; 
+    height: 3em; 
+    border-top: 1px solid #eee; 
+    border-right: 1px solid #eee;  
+    border-bottom: 1px solid #ddd; 
+    padding: 0.5em 15%;  
+    text-decoration:none; 
+    background: white; 
+    box-shadow: 0px 1px 5px #dadada; 
+    border-radius: 0px 3px 3px 0px; 
+} 
+a.locationEnd:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; } 
+  
+a.locationEnd span { 
+    font-size: 1.2em; 
+    font-family: Nanum Gothic Bold; 
+    color: #33b4e4; 
+    font-weight: bold; 
+    text-shadow: none; 
+} 
+ 

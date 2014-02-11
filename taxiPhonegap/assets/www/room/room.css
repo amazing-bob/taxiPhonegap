@@ -1,0 +1,690 @@
+@CHARSET "UTF-8"; 
+  
+@font-face { 
+    font-family: 'Nanum Gothic'; 
+    src: url('../fonts/NanumGothic.ttf') format('truetype'); 
+} 
+
+@font-face { /
+    font-family: 'Nanum Gothic Bold';
+    src: url('../fonts/NanumGothicBold.ttf') format('truetype');
+} 
+
+  
+div#divMapWrap { 
+    width: 100%; 
+    height: 300px; 
+    position: relative; 
+    padding: 0; 
+} 
+div#canvas_map { 
+    width: 100%; 
+    height: 100%; 
+    position: absolute; 
+} 
+  
+div#divRelationBtn { 
+    position: absolute; 
+    top: 70px; 
+    left: 5px; 
+    z-index: 97; 
+    opacity: 0.7; 
+    float: left; 
+} 
+  
+  
+  
+.ui-content .ui-listview-inset {
+    margin:0px; 
+} 
+  
+#mbr01 { 
+      display: block; 
+    position: absolute; 
+    left: -3px; 
+    z-index: 97; 
+    bottom:20px; 
+    background-color: blue; 
+} 
+  
+#mbrName{ 
+    font-size: 140%; 
+    font-family: 'Nanum Gothic Bold'; 
+    font-weight: bold;
+    text-shadow: none;
+} 
+  
+  
+input.ui-input-text.ui-mini, textarea.ui-input-text.ui-mini, .ui-input-search.ui-mini, div.ui-input-text.ui-mini{ 
+    margin: 0; 
+    margin-top: 8px; 
+} 
+  
+body { 
+    font-size:12px; 
+    -webkit-user-select:none; 
+    -webkit-text-size-adjust:none; 
+    font-family:helvetica; 
+} 
+
+
+/* 팝업 */
+#exitUi{ 
+  border-radius: 3px 3px 0px 0px;
+} 
+.exitHeader { 
+	background: ghostwhite; 
+	color: dimgrey; 
+	font-family: 'Nanum Gothic Bold'; 
+	font-weight: bold; 
+	text-shadow: none; 
+	text-align: center; 
+	font-size: medium; 
+	height: 30px;
+	line-height: 30px;
+} 
+
+.outText { 
+    font-family: 'Nanum Gothic';
+    font-size: 15px; 
+    text-align: center; 
+    font-weight: 300; 
+    border-bottom: 0.8px solid #CCCCCC; 
+    height: 50px; 
+}
+.outTextSpan { 
+    margin-top: 10px; 
+    float: left; 
+    font-size: inherit; 
+    color: black; 
+}
+#callTextSpan { 
+	margin-top: 9px;
+	margin-right: 1px;
+	float: left; 
+	font-family: "Nanum Gothic Bold";
+	font-size: 110%; 
+	color: teal; 
+	font-weight: bold; 
+} 
+
+.liBtnArea { 
+    padding: 0px !important; 
+    height: 45px; 
+}
+div.divCancel { 
+    width: 50%; 
+    float: left; 
+    text-align: center; 
+    border-right: 0.8px solid #CCCCCC; 
+    height: 45px;
+    line-height: 45px;
+} 
+div.divCancel:hover { background: #c6ecf8;  box-shadow: 0px 1px -1px #c6ecf8; z-index: 999; }
+.cancelExit{ 
+    text-decoration: none; 
+}
+.spanCancel{ 
+    color: #999;
+    font-family: 'nanum gothic Bold';
+    font-weight: bold;
+    font-size: 15px;
+    text-shadow: none; 
+} 
+
+
+div#divExit{ 
+    width: 50%; 
+    float: left; 
+    text-align: center; 
+    position: absolute; 
+    margin-left: 50%; 
+    height: 45px;
+    line-height: 45px;
+}
+div#divCallMbr:hover { background: #c6ecf8;  box-shadow: 0px 1px -1px #c6ecf8; z-index: 999; }
+#outRoom{ 
+    text-decoration: none; 
+    color: blueviolet; 
+} 
+#spanExit{ 
+    color: #33b4e4;
+    font-family: 'nanum gothic Bold';
+    font-weight: bold;
+    font-size: 15px;    
+    text-shadow: none; 
+} 
+  
+div#divCallMbr{ 
+    width: 50%; 
+    float: left; 
+    text-align: center; 
+    position: absolute; 
+    margin-left: 50%; 
+    height: 45px;
+    line-height: 45px;
+}
+div#divExit:hover { background: #c6ecf8;  box-shadow: 0px 1px -1px #c6ecf8; z-index: 999; } 
+#callRoom{ 
+    text-decoration: none; 
+    color: blueviolet; 
+} 
+#spanCall{ 
+    color: #33b4e4;
+    font-family: 'nanum gothic Bold';
+    font-weight: bold;
+    font-size: 15px;    
+    text-shadow: none; 
+} 
+  
+.ui-li ui-li-static ui-btn-up-d ui-last-child{ 
+    padding: 0;
+    border-top: 1px solid beige; 
+} 
+  
+.ui-btn-inner{ 
+    width: 55px; 
+    height: inherit; 
+    border: 0px; 
+} 
+  
+.ui-listview {
+    padding:0px; 
+    margin:0px; 
+  
+} 
+  
+#commentList{ 
+    padding:0px; 
+    margin:0px; 
+    position: relative; 
+    width: 100%; 
+    box-shadow: 0px 1px 10px 0px #ccc;
+} 
+  
+.ui-listview ui-listview-inset ui-shadow { 
+    border: blue; 
+    margin:0px; 
+    padding: 0px; 
+} 
+  
+.viewport-wrapper{ 
+	border: 0px; 
+} 
+  
+.ui-body-d, .ui-overlay-d{ 
+    border: 0px; 
+} 
+  
+#feedView{ 
+    position: relative; 
+    width: 100%; 
+} 
+  
+.ui-content {
+    padding:0px; 
+    margin:0px; 
+} 
+  
+.ui-bar-c{ 
+    border: 0px; 
+} 
+  
+#roomSubHeader{ 
+    background: #fafbfd; 
+    font-family: 'Nanum Gothic'; 
+    font-size: 150%; 
+    width: 100%; 
+    padding:  0 auto; 
+    margin: 0px; 
+    padding: 0px; 
+    top:0px; 
+    margin-bottom: 0px; 
+    height: 54px; 
+    z-index: 4000; 
+} 
+  
+..ui-li.ui-last-child, .ui-li.ui-field-contain.ui-last-child{ 
+    border-bottom-width: 0px; 
+} 
+  
+.ui-listview-inset .ui-li{ 
+    border-right-width : 0px; 
+    border-left-width: 0px; 
+} 
+  
+.ui-btn-up-d{ 
+    border: 0px; 
+} 
+  
+.ui-li, .ui-li.ui-field-contain{ 
+    border-top-width: 0px; 
+} 
+  
+#roomHeaderUl{ 
+      width: 100%; 
+} 
+  
+..ui-header-fixed{ 
+    padding-top: 0px; 
+} 
+  
+.ui-bar-c{ 
+    border: 0px; 
+} 
+  
+  
+.ui-li .ui-li-static .ui-btn-up-f .ui-first-child .ui-last-child { 
+    margin: 0; 
+    padding: 0; 
+} 
+  
+  
+a.btnDelete {
+	cursor: pointer;
+    float: right; 
+    width: 25px;
+    height: 25px; 
+    margin-bottom: 3px;
+    margin-right: 1px;
+    border-top: 0.1em solid #eee;
+	border-right: 0.1em solid #eee;
+	border-bottom: 0.1em solid #eee;
+	border-left: 0.1em solid #eee;
+	background: white;
+	box-shadow: 0px 1px 2px #dadada;
+	border-radius: 50px;
+}
+a.btnDelete:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; }
+a.btnDelete > img {
+	width: 25px;
+    height: 25px; 
+    display: inline-block;
+	margin: auto auto;
+}
+
+#main1{ 
+    font-family: Verdana, Geneva, Arial, sans-serif; 
+    font-size: 140%; 
+    color: black; 
+    margin-top: 0px; 
+    margin-left: 130px; 
+} 
+  
+.feedList { 
+    border-bottom: 1px solid lightgrey; 
+    padding-left: 85px; 
+    background: #fafbfd;
+} 
+.deleteFeed{ 
+    width: 30px; 
+    height: 30px; 
+	-webkit-transition: all 0,1s ease; 
+	-moz-transition: all 0,1s ease; 
+	-o-transition: all 0,1s ease; 
+	-ms-transition: all 0,1s ease; 
+	transition: all 0,1s ease; 
+} 
+  
+.deleteFeed:hover{ 
+ -webkit-filter: hue-rotate(333deg); 
+} 
+.ui-li-aside { 
+    width: ""; 
+} 
+  
+.ui-li-has-thumb .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li-has-thumb{ 
+    min-height: 65px; 
+} 
+
+/* 나가기 버튼 */
+a#btnExitRoom {
+	cursor: pointer;
+	position: absolute;
+	border: 0.1em solid #eee;
+	z-index: 999;
+	right: 0.1em;
+	top: 20px;
+	width: 60px;
+	height: 60px;
+	text-align:  center;
+	background: #fafbfd;
+	box-shadow: 0px 1px 5px #dadada;
+	border-radius: 50px;
+}
+a#btnExitRoom:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; }
+#btnExitRoom img {
+	width: 45px;
+	height: 45px;
+	display: block;
+	margin: 7.5px auto;
+}
+  
+  
+#roomStartTime { 
+	float: left;
+	font-family: Arial Black;
+	font-size: 2.6em;
+	font-weight: bolder;
+	margin: 0.1em 0.1em 0.1em 0.3em;
+	padding: 0px;
+} 
+  
+#roomStartDay { 
+	float: left;
+	margin: 2.6em 0 0 0;
+	font-size: 80%;
+	font-family: "Nanum Gothic Bold";
+	color: #999;
+	font-weight: bold;
+} 
+  
+#totalFareName{ 
+	font-family: 'Nanum Gothic'; 
+	float: right; 
+	margin-top: 5px; 
+	margin-bottom: 0px; 
+	border-radius: 2px; 
+	width: 5; 
+	font-size: initial; 
+	height: 20px; 
+	text-align: center; 
+	margin-top: 5px; 
+	width: 20%; 
+	margin-right: 5px; 
+} 
+  
+.ui-li-desc{
+	text-shadow: none;
+	text-overflow : ellipsis; 
+	overflow: hidden; 
+} 
+  
+#fareName { 
+	font-family: 'Nanum Gothic'; 
+	float: right; 
+	margin-bottom: 0px; 
+	background-color: chocolate; 
+	border-radius: 2px; 
+	font-size: initial; 
+	height: 20px; 
+	text-align: center; 
+	margin-top: 5px; 
+	width: 22%; 
+	color: snow; 
+	margin-right: 5px; 
+} 
+  
+.ui-btn-up-d{ 
+    text-shadow: 0; 
+} 
+  
+.ui-body-d, .ui-overlay-d{ 
+    text-shadow: 0; 
+} 
+  
+#roomFare{ 
+	float: right; 
+	color: #fafbfd; 
+	font-weight: 100; 
+	margin-top: 1px; 
+	font-family: 'Nanum Gothic'; 
+	background-color: darkgrey; 
+	border-radius: 2px; 
+	width: 20%; 
+	text-align: center; 
+	height: 21px; 
+	margin-right: 5px; 
+} 
+  
+#myFare{ 
+	float: right; 
+	clear: right; 
+	color: #fafbfd; 
+	font-weight: 100; 
+	margin-top: 1px; 
+	font-family: 'Nanum Gothic'; 
+	background-color: rgb(42, 150, 165); 
+	border-radius: 2px; 
+	text-align: center; 
+	height: 21px; 
+	margin-right: 5px; 
+} 
+  
+  
+  
+#roomDistance{ 
+	font-family: 'Nanum Gothic'; 
+	float: left; 
+	position: relative; 
+	margin-bottom: 0px; 
+	background-color: darksalmon; 
+	border-radius: 2px; 
+	height: 20px; 
+	text-align: center; 
+	margin-top: 4%; 
+	width: 19%; 
+	margin-right: 5px; 
+	font-size: 130%; 
+	margin-left: 1%; 
+	color: beige; 
+	z-index: 1; 
+	text-shadow: none; 
+} 
+  
+  
+#relationView{ 
+    display: block; 
+    position: absolute; 
+    left: -3px; 
+    z-index: 97; 
+    bottom:0px; 
+} 
+  
+.ui-li-thumb{ 
+    margin-bottom: 0; 
+    padding-bottom: 0px; 
+} 
+  
+.ui-li-desc{ 
+    padding-bottom :0; 
+    margin-bottom: 0; 
+} 
+  
+#divRoomList { 
+    background:#fafbfd; 
+    position:absolute; 
+    z-index: 3000; 
+    left: 0px; 
+    width: 100%; 
+    margin: 0 auto; 
+    box-shadow: 0px 1px 10px #ccc; 
+} 
+  
+#divCalling { 
+    float: left; 
+    background: #fafbfd; 
+    position: absolute; 
+    bottom: 0px; 
+    left: 0px; 
+    width: 100%; 
+    box-shadow: 0px 1px 10px #ccc; 
+    height: 15%; 
+    bottom: 28%; 
+} 
+  
+  
+  
+#divCanvas{ 
+    text-align : center; 
+    width:100%; 
+} 
+  
+#divCanvas #myCanvas_0{ 
+    margin-bottom : 0px; 
+} 
+  
+.headerVar{ 
+	z-index: 500; 
+	margin-bottom: -3px; 
+} 
+  
+#divHeaderVar{ 
+} 
+  
+#headerVar{ 
+    width: 100%; 
+} 
+  
+.btnHeaderVar{ 
+  
+} 
+  
+.divHeaderLine .beforeCall{ 
+     text-align: left; 
+     margin-left: 10px; 
+} 
+  
+.beforeCall{ 
+    width: 70px; 
+    height: 70px; 
+    margin-top: 10px; 
+    margin-bottom: 7px; 
+} 
+  
+  
+#imgMbrPhoto{ 
+	height: auto; 
+	width: 50px; 
+	box-shadow: 0px 1px 10px #ccc; 
+	border-radius: 200px 200px 200px 200px; 
+	-moz-border-radius: 200px 200px 200px 200px; 
+	-webkit-border-radius: 200px 200px 200px 200px; 
+	-khtml-border-radius: 200px 200px 200px 200px; 
+	margin: 0; 
+	margin-top: 13px; 
+	margin-left: 10px; 
+} 
+  
+.ui-li-desc > strong{ 
+	width: 62%; 
+	position: absolute; 
+	white-space : normal; 
+	color: dimgray;
+} 
+  
+.ui-li-has-thumb .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li-has-thumb{ 
+  
+    padding-left: 70px; 
+} 
+  
+#feedMbrImg { 
+height: auto; 
+width: 45px; 
+box-shadow: 0px 1px 10px #ccc; 
+border-radius: 200px 200px 200px 200px; 
+-moz-border-radius: 200px 200px 200px 200px; 
+-webkit-border-radius: 200px 200px 200px 200px; 
+-khtml-border-radius: 200px 200px 200px 200px; 
+margin-top: 15px; 
+margin-left: 10px; 
+border: 1px solid white; 
+} 
+ 
+  
+#divTouch { 
+    z-index: 2000; 
+    height: 100%; 
+    width: 100%; 
+    opacity: 0.5; 
+    color: black; 
+    position: absolute; 
+    text-align: center; 
+    margin-top: -20%; 
+    visibility: hidden; 
+} 
+.divCall0 { 
+    float: inherit; 
+    z-index: 5001; 
+    height: 90px; 
+    top: 5%; 
+    position: absolute; 
+    width: 90px; 
+    opacity: 0; 
+    left: 11%; 
+} 
+  
+.divCall1 { 
+    border: 2px solid blue; 
+    background : black; 
+    float: inherit; 
+    z-index: 5001; 
+    height: 80px; 
+    top: 5%; 
+    position: absolute; 
+    width: 80px; 
+   opacity: 0; 
+    right: 11%; 
+} 
+  
+.divCall2 { 
+    border: 2px solid blue; 
+    background : black; 
+    float: inherit; 
+    z-index: 5001; 
+    height: 80px; 
+    bottom: 10%; 
+    position: absolute; 
+    width: 80px; 
+    opacity: 0; 
+    right: 11%; 
+} 
+  
+.divCall3 { 
+    border: 2px solid blue; 
+    background : black; 
+    float: inherit; 
+    z-index: 5001; 
+    height: 80px; 
+    bottom: 10%; 
+    position: absolute; 
+    width: 80px; 
+    opacity: 0; 
+    left: 11%; 
+} 
+  
+ 
+.divHeaderLine{ 
+    z-index: 5001; 
+    padding: 0 auto; 
+  
+}
+  
+div#divRoomControlPopup_location { 
+    width: 100%; 
+    position: absolute; 
+    z-index: 98; 
+    bottom: 15px; 
+    float: left; 
+} 
+  
+#popupCall_popup-screen{ 
+	z-index: 4000; 
+} 
+  
+#popupCall_popup-popup{ 
+	z-index: 4500; 
+} 
+  
+.ui-li-heading{ 
+	margin-left: -10px; 
+	font-size: 14px; 
+	font-weight: bold; 
+	display: block; 
+	margin: .6em 0; 
+	text-shadow: none;
+	text-overflow: ellipsis; 
+	overflow: hidden; 
+	white-space: nowrap; 
+  
+} 

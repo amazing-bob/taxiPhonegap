@@ -1,0 +1,82 @@
+@CHARSET "UTF-8"; 
+
+@font-face {
+    font-family: 'Nanum Gothic';
+    src: url('../fonts/NanumGothic.ttf') format('truetype');
+}
+
+#selectionLoginContent {
+	display: table;	
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+div.cellLoginTableCell {
+	background: #00b0f0;
+	display: table-cell;
+	vertical-align: middle;
+	padding-bottom: 20%;
+	text-align: center;
+}
+#imgLogo {
+	width: 50%;
+	height: auto;
+	padding: 0px;
+	margin: 0px auto;
+}
+#btnFacebookLogin {
+	visibility: hidden;
+	opacity: 0;
+	padding: 0px;
+	margin: 60px auto;
+	width: 200px;
+	height: 43px;
+	background-image: url("../images/common/facebook_login_btn_1.png");
+	background-position: -1px -1px;
+	background-repeat: no-repeat;
+	border: 0px;
+	border-radius: 3px;
+	box-shadow: 0px 1px 10px #888;
+}
+button#btnFacebookLogin:active { border: -1px solid #c6ecf8; box-shadow: 0px 1px 5px #ddd; }
+
+header[data-role=header] h1 {
+    font-family: 'Nanum Gothic', 'Helvetica', 'Arial', 'Sans-Serif';
+    font-size: 130%;
+    color: black;
+    margin-left: 120px;
+    text-shadow: none;
+}
+
+
+#info {
+    font-family: 'Nanum Gothic', 'Helvetica', 'Arial', 'Sans-Serif';
+    text-shadow: none;
+    font-size: medium;
+    line-height: 160%;
+}
+
+#enter {
+    font-family: 'Nanum Gothic' ;
+    text-shadow: none;
+}
+
+#line {
+    margin-top: 10px;
+}
+
+
+#loadIco{
+    width: 100%;
+    height: 100%;
+}
+.mainIco{
+    margin-left: 120px;
+}
+#mainFont{
+    font-family: 'Nanum Gothic';
+    font-size: 300%;
+    margin-left: 50px;
+}
+
+

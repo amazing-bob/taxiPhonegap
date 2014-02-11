@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta charset="UTF-8">
+<title>사용자인증</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<!-- JQuery -->
+<link rel="stylesheet" href="../css/jquery.mobile-1.3.2.css">
+<!-- Theme -->
+<link rel="stylesheet" href="../css/themes/taxi.css" />
+<!-- Added -->
+<link rel="stylesheet" href="auth.css">
+
+<!-- JQuery -->
+<script src="../js/jquery-1.10.2.js"></script>
+<script>
+$(document).on("mobileinit", function() {
+	$.mobile.ignoreContentEnabled = true;
+});
+</script>
+<script src="../js/jquery.transit.js"></script>
+<script src="../js/jquery.mobile-1.3.2.js"></script>
+<!-- Olleh Map -->
+<script src="http://map.ktgis.com/MapAPI/serviceJSP/AuthAPI.jsp?key=ODEwMEQ4QzA6VEJGRkMwMzQzOUQ4NA==&module=Map,Geocoder,Directions"></script>
+<!-- Cordova -->
+<script src="../cordova.js"></script>
+<script src="../js/cdv-plugin-fb-connect.js"></script>
+<script src="../js/facebook-js-sdk.js"></script>
+<!-- Added -->
+<script src="../js/common.js"></script>
+<script src="auth.js"></script>
+</head>
+
+<body>
+<div id="fb-root"></div>
+
+<!-- 로그인 화면 -->
+<div id="divLoginPage" data-role="page">
+	<section id="selectionLoginContent" data-enhance="false" >
+		<div class="cellLoginTableCell">
+			<img src="../images/common/loadTaxi_logo.png" id="imgLogo"/><br>
+			<button id="btnFacebookLogin" data-enhance="false" ></button>
+		</div>
+	</section>
+</div>
+
+
+<!-- 휴대폰수집 화면 -->
+<div id="divPhonePage" data-role="page" data-theme="d">
+	<header data-role="header" data-theme="d">
+		<h1 id="result"><strong>휴대폰번호 입력</strong></h1>
+	</header>
+	
+	<section id="content" data-role="content" data-theme="d">
+		<strong id="enter">핸드폰 번호를 입력해주세요.</strong>
+		<div id="line" data-theme="f" class="ui-li ui-li-static ui-btn-up-d" readonly="readonly">
+		(+82)Republic of Korea</div>
+		
+		<input id="txtPhone" name="phoneNo" type="number" data-theme="d" placeholder="휴대폰 번호 입력(01000000000)"><span id="spnPhoneStatus"></span>
+		<button  data-theme="d" id="btnPhoneNo" data-role="button" disabled="disabled" data-corners="false">다음</button>
+		<div id="info">
+			Texi 같이 타자는 전화번호의 본인사용 및 부정사용방지를 위하여 인증을 필요로 합니다.
+		</div>
+	</section>
+</div>
+</body>
+</html>
