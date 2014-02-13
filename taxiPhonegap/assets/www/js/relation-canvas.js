@@ -49,12 +49,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	    
 		if( (roomInfo.roomMbrList[0] && roomInfo.roomMbrList[0] != null) &&
 				(roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null)){
-			if(roomInfo.roomMbrList[0].roomMbrId
-					== roomInfo.roomMbrList[1].mbrId) {
-				if( (roomInfo.roomMbrList[0].frndRelId != "" &&
-						roomInfo.roomMbrList[0].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[0].frndRelName != null &&
-				    				roomInfo.roomMbrList[0].frndRelName != "") ) {
+			if(roomInfo.roomMbrList[0].roomMbrNo
+					== roomInfo.roomMbrList[1].mbrNo) {
+				if( (roomInfo.roomMbrList[0].relFrndPhoneNo != "" &&
+						roomInfo.roomMbrList[0].relFrndPhoneNo != null) ) {
 					var fixDot1 = new Image(); // 위쪽 선
 					fixDot1.src = "../images/common/fixdot.png";
 					fixDot1.onload = function() {
@@ -62,7 +60,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[0].frndRelName, canvasSize / 2 - 20, stdArcY - 10);
+					ctx.fillText(roomInfo.roomMbrList[0].relFrndPhoneNo, canvasSize / 2 - 20, stdArcY - 10);
 				}
 				first(ctx, true, type, canvasSize, stdArcX, stdArcY);
 			}
@@ -70,12 +68,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	    
 		if( (roomInfo.roomMbrList[0] && roomInfo.roomMbrList[0] != null) &&
 				(roomInfo.roomMbrList[2] && roomInfo.roomMbrList[2] != null) ){
-	    	if(roomInfo.roomMbrList[0].roomMbrId
-		    		== roomInfo.roomMbrList[2].mbrId) {
-	    		if( (roomInfo.roomMbrList[0].frndRelId != "" &&
-		    			roomInfo.roomMbrList[0].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[0].frndRelName != null &&
-				    				roomInfo.roomMbrList[0].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[0].roomMbrNo
+		    		== roomInfo.roomMbrList[2].mbrNo) {
+	    		if( (roomInfo.roomMbrList[0].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[0].relFrndPhoneNo != null) ) {
 	    			var fixDot2 = new Image(); // 대각선1 위쪽 아이콘
 	    			fixDot2.src = "../images/common/fixdot.png";
 	    			fixDot2.onload = function() {
@@ -83,7 +79,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 		    		};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize/2 - 30, stdArcY + 40);
+					ctx.fillText(roomInfo.roomMbrList[1].relFrndPhoneNo, canvasSize/2 - 30, stdArcY + 40);
 				}
 	    		horizontalLine(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -91,12 +87,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	    
 		if( (roomInfo.roomMbrList[0] && roomInfo.roomMbrList[0] != null) &&
 				(roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null)){
-	    	if(roomInfo.roomMbrList[0].roomMbrId
-		    		== roomInfo.roomMbrList[3].mbrId) {
-	    		if( (roomInfo.roomMbrList[0].frndRelId != "" &
-		    			roomInfo.roomMbrList[0].frndRelId != null)
-				    		& (roomInfo.roomMbrList[0].frndRelName != null &
-				    				roomInfo.roomMbrList[0].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[0].roomMbrNo
+		    		== roomInfo.roomMbrList[3].mbrNo) {
+	    		if( (roomInfo.roomMbrList[0].relFrndPhoneNo != "" &
+		    			roomInfo.roomMbrList[0].relFrndPhoneNo != null) ) {
 	    			var fixDot3 = new Image(); // 왼쪽
 	    			fixDot3.src = "../images/common/fixdot.png";
 	    			fixDot3.onload = function() {
@@ -104,7 +98,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[0].frndRelName, stdArcX + 5, canvasSize / 2);
+					ctx.fillText(roomInfo.roomMbrList[0].relFrndPhoneNo, stdArcX + 5, canvasSize / 2);
 				}
 				fourth(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -113,12 +107,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	    // 두번째 멤버
 	    if( (roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null) &&
 				(roomInfo.roomMbrList[0] && roomInfo.roomMbrList[0] != null)){
-			if(roomInfo.roomMbrList[1].roomMbrId
-					== roomInfo.roomMbrList[0].mbrId) {
-				if( (roomInfo.roomMbrList[1].frndRelId != "" &&
-						roomInfo.roomMbrList[1].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[1].frndRelName != null &&
-				    				roomInfo.roomMbrList[1].frndRelName != "") ) {
+			if(roomInfo.roomMbrList[1].roomMbrNo
+					== roomInfo.roomMbrList[0].mbrNo) {
+				if( (roomInfo.roomMbrList[1].relFrndPhoneNo != "" &&
+						roomInfo.roomMbrList[1].relFrndPhoneNo != null) ) {
 					var fixDot1 = new Image(); // 위쪽 선
 					fixDot1.src = "../images/common/fixdot.png";
 					fixDot1.onload = function() {
@@ -126,7 +118,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize / 2 - 20, stdArcY - 10);
+					ctx.fillText(roomInfo.roomMbrList[1].relFrndPhoneNo, canvasSize / 2 - 20, stdArcY - 10);
 				}
 				first(ctx, true, type, canvasSize, stdArcX, stdArcY);
 			}
@@ -134,12 +126,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	    
 	    if( (roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null) &&
 						(roomInfo.roomMbrList[2] && roomInfo.roomMbrList[2] != null)){
-	    	if(roomInfo.roomMbrList[1].roomMbrId
-		    		== roomInfo.roomMbrList[2].mbrId) {
-	    		if( (roomInfo.roomMbrList[1].frndRelId != "" &&
-		    			roomInfo.roomMbrList[1].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[1].frndRelName != null &&
-				    				roomInfo.roomMbrList[1].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[1].roomMbrNo
+		    		== roomInfo.roomMbrList[2].mbrNo) {
+	    		if( (roomInfo.roomMbrList[1].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[1].relFrndPhoneNo != null) ) {
 	    			var fixDot2 = new Image(); // 오른쪽
 	    			fixDot2.src = "../images/common/fixdot.png";
 	    			fixDot2.onload = function() {
@@ -147,7 +137,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize - stdArcY - 40, canvasSize / 2);
+					ctx.fillText(roomInfo.roomMbrList[1].relFrndPhoneNo, canvasSize - stdArcY - 40, canvasSize / 2);
 				}
 	    		second(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -155,12 +145,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	
 	    if( (roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null) &&
 	    		(roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null)){
-	    	if(roomInfo.roomMbrList[1].roomMbrId
-	    			== roomInfo.roomMbrList[3].mbrId) {
-	    		if( (roomInfo.roomMbrList[1].frndRelId != "" &&
-		    			roomInfo.roomMbrList[1].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[1].frndRelName != null &&
-				    				roomInfo.roomMbrList[1].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[1].roomMbrNo
+	    			== roomInfo.roomMbrList[3].mbrNo) {
+	    		if( (roomInfo.roomMbrList[1].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[1].relFrndPhoneNo != null) ) {
 	    			var fixDot3 = new Image(); // 대각선2 아래쪽 아이콘
 	    			fixDot3.src = "../images/common/fixdot.png";
 	    			fixDot3.onload = function() {
@@ -168,7 +156,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize/2 - 30, canvasSize - stdArcY - 35);
+					ctx.fillText(roomInfo.roomMbrList[1].relFrndPhoneNo, canvasSize/2 - 30, canvasSize - stdArcY - 35);
 				}
 	    		verticalLine(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -176,12 +164,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	
 	    // 세번째 멤버
 		if( (roomInfo.roomMbrList[2] && roomInfo.roomMbrList[2] != null)){
-	    	if(roomInfo.roomMbrList[2].roomMbrId
-		    		== roomInfo.roomMbrList[0].mbrId) {
-	    		if( (roomInfo.roomMbrList[2].frndRelId != "" &&
-		    			roomInfo.roomMbrList[2].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[2].frndRelName != null &&
-				    				roomInfo.roomMbrList[2].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[2].roomMbrNo
+		    		== roomInfo.roomMbrList[0].mbrNo) {
+	    		if( (roomInfo.roomMbrList[2].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[2].relFrndPhoneNo != null) ) {
 	    			var fixDot2 = new Image(); // 대각선1 위쪽 아이콘
 	    			fixDot2.src = "../images/common/fixdot.png";
 	    			fixDot2.onload = function() {
@@ -189,7 +175,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 		    		};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize/2 - 30, stdArcY + 40);
+					ctx.fillText(roomInfo.roomMbrList[2].relFrndPhoneNo, canvasSize/2 - 30, stdArcY + 40);
 				}
 	    		horizontalLine(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -197,12 +183,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	
 		if( (roomInfo.roomMbrList[2] && roomInfo.roomMbrList[2] != null)
 				&& (roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null)){
-	    	if(roomInfo.roomMbrList[2].roomMbrId
-	    			== roomInfo.roomMbrList[1].mbrId) {
-	    		if( (roomInfo.roomMbrList[2].frndRelId != "" &&
-		    			roomInfo.roomMbrList[2].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[2].frndRelName != null &&
-				    				roomInfo.roomMbrList[2].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[2].roomMbrNo
+	    			== roomInfo.roomMbrList[1].mbrNo) {
+	    		if( (roomInfo.roomMbrList[2].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[2].relFrndPhoneNo != null) ) {
 	    			var fixDot2 = new Image(); // 오른쪽
 	    			fixDot2.src = "../images/common/fixdot.png";
 	    			fixDot2.onload = function() {
@@ -210,19 +194,17 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize - stdArcY - 40, canvasSize / 2);
+					ctx.fillText(roomInfo.roomMbrList[2].relFrndPhoneNo, canvasSize - stdArcY - 40, canvasSize / 2);
 				}
 	    		second(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
 		}
 		
 		if( (roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null)){
-	    	if(roomInfo.roomMbrList[2].roomMbrId
-		    		== roomInfo.roomMbrList[3].mbrId) {
-	    		if( (roomInfo.roomMbrList[2].frndRelId != "" &&
-		    			roomInfo.roomMbrList[2].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[2].frndRelName != null &&
-				    				roomInfo.roomMbrList[2].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[2].roomMbrNo
+		    		== roomInfo.roomMbrList[3].mbrNo) {
+	    		if( (roomInfo.roomMbrList[2].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[2].relFrndPhoneNo != null) ) {
 	    			var fixDot2 = new Image(); // 아래선
 	    			fixDot2.src = "../images/common/fixdot.png";
 	    			fixDot2.onload = function() {
@@ -230,7 +212,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize / 2 - 20, canvasSize - stdArcY + 20);
+					ctx.fillText(roomInfo.roomMbrList[2].relFrndPhoneNo, canvasSize / 2 - 20, canvasSize - stdArcY + 20);
 				}
 	    		third(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -240,12 +222,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 		// 라스트멤버
 		if( (roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null) &&
 				(roomInfo.roomMbrList[0] && roomInfo.roomMbrList[0] != null)){
-	    	if(roomInfo.roomMbrList[3].roomMbrId
-		    		== roomInfo.roomMbrList[0].mbrId) {
-	    		if( (roomInfo.roomMbrList[3].frndRelId != "" &
-		    			roomInfo.roomMbrList[3].frndRelId != null)
-				    		& (roomInfo.roomMbrList[3].frndRelName != null &
-				    				roomInfo.roomMbrList[3].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[3].roomMbrNo
+		    		== roomInfo.roomMbrList[0].mbrNo) {
+	    		if( (roomInfo.roomMbrList[3].relFrndPhoneNo != "" &
+		    			roomInfo.roomMbrList[3].relFrndPhoneNo != null) ) {
 	    			var fixDot3 = new Image(); // 왼쪽
 	    			fixDot3.src = "../images/common/fixdot.png";
 	    			fixDot3.onload = function() {
@@ -253,7 +233,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, stdArcX + 5, canvasSize / 2);
+					ctx.fillText(roomInfo.roomMbrList[3].relFrndPhoneNo, stdArcX + 5, canvasSize / 2);
 				}
 				fourth(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -261,12 +241,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 		
 		if( (roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null) &&
 				(roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null)){
-	    	if(roomInfo.roomMbrList[3].roomMbrId
-	    			== roomInfo.roomMbrList[1].mbrId) {
-	    		if( (roomInfo.roomMbrList[3].frndRelId != "" &&
-		    			roomInfo.roomMbrList[3].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[3].frndRelName != null &&
-				    				roomInfo.roomMbrList[3].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[3].roomMbrNo
+	    			== roomInfo.roomMbrList[1].mbrNo) {
+	    		if( (roomInfo.roomMbrList[3].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[3].relFrndPhoneNo != null) ) {
 	    			var fixDot3 = new Image(); // 대각선2 아래쪽 아이콘
 					fixDot3.src = "../images/common/fixdot.png";
 					fixDot3.onload = function() {
@@ -274,7 +252,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize/2 - 30, canvasSize - stdArcY - 35);
+					ctx.fillText(roomInfo.roomMbrList[3].relFrndPhoneNo, canvasSize/2 - 30, canvasSize - stdArcY - 35);
 				}
 	    		verticalLine(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -282,12 +260,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 		
 		if( (roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null) &&
 					(roomInfo.roomMbrList[2] && roomInfo.roomMbrList[2] != null)){
-			if(roomInfo.roomMbrList[3].roomMbrId
-					== roomInfo.roomMbrList[2].mbrId) {
-				if( (roomInfo.roomMbrList[3].frndRelId != "" &&
-		    			roomInfo.roomMbrList[3].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[3].frndRelName != null &&
-				    				roomInfo.roomMbrList[3].frndRelName != "") ) {
+			if(roomInfo.roomMbrList[3].roomMbrNo
+					== roomInfo.roomMbrList[2].mbrNo) {
+				if( (roomInfo.roomMbrList[3].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[3].relFrndPhoneNo != null) ) {
 					var fixDot3 = new Image(); // 아래선
 					fixDot3.src = "../images/common/fixdot.png";
 					fixDot3.onload = function() {
@@ -295,7 +271,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize / 2 - 20, canvasSize - stdArcY + 20);
+					ctx.fillText(roomInfo.roomMbrList[3].relFrndPhoneNo, canvasSize / 2 - 20, canvasSize - stdArcY + 20);
 				}
 				third(ctx, true, type, canvasSize, stdArcX, stdArcY);
 			}
@@ -411,12 +387,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	
 		if( (roomInfo.roomMbrList[0] && roomInfo.roomMbrList[0] != null) &&
 				(roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null)){
-			if(roomInfo.roomMbrList[0].roomMbrId
-					== roomInfo.roomMbrList[1].mbrId) {
-				if( (roomInfo.roomMbrList[0].frndRelId != "" &&
-						roomInfo.roomMbrList[0].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[0].frndRelName != null &&
-				    				roomInfo.roomMbrList[0].frndRelName != "") ) {
+			if(roomInfo.roomMbrList[0].roomMbrNo
+					== roomInfo.roomMbrList[1].mbrNo) {
+				if( (roomInfo.roomMbrList[0].relFrndPhoneNo != "" &&
+						roomInfo.roomMbrList[0].relFrndPhoneNo != null) ) {
 					var fixDot1 = new Image(); // 위쪽 선
 					fixDot1.src = "../images/common/fixdot.png";
 					fixDot1.onload = function() {
@@ -424,7 +398,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[0].frndRelName, canvasSize / 2 - 20, stdArcY - 10);
+					ctx.fillText(roomInfo.roomMbrList[0].relFrndPhoneNo, canvasSize / 2 - 20, stdArcY - 10);
 				}
 				first(ctx, true, type, canvasSize, stdArcX, stdArcY);
 			}
@@ -432,12 +406,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	    
 		if( (roomInfo.roomMbrList[0] && roomInfo.roomMbrList[0] != null) &&
 				(roomInfo.roomMbrList[2] && roomInfo.roomMbrList[2] != null) ){
-	    	if(roomInfo.roomMbrList[0].roomMbrId
-		    		== roomInfo.roomMbrList[2].mbrId) {
-	    		if( (roomInfo.roomMbrList[0].frndRelId != "" &&
-		    			roomInfo.roomMbrList[0].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[0].frndRelName != null &&
-				    				roomInfo.roomMbrList[0].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[0].roomMbrNo
+		    		== roomInfo.roomMbrList[2].mbrNo) {
+	    		if( (roomInfo.roomMbrList[0].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[0].relFrndPhoneNo != null) ) {
 	    			var fixDot2 = new Image(); // 대각선1 위쪽 아이콘
 	    			fixDot2.src = "../images/common/fixdot.png";
 	    			fixDot2.onload = function() {
@@ -445,7 +417,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 		    		};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[0].frndRelName, canvasSize/2 - 40, stdArcY + 50);
+					ctx.fillText(roomInfo.roomMbrList[0].relFrndPhoneNo, canvasSize/2 - 40, stdArcY + 50);
 				}
 	    		horizontalLine(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -453,12 +425,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	    
 		if( (roomInfo.roomMbrList[0] && roomInfo.roomMbrList[0] != null) &&
 				(roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null)){
-	    	if(roomInfo.roomMbrList[0].roomMbrId
-		    		== roomInfo.roomMbrList[3].mbrId) {
-	    		if( (roomInfo.roomMbrList[0].frndRelId != "" &
-		    			roomInfo.roomMbrList[0].frndRelId != null)
-				    		& (roomInfo.roomMbrList[0].frndRelName != null &
-				    				roomInfo.roomMbrList[0].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[0].roomMbrNo
+		    		== roomInfo.roomMbrList[3].mbrNo) {
+	    		if( (roomInfo.roomMbrList[0].relFrndPhoneNo != "" &
+		    			roomInfo.roomMbrList[0].relFrndPhoneNo != null) ) {
 	    			var fixDot3 = new Image(); // 왼쪽
 	    			fixDot3.src = "../images/common/fixdot.png";
 	    			fixDot3.onload = function() {
@@ -466,7 +436,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[0].frndRelName, stdArcX + 5, canvasSize / 2);
+					ctx.fillText(roomInfo.roomMbrList[0].relFrndPhoneNo, stdArcX + 5, canvasSize / 2);
 				}
 				fourth(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -475,12 +445,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	    // 두번째 멤버
 	    if( (roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null) &&
 				(roomInfo.roomMbrList[0] && roomInfo.roomMbrList[0] != null)){
-			if(roomInfo.roomMbrList[1].roomMbrId
-					== roomInfo.roomMbrList[0].mbrId) {
-				if( (roomInfo.roomMbrList[1].frndRelId != "" &&
-						roomInfo.roomMbrList[1].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[1].frndRelName != null &&
-				    				roomInfo.roomMbrList[1].frndRelName != "") ) {
+			if(roomInfo.roomMbrList[1].roomMbrNo
+					== roomInfo.roomMbrList[0].mbrNo) {
+				if( (roomInfo.roomMbrList[1].relFrndPhoneNo != "" &&
+						roomInfo.roomMbrList[1].relFrndPhoneNo != null) ) {
 					var fixDot1 = new Image(); // 위쪽 선
 					fixDot1.src = "../images/common/fixdot.png";
 					fixDot1.onload = function() {
@@ -488,7 +456,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize / 2 - 20, stdArcY - 10);
+					ctx.fillText(roomInfo.roomMbrList[1].relFrndPhoneNo, canvasSize / 2 - 20, stdArcY - 10);
 				}
 				first(ctx, true, type, canvasSize, stdArcX, stdArcY);
 			}
@@ -496,12 +464,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	    
 	    if( (roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null) &&
 						(roomInfo.roomMbrList[2] && roomInfo.roomMbrList[2] != null)){
-	    	if(roomInfo.roomMbrList[1].roomMbrId
-		    		== roomInfo.roomMbrList[2].mbrId) {
-	    		if( (roomInfo.roomMbrList[1].frndRelId != "" &&
-		    			roomInfo.roomMbrList[1].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[1].frndRelName != null &&
-				    				roomInfo.roomMbrList[1].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[1].roomMbrNo
+		    		== roomInfo.roomMbrList[2].mbrNo) {
+	    		if( (roomInfo.roomMbrList[1].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[1].relFrndPhoneNo != null) ) {
 	    			var fixDot2 = new Image(); // 오른쪽
 	    			fixDot2.src = "../images/common/fixdot.png";
 	    			fixDot2.onload = function() {
@@ -509,7 +475,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize - stdArcY - 40, canvasSize / 2);
+					ctx.fillText(roomInfo.roomMbrList[1].relFrndPhoneNo, canvasSize - stdArcY - 40, canvasSize / 2);
 				}
 	    		second(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -517,12 +483,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	
 	    if( (roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null) &&
 	    		(roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null)){
-	    	if(roomInfo.roomMbrList[1].roomMbrId
-	    			== roomInfo.roomMbrList[3].mbrId) {
-	    		if( (roomInfo.roomMbrList[1].frndRelId != "" &&
-		    			roomInfo.roomMbrList[1].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[1].frndRelName != null &&
-				    				roomInfo.roomMbrList[1].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[1].roomMbrNo
+	    			== roomInfo.roomMbrList[3].mbrNo) {
+	    		if( (roomInfo.roomMbrList[1].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[1].relFrndPhoneNo != null) ) {
 	    			var fixDot3 = new Image(); // 대각선2 아래쪽 아이콘
 	    			fixDot3.src = "../images/common/fixdot.png";
 	    			fixDot3.onload = function() {
@@ -530,7 +494,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize/2 - 40, canvasSize - stdArcY - 50);
+					ctx.fillText(roomInfo.roomMbrList[1].relFrndPhoneNo, canvasSize/2 - 40, canvasSize - stdArcY - 50);
 				}
 	    		verticalLine(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -538,12 +502,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	
 	    // 세번째 멤버
 		if( (roomInfo.roomMbrList[2] && roomInfo.roomMbrList[2] != null)){
-	    	if(roomInfo.roomMbrList[2].roomMbrId
-		    		== roomInfo.roomMbrList[0].mbrId) {
-	    		if( (roomInfo.roomMbrList[2].frndRelId != "" &&
-		    			roomInfo.roomMbrList[2].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[2].frndRelName != null &&
-				    				roomInfo.roomMbrList[2].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[2].roomMbrNo
+		    		== roomInfo.roomMbrList[0].mbrNo) {
+	    		if( (roomInfo.roomMbrList[2].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[2].relFrndPhoneNo != null) ) {
 	    			var fixDot2 = new Image(); // 대각선1 위쪽 아이콘
 	    			fixDot2.src = "../images/common/fixdot.png";
 	    			fixDot2.onload = function() {
@@ -551,7 +513,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 		    		};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize/2 - 40, stdArcY + 50);
+					ctx.fillText(roomInfo.roomMbrList[2].relFrndPhoneNo, canvasSize/2 - 40, stdArcY + 50);
 				}
 	    		horizontalLine(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -559,12 +521,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 	
 		if( (roomInfo.roomMbrList[2] && roomInfo.roomMbrList[2] != null)
 				&& (roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null)){
-	    	if(roomInfo.roomMbrList[2].roomMbrId
-	    			== roomInfo.roomMbrList[1].mbrId) {
-	    		if( (roomInfo.roomMbrList[2].frndRelId != "" &&
-		    			roomInfo.roomMbrList[2].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[2].frndRelName != null &&
-				    				roomInfo.roomMbrList[2].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[2].roomMbrNo
+	    			== roomInfo.roomMbrList[1].mbrNo) {
+	    		if( (roomInfo.roomMbrList[2].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[2].relFrndPhoneNo != null) ) {
 	    			var fixDot2 = new Image(); // 오른쪽
 	    			fixDot2.src = "../images/common/fixdot.png";
 	    			fixDot2.onload = function() {
@@ -572,19 +532,17 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize - stdArcY - 40, canvasSize / 2);
+					ctx.fillText(roomInfo.roomMbrList[2].relFrndPhoneNo, canvasSize - stdArcY - 40, canvasSize / 2);
 				}
 	    		second(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
 		}
 		
 		if( (roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null)){
-	    	if(roomInfo.roomMbrList[2].roomMbrId
-		    		== roomInfo.roomMbrList[3].mbrId) {
-	    		if( (roomInfo.roomMbrList[2].frndRelId != "" &&
-		    			roomInfo.roomMbrList[2].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[2].frndRelName != null &&
-				    				roomInfo.roomMbrList[2].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[2].roomMbrNo
+		    		== roomInfo.roomMbrList[3].mbrNo) {
+	    		if( (roomInfo.roomMbrList[2].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[2].relFrndPhoneNo != null) ) {
 	    			var fixDot2 = new Image(); // 아래선
 	    			fixDot2.src = "../images/common/fixdot.png";
 	    			fixDot2.onload = function() {
@@ -592,7 +550,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize / 2 - 20, canvasSize - stdArcY + 20);
+					ctx.fillText(roomInfo.roomMbrList[2].relFrndPhoneNo, canvasSize / 2 - 20, canvasSize - stdArcY + 20);
 				}
 	    		third(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -602,12 +560,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 		// 라스트멤버
 		if( (roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null) &&
 				(roomInfo.roomMbrList[0] && roomInfo.roomMbrList[0] != null)){
-	    	if(roomInfo.roomMbrList[3].roomMbrId
-		    		== roomInfo.roomMbrList[0].mbrId) {
-	    		if( (roomInfo.roomMbrList[3].frndRelId != "" &
-		    			roomInfo.roomMbrList[3].frndRelId != null)
-				    		& (roomInfo.roomMbrList[3].frndRelName != null &
-				    				roomInfo.roomMbrList[3].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[3].roomMbrNo
+		    		== roomInfo.roomMbrList[0].mbrNo) {
+	    		if( (roomInfo.roomMbrList[3].relFrndPhoneNo != "" &
+		    			roomInfo.roomMbrList[3].relFrndPhoneNo != null) ) {
 	    			var fixDot3 = new Image(); // 왼쪽
 	    			fixDot3.src = "../images/common/fixdot.png";
 	    			fixDot3.onload = function() {
@@ -615,7 +571,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, stdArcX + 5, canvasSize / 2);
+					ctx.fillText(roomInfo.roomMbrList[3].relFrndPhoneNo, stdArcX + 5, canvasSize / 2);
 				}
 				fourth(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -623,12 +579,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 		
 		if( (roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null) &&
 				(roomInfo.roomMbrList[1] && roomInfo.roomMbrList[1] != null)){
-	    	if(roomInfo.roomMbrList[3].roomMbrId
-	    			== roomInfo.roomMbrList[1].mbrId) {
-	    		if( (roomInfo.roomMbrList[3].frndRelId != "" &&
-		    			roomInfo.roomMbrList[3].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[3].frndRelName != null &&
-				    				roomInfo.roomMbrList[3].frndRelName != "") ) {
+	    	if(roomInfo.roomMbrList[3].roomMbrNo
+	    			== roomInfo.roomMbrList[1].mbrNo) {
+	    		if( (roomInfo.roomMbrList[3].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[3].relFrndPhoneNo != null) ) {
 	    			var fixDot3 = new Image(); // 대각선2 아래쪽 아이콘
 					fixDot3.src = "../images/common/fixdot.png";
 					fixDot3.onload = function() {
@@ -636,7 +590,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize/2 - 40, canvasSize - stdArcY - 50);
+					ctx.fillText(roomInfo.roomMbrList[3].relFrndPhoneNo, canvasSize/2 - 40, canvasSize - stdArcY - 50);
 				}
 	    		verticalLine(ctx, true, type, canvasSize, stdArcX, stdArcY);
 	    	}
@@ -644,12 +598,10 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 		
 		if( (roomInfo.roomMbrList[3] && roomInfo.roomMbrList[3] != null) &&
 					(roomInfo.roomMbrList[2] && roomInfo.roomMbrList[2] != null)){
-			if(roomInfo.roomMbrList[3].roomMbrId
-					== roomInfo.roomMbrList[2].mbrId) {
-				if( (roomInfo.roomMbrList[3].frndRelId != "" &&
-		    			roomInfo.roomMbrList[3].frndRelId != null)
-				    		&& (roomInfo.roomMbrList[3].frndRelName != null &&
-				    				roomInfo.roomMbrList[3].frndRelName != "") ) {
+			if(roomInfo.roomMbrList[3].roomMbrNo
+					== roomInfo.roomMbrList[2].mbrNo) {
+				if( (roomInfo.roomMbrList[3].relFrndPhoneNo != "" &&
+		    			roomInfo.roomMbrList[3].relFrndPhoneNo != null) ) {
 					var fixDot3 = new Image(); // 아래선
 					fixDot3.src = "../images/common/fixdot.png";
 					fixDot3.onload = function() {
@@ -657,7 +609,7 @@ function drawRelationCanvas (roomInfo, canvas, type) {
 					};
 					ctx.font="11px Gothic";
 					ctx.fillStyle="green";
-					ctx.fillText(roomInfo.roomMbrList[1].frndRelName, canvasSize / 2 - 20, canvasSize - stdArcY + 20);
+					ctx.fillText(roomInfo.roomMbrList[3].relFrndPhoneNo, canvasSize / 2 - 20, canvasSize - stdArcY + 20);
 				}
 				third(ctx, true, type, canvasSize, stdArcX, stdArcY);
 			}
@@ -774,7 +726,7 @@ function first(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		if ( type == 1 ) {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="blue";
 			ctx.moveTo(stdArcX, stdArcY);
 			ctx.lineTo(canvasSize - stdArcX, stdArcY);
 			ctx.stroke();
@@ -782,7 +734,7 @@ function first(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		} else {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="crimson";
 			ctx.moveTo(stdArcX, stdArcY);
 			ctx.lineTo(canvasSize - stdArcX, stdArcY);
 			ctx.stroke();
@@ -799,7 +751,7 @@ function second(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		if ( type == 1 ) {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="blue";
 			ctx.moveTo(canvasSize - stdArcX, stdArcY);
 			ctx.lineTo(canvasSize - stdArcX, canvasSize - stdArcY);
 			ctx.stroke();
@@ -807,7 +759,7 @@ function second(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		} else {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="crimson";
 			ctx.moveTo(canvasSize - stdArcX, stdArcY);
 			ctx.lineTo(canvasSize - stdArcX, canvasSize - stdArcY);
 			ctx.stroke();
@@ -824,7 +776,7 @@ function third(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		if ( type == 1 ) {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="blue";
 			ctx.moveTo(canvasSize - stdArcX, canvasSize - stdArcY);
 			ctx.lineTo(stdArcX, canvasSize - stdArcY);
 			ctx.stroke();
@@ -832,7 +784,7 @@ function third(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		} else {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="crimson";
 			ctx.moveTo(canvasSize - stdArcX, canvasSize - stdArcY);
 			ctx.lineTo(stdArcX, canvasSize - stdArcY);
 			ctx.stroke();
@@ -850,7 +802,7 @@ function fourth(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		if ( type == 1 ) {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="blue";
 			ctx.moveTo(stdArcX, canvasSize - stdArcY);
 			ctx.lineTo(stdArcX, stdArcY);
 			ctx.stroke();
@@ -858,7 +810,7 @@ function fourth(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		} else {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="crimson";
 			ctx.moveTo(stdArcX, canvasSize - stdArcY);
 			ctx.lineTo(stdArcX, stdArcX);
 			ctx.stroke();
@@ -875,7 +827,7 @@ function horizontalLine(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		if ( type == 1 ) {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="blue";
 			ctx.moveTo(canvasSize - stdArcX, canvasSize - stdArcY);
 			ctx.lineTo(stdArcX, stdArcX);
 			ctx.stroke();
@@ -883,7 +835,7 @@ function horizontalLine(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		} else {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="crimson";
 			ctx.moveTo(canvasSize - stdArcX, canvasSize - stdArcY);
 			ctx.lineTo(stdArcX, stdArcX);
 			ctx.stroke();
@@ -899,7 +851,7 @@ function verticalLine(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		if ( type == 1 ) {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="blue";
 			ctx.moveTo(canvasSize - stdArcX, stdArcY);
 			ctx.lineTo(stdArcX, canvasSize - stdArcY);
 			ctx.stroke();
@@ -907,7 +859,7 @@ function verticalLine(ctx, yn, type, canvasSize, stdArcX, stdArcY) {
 		} else {
 			ctx.beginPath();
 			ctx.lineWidth="5";
-			ctx.strokeStyle="#33b4e4";
+			ctx.strokeStyle="crimson";
 			ctx.moveTo(canvasSize - stdArcX, stdArcX);
 			ctx.lineTo(stdArcX, canvasSize - stdArcY);
 			ctx.stroke();

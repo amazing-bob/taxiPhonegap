@@ -10,7 +10,6 @@
         Oldboy Team
     </author>
     <content src="auth/auth.html" />
-<!-- 	<content src="test/test.html" /> -->
     <access origin="*" />
     <feature name="App">
         <param name="android-package" value="org.apache.cordova.App" />

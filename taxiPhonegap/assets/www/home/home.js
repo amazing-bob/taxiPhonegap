@@ -42,14 +42,14 @@ $(document).ready(function() {
 
 	$("#btnSettings").click(function(event) {
 //		event.stopPropagation();
-		changeHref("../setting/settings.html");
+		changeHref("../settings/settings.html");
 		return false;
 	});
 
 	$("#btnCurrentLoc").click(function(event) {
 		event.stopPropagation();
     	map.moveTo(curCoord);
-    	setStartSession(
+    	setStartLocationSession(
     			curCoord.getX(),
     			curCoord.getY(),
     			null,
@@ -122,11 +122,9 @@ $(document).ready(function() {
 //	$(".btnAddRoomUI").on("touchend", function(event) {
 	$("#divAddRoom").on("click", function(event) {		
 		event.stopPropagation();
-		console.log( $(this).text() );
+		
 		push.initialise("addRoom");
 //		addRoom('111111111111111111111111111'); //////////////////////////////////////////// Web용 임시
-//		app.initialise();	//어플배포시 주석 풀것!!!
-//		push();
 		
 		$("#divAddRoomCondition_popup").popup("close");
 		
@@ -245,8 +243,10 @@ $(document).ready(function() {
 	
 }); //ready()
 
+
 /**
- * deviceready 이벤트
+ * 설  명: deviceready 이벤트
+ * 작성자: 김상헌
  */
 var onDeviceReady = function() {
 	console.log("onDeviceReady()");
@@ -256,8 +256,10 @@ var onDeviceReady = function() {
 	document.addEventListener("backbutton", touchBackBtnCallbackFunc, false);	
 };
 
+
 /**
- * 방 만들기 출발시간 초기화
+ * 설  명: 방 만들기 출발시간 초기화
+ * 작성자: 김상헌
  */
 var initStartTime = function() {
 	console.log()
@@ -318,7 +320,8 @@ var initStartTime = function() {
 };
 
 /**
- * 방목록 iScroll 로딩
+ * 설  명: 방목록 iScroll 로딩
+ * 작성자: 김상헌
  */
 function loaded() {
 	console.log("loadRoomScroll()");
@@ -360,18 +363,21 @@ document.addEventListener('touchmove', function (e) { e.preventDefault(); }, fal
 document.addEventListener('DOMContentLoaded', loaded, false);
 
 /**
- * 초기화
+ * 설  명: 초기화
+ * 작성자: 김상헌
  */
 var init = function() {
 	console.log("init()");
 	// 현재위치 조회
 	navigator.geolocation.getCurrentPosition(function(position) {
 		var curPoint = new olleh.maps.Point( position.coords.longitude, position.coords.latitude );
-
 		var srcproj = new olleh.maps.Projection('WGS84');
 		var destproj = new olleh.maps.Projection('UTM_K');
 		olleh.maps.Projection.transform(curPoint, srcproj, destproj);
 		curCoord = new olleh.maps.Coord(curPoint.getX(), curPoint.getY());
+//		curCoord = new olleh.maps.Coord("958238.8608608943", "1944407.0290863856");// 강남역	958238.8608608943, 1944407.0290863856	37.49798,  127.02755
+//		curCoord = new olleh.maps.Coord("949576.8370300145", "1942923.1597472064");// 신림역	949576.8370300145, 1942923.1597472064	37.484173, 126.929661
+//		curCoord = new olleh.maps.Coord("956019.1205096169", "1953794.6490542048");// 대학로	956019.1205096169, 1953794.6490542048	37.58249,  127.001876
 
 		geocoder = new olleh.maps.Geocoder("KEY");
 		directionsService = new olleh.maps.DirectionsService('frKMcOKXS*l9iO5g');
@@ -398,51 +404,60 @@ var init = function() {
 			zIndex : 1
 	  	});
 
-		checkLocations();
+		
+		// 출발지 & 목적지 테스트 데이터 세팅 ///////////////////////////////////
+		// 출발지
+//		setStartLocationSession("958238.8608608943", "1944407.0290863856", "강남역", null, function() {});// 강남역	958238.8608608943, 1944407.0290863856	37.49798,  127.02755	
+//		setStartLocationSession("949576.8370300145", "1942923.1597472064", "신림역", null, function() {});// 신림역	949576.8370300145, 1942923.1597472064	37.484173, 126.929661
+		// 목적지
+//		setEndLocationSession("956019.1205096169", "1953794.6490542048", "대학로", null, function() {});// 대학로	956019.1205096169, 1953794.6490542048	37.58249,  127.001876
+		////////////////////////////////////
+		
+		checkStartLocation();
 
 	});
 };
 
-/**
- * 출발지/목적지 검사
- */
-var checkLocations = function() {
-	console.log("checkLocations()");
-	checkStartLocation();
-};
 
 /**
- * 출발지 검사
+ * 설  명: 출발지 검사
+ * 작성자: 김상헌
  */
 var checkStartLocation = function() {
 	console.log("checkStartLocation()");
-	$.getJSON( rootPath + "/room/getLocationSession.do", function(result) {
-		var locationSession = result.data;
+	
+	var locationSession = getSessionItem("locationSession");
 
-		if ( locationSession && locationSession != null &&
-				locationSession.startName && locationSession.startName != null && locationSession.startName != "" &&
-				locationSession.startX && locationSession.startX != null && locationSession.startX != "" &&
-				locationSession.startY && locationSession.startY != null && locationSession.startY != "" ) {
-			setStartLocation(locationSession.startX, locationSession.startY, locationSession.startName, locationSession.startPrefix);
+	if ( locationSession 				&& locationSession != null 				&&
+			locationSession.startName 	&& locationSession.startName != null 	&& locationSession.startName != "" 	&&
+			locationSession.startX 		&& locationSession.startX != null 		&& locationSession.startX != "" 	&&
+			locationSession.startY 		&& locationSession.startY != null 		&& locationSession.startY != "" ) {
+		setStartLocation(	
+						locationSession.startX,
+						locationSession.startY,
+						locationSession.startName,
+						locationSession.startPrefix );
 
-			checkEndLocation();
+		checkEndLocation();
 
-		} else {
-			setStartSession(
-					curCoord.getX(),
-					curCoord.getY(),
-					null,
-					"내위치: ",
-					function () {
-			    		checkStartLocation();
-			    	} );
-
-		}
-	});
+	} else {
+		setStartLocationSession(
+				curCoord.getX(),
+				curCoord.getY(),
+				null,
+				"내위치: ",
+				function () {
+		    		checkStartLocation();
+		    	} );
+		
+	}
+	
 };
 
+
 /**
- * 출발지 설정
+ * 설  명: 출발지 설정
+ * 작성자: 김상헌
  */
 var setStartLocation = function (x, y, locName, prefix) {
 	console.log("setStartLocation()");
@@ -475,66 +490,77 @@ var setStartLocation = function (x, y, locName, prefix) {
 			title : '출발지',
 			zIndex : 1
 	  	});
-	var loginInfo = getSessionItem("loginInfo");
-	startCircle = setCircle( coord, "#00ffff", loginInfo.startRange );
+	startCircle = setCircle( coord, "#00ffff", myInfo.startRange );
 };
 
+
 /**
- * 목적지 검사
+ * 설  명: 목적지 검사
+ * 작성자: 김상헌
  */
 var checkEndLocation = function() {
 	console.log("checkEndLocation()");
-	$.getJSON( rootPath + "/room/getLocationSession.do", function(result) {
-		var locationSession = result.data;
-		if ( locationSession && locationSession != null &&
-				locationSession.endName && locationSession.endName != null && locationSession.endName != "" &&
-				locationSession.endX && locationSession.endX != null && locationSession.endX != "" &&
-				locationSession.endY && locationSession.endY != null && locationSession.endY != "" ) {
-			setEndLocation(
-					locationSession.endX,
-					locationSession.endY,
-					locationSession.endName,
-					locationSession.endPrefix );
+	
+	var locationSession = getSessionItem("locationSession");
+	
+	if ( locationSession 			&& locationSession != null 			&&
+			locationSession.endName && locationSession.endName != null 	&& locationSession.endName != "" 	&&
+			locationSession.endX 	&& locationSession.endX != null 	&& locationSession.endX != "" 		&&
+			locationSession.endY 	&& locationSession.endY != null 	&& locationSession.endY != "" ) {
+		
+		setEndLocation(
+						locationSession.endX,
+						locationSession.endY,
+						locationSession.endName,
+						locationSession.endPrefix );
 
-			setSessionItem("locationSession", locationSession);
-			searchRooms();
+		searchRooms();
 
-		} else {
-			$.getJSON( rootPath + "/member/getRecentDestination.do", function(result) {
-				if (result.status === "success") {
-					var recentDestinationList = result.data;
-					if ( recentDestinationList.length > 0 ) {
-						setEndSession(
-								recentDestinationList[0].fvrtLocLng,
-								recentDestinationList[0].fvrtLocLat,
-								recentDestinationList[0].fvrtLocName,
-								"최근목적지: ",
-								function() {
-									checkEndLocation();
-								} );
-					} else {
-						$("#btnAddViewRoom").css("visibility","hidden");
-						$("<li>")
-						.width(contentWidth +"px")
-						.append(
-								$("<div>")
-								.addClass("divMsgArea")
-								.css("padding-top","14px")
-								.append(
-										$("<h1>")
-											.html("출발지와 도착지를<br>검색해주세요") ) )
-						.appendTo( $("#ulRoomList") );
-						myScroll.disable();
-					}
+	} else {
+		// 최근 목적지 조회 & 목적지로 설정
+		var param = {
+			mbrNo: myInfo.mbrNo
+		};
+		
+		$.getJSON( rootPath + "/location/getRecentDestination.do", param, function(result) {
+			if (result.status === "success") {
+				var recentDestinationList = result.data;
+				console.log(recentDestinationList);
+				if ( recentDestinationList.length > 0 ) {
+					setEndLocationSession(
+							recentDestinationList[0].rcntLocLng,
+							recentDestinationList[0].rcntLocLat,
+							recentDestinationList[0].rcntLocName,
+							"최근목적지: ",
+							function() {
+								checkEndLocation();
+							} );
+					
+				} else {
+					$("#btnAddViewRoom").css("visibility","hidden");
+					$("<li>")
+					.width(contentWidth +"px")
+					.append(
+							$("<div>")
+							.addClass("divMsgArea")
+							.css("padding-top","14px")
+							.append(
+									$("<h1>")
+										.html("출발지와 도착지를<br>검색해주세요") ) )
+					.appendTo( $("#ulRoomList") );
+					myScroll.disable();
 				}
-			});
+			}
+			
+		});
 
-		}
-	});
+	}
 };
 
+
 /**
- * 목적지 설정
+ * 설  명: 목적지 설정
+ * 작성자: 김상헌
  */
 var setEndLocation = function (x, y, locName, prefix) {
 	console.log("setEndLocation()");
@@ -571,36 +597,39 @@ var setEndLocation = function (x, y, locName, prefix) {
 		title : '목적지',
 		zIndex : 1
   	});
-	var loginInfo = getSessionItem("loginInfo");
-	endCircle = setCircle( coord, "#00ffff", loginInfo.endRange );
+	endCircle = setCircle( coord, "#00ffff", myInfo.endRange );
 };
 
 /**
- * 지도에 반경 표시
+ * 설  명: 지도에 반경 표시
+ * 작성자: 김상헌
  */
 var setCircle = function( coord, color, radius ) {
 	console.log("setCircle(coord, color, radius)");
-	console.log(coord, color, radius);
+//	console.log(coord, color, radius);
 	
 	var circle = new olleh.maps.Circle({
-		center: coord,
-		radius: radius,
-		map: map,
-		fillColor: color,
-		fillOpacity: 0.07,
-		strokeColor: color,
-		strokeOpacity: 0.4,
-		strokeWeight: 1
+		center 			: coord,
+		radius 			: radius,
+		map 			: map,
+		fillColor 		: color,
+		fillOpacity 		: 0.07,
+		strokeColor 	: color,
+		strokeOpacity 	: 0.4,
+		strokeWeight 	: 1
 	});
 
 	return circle;
 };
 
 /**
- * 위치 검색
+ * 설  명: 위치 검색
+ * 작성자: 김상헌
  */
 var searchLocation = function( target ) {
     console.log("searchLocation()");
+//    console.log(target);
+    
     var query = $.trim($(target).val());
     if ( target && query != "" ) {
             if ( query.indexOf("내위치: ") == 0 || query.indexOf("최근목적지: ") == 0 ) {
@@ -619,69 +648,55 @@ var searchLocation = function( target ) {
 
 };
 
+
 /**
- * 방 목록 조회
+ * 설  명: 방 목록 조회
+ * 작성자: 김상헌
  */
 var searchRooms = function() {
 	console.log("searchRooms()");
 
 	var locationSession = getSessionItem("locationSession");
-	var loginInfo = getSessionItem("loginInfo");
+
+	var params = {
+		mbrNo		: myInfo.mbrNo,
+		startLat 	: locationSession.startY,
+		startLng 	: locationSession.startX,
+		startRange 	: myInfo.startRange,
+		endLat 		: locationSession.endY,
+		endLng 		: locationSession.endX,
+		endRange 	: myInfo.endRange
+	};
 	
-//	isRoomMbr(
-//			function() {
-//				$("#btnAddViewRoom > img").attr("src", "../images/common/button/into_room.png");
-//				$("#btnAddViewRoom").data("status", "intoMyRoomBtn");
-//				$("#divRoomList").data("isRoomMbr", "true");
-//			},
-//			function() {
-//				$("#btnAddViewRoom > img").attr("src", "../images/common/button/add_btn.png");
-//				$("#btnAddViewRoom").data("status", "addRoomBtn");
-//				$("#divRoomList").data("isRoomMbr", "false");
-//			} );
 	$.post( rootPath + "/room/searchRooms.do"
-			, {
-				startLat 	: locationSession.startY,
-				startLng 	: locationSession.startX,
-				startRange 	: loginInfo.startRange,
-				endLat 		: locationSession.endY,
-				endLng 		: locationSession.endX,
-				endRange 	: loginInfo.endRange
-			}, function(result) {
+			, params
+			, function(result) {
 				if (result.status == "success") {
 					initRoute();
+					
+					var searchRoomList 	= result.data;
 
-					var searchRoomList = result.data;
+					var roomPathList 	= null;
+					var roomMbrList 	= null;
+					var startInfo 		= null;
+					var endInfo 		= null;
+					var waypoints 		= [];
+					var startTime 		= null;
+					var isMyRoom 		= "false";
 
-					var roomPathList = null;
-					var roomMbrList = null;
-					var startInfo = null;
-					var endInfo = null;
-					var waypoints = [];
-					var startTime = null;
-					var isMyRoom = "false";
-					var loginInfo = getSessionItem("loginInfo");
+					var roomList 		= [];
 
-					var roomList = [];
-
+					// 각 방들의 정보가 세팅된 방리스트 만듬
 					for( var i = 0; i < searchRoomList.length; i++ ) {
-						roomPathList = searchRoomList[i].roomPathList;
 						roomMbrList = searchRoomList[i].roomMbrList;
-
-						startInfo = null;
-						endInfo = null;
-						waypoints = [];
-
-						startTime = new Date(searchRoomList[i].roomStartTime);
-						startTime = startTime.toTimeString().substr(0, 5);
-
-						isMyRoom = "false";
-						for ( var j in roomMbrList ) {
-							if ( roomMbrList[j].mbrId == loginInfo.mbrId ) {
-								isMyRoom = "true";
-							}
-						}
-
+						isMyRoom 	= isIRoomMember( roomMbrList, myInfo.mbrNo );
+						
+						// 출발지 & 목적지 & 경유지 설정
+						roomPathList 	= searchRoomList[i].roomPathList;
+						startInfo 		= null;
+						endInfo 		= null;
+						waypoints 		= [];
+						
 						for ( var j in roomPathList) {
 							if ( roomPathList[j].pathRank == 0 ) {
 								startInfo = roomPathList[j];
@@ -695,40 +710,43 @@ var searchRooms = function() {
 							}
 						}
 
+						// 출발시간 설정
+						startTime = new Date(searchRoomList[i].roomStartTime);
+						startTime = startTime.toTimeString().substr(0, 5);
+						
+ 
 						roomList[i] = {
-							roomNo : searchRoomList[i].roomNo,
-							startTime : startTime,
+							roomNo 		: searchRoomList[i].roomNo,
+							startTime 	: startTime,
 							roomDistance: searchRoomList[i].roomDistance,
-							startX : startInfo.pathLng,
-							startY : startInfo.pathLat,
-							endX : endInfo.pathLng,
-							endY: endInfo.pathLat,
-							roomMbrCount : searchRoomList[i].roomMbrCount,
-							isMyRoom : isMyRoom,
-							waypoints : waypoints,
+							startX 		: startInfo.pathLng,
+							startY 		: startInfo.pathLat,
+							endX 		: endInfo.pathLng,
+							endY 		: endInfo.pathLat,
+							roomMbrCount: searchRoomList[i].roomMbrCount,
+							isMyRoom 	: isMyRoom,
+							waypoints 	: waypoints,
 							roomMbrList : roomMbrList,
-							roomPathList : roomPathList
+							roomPathList: roomPathList
 						};
 
 					}
 
-					isRoomMbr( function() { // isRoomMbrTrue
+					// 내방 여부에 따른 화면 세팅
+					if ( myInfo.isRoomMbr ) { 
 						$("#btnAddViewRoom > img").attr("src", "../images/common/button/into_room.png");
 						$("#btnAddViewRoom").data("status", "intoMyRoomBtn");
 						$("#divRoomList").data("isRoomMbr", "true");
 						
 						createRoomList( roomList, true );
 						
-				    },
-				    function() { // isRoomMbrFalse
+					} else {
 				    	$("#btnAddViewRoom > img").attr("src", "../images/common/button/add_btn.png");
 						$("#btnAddViewRoom").data("status", "addRoomBtn");
 						$("#divRoomList").data("isRoomMbr", "false");
 						
 				    	createRoomList( roomList, false );
-				    	
-				    } );
-					
+					}
 
 				} else {
 					console.log("fail");
@@ -737,8 +755,30 @@ var searchRooms = function() {
 			}, "json");
 };
 
+
 /**
- * 방목록 그리기
+ * 설  명: 내가 참여하고 있는 방여부 판단
+ * 작성자: 김상헌
+ * param:
+ * 		roomMbrList : 방멤버리스트
+ * 		myInfo 		: 회원번호
+ */
+var isIRoomMember = function( roomMbrList, myMbrNo ) {
+	console.log("isMyRoom(roomMbrList)");
+//	console.log(roomMbrList);
+	
+	for ( var j in roomMbrList ) {
+		if ( roomMbrList[j].mbrNo == myMbrNo ) {
+			return "true";
+		}
+	}
+	return "false";
+};
+
+
+/**
+ * 설  명: 방목록 그리기
+ * 작성자: 김상헌
  */
 var createRoomList = function( roomList, isRoomMbr ) {
 	console.log("createRoomList( roomList, isRoomMbr )");
@@ -751,7 +791,7 @@ var createRoomList = function( roomList, isRoomMbr ) {
 	$("#ulRoomList").children().remove();
 	$("#scroller").css("width", 0+"px");
 
-	if (roomList && roomList.length > 0) {
+	if (roomList && roomList.length > 0) { 
 		var roomMbrList = null;
 		var divRoomMbrThumb = null;
 
@@ -768,14 +808,14 @@ var createRoomList = function( roomList, isRoomMbr ) {
 
 			$("<li>")
 				.width(contentWidth +"px")
-				.data("roomIdx", i)
-				.data("roomNo", roomList[i].roomNo)
-				.data("startX", roomList[i].startX)
-				.data("startY", roomList[i].startY)
-				.data("endX", roomList[i].endX)
-				.data("endY", roomList[i].endY)
+				.data("roomIdx"		, i)
+				.data("roomNo"		, roomList[i].roomNo)
+				.data("startX"		, roomList[i].startX)
+				.data("startY"		, roomList[i].startY)
+				.data("endX"		, roomList[i].endX)
+				.data("endY"		, roomList[i].endY)
 				.data("roomMbrCount", roomList[i].roomMbrCount)
-				.data("isMyRoom", roomList[i].isMyRoom)
+				.data("isMyRoom"	, roomList[i].isMyRoom)
 				.append(
 						$("<div>")
 							.addClass("divHeaderLine")
@@ -849,9 +889,9 @@ var createRoomList = function( roomList, isRoomMbr ) {
 											event.stopPropagation();
 											
 											var roomNo = $(this).parents("li").data("roomNo");
+											
 											push.initialise("joinRoom", roomNo);
 //											joinRoom('111111111111111111111111111', roomNo); //////////////////////////////////////////// Web용 임시
-//											app.initialize(roomNo);	//어플배포시 주석 풀것!!!
 											
 											return false;
 										}) ) )
@@ -884,7 +924,7 @@ var createRoomList = function( roomList, isRoomMbr ) {
 		
 		$("#btnAddViewRoom").css("visibility","visible");
 		
-	} else {
+	} else { // 방이 있는 경우
 		var btnText = "방 만들기";
 		if ( isRoomMbr ) {
 			btnText  = "내방가기";
@@ -946,7 +986,8 @@ var createRoomList = function( roomList, isRoomMbr ) {
 };
 
 /**
- * 경로 초기화
+ * 설  명: 경로 초기화
+ * 작성자: 김상헌
  */
 var initRoute = function() {
 	if (directionsRenderer) {
@@ -961,14 +1002,17 @@ var initRoute = function() {
 };
 
 /**
- * 방 만들기
+ * 설  명: 방 만들기
+ * 작성자: 김상헌
  */
-var addRoom = function(regId) {
-	console.log("addRoom()");
-	console.log($("#inputTime").mobiscroll('getValue'));
+var addRoom = function( regId ) {
+	console.log("addRoom(regId)");
+//	console.log(regId);
+
 	var locationSession = getSessionItem("locationSession");
     var startTime = new Date();
     var inputTime = $("#inputTime").mobiscroll('getValue');
+    
     // AM,PM 일 때
     if (inputTime[2] == '1') {
     	startTime.setHours(inputTime[0] + 12);
@@ -980,52 +1024,55 @@ var addRoom = function(regId) {
     if ( $('#inputTime').attr("data-val") == 'tomorrow' ) {
     	startTime.setDate(startTime.getDate() + 1);
     }
-//	distance, fare는 추후 수정필요
-    var distance = 0;
-    var fare = 0;
-    console.log(startTime);
+    
     if ( startTime && startTime != null && startTime != "" &&
-    		locationSession && locationSession != null &&
-    		locationSession.startName && locationSession.startName != null && locationSession.startName != "" &&
-    		locationSession.startX && locationSession.startX != null && locationSession.startX != "" &&
-    		locationSession.startY && locationSession.startY != null && locationSession.startY != "" &&
-    		locationSession.endName && locationSession.endName != null && locationSession.endName != "" &&
-    		locationSession.endX && locationSession.endX != null && locationSession.endX != "" &&
-    		locationSession.endY && locationSession.endY != null && locationSession.endY != ""
+    		locationSession 			&& locationSession != null &&
+    		locationSession.startName 	&& locationSession.startName != null 	&& locationSession.startName != "" 	&&
+    		locationSession.startX 		&& locationSession.startX != null 		&& locationSession.startX != "" 	&&
+    		locationSession.startY 		&& locationSession.startY != null 		&& locationSession.startY != "" 	&&
+    		locationSession.endName 	&& locationSession.endName != null 		&& locationSession.endName != "" 	&&
+    		locationSession.endX 		&& locationSession.endX != null 		&& locationSession.endX != "" 		&&
+    		locationSession.endY 		&& locationSession.endY != null 		&& locationSession.endY != ""
     		) {
-    	$.post( rootPath + "/room/addRoom.do",  {
-    		gcmRegId : regId,
-    	    roomStartTime : startTime,
-    	    roomDistance : distance,
-            roomFare : fare,
-            startLocName : locationSession.startName,
-            startLocLng : locationSession.startX,
-            startLocLat : locationSession.startY,
-    	    startLocRank : 0,
-            endLocName : locationSession.endName,
-            endLocLng : locationSession.endX,
-            endLocLat : locationSession.endY,
-            endLocRank : 99
-        },
-        function(result) {
-            if (result.status == "success") {
-            	changeHref("../room/room.html", { roomNo : result.data});
-
-            } else {
-            	console.log(result.data);
-
-            }
-        },
-        "json");
+    	
+    	var params = {
+    			mbrNo			: myInfo.mbrNo,
+	    		gcmRegId 		: regId,
+	    	    roomStartTime 	: startTime,
+	    	    roomMbrNumLimit : 4,	// 방인원수 제한 2차개발때 값 설정하는 부분 추가 되야 함.
+	            startLocName 	: locationSession.startName,
+	            startLocLng 	: locationSession.startX,
+	            startLocLat 	: locationSession.startY,
+	    	    startLocRank 	: 0,
+	            endLocName 		: locationSession.endName,
+	            endLocLng 		: locationSession.endX,
+	            endLocLat 		: locationSession.endY,
+	            endLocRank 		: 99
+        };
+    	
+    	$.post( rootPath + "/room/addRoom.do",
+    			params,
+		        function(result) {
+		            if (result.status == "success") {
+		            	changeHref("../room/room.html", { roomNo : result.data});
+		
+		            } else {
+		            	console.log(result.data);
+		
+		            }
+		        },
+		        "json");
     }
 };
 
+
 /**
- * 경로 찾기
+ * 설  명: 경로 찾기
+ * 작성자: 김상헌
  */
 var searchRoute = function ( startX, startY, endX, endY, callbackFunc, waypoints ) {
 	console.log("searchRoute(startX, startY, endX, endY, callbackFunc, waypoints)");
-	console.log(startX, startY, endX, endY, callbackFunc, waypoints);
+//	console.log(startX, startY, endX, endY, callbackFunc, waypoints);
 	
 	var DirectionsRequest = {
 		origin 		: new olleh.maps.Coord( startX, startY ),
@@ -1040,7 +1087,7 @@ var searchRoute = function ( startX, startY, endX, endY, callbackFunc, waypoints
 };
 var directionsService_callback = function (data) {
 	console.log("directionsService_callback()");
-	console.log(data);
+//	console.log(data);
 	
 	var DirectionsResult  = directionsService.parseRoute(data);
 	
@@ -1085,7 +1132,8 @@ var directionsService_callback = function (data) {
 };
 
 /**
- * 경로 마커 표시
+ * 설  명: 경로 마커 표시
+ * 작성자: 김상헌
  */
 var setWaypointMarker = function( coord, imageUrl ) {
 	console.log("setWaypointMarker(coord, imageUrl)");
@@ -1111,7 +1159,8 @@ var setWaypointMarker = function( coord, imageUrl ) {
 
 
 /**
- * 방 만들기 & 내방가기 버튼 클릭
+ * 설  명: 방 만들기 & 내방가기 버튼 클릭
+ * 작성자: 김상헌
  */
 var clickAddViewRoom = function() {
 	if ($("#btnAddViewRoom").data("status") == "intoMyRoomBtn") {
@@ -1123,85 +1172,95 @@ var clickAddViewRoom = function() {
 	}	
 };
 
+
 /**
- * 내방가기
+ * 설  명: 내방가기
+ * 작성자: 김상헌
  */
 var goMyroom = function() {
 	console.log("goMyroom()");
 	
-	$.getJSON( rootPath + "/room/getMyRoom.do", function(result) {
-//		console.log(result);
-		if (result.status === "success") {
-			var room = result.data;
-			if ( room && room != null &&
-					room.roomNo && room.roomNo != null && room.roomNo != 0) {
-				changeHref("../room/room.html", { roomNo : room.roomNo });
-			}
+	if ( myInfo.isRoomMbr ) {
+		var myRoom = myInfo.myRoom;
+		
+		if (  myRoom && myRoom != null) {
+			changeHref("../room/room.html", { roomNo : myRoom.roomNo });
 		}
-	});
+	}
+	
 };
 
+
 /**
- * 방 만들기 출발시간 설정 팝업 보이기
+ * 설  명: 방 만들기 출발시간 설정 팝업 보이기
+ * 작성자: 김상헌
  */
 var showAddRoomTimePicker = function() {
 	console.log("showAddRoomTimePicker()");
 	
-	isRoomMbr( function() { // isRoomMbrTrue
+	if ( myInfo.isRoomMbr ) {
     	Toast.shortshow("이미 방에 참여 중입니다.");
-    },
-    function() { // isRoomMbrFalse
+    	
+	} else {
     	var dateTime = new Date();
     	dateTime.setMinutes( dateTime.getMinutes() + 10 );
 //    	$("#setTimeBox").datebox("setTheDate", dateTime);
 		$("#divAddRoomCondition_popup").popup("open", { transition  : "pop" });
 		backgroundBlack();
 		$("#setTimeBox").parent().css("display","none");
-    } );
+	}
+	
 };
 
+
 /**
- * 방 참여하기
+ * 설  명: 방 참여하기
+ * 작성자: 김상헌
  */
 var joinRoom = function(regId, roomNo) {
 	console.log("joinRoom(regId, roomNo)");
 //	console.log(regId, roomNo);
 
-    isRoomMbr(
-    		function() { //isRoomMbrTrue
-    			Toast.shortshow("이미 방에 참여 중입니다.");
-		    },
-		    function() { //isRoomMbrFalse
+	if ( myInfo.isRoomMbr ) {
+		Toast.shortshow("이미 방에 참여 중입니다.");
+		
+	} else {
+    	var locationSession = getSessionItem("locationSession");
+    	
+    	var params = {
+	    		roomNo 		: roomNo,
+	    		mbrNo		: myInfo.mbrNo,
+				endLocName 	: locationSession.endName,
+				endLocLat 	: locationSession.endY,
+				endLocLng 	: locationSession.endX,
+				gcmRegId 	: regId
+    	};
+    	
+    	$.post( rootPath + "/room/joinRoom.do",
+    			params,
+				function(result) {
+    		console.log(result);
+					if (result.status =="success") {
+						
+						changeHref("../room/room.html", { roomNo : roomNo});
 
-		    	var locationSession = getSessionItem("locationSession");
-		    	console.log(rootPath);
-		    	$.post( rootPath + "/room/joinRoom.do",
-		    			{
-			    		roomNo : roomNo,
-						endLocName : locationSession.endName,
-						endLocLat : locationSession.endY,
-						endLocLng : locationSession.endX,
-						gcmRegId : regId
-						},
-						function(result) {
-							if (result.status =="success") {
-								changeHref("../room/room.html", { roomNo : roomNo});
+					} else {
+						console.log(result.data);
 
-							} else {
-								console.log(result.data);
-
-							}
-						}, "json");
-		    });
+					}
+				}, "json");
+	}
 };
 
+
 /**
- * 즐겨찾기 목록
+ * 설  명: 즐겨찾기 목록
+ * 작성자: 김상헌
  */
 var favoriteList = function() {
     console.log("favoriteList()");
 
-    $.getJSON( rootPath + "/member/getFavoritePlaces.do", function(result) {
+    $.getJSON( rootPath + "/location/getFavoriteList.do", function(result) {
         if(result.status == "success") {
             var fvrtLoc = result.data;
             var ul = $("#favoriteUl");
@@ -1210,14 +1269,14 @@ var favoriteList = function() {
             for (var i in fvrtLoc) {
                 $("<li>")
                     .attr("id", "favoriteList")
-                    .attr("data-theme","f")
+                    .attr("data-theme","d")
                     .attr("data-icon", "false")
                     .data("endX", fvrtLoc[i].fvrtLocLng)
                     .data("endY", fvrtLoc[i].fvrtLocLat)
                     .data("locName", fvrtLoc[i].fvrtLocName)
 //                    .on("touchend", function(event) {
                     .click( function(event){
-                     	setEndSession(
+                    	setEndLocationSession(
                      			$(this).data("endX"),
                      			$(this).data("endY"),
                      			$(this).data("locName"),
@@ -1254,8 +1313,10 @@ var favoriteList = function() {
     });
 };
 
+
 /**
- * 관계도 그리기
+ * 설  명: 관계도 그리기
+ * 작성자: 김상헌
  */
 var showRelationInfo = function(roomInfo, idx) {
 	console.log("showRelationInfo(roomInfo, idx)");
@@ -1273,8 +1334,10 @@ var showRelationInfo = function(roomInfo, idx) {
 
 };
 
+
 /**
- * 뒤로가기 버튼 처리
+ * 설  명: 뒤로가기 버튼 처리
+ * 작성자: 김상헌
  */
 var FINSH_INTERVAL_TIME = 2000;
 var backPressedTime = 0;
@@ -1298,8 +1361,10 @@ var touchBackBtnCallbackFunc = function() {
 	}
 };
 
+
 /**
- * background black 처리
+ * 설  명: background black 처리
+ * 작성자: 김상헌
  */
 var backgroundBlack = function() {
 	$("#blackImage").css("visibility","visible");

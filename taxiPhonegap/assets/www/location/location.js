@@ -133,7 +133,7 @@ var searchAgain = function( target ) {
   
 var searchLocation = function(query, page) { 
     console.log("searchLocation(query, page)"); 
-    console.log(query, page);
+//    console.log(query, page);
     
     var params = { 
             query : encodeURI(query), 
@@ -150,7 +150,7 @@ var searchLocation = function(query, page) {
                 params : JSON.stringify( params ) 
             },  
             function(result) {
-            	console.log("======success :: " + JSON.stringify(result));
+//            	console.log("======success :: " + JSON.stringify(result));
                 if ( result.status == "success" ) {
                     var resultData =  JSON.parse(result.data); 
                     var tmpLocations = [];           
@@ -198,8 +198,8 @@ var createLocationList = function(locations, page) {
                                         .attr("src", "../images/common/favorite-non-icon.png") 
                                         .attr("href","#") 
                                         .attr("data-status","false") ) 
-//                            .click(function(event) {
-                            .on("touchend", function(event) {
+                           .click(function(event) {
+ //                           .on("touchend", function(event) {
                                 event.stopPropagation(); 
                                 var liIdx = $(this).attr("data-idx"); 
                                 addAndDelFavoriteLocation(liIdx, locations);
@@ -227,7 +227,7 @@ var createLocationList = function(locations, page) {
                                         .click(function(event) { 
                                             event.stopPropagation(); 
                                             var liIdx =  $(this).parents(".locationStartAndEnd").attr("data-idx"); 
-                                            setStartSession( 
+                                            setStartLocationSession( 
                                                     locations[liIdx].X,  
                                                     locations[liIdx].Y,  
                                                     locations[liIdx].NAME,  
@@ -246,7 +246,7 @@ var createLocationList = function(locations, page) {
                                         .click(function(event) { 
                                             event.stopPropagation(); 
                                             var liIdx =  $(this).parents(".locationStartAndEnd").attr("data-idx"); 
-                                            setEndSession( 
+                                            setEndLocationSession( 
                                                     locations[liIdx].X,  
                                                     locations[liIdx].Y,  
                                                     locations[liIdx].NAME,  
@@ -313,13 +313,15 @@ var createLocationList = function(locations, page) {
   
 var getFavoriteLocation = function(execute) { 
     console.log("getFavoriteLocation()"); 
-      
-    var url =  rootPath + "/member/getFavoritePlaces.do"; 
-    $.getJSON(url 
+
+    var params = { mbrNo : myInfo.mbrno };
+    $.getJSON( rootPath + "/location/getFavoriteList.do" 
+    		, params
             , function(result) { 
                 if (result.status == "success") { 
                     var favoriteLocationList = result.data; 
                     execute(favoriteLocationList); 
+                    
                 } else { 
                     alert(result.data); 
                 } 
@@ -347,12 +349,19 @@ var addAndDelFavoriteLocation = function(idx, locations) {
             } 
               
             if (isFavoriteLocation == false) { 
-                $.post( rootPath + "/member/addFavoritePlace.do"
-                        ,{
-                            fvrtLocName : locations[idx].NAME, 
-                            fvrtLocLng  : locations[idx].X, 
-                            fvrtLocLat  : locations[idx].Y, 
-                        }, function(result) {
+            	var params = { 
+            			mbrNo 		: myInfo.mbrNo,
+            			fvrtLocName : locations[idx].NAME, 
+                        fvrtLocLng  : locations[idx].X, 
+                        fvrtLocLat  : locations[idx].Y
+            	};
+                $.post( rootPath + "/location/addFavoriteLocation.do"
+                		, params
+//                        ,{
+//                            fvrtLocName : locations[idx].NAME, 
+//                            fvrtLocLng  : locations[idx].X, 
+//                            fvrtLocLat  : locations[idx].Y, 
+                        , function(result) {
                             if (result.status == "success") { 
                                 console.log("addFvrtLoc 성공"); 
                             } else { 
@@ -369,7 +378,7 @@ var addAndDelFavoriteLocation = function(idx, locations) {
                 if (favoriteLocationList[i].fvrtLocLat == locations[idx].Y &  
                         favoriteLocationList[i].fvrtLocLng == locations[idx].X &  
                         favoriteLocationList[i].fvrtLocName == locations[idx].NAME) { 
-                    var url = rootPath + "/member/deleteFavoritePlace.do"; 
+                    var url = rootPath + "/location/deleteFavoriteLocation.do"; 
                     $.post(url 
                             ,{ 
                                 fvrtLocNo : favoriteLocationList[i].fvrtLocNo 

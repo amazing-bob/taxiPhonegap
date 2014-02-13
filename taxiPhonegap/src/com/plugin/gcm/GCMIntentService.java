@@ -134,6 +134,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 					String msg = "출발 " + extras.getString("differenceTime") + "분 전입니다.";
 					extras.putString("message", msg);
 					
+					vibrator.vibrate(500);
+			        r.play();
 					createNotification(context, extras);
 					
 					PushPlugin.sendExtras(extras);

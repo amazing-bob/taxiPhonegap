@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:fb="http://ogp.me/ns/fb#">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>사용자인증</title>
@@ -22,19 +22,14 @@ $(document).on("mobileinit", function() {
 </script>
 <script src="../js/jquery.transit.js"></script>
 <script src="../js/jquery.mobile-1.3.2.js"></script>
-<!-- Olleh Map -->
-<script src="http://map.ktgis.com/MapAPI/serviceJSP/AuthAPI.jsp?key=ODEwMEQ4QzA6VEJGRkMwMzQzOUQ4NA==&module=Map,Geocoder,Directions"></script>
 <!-- Cordova -->
 <script src="../cordova.js"></script>
-<script src="../js/cdv-plugin-fb-connect.js"></script>
-<script src="../js/facebook-js-sdk.js"></script>
 <!-- Added -->
 <script src="../js/common.js"></script>
 <script src="auth.js"></script>
 </head>
 
 <body>
-<div id="fb-root"></div>
 
 <!-- 로그인 화면 -->
 <div id="divLoginPage" data-role="page">
@@ -65,5 +60,23 @@ $(document).on("mobileinit", function() {
 		</div>
 	</section>
 </div>
+
+
+<!-- 회원 가입정보 수집 화면 -->
+<div id="divSignUpPage" data-role="page" data-theme="d" style="display:">
+	<header data-role="header" data-theme="d">
+		<h1 id="result"><strong>회원가입</strong></h1>
+	</header>
+	
+	<section id="contentName" data-role="contentName" data-theme="d">
+		<strong id="enter">이름</strong>
+		<input id="txtName" name="mbrName" type="text" data-theme="d" placeholder="회원님의 이름을 입력해주세요"><span id="spnPhoneStatus"></span>
+		<button data-theme="d" id="btnName" data-role="button" disabled="disabled" data-corners="false">완료</button>
+		<div id="info">
+			Taxi 같이 타자는 전화번호의 본인사용 및 부정사용방지를 위하여 인증을 필요로 합니다.
+		</div>
+	</section>
+</div>
+
 </body>
 </html>

@@ -285,24 +285,17 @@ a.btnDelete {
     float: right; 
     width: 25px;
     height: 25px; 
-    margin-bottom: 3px;
-    margin-right: 1px;
+    margin-bottom: -1.5px;
     border-top: 0.1em solid #eee;
 	border-right: 0.1em solid #eee;
 	border-bottom: 0.1em solid #eee;
 	border-left: 0.1em solid #eee;
 	background: white;
-	box-shadow: 0px 1px 2px #dadada;
+	box-shadow: 0px 1px 5px #dadada;
 	border-radius: 50px;
 }
 a.btnDelete:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; }
-a.btnDelete > img {
-	width: 25px;
-    height: 25px; 
-    display: inline-block;
-	margin: auto auto;
-}
-
+  
 #main1{ 
     font-family: Verdana, Geneva, Arial, sans-serif; 
     font-size: 140%; 
