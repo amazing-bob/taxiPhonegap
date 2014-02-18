@@ -25,6 +25,21 @@ $(document).ready(function() {
 	
 	document.addEventListener("deviceready", onDeviceReady, false);
 	
+
+	/**
+	 *설   명 : 메뉴버튼 눌렀을 때 메뉴 나오기 
+	 *작성자 : 장종혁
+	 */
+	document.addEventListener("menubutton", onMenuKeyDown, false);
+
+	function onMenuKeyDown() {
+
+		$("#leftPanel").panel("open");
+		backgroundBlack();
+		return false;
+		
+	}
+	
 	contentWidth = $("#contentHome").outerWidth();
 	contentHeight = $(window).height();
 	$("#contentHome").height(contentHeight+"px");
