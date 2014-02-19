@@ -22,8 +22,11 @@ $(document).ready(function() {
 			fvrtLocList: null,
 			rcntLocList: null
 		};
-	setSessionItem("myInfo", myInfo);
+//	setSessionItem("myInfo", myInfo);
+	setLocalMyInfo(myInfo);
 	
+	//웹 버전일 경우만 주석 풀어야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//isSignUp( getLocalMyInfo() );
 	
     document.addEventListener("deviceready", onDeviceReady, false);
 	contentHeight = $(window).height();
@@ -72,8 +75,9 @@ function onDeviceReady() {
 	console.log("onDeviceReady()");
 	
 	try {
-		isSignUp( getSessionItem("myInfo") );
-		
+		//로컬스토리지로 변경 - 종혁
+		isSignUp(getLocalMyInfo());
+		//isSignUp( getSessionItem("myInfo") );
     } catch (e) {
     	alert(e);
     }
@@ -121,7 +125,10 @@ var isSignUp = function( myInfo ) {
 						if ( result.data ) {
 							var myInfo = result.data;
 							// 세션스토리지에 저장
-							setSessionItem("myInfo", myInfo );
+							//setSessionItem("myInfo", myInfo );
+							
+							//로컬 스토리지에 저장
+							setLocalMyInfo(myInfo);
 							
 							goHomeOrRoom(myInfo);
 							
@@ -193,7 +200,9 @@ var signUp = function( phoneNo, mbrName ) {
 	    				
 	    				if ( myInfo ) {
 							// 세션스토리지에 저장
-							setSessionItem("myInfo", myInfo );
+							//setSessionItem("myInfo", myInfo );
+	    					//로컬스토리지에 저장
+	    					setLocalMyInfo(myInfo);
 	    				}
 	    				
 	    			} else {
@@ -252,8 +261,8 @@ var goHomeOrRoom = function(myInfo) {
 	setIsRoomMbr(
 			// callbackFunc
 			function() { 
-				var myInfo = getSessionItem("myInfo");
-				
+				//var myInfo = getSessionItem("myInfo");
+				var myInfo = getLocalMyInfo();
 				if ( myInfo.isRoomMbr ) { // 방 있을 때
 					changeHref("../room/room.html", { roomNo : myInfo.myRoom.roomNo });		
 				
