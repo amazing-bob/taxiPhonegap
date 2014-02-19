@@ -49,7 +49,7 @@ var setSessionItem = function (key, value) {
  */
 var getSessionItem = function (key) {
 	console.log("getSessionItem(key)");
-	console.log(key);
+//	console.log(key);
 	return JSON.parse(sessionStorage.getItem(key));
 };
 
@@ -75,6 +75,55 @@ var clearSession = function () {
 	sessionStorage.clear();
 };
 setSessionItem("rootPath", "/" + window.location.pathname.split("/")[1]);
+
+
+/**
+ * 설  명: LocalStorage 에 값 설정하기
+ * 작성자: 김상헌
+ * param:
+ * 		key 	: SessionStorage에 저장할 key값
+ * 		value 	: 저장 할 Json객체
+ */
+var setLocalItem = function (key, value) {
+	console.log("setLocalItem(key, value)");
+//	console.log(key, value);
+	localStorage.setItem(key, JSON.stringify(value));
+};
+
+
+/**
+ * 설  명: LocalStorage 값 가져오기
+ * 작성자: 김상헌
+ * param:
+ * 		key 	: SessionStorage에 저장 한 key값
+ */
+var getLocalItem = function (key) {
+	console.log("getLocalItem(key)");
+//	console.log(key);
+	return JSON.parse(localStorage.getItem(key));
+};
+
+
+/**
+ * 설  명: LocalStorage 에서 아이템 제거
+ * 작성자: 김상헌
+ * param:
+ * 		key 	: SessionStorage에 저장 한 key값
+ */
+var removeLocalItem = function (key) {
+	console.log("removeLocalItem(key)");
+	localStorage.removeItem(key);
+};
+
+
+/**
+ * 설  명: LocalStorage 에 등록된것 전부 지우기
+ * 작성자: 김상헌
+ */
+var clearLocal = function () {
+	console.log("clearLocal()");
+	localStorage.clear();
+};
 
 
 /**
@@ -130,11 +179,12 @@ var getCurrentHtmlPath = function() {
  */
 var getMyInfo = function() {
 	console.log("getMyInfo{()");
+	
 	var hrefArr = window.location.href.split("/auth/");
 	var curHtml = hrefArr[hrefArr.length-1];
 
 	if ( curHtml != "auth.html" ) {
-		myInfo = getSessionItem("myInfo");
+		myInfo = getLocalItem("myInfo");
 	}
 }();
 
@@ -171,7 +221,7 @@ var setIsRoomMbr = function(callbackFunc) {
 	console.log("isRoomMbr(callbackFunc)");
 //	console.log(callbackFunc);
 	
-	myInfo = getSessionItem("myInfo");
+	myInfo = getLocalItem("myInfo");
 	var params = {
 		mbrNo : myInfo.mbrNo
 	};
@@ -615,37 +665,3 @@ var push = {
     });
 
 })();
-
-
-/**
- * 설  명: Local Storage MyInfo 저장
- * 작성자: 장종혁
- */
-var setLocalMyInfo = function(value){
-	  if (localStorage.myInfo)
-	    {
-		  localStorage.setItem("myInfo", JSON.stringify( value ));
-	    }
-	  else // 로컬스토리지에 myInfo가 없을때
-	    {
-			localStorage.setItem("myInfo", JSON.stringify( value ));
-	    }
-};
-
-
-/**
- *  설  명 :  LocalStorage MyInfo 값 가져오기
- *  작성자: 장종혁
- */
-function getLocalMyInfo(){
-	return JSON.parse(localStorage.getItem("myInfo"));
-};
-
-
-/**
-*  설  명 : LocalStorage MyInfo 값 지우기
-* 작성자 ; 장종혁
-*/
-var delLocalMyInfo = function(){
-	localStorage.removeItem("myInfo");
-};
