@@ -41,6 +41,9 @@
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
     </feature>
+    <feature name="Storage">
+   		<param name="android-package" value="org.apache.cordova.Storage" />
+	</feature>
     <access origin="https://m.facebook.com" />
     <access origin="https://graph.facebook.com" />
     <access origin="https://api.facebook.com" />
