@@ -1013,15 +1013,16 @@ var addRoom = function( regId ) {
 
 	var locationSession = getSessionItem("locationSession");
     var startTime = new Date();
+    console.log(startTime);
     var inputTime = $("#inputTime").mobiscroll('getValue');
-    
+    console.log(inputTime);
     // AM,PM 일 때
     if (inputTime[2] == '1') {
-    	startTime.setHours(inputTime[0] + 12);
+    	startTime.setHours( parseInt(inputTime[0]) + 12 );
     } else {
-    	startTime.setHours(inputTime[0]);
+    	startTime.setHours( parseInt(inputTime[0]) );
     }
-    startTime.setMinutes(inputTime[1]);
+    startTime.setMinutes( parseInt(inputTime[1]) );
     
     if ( $('#inputTime').attr("data-val") == 'tomorrow' ) {
     	startTime.setDate(startTime.getDate() + 1);
