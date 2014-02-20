@@ -24,13 +24,13 @@ $(document).ready(function(){
 	document.addEventListener("deviceready", onDeviceReady, false);
 
 	var params = getHrefParams();
-	
-	var roomNo = params.roomNo;  
+	console.log(params);
+	var roomNo = params.roomNo;
 	var contentHeight = $(window).height();
-//	console.log(contentHeight);
-//	console.log($("#mainHeader").outerHeight());
-//	console.log($("#content").outerHeight());
-//	console.log($("#commentList").outerHeight());
+	console.log(contentHeight);
+	console.log($("#mainHeader").outerHeight());
+	console.log($("#content").outerHeight());
+	console.log($("#commentList").outerHeight());
 //	var feedheight = $("#divStartEndLoc").outerHeight()
 //	$("#commentList")
 
@@ -43,7 +43,7 @@ $(document).ready(function(){
 	$(document).on('keypress', '#reply', function(evt){
 
 	        var keyPressed = evt.which || evt.keyCode;
-	        var mbrNo = myInfo.mbrNo;
+	        var mbrNo = getSessionItem("myInfo").mbrNo;
 
 	        if (keyPressed == 13) {
 
@@ -61,14 +61,14 @@ $(document).ready(function(){
 		 console.log("=============&&&&&&&&&&&&");
 		 console.log(mbrNo +feedNo +roomNo );
 		 deleteFeed(mbrNo, feedNo, roomNo);
-		 
+
 		 return false;
 	 });
 
 	 $("#icons").click(function(event){
 		 event.stopPropagation();
 		 changeHref("../home/home.html");
-		 
+
 		 return false;
 	 });
 
@@ -76,7 +76,7 @@ $(document).ready(function(){
 			$("#popupExit_popup").popup("open", {
 				transition : "pop"
 			});
-			
+
 			return false;
 	 });
 
@@ -85,7 +85,7 @@ $(document).ready(function(){
 			$("#popupExit_popup").popup("close", {
 				transition : "pop"
 			});
-			
+
 			return false;
 	 });
 	 $("#popupExit_popup").on("popupafterclose", function(event, ui) {
@@ -94,23 +94,23 @@ $(document).ready(function(){
 	 $("#popupExit_popup").on("popupafteropen", function(event, ui) {
 		 $(this).data("isOpen", true);
 	 });
-	 
+
 	$("#popupCall_popup").on("popupafterclose", function(event, ui) {
 		$(this).data("isOpen", false);
 	});
 	$("#popupCall_popup").on("popupafteropen", function(event, ui) {
 		$(this).data("isOpen", true);
-	});	 
-	 
+	});
+
 
 	 $("#outRoom").on("click", function(event){
-		
+
 		 event.stopPropagation();
 
-		 var mbrNo = myInfo.mbrNo;
+		 var mbrNo = getSessionItem("myInfo").mbrNo;
 		 var roomNo = $("#roomNo").attr("data-roomNo");
 		 outRoom(mbrNo, roomNo);
-		 
+
 		 return false;
 	 });
 
@@ -160,7 +160,7 @@ $(document).ready(function(){
 				} else if(event.type == "click" && ($("#divRoomList").attr("data-flag") == "open")){
 					closePanel(event);
 				}
-				
+
 				return false;
 			});
 
@@ -179,7 +179,7 @@ $(document).ready(function(){
 		event.stopPropagation();
 		beforeCall( $(event.currentTarget)[0].dataset.callname,
 						$(event.currentTarget)[0].dataset.mbrphoneno);
-		
+
 		return false;
 	});
 
@@ -187,7 +187,7 @@ $(document).ready(function(){
 		event.stopPropagation();
 		beforeCall( $(event.currentTarget)[0].dataset.callname,
 						$(event.currentTarget)[0].dataset.mbrphoneno);
-		
+
 		return false;
 	});
 
@@ -195,7 +195,7 @@ $(document).ready(function(){
 		event.stopPropagation();
 		beforeCall( $(event.currentTarget)[0].dataset.callname,
 						$(event.currentTarget)[0].dataset.mbrphoneno);
-		
+
 		return false;
 	});
 
@@ -203,7 +203,7 @@ $(document).ready(function(){
 		event.stopPropagation();
 		beforeCall( $(event.currentTarget)[0].dataset.callname,
 						$(event.currentTarget)[0].dataset.mbrphoneno);
-		
+
 		return false;
 	});
 
@@ -211,10 +211,10 @@ $(document).ready(function(){
 		event.stopPropagation();
 		var phoneNo = $("#callTextSpan").attr("data-phoneno");
 		callSomeOne(phoneNo);
-		
+
 		return false;
 	});
-	 
+
 	$("<div>")
 	.addClass("divHeaderLine")
 	.attr("data-flag", "close")
@@ -289,9 +289,9 @@ function moveObject(event) {
  */
 var onDeviceReady = function() {
 	console.log("onDeviceReady()");
-	
+
 	push.initialise();
-	
+
 	document.addEventListener("backbutton", touchBackBtnCallbackFunc, false);
 };
 
@@ -333,6 +333,9 @@ var directionsService_callback = function (data) {
 	console.log("directionsService_callback()");
 	var DirectionsResult  = directionsService.parseRoute(data);
 	console.log(DirectionsResult);
+
+//	var startRoute = DirectionsResult.result.routes[0].point;
+//	console.log(startRoute);
 
 	var date = parseInt(startTime);
 
@@ -404,11 +407,13 @@ var directionsService_callback = function (data) {
 
 	directionMarkers = [];
 	var routes = DirectionsResult.result.routes;
+	var strCoord = null;
 	for( var i in routes) {
 		if ( routes[i].type == "999" ) {
 			directionMarkers[directionMarkers.length] = setWaypointMarker(
 					new olleh.maps.Coord( routes[i].point.x, routes[i].point.y ),
 					"../images/common/marker/MapMarker_Marker_Outside_Azure.png" );
+			strCoord = new olleh.maps.Coord( routes[i].point.x, routes[i].point.y );
 		}
 
 		if ( routes[i].type == "1000" ) {
@@ -434,6 +439,32 @@ var directionsService_callback = function (data) {
 
 	directionsRenderer = new olleh.maps.DirectionsRenderer(DirectionsRendererOptions);
 	directionsRenderer.setMap(map);
+
+	map.moveTo(strCoord, 10);
+	setInterval(strRefresh, 3000);
+};
+
+/*
+ * 작 성 : 이지우
+ * 설 명 : 3초마다 Refresh하여 내 위치를 지도의 중심으로 세팅함.
+ */
+
+var strRefresh = function() {
+	console.log("strRefresh()");
+	var realCoord = null;
+	navigator.geolocation.getCurrentPosition(function(position) {
+		var curPoint = new olleh.maps.Point( position.coords.longitude, position.coords.latitude );
+		var srcproj = new olleh.maps.Projection('WGS84');
+		var destproj = new olleh.maps.Projection('UTM_K');
+		olleh.maps.Projection.transform(curPoint, srcproj, destproj);
+		realCoord = new olleh.maps.Coord(curPoint.getX(), curPoint.getY());
+
+		map.moveTo(realCoord);
+		// Zoom Level은 일단 제외
+		console.log(realCoord);
+	});
+
+
 };
 
 var setWaypointMarker = function( coord, imageUrl ) {
@@ -456,25 +487,27 @@ var setWaypointMarker = function( coord, imageUrl ) {
 	return marker;
 };
 
-/**
- * 설  명: 방 나가기
- * 작서자: 김상헌
- */
+
 var outRoom = function (mbrNo, roomNo) {
-	console.log("outRoom(mbrNo, roomNo)");
-//	console.log(mbrNo, roomNo);
 
 	var params = {
 		mbrNo 	: mbrNo,
-		roomNo 	: roomNo 
+		roomNo 	: roomNo
 	};
 	$.getJSON( rootPath + "/room/outRoom.do"
 			, params
 			, function( result ) {
 				if(result.status == "success") {
-					// myRoom SessionStorage에 방 정보 제거
-					removeSessionItem("myRoom");
-					
+					// 방나간정보를 myInfo 에 적용
+					$.extend(true,
+							myInfo,
+							{
+								isRoomMbr : false,
+								myRoom : undefined
+							});
+
+					setSessionItem("myInfo", myInfo);
+
 					changeHref("../home/home.html");
 
 				} else {
@@ -491,9 +524,9 @@ var getRoomInfo = function(roomNo) {
 								function(result) {
 		console.log(result);
 	var roomInfo = result.data;
-	console.log(roomInfo);	
+	console.log(roomInfo);
 	if(result.status == "success") {
-	
+
 		console.log("init()	- getRoomInfo()");
 		var startLat = roomInfo.roomPathList[0].pathLat;
 		var startLng = roomInfo.roomPathList[0].pathLng;
@@ -507,14 +540,16 @@ var getRoomInfo = function(roomNo) {
 		curCoord = new olleh.maps.Coord(startLng, startLat);
 
 		console.log("loadMap()");
+
 	  	var mapOptions = {
 	     	center : curCoord,
-	     	zoom : 10,
+	     	zoom : 1,
 	     	mapTypeId : olleh.maps.MapTypeId.BASEMAP,
 	     	mapTypeControl: false
 	  	};
+
 	  	map = new olleh.maps.Map(document.getElementById("canvas_map"), mapOptions);
-	  	
+
 	  	initRoute();
 	  	searchRoute(startLng, startLat, endLng, endLat, dsCallBack);
 
@@ -625,68 +660,63 @@ var showRelationInfo = function(roomInfo, idx) {
 };
 
 
-/**
- * 설  명: 피드 리스트 가져오기
- * 작성자: 김상헌
- */
+
 var getFeedList = function(roomNo){
-	console.log("getFeedList(roomNo)");
-//	console.log(roomNo);
-	var params = { roomNo : roomNo };
-	$.getJSON( rootPath + "/feed/feedList.do"
-			, params
-			, function(result) {
-				if(result.status == "success") {
-			
-					var feedList = result.data;
-					console.log(feedList);
-					var mbrNo = myInfo.mbrNo;
-					var ul = $(".listViewUl");
-		
-					$(".listViewUl .feedList").remove();
-		
-					for (var i in feedList) {
-						var li = $("<li>")
-									.addClass("feedList")
-									.append( $("<p>") 
-			                                    .attr("class","ui-li-aside") 
-			                                    .text(feedList[i].feedRegDate) )
-									.append( $("<img>")
-										.attr("id", "feedMbrImg")
-										.attr("src", feedList[i].mbrPhotoUrl) )
-									.append( $("<h2>")
-										.text(feedList[i].mbrName) );
-		
-							if(feedList[i].mbrNo === mbrNo){
-										 	li.append( $("<p>")
-										 			.append( $("<strong>").text(feedList[i].feedContent) )
-										 			.append( $("<a>")
-										 						.addClass("btnDelete")
-										 						.attr("data-inline", "true")
-																.attr("data-roomNo", feedList[i].roomNo)
-																.attr("data-feedNo", feedList[i].feedNo)
-																.attr("data-mbrNo", feedList[i].mbrNo)
-																.append(
-																		$("<img>").attr("src", "../images/common/button/deletefeedx.png")
-																				  .addClass("deleteFeed"))
-										 						) )
-											.appendTo(ul);
-		
-										 	$('ul a[data-role=button]').buttonMarkup("refresh");
-							} else {
-								console.log("else");
-								li.append( $("<p>")
-										 .append( $("<strong>").text(feedList[i].feedContent) ) )
-									 	.appendTo(ul);
-							}
-					} // 반복문 end
-					$('ul').listview('refresh');
-		
-		            contentHeight = $(window).height();
-		            var currentWarpperHeight = $("#wrapper").css("height");
-		            $("#wrapper").css("height", (currentWarpperHeight + 81)  + "px");
-				}
-			});
+
+	$.getJSON( rootPath + "/feed/feedList.do?roomNo="
+									+ roomNo, function(result) {
+
+		if(result.status == "success") {
+
+			var feedList = result.data;
+			console.log(feedList);
+			var mbrNo = myInfo.mbrNo;
+			var ul = $(".listViewUl");
+
+			$(".listViewUl .feedList").remove();
+
+			for (var i in feedList) {
+				var li = $("<li>")
+							.addClass("feedList")
+							.append( $("<p>")
+	                                    .attr("class","ui-li-aside")
+	                                    .text(feedList[i].feedRegDate) )
+							.append( $("<img>")
+								.attr("id","feedMbrImg")
+								.attr("src", feedList[i].mbrPhotoUrl) )
+							.append( $("<h2>")
+								.text(feedList[i].mbrName) );
+
+					if(feedList[i].mbrNo === mbrNo){
+								 	li.append( $("<p>")
+								 			.append( $("<strong>").text(feedList[i].feedContent) )
+								 			.append( $("<a>")
+								 						.addClass("btnDelete")
+								 						.attr("data-inline", "true")
+														.attr("data-roomNo", feedList[i].roomNo)
+														.attr("data-feedNo", feedList[i].feedNo)
+														.attr("data-mbrNo", feedList[i].mbrNo)
+														.append(
+																$("<img>").attr("src", "../images/common/button/deletefeedx.png")
+																		  .addClass("deleteFeed"))
+								 						) )
+									.appendTo(ul);
+
+								 	$('ul a[data-role=button]').buttonMarkup("refresh");
+					} else {
+						console.log("else");
+						li.append( $("<p>")
+								 .append( $("<strong>").text(feedList[i].feedContent) ) )
+							 	.appendTo(ul);
+					}
+			} // 반복문 end
+			$('ul').listview('refresh');
+
+            contentHeight = $(window).height();
+            var currentWarpperHeight = $("#wrapper").css("height");
+            $("#wrapper").css("height", (currentWarpperHeight + 81)  + "px");
+		}
+	});
 };
 
 
@@ -728,18 +758,18 @@ var deleteFeed = function(mbrNo, feedNo, roomNo){
 		});
 };
 
-/** 
+/**
  * 뒤로가기 버튼 처리
  */
 var touchBackBtnCallbackFunc = function() {
 	console.log("touchBackBtnCallbackFunc()");
 
 	var hasOpenPopup = false;
-	
+
 	$("div[data-role=popup]").each(function( idx ) {
 		if ( $(this).data("isOpen") == true ) {
 			$(this).popup("close");
-			
+
 			hasOpenPopup = true;
 		}
 	});
@@ -747,7 +777,7 @@ var touchBackBtnCallbackFunc = function() {
 	if ( !hasOpenPopup ) {
 		changeHref("../home/home.html");
 	}
-	
+
 };
 
 
