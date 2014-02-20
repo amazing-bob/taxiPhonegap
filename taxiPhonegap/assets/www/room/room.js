@@ -24,13 +24,13 @@ $(document).ready(function(){
 	document.addEventListener("deviceready", onDeviceReady, false);
 
 	var params = getHrefParams();
-	console.log(params);
+	
 	var roomNo = params.roomNo;  
 	var contentHeight = $(window).height();
-	console.log(contentHeight);
-	console.log($("#mainHeader").outerHeight());
-	console.log($("#content").outerHeight());
-	console.log($("#commentList").outerHeight());
+//	console.log(contentHeight);
+//	console.log($("#mainHeader").outerHeight());
+//	console.log($("#content").outerHeight());
+//	console.log($("#commentList").outerHeight());
 //	var feedheight = $("#divStartEndLoc").outerHeight()
 //	$("#commentList")
 
@@ -625,63 +625,68 @@ var showRelationInfo = function(roomInfo, idx) {
 };
 
 
-
+/**
+ * 설  명: 피드 리스트 가져오기
+ * 작성자: 김상헌
+ */
 var getFeedList = function(roomNo){
-	
-	$.getJSON( rootPath + "/feed/feedList.do?roomNo="
-									+ roomNo, function(result) {
-
-		if(result.status == "success") {
-	
-			var feedList = result.data;
-			console.log(feedList);
-			var mbrNo = myInfo.mbrNo;
-			var ul = $(".listViewUl");
-
-			$(".listViewUl .feedList").remove();
-
-			for (var i in feedList) {
-				var li = $("<li>")
-							.addClass("feedList")
-							.append( $("<p>") 
-	                                    .attr("class","ui-li-aside") 
-	                                    .text(feedList[i].feedRegDate) )
-							.append( $("<img>")
-								.attr("id","feedMbrImg")
-								.attr("src", feedList[i].mbrPhotoUrl) )
-							.append( $("<h2>")
-								.text(feedList[i].mbrName) );
-
-					if(feedList[i].mbrNo === mbrNo){
-								 	li.append( $("<p>")
-								 			.append( $("<strong>").text(feedList[i].feedContent) )
-								 			.append( $("<a>")
-								 						.addClass("btnDelete")
-								 						.attr("data-inline", "true")
-														.attr("data-roomNo", feedList[i].roomNo)
-														.attr("data-feedNo", feedList[i].feedNo)
-														.attr("data-mbrNo", feedList[i].mbrNo)
-														.append(
-																$("<img>").attr("src", "../images/common/button/deletefeedx.png")
-																		  .addClass("deleteFeed"))
-								 						) )
-									.appendTo(ul);
-
-								 	$('ul a[data-role=button]').buttonMarkup("refresh");
-					} else {
-						console.log("else");
-						li.append( $("<p>")
-								 .append( $("<strong>").text(feedList[i].feedContent) ) )
-							 	.appendTo(ul);
-					}
-			} // 반복문 end
-			$('ul').listview('refresh');
-
-            contentHeight = $(window).height();
-            var currentWarpperHeight = $("#wrapper").css("height");
-            $("#wrapper").css("height", (currentWarpperHeight + 81)  + "px");
-		}
-	});
+	console.log("getFeedList(roomNo)");
+//	console.log(roomNo);
+	var params = { roomNo : roomNo };
+	$.getJSON( rootPath + "/feed/feedList.do"
+			, params
+			, function(result) {
+				if(result.status == "success") {
+			
+					var feedList = result.data;
+					console.log(feedList);
+					var mbrNo = myInfo.mbrNo;
+					var ul = $(".listViewUl");
+		
+					$(".listViewUl .feedList").remove();
+		
+					for (var i in feedList) {
+						var li = $("<li>")
+									.addClass("feedList")
+									.append( $("<p>") 
+			                                    .attr("class","ui-li-aside") 
+			                                    .text(feedList[i].feedRegDate) )
+									.append( $("<img>")
+										.attr("id", "feedMbrImg")
+										.attr("src", feedList[i].mbrPhotoUrl) )
+									.append( $("<h2>")
+										.text(feedList[i].mbrName) );
+		
+							if(feedList[i].mbrNo === mbrNo){
+										 	li.append( $("<p>")
+										 			.append( $("<strong>").text(feedList[i].feedContent) )
+										 			.append( $("<a>")
+										 						.addClass("btnDelete")
+										 						.attr("data-inline", "true")
+																.attr("data-roomNo", feedList[i].roomNo)
+																.attr("data-feedNo", feedList[i].feedNo)
+																.attr("data-mbrNo", feedList[i].mbrNo)
+																.append(
+																		$("<img>").attr("src", "../images/common/button/deletefeedx.png")
+																				  .addClass("deleteFeed"))
+										 						) )
+											.appendTo(ul);
+		
+										 	$('ul a[data-role=button]').buttonMarkup("refresh");
+							} else {
+								console.log("else");
+								li.append( $("<p>")
+										 .append( $("<strong>").text(feedList[i].feedContent) ) )
+									 	.appendTo(ul);
+							}
+					} // 반복문 end
+					$('ul').listview('refresh');
+		
+		            contentHeight = $(window).height();
+		            var currentWarpperHeight = $("#wrapper").css("height");
+		            $("#wrapper").css("height", (currentWarpperHeight + 81)  + "px");
+				}
+			});
 };
 
 
