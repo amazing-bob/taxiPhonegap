@@ -24,9 +24,9 @@ $(document).ready(function() {
 	initAjaxLoading();
 	
 	document.addEventListener("deviceready", onDeviceReady, false);
-
-	document.addEventListener("menubutton", slideMenuPanel, false);
 	
+	document.addEventListener("menubutton", slideMenuPanel, false);
+
 	contentWidth = $("#contentHome").outerWidth();
 	contentHeight = $(window).height();
 	$("#contentHome").height(contentHeight+"px");
@@ -735,7 +735,7 @@ var searchRooms = function() {
 					}
 
 					// 내방 여부에 따른 화면 세팅
-					if ( myInfo.isRoomMbr ) { 
+					if ( isRoomMbr() ) { 
 						$("#btnAddViewRoom > img").attr("src", "../images/common/button/into_room.png");
 						$("#btnAddViewRoom").data("status", "intoMyRoomBtn");
 						$("#divRoomList").data("isRoomMbr", "true");
@@ -1056,7 +1056,10 @@ var addRoom = function( regId ) {
     			params,
 		        function(result) {
 		            if (result.status == "success") {
-		            	changeHref("../room/room.html", { roomNo : result.data});
+		            	var myRoom = result.data;
+		            	setSessionItem("myRoom", myRoom);
+		            	
+		            	changeHref("../room/room.html", { roomNo : myRoom.roomNo});
 		
 		            } else {
 		            	console.log(result.data);
@@ -1182,10 +1185,10 @@ var clickAddViewRoom = function() {
 var goMyroom = function() {
 	console.log("goMyroom()");
 	
-	if ( myInfo.isRoomMbr ) {
-		var myRoom = myInfo.myRoom;
+	if ( isRoomMbr() ) {
+		var myRoom = getSessionItem("myRoom");
 		
-		if (  myRoom && myRoom != null) {
+		if (  myRoom && myRoom.roomNo && myRoom.roomNo != 0) {
 			changeHref("../room/room.html", { roomNo : myRoom.roomNo });
 		}
 	}
@@ -1200,7 +1203,7 @@ var goMyroom = function() {
 var showAddRoomTimePicker = function() {
 	console.log("showAddRoomTimePicker()");
 	
-	if ( myInfo.isRoomMbr ) {
+	if ( isRoomMbr() ) {
     	Toast.shortshow("이미 방에 참여 중입니다.");
     	
 	} else {
@@ -1223,7 +1226,7 @@ var joinRoom = function(regId, roomNo) {
 	console.log("joinRoom(regId, roomNo)");
 //	console.log(regId, roomNo);
 
-	if ( myInfo.isRoomMbr ) {
+	if ( isRoomMbr() ) {
 		Toast.shortshow("이미 방에 참여 중입니다.");
 		
 	} else {
@@ -1237,13 +1240,11 @@ var joinRoom = function(regId, roomNo) {
 				endLocLng 	: locationSession.endX,
 				gcmRegId 	: regId
     	};
-    	
     	$.post( rootPath + "/room/joinRoom.do",
     			params,
 				function(result) {
-    		console.log(result);
 					if (result.status =="success") {
-						
+						setSessionItem("myRoom", result.data);
 						changeHref("../room/room.html", { roomNo : roomNo});
 
 					} else {
@@ -1371,7 +1372,6 @@ var touchBackBtnCallbackFunc = function() {
 var backgroundBlack = function() {
 	$("#blackImage").css("visibility","visible");
 };
-
 
 /**
  *설   명 : 메뉴버튼 눌렀을 때 메뉴 나오기 

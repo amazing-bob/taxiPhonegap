@@ -1,8 +1,8 @@
 console.log("commonjs...");
 
 //var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
-var rootPath = "http://localhost:9999/taxi";		//로컬
-//var rootPath = "http://192.168.43.240:9999/taxi";		//상헌
+//var rootPath = "http://localhost:9999/taxi";		//로컬
+var rootPath = "http://192.168.0.46:9999/taxi";		//상헌
 
 var myInfo;
 
@@ -78,6 +78,36 @@ setSessionItem("rootPath", "/" + window.location.pathname.split("/")[1]);
 
 
 /**
+ * 설  명: 파라미터 가져오기
+ * 작성자: 김상헌
+ * 
+ */
+var getHrefParams = function () {
+	console.log("getHrefParams()");
+	var hrefParams = getSessionItem("hrefParams");
+//	removeSessionItem("hrefParams");
+	
+	return hrefParams;
+};
+
+/**
+ * 설  명: 현재 html 경로 가져오기
+ * 작성자: 김상헌
+ */
+var getCurrentHtmlPath = function() {
+	console.log("getCurrentHtmlPath()");
+	
+	var hrefSplitArr = window.location.href.split("/www/");
+	 
+	if ( hrefSplitArr.length > 1 ) 
+		return hrefSplitArr[1];
+	 
+	else 
+		return undefined;
+	 
+};
+
+/**
  * 설  명: LocalStorage 에 값 설정하기
  * 작성자: 김상헌
  * param:
@@ -143,38 +173,7 @@ var changeHref = function (url, jsonObject) {
 
 
 /**
- * 설  명: 파라미터 가져오기
- * 작성자: 김상헌
- * 
- */
-var getHrefParams = function () {
-	console.log("getHrefParams()");
-	var hrefParams = getSessionItem("hrefParams");
-//	removeSessionItem("hrefParams");
-	
-	return hrefParams;
-};
-
-/**
- * 설  명: 현재 html 경로 가져오기
- * 작성자: 김상헌
- */
-var getCurrentHtmlPath = function() {
-	console.log("getCurrentHtmlPath()");
-	
-	var hrefSplitArr = window.location.href.split("/www/");
-	 
-	if ( hrefSplitArr.length > 1 ) 
-		return hrefSplitArr[1];
-	 
-	else 
-		return undefined;
-	 
-};
-
-
-/**
- * 설  명: SessionStorage 에 있는 myInfo 객체 가져오기
+ * 설  명: LocalStorage 에 있는 myInfo 객체 가져오기
  * 작성자: 김상헌
  */
 var getMyInfo = function() {
@@ -190,35 +189,11 @@ var getMyInfo = function() {
 
 
 /**
- * 설  명: 로그인 체크
+ * 설  명: SessionStorage에 myRoom 조회 후 세팅
  * 작성자: 김상헌
  */
-//var authCheck = function () {
-//	console.log("authCheck()");
-//	var hrefArr = window.location.href.split("/auth/");
-//	var curHtml = hrefArr[hrefArr.length-1];
-//
-//	if ( curHtml != "auth.html" ) {
-//		$.getJSON( rootPath + "/auth/loginInfo.do", function(result) {
-//			if (result.status == "success") {
-//				setSessionItem("loginInfo", result.data);
-//
-//			} else {
-//				alert("사용자 인증 실패!");
-//				window.location.href = "../auth/auth.html";
-//
-//			}
-//		});
-//	}
-//};
-//authCheck();
-
-/**
- * 설  명: 방 참여 여부 myInfo 에 설정
- * 작성자: 김상헌
- */
-var setIsRoomMbr = function(callbackFunc) {
-	console.log("isRoomMbr(callbackFunc)");
+var searchMyRoom = function(callbackFunc) {
+	console.log("searchMyRoom(callbackFunc)");
 //	console.log(callbackFunc);
 	
 	myInfo = getLocalItem("myInfo");
@@ -231,20 +206,13 @@ var setIsRoomMbr = function(callbackFunc) {
 			, function(result) {
 				if (result.status == "success") {
 					var myRoom = result.data;
-					var isRoomMbr = false;
-					
-					if ( myRoom && myRoom != null ) {
-						isRoomMbr = true;
+					if ( myRoom && myRoom.roomNo && myRoom.roomNo != 0 ) {
+						setSessionItem("myRoom", myRoom);
+						
+					} else {
+						setSessionItem("myRoom", null);
+						
 					}
-					
-					var myRoomObj = {
-							isRoomMbr 	: isRoomMbr,
-							myRoom 		: myRoom
-					};
-					
-					$.extend( true, myInfo, myRoomObj );
-					
-					setSessionItem("myInfo", myInfo);
 					
 				} else {
 					alert("요청 처리중 오류 발생");
@@ -252,6 +220,35 @@ var setIsRoomMbr = function(callbackFunc) {
 				
 				callbackFunc();
 	});
+};
+
+
+/**
+ * 설  명: 방 참여 여부
+ * 작성자: 김상헌
+ */
+var isRoomMbr = function() {
+	console.log("isRoomMbr()");
+	
+	var myRoom = getSessionItem("myRoom");
+	
+	if ( myRoom && myRoom.roomNo )
+		return true;
+	else
+		return false;
+	
+};
+
+/**
+ * 설  명: 참여하는 방 정보 SessionStorage 에 설정
+ * 작성자: 김상헌
+ */
+var setMyRoom = function( myRoom ) {
+	console.log("setMyRoom(myRoom)");
+//	console.log(myRoom);
+	
+	setSessionItem("myRoom", myRoom);
+	
 };
 
 

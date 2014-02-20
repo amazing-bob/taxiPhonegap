@@ -43,7 +43,7 @@ $(document).ready(function(){
 	$(document).on('keypress', '#reply', function(evt){
 
 	        var keyPressed = evt.which || evt.keyCode;
-	        var mbrNo = getSessionItem("myInfo").mbrNo;
+	        var mbrNo = myInfo.mbrNo;
 
 	        if (keyPressed == 13) {
 
@@ -107,7 +107,7 @@ $(document).ready(function(){
 		
 		 event.stopPropagation();
 
-		 var mbrNo = getSessionItem("myInfo").mbrNo;
+		 var mbrNo = myInfo.mbrNo;
 		 var roomNo = $("#roomNo").attr("data-roomNo");
 		 outRoom(mbrNo, roomNo);
 		 
@@ -456,8 +456,13 @@ var setWaypointMarker = function( coord, imageUrl ) {
 	return marker;
 };
 
-
+/**
+ * 설  명: 방 나가기
+ * 작서자: 김상헌
+ */
 var outRoom = function (mbrNo, roomNo) {
+	console.log("outRoom(mbrNo, roomNo)");
+//	console.log(mbrNo, roomNo);
 
 	var params = {
 		mbrNo 	: mbrNo,
@@ -467,15 +472,8 @@ var outRoom = function (mbrNo, roomNo) {
 			, params
 			, function( result ) {
 				if(result.status == "success") {
-					// 방나간정보를 myInfo 에 적용
-					$.extend(true, 
-							myInfo, 
-							{
-								isRoomMbr : false, 
-								myRoom : undefined 
-							});
-					
-					setSessionItem("myInfo", myInfo);
+					// myRoom SessionStorage에 방 정보 제거
+					removeSessionItem("myRoom");
 					
 					changeHref("../home/home.html");
 

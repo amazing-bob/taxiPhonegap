@@ -22,11 +22,11 @@ $(document).ready(function() {
 			fvrtLocList: null,
 			rcntLocList: null
 		};
-//	setSessionItem("myInfo", myInfo);
+	// 웹 버전일 경우만 주석 풀어야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//	isSignUp( getLocalItem("myInfo") );
+	
 	setLocalItem("myInfo", myInfo);
 	
-	// 웹 버전일 경우만 주석 풀어야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//	isSignUp( getLocalItem("myInfo") ); 
 	
     document.addEventListener("deviceready", onDeviceReady, false);
 	contentHeight = $(window).height();
@@ -256,16 +256,20 @@ var validateName = function(txtName) {
  * 작성자: 김상헌
  */
 var goHomeOrRoom = function(myInfo) {
+	console.log("goHomeOrRoom(myInfo)");
+//	console.log(myInfo);
+	
 	// 방 참여여부 설정
-	setIsRoomMbr(
+	searchMyRoom(
 			// callbackFunc
 			function() { 
-				var myInfo = getLocalItem("myInfo");
-				if ( myInfo.isRoomMbr ) { // 방 있을 때
-					changeHref("../room/room.html", { roomNo : myInfo.myRoom.roomNo });		
+				if ( isRoomMbr() ) { // 방 있을 때
+					var myRoom = getSessionItem("myRoom");
+					changeHref("../room/room.html", { roomNo : myRoom.roomNo });		
 				
 				} else { // 방 없을 때
-					changeHref("../home/home.html");		
+					changeHref("../home/home.html");
+					
 				}
 			} );
 };
