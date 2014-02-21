@@ -161,6 +161,9 @@ function onDeviceReady() {
 
 /**
  * Facebook 로그인 상태 가져오기
+ * 
+ * 수정 : Facebook을 사용 안하지만..  확인을 하는 과정에서 else로 빠져서 auth.html로 빠짐.
+ *  차후 사용할 지 모르기 때문에 일단 주석으로 막음.- 장종혁
  */
 var getLoginStatus = function() {
 	console.log("getLoginStatus()");
@@ -169,7 +172,7 @@ var getLoginStatus = function() {
 		if (response.status == 'connected') {
 
 		} else {
-			changeHref("../auth/auth.html");
+			//changeHref("../auth/auth.html");
 		}
     });
 };
