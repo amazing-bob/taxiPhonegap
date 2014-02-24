@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>홈</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Olleh Map -->
+<!--  개발key -->
+<script src="http://map.ktgis.com/MapAPI/serviceJSP/AuthAPI.jsp?key=QjdwcFZacjlEUXJLaXJ0NDU3RlNicU8xYzhVZjI0OVN0THZ5V0l2eDF0c1g0Z0JDRnk6OG1jMEY2d3FXS1hNczJYcVVkTnU3bDg5aVpDYWhlaFNGTm55UFNaVTcwMTd4NTRYOWg=&module=Map,Geocoder,Directions"></script>
+<!--  상용key -->
+<!-- <script src="http://map.ktgis.com/MapAPI/serviceJSP/AuthAPI.jsp?key=VThnQjRtU3ZPUHlUQkxKWVMzeU1HaVpkM2ljQ1RNNWQ3Y0JXT05wc2IyZTB2QlByOFk6dUNvYm9tbHROMUZQR0NCVjB1SnZyZngxQ1dhb3JkV21DY1U4Rm0wZkJKelhqQlN6VkE=&module=Map,Geocoder,Directions"></script> -->
+
+
+<script type="text/javascript">
+function init() {  
+  	var mapOptions = {  	
+     	center : new olleh.maps.Coord(965913.7, 1928949.522),
+     	zoom : 10,
+     	mapTypeId : olleh.maps.MapTypeId.BASEMAP
+  	}; 
+  	var map = new olleh.maps.Map(document.getElementById("canvas_map"), mapOptions);    
+} 
+</script>
+</head>
+<body onload="init()">  
+ <div id="canvas_map" style="position:absolute; width:100%; height:100%; left:0px; top:0px;"></div>
+</body>
+</html>

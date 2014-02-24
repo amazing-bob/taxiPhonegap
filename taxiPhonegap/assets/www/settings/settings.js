@@ -172,7 +172,7 @@ var getLoginStatus = function() {
 		if (response.status == 'connected') {
 
 		} else {
-			//changeHref("../auth/auth.html");
+//			changeHref("../auth/auth.html");
 		}
     });
 };
