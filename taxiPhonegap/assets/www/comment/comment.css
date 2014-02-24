@@ -1,0 +1,591 @@
+@CHARSET "UTF-8";
+@font-face {
+    font-family: 'Nanum Gothic';
+    src: url('../fonts/NanumGothic.ttf') format('truetype');
+}
+
+
+
+#btnCancel {
+    margin-left: 10px;
+}
+
+#btnLeave {
+    margin-left: 50px;
+}
+
+.ui-btn {
+    text-align:justify;
+
+}
+
+#btnDeleteLocCancel{
+    margin-left: 30px;
+}
+
+#btnDeleteLoc{
+    margin-left: 80px;
+}
+
+#btnList{
+    border-bottom: 2px;
+    border-top: 2px;
+    margin-top: -9px;
+
+    }
+#btnUpdateLoc{
+    border-bottom: 2px;
+    border-top: 2px;
+    margin-top: -9px;
+}
+
+#favoriteUl{
+    border: 3px solid #CD853F;
+    margin-top: -9px;
+}
+
+#seach{
+    margin-top: -1px;
+    padding-left: 0px;
+    padding-right: 0px;
+
+}
+#btnLogout{
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+#pageFvrtSetting{
+    font-family: 'Nanum Gothic';
+}
+
+
+#btnChange{
+    border-bottom: 2px;
+    border-top: 2px;
+    margin-top: -9px;
+
+    }
+#btnFvrtLocUpdate{
+    padding : 0px;
+    border: 0px;
+}
+#sortable{
+    font-family: 'Nanum Gothic';
+    font-size: normal;
+    background: white;
+}
+ol#sortable li:hover { background: #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; }
+
+
+#sortable div{
+    /*border-bottom: 1px solid lightgray;*/
+    padding: 15px;
+}
+#sortable a{
+	text-decoration:none;
+    color: black;
+}
+
+#btnFvrtUi{
+   /* border-bottom: 1px solid lightgray;*/
+    border-top-width: 0px;
+    margin-top: 16px;
+}
+
+#myInfo{
+    margin-top: 30px;
+    border-top: 0px;
+    font-family: 'Nanum Gothic'
+    font-size: normal;
+}
+
+#btnList2{
+    margin-bottom: 0px;
+    border-top-width: 1px;
+    border-bottom-width: 0px;
+}
+#save{
+    text-align: center;
+}
+.ui-collapsible-content.ui-body-d{
+    padding: 0px;
+}
+.contents{
+    padding-bottom: 16px;
+    padding-right: 15px;
+    border-width: 0px;
+}
+.ui-btn-up-d{
+    border: 0px;
+}
+
+.ui-collapsible-content.ui-body-d{
+    border:3px solid #daa520;
+}
+#btnAdd{
+    margin-top: -6px;
+}
+.ui-btn-inner.ui-li{
+    border-top-width:0px;
+}
+.ui-btn.ui-shadow.ui-btn-icon-right.ui-btn-up-f{
+    padding-bottom:5px;
+    padding-top:5px;
+    margin-top:0px;
+    margin-bottom:0px;
+    height:45px;
+}
+a#btnRefresh {
+background: #fafbfd;
+box-shadow: 0px 1px 5px #dadada;
+padding-top: 10px;
+border-radius: 40px;
+z-index: 999;
+right: 1.0em;
+width: 40px;
+height: 30px;
+bottom: 10px;
+cursor: pointer;
+position: absolute;
+}
+
+/*a#btnRefresh:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; }*/
+
+.btnRefresh {
+width: 40px;
+height: 40px;
+display: block;
+margin: 7.5px auto;
+margin-top: -10px;
+}
+
+
+#frndUpdateSpan{
+
+}
+
+#frndUpdateDateSpan{
+
+}
+
+#frndUpdateDate{
+float: left;
+position: absolute;
+margin-left: 15px;
+}
+
+select {font-size:2em}
+
+option {color:#6666;font-weight:bold; padding:5px}
+
+option:hover {color:blue}
+
+option {border:1px solid green}
+
+option {background-color: #fefccd }
+
+.ui-input-text {
+    border: 3px solid #cc7c38;
+    width: 150px;
+    text-align:center;
+    margin-right: 200px;
+}
+.ui-input-text.ui-shadow-inset.ui-corner-all.ui-btn-shadow.ui-body-d{
+    margin-left: 210px;
+    margin-top: -25px;
+    background-color: bisque;
+}
+.ui-btn.ui-shadow.ui-btn-icon-right.ui-btn-up-f{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+.ui-btn.ui-shadow.ui-btn-icon-right.ui-btn-hover-f{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.ui-listview.ui-listview-inset.ui-corner-all.ui-shadow{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.ui-btn-inner{
+    border-top-width:0px;
+    padding-bottom: 18px;
+    padding-left:15px;
+    padding-top: 18px;
+    font-size: medium;
+    font-weight: bold;
+    text-align: left;
+}
+
+.contents.ui-content.ui-body-f{
+    border: 0px;
+}
+.ui-collapsible-heading .ui-btn-icon-left .ui-btn-inner{
+    padding-bottom: 15px;
+}
+ol.ui-listview .ui-link-inherit:before, ol.ui-listview .ui-li-static:before, .ui-li-dec{
+    display:run-in;
+}
+
+#endRange1{
+    font-size: 1.4em;
+    margin-bottom: -3px;
+    margin-top: -3px;
+}
+
+
+.ui-controlgroup-controls{
+    width: 100%;
+}
+.ui-radio{
+    width: 25%;
+}
+
+.ui-icon{
+    visibility: hidden;
+}
+
+.circle{
+    height: 51px;
+}
+
+
+.ui-collapsible-heading-toggle {
+    height: 3em;
+}
+
+.ui-btn-inner{
+    height: 51;
+}
+#bb{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+#out{
+    border: 0px;
+}
+#logouts{
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+}
+#pages{
+    text-align:left;
+    font-size: large;
+    font-weight: bold;
+
+}
+#pages1{
+    margin-left: 0px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.ui-link-inherit{
+    font-size:medium;
+    font-weight: bold;
+    text-align: left;
+    table-layout: fixed;
+}
+#btnLeaveMember{
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+#header{
+    font-family: 'Nanum Gothic'
+    height: 40px;
+    text-align: center;
+}
+
+#headerSet{
+    font-family: 'Nanum Gothic'
+    font-size: large;
+    font-weight: bolder;
+
+}
+#page1{
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    margin-left: 0px;
+    margin-right:  0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#page2{
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+}
+.ui-controlgroup-label{
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 15px;
+}
+#startRange1 span{
+    font-size: medium;
+}
+#startRange2 span{
+    font-size: medium;
+}
+#friend{
+    padding-left:16px;
+    padding-top:18px;
+    padding-bottom: 3px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    min-height:36px;
+}
+
+a{
+   text-decoration: none !important;
+}
+
+a#save {
+    cursor: pointer;
+    position: absolute;
+    border: 0.1em solid #eee;
+    z-index: 999;
+    width: 60%;
+    height: 45px;
+    text-align: center;
+    background: #fafbfd;
+    box-shadow: 0px 1px 5px #dadada;
+    border-radius: 3px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+a#save:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; }
+
+#save span {
+font-family: 'Nanum Gothic';
+font-size: large;
+position: relative;
+top: 10px;
+color: dimgray;
+text-shadow: none;
+}
+
+a#rangeSave {
+    cursor: pointer;
+    position: absolute;
+    border: 0.1em solid #eee;
+    z-index: 999;
+    width: 60%;
+    height: 45px;
+    text-align: center;
+    background: #fafbfd;
+    box-shadow: 0px 1px 5px #dadada;
+    border-radius: 3px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+a#rangeSave:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; }
+
+#rangeSave span {
+font-family: 'Nanum Gothic';
+font-size: large;
+position: relative;
+top: 10px;
+color: dimgray;
+text-shadow: none;
+}
+
+
+
+
+
+
+
+
+#outRoom{
+    text-decoration: none;
+    color: blueviolet;
+}
+
+.cancelExit{
+    text-decoration: none;
+    color: blueviolet;
+}
+
+.ui-li ui-li-static ui-btn-up-d ui-last-child{
+border-top: 1px solid beige;
+}
+
+#spanCancel{
+    float: left;
+    margin-left: 41px;
+    margin-top: 8px;
+    color: #999;
+    font-family: 'nanum gothic Bold';
+    font-weight: bold;
+    font-size: 15px;
+    text-shadow: none;
+    text-decoration-line: none;
+    text-underline-width: 0px;
+}
+
+#spanOutCancel{
+    float: left;
+    margin-left: 40%;
+    margin-top: 8px;
+    color: #999;
+    font-family: 'nanum gothic Bold';
+    font-weight: bold;
+    font-size: 15px;
+    text-shadow: none;
+    text-decoration-line: none;
+    text-underline-width: 0px;
+}
+
+/*
+#spanOut{
+    float: left;
+    margin-left: 41px;
+    margin-top: 8px;
+    color: #999;
+    font-family: 'nanum gothic Bold';
+    font-weight: bold;
+    font-size: 15px;
+    text-shadow: none;
+}*/
+
+
+#spanSend{
+    float: left;
+    margin-left: 25px;
+    margin-top: 8px;
+    color:  #33b4e4;
+    font-family: 'nanum gothic Bold';
+    font-weight: bold;
+    font-size: 15px;
+    text-shadow: none;
+    text-decoration-line: none;
+    text-underline-width: 0px;
+}
+
+#spanExit{
+    float: left;
+    margin-left: 50px;
+    margin-top: 8px;
+    color: #33b4e4;
+    font-family: 'nanum gothic Bold';
+    font-weight: bold;
+    font-size: 15px;
+    text-shadow: none;
+    text-decoration-line: none;
+    text-underline-width: 0px;
+}
+
+
+div#divExit:hover { background: #c6ecf8;  box-shadow: 0px 1px -1px #c6ecf8; z-index: 999; }
+
+#outLi {
+    padding: 0px;
+    height: 35px;
+    border-top: 0px;
+}
+.ui-li ui-li-static ui-btn-up-d ui-last-child{
+    padding: 0;
+}
+
+#divCancel{
+    width: 50%;
+    float: left;
+    height: 35px;
+    text-align: center;
+    border-right: 0.8px solid #CCCCCC;
+}
+div#divCancel:hover { background: #c6ecf8;  box-shadow: 0px 1px -1px #c6ecf8; z-index: 999; }
+
+#divExit{
+    width: 50%;
+    float: left;
+    height: 35px;
+    text-align: center;
+    position: absolute;
+    margin-left: 50%;
+}
+#exitHeader{
+background: ghostwhite;
+color: dimgrey;
+font-family: 'nanum gothic Bold';
+font-weight: bold;
+text-shadow: none;
+text-align: center;
+font-size: medium;
+border: 0px;
+border-right: 0px;
+border-left: 0px;
+
+}
+
+#btnLogoutCancel{
+    float: left;
+    width: 20px;
+    position: relative;
+    margin-top: 5%;
+    z-index: 1;
+    border: 0px;
+    border-radius: 2px;
+    text-underline-width: 0px;
+}
+
+a#btnLogoutCancel:hover { background: #c6ecf8;  box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; }
+
+#btnLogoutAccept{
+z-index: 1;
+border: 0px;
+border-radius: 2px;
+position: relative;
+text-underline-width: 0px;
+}
+
+a#btnLogoutAccept:hover { background: #c6ecf8;  box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; }
+
+#btnLeave{
+z-index: 1;
+border: 0px;
+border-radius: 2px;
+position: relative;
+text-underline-width: 0px;
+}
+
+a#btnLeave:hover { background: #c6ecf8;  box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; }
+
+#logOutText{
+    font-family: 'Nanum Gothic';
+    font-size: 15px;
+    text-align: center;
+    font-weight: 300;
+    border-bottom: 0.8px solid #CCCCCC;
+    height: 40px;
+}
+
+
+#outText{
+    font-family: 'Nanum Gothic';
+    font-size: 15px;
+    text-align: center;
+    font-weight: 300;
+    border-bottom: 0.8px solid #CCCCCC;
+    height: 90px;
+}
+
+#textTaxi{
+    float: left;
+    font-size: 15.2px;
+    font-weight: 900;
+    margin-top: 9.8px;
+    color: darkblue;
+}
+
+#outTextSpan {
+    margin-top: 10px;
+    float: left;
+    font-size: inherit;
+    color: black;
+}
+

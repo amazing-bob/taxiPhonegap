@@ -17,6 +17,8 @@ var memberCount;
 var contentWidth;
 var contentHeight;
 
+var thisRoomColor;
+
 
 $(document).ready(function(){
 	initAjaxLoading();
@@ -114,7 +116,18 @@ $(document).ready(function(){
 		 return false;
 	 });
 
+	 $(document).on("click", "#colorSign",function(){
+		 var screenWidth = $(document).width();
+		 var screenHeight = $(document).height(); 
+		 $('#roomColor').css({'width':screenWidth,'height':screenHeight, 'background-color':thisRoomColor});
+		 $('#roomColor').fadeIn(0);      
+		 $('#roomColor').fadeTo("speed",1.0);
+	 });
+	 $(document).on("click", "#colorClear",function(){
+		 $('#roomColor').css('display',"none");
+	 });
 
+	 // Swipe 관련
 	 $(function() {
 		 $(document).swipe({
 			  swipe:function(event, direction) {
@@ -557,6 +570,7 @@ var getRoomInfo = function(roomNo) {
 		var minute = d.toTimeString().substring(3, 5);
 		startTime = hour;
 		memberCount = roomInfo.roomMbrCount;
+		thisRoomColor =roomColor[roomInfo.roomColor];
 
 		$("#roomStartTime").text( hour +":"+ minute );
 		$("#roomStartDay").text("출발");

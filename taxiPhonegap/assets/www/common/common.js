@@ -7,6 +7,12 @@ var rootPath = "http://localhost:9999/taxi";		//로컬
 var myInfo;
 
 /**
+ *   설  명 : 랜덤 색 배열
+ *   작성자 : 김영화
+ */
+var roomColor = ['red','blue','yellow'];
+
+/**
  *   설  명 : Web DB 기본 셋팅
  *   작성자 : 장종혁
  */

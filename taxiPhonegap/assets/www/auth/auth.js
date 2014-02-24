@@ -50,7 +50,7 @@ $(document).ready(function() {
 //	setLocalItem("myInfo", myInfo);
 	
 	// 웹 버전일 경우만 주석 풀어야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//	isSignUp( getLocalItem("myInfo") );
+	isSignUp( getLocalItem("myInfo") );
 
 
 
@@ -150,7 +150,7 @@ var isSignUp = function( myInfo ) {
 	if ( myInfo && myInfo.mbrNo ) {
 		console.log(myInfo.mbrNo);
 
-		$.getJSON( rootP`ath + "/auth/hasMember.do"
+		$.getJSON( rootPath + "/auth/hasMember.do"
 				, { mbrNo: myInfo.mbrNo }
 				, function(result) {
 					if(result.status == "success") {

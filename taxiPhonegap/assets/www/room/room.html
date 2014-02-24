@@ -39,6 +39,10 @@
 
 <body>
 <div id="roomPage" data-role="page" data-theme="none" data-iscroll="enable">
+	<!-- room color sign -->
+	<div id="roomColor">
+		<img id="colorClear" src="../images/common/cancle-icon.png">
+	</div>
 	<!-- Header  -->
 	<section id="roomSubHeader" data-flag="close" data-theme="none" data-role="header" data-position="fixed" data-tap-toggle="false">
 		<ul id="roomHeaderUl" data-theme="none" data-role="listview" data-inset="true" data-corners="false">
@@ -60,6 +64,10 @@
 		<div id="divMapWrap">
 			<a href="#" id="btnExitRoom" data-rel="popup" >
 				<img id="exitRoom" src="../images/common/button/out_room.png">
+			</a>
+			<!-- sign button -->
+			<a id="btnColorSign" data-rel="popup" >
+				<img id="colorSign" src="../images/common/star-hi.png">
 			</a>
 			<span id="roomDistance"></span>
 			<div id="canvas_map"></div>

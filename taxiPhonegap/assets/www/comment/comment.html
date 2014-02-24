@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- JQuery -->
+<link rel="stylesheet" href="../css/jquery.mobile-1.3.2.css">
+<!-- Theme -->
+<link rel="stylesheet" href="../css/themes/taxi.css" />
+<!-- Added -->
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="comment.css">
+
+<!-- JQuery -->
+<script src="../lib/jquery-1.10.2.js"></script>
+<script src="../lib/jquery.mobile-1.3.2.js"></script>
+<script src="../lib/jquery-ui-1.10.3.min.js"></script>
+<script src="../lib/jquery.ui.touch-punch.min.js"></script>
+<!-- Cordova -->
+<script src="../cordova.js"></script>
+<!-- Added -->
+<script src="../common/common.js"></script>
+<script src="comment.js"></script>
+
+
+</head>
+<body>
+<div id="fb-root"></div>
+	<!-- page -->
+	<div data-role="page" data-theme="f">
+		<!-- header -->
+		<header data-role="header" id="header" data-theme="f">
+			<h1 id="headerSet">의견보내기</h1>
+		</header>
+
+		<!-- content -->
+		<div data-role="content" id="content" data-theme="f">
+			<div>
+				<ul id="list" data-role="listview"
+					data-corners="false">
+					<li data-role="list-divider" data-theme="f" id="myInfo">
+						서비스 발전을 위해 불만사항 또는 요구사항을 보내주시면 적극적으로 검토하여 반영하도록 노력하겠습니다.
+					</li>
+					<li id="commentLi" data-theme="f">
+						<textarea id="commentArea" style="min-height: 100px;"></textarea>
+						
+					</li>
+					<li data-role="list-divider" data-theme="f" style="text-align: center;">
+						<a href="#commentPOP" id="commentBTN" data-rel="popup"
+							data-position-to="window" data-inline="false" style="text-align: center;">
+						<input type="button" value="보내기">
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div><!-- //content -->
+
+			<!-- 로그아웃 확인 팝업 -->
+		<div id="commentPOP" data-role="popup" data-theme="none" data-dismissible="true"
+			data-inset="true" data-overlay-theme="a" data-corners="false">
+		<ul id="exitUi" data-role="listview" data-inset="true"  data-theme="d"  data-corners="false">
+			<li id="exitHeader" class="title_li"  data-role="list-divider" data-theme="f">보내기</li>
+			<li id="logOutText">
+				<span id="outTextSpan">정말 의견을 보내시겠습니까?</span>
+			</li>
+			<li id="outLi">
+				<div id="divCancel">
+					<a class="commentCancel" data-theme="none" data-rel="back" href="#" data-corners="false">
+						<span id="spanCancel">아니요</span>
+					</a>
+				</div>
+				<div id="divExit">
+                	<a id="btnCommentSend" href="#" data-theme="none" data-corners="false">
+                		<span id="spanSend">예</span>
+                	</a>
+				</div>
+			</li>
+		</ul>
+		</div>
+		</div><!-- //page -->
+</body>
+</html>
