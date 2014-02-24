@@ -17,6 +17,7 @@ var memberCount;
 var contentWidth;
 var contentHeight;
 
+var roomColor = ['red','blue','yellow'];
 var thisRoomColor;
 
 

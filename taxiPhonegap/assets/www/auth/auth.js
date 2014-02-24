@@ -13,7 +13,7 @@ $(document).ready(function() {
 	
 	console.log("Ready to bring the awesome.");
 	
-	OpenWebDB_Keyword();
+	openKeywordWebDb();
 	
 	sugList = $("#suggestions");
 
@@ -24,8 +24,24 @@ $(document).ready(function() {
 			sugList.html("");
 			sugList.listview("refresh");
 		} else {
-
-			getSerchKeyWordList(text);
+			searchKeywordList(text, function(keywordList) {
+				var str = "";
+				
+				for ( var i = 0; i < keywordList.length; i++ ) {
+					str += "<li>"+keywordList[i].KEYWORD_NAME+"</li>";
+					sugList.html(str);
+					sugList.listview("refresh");
+				}
+			});
+//			taxidb.transaction( sele(transaction, function(keywordList) {
+//			console.log("000");
+//			console.log(keywordList);
+//			var str = "";
+//			
+//			str += "<li>"+keywordList.KEYWORD_NAME+"</li>";
+//			sugList.html(str);
+//			sugList.listview("refresh");
+//		}));
 
 		}
 	});
@@ -50,7 +66,7 @@ $(document).ready(function() {
 //	setLocalItem("myInfo", myInfo);
 	
 	// 웹 버전일 경우만 주석 풀어야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	isSignUp( getLocalItem("myInfo") );
+//	isSignUp( getLocalItem("myInfo") );
 
 
 
@@ -342,8 +358,7 @@ var getKeyword = function(){
 					keyWordList.push(keyWord[i].keyWordName);
 				};
 
-				saveKeywordDB(keyWord);
-				console.log(keyWordList.length);
+				insertKeywordTable(keyWord);
 
 			}
 
@@ -353,35 +368,8 @@ var getKeyword = function(){
 	});
 };
 
-/**
- * 내  용 : 키워드 검색
- * 작성자 : 장종혁
- */
-var getSerchKeyWordList = function(text){
 
-	var value = text;
-	
-	taxidb.transaction(function(transaction){
-		
-		transaction.executeSql('SELECT * FROM KEYWORD WHERE KEYWORD_NAME LIKE ? limit 5', ["%"+value+"%"], function (tx, results) 
-			    {
-			var len = results.rows.length;
-			var str = "";
-	        console.log("KEYWORD table: " + len + " rows found.");
-	        for (var i=0; i<len; i++){
-	            console.log("Row = " + i + " KEYWORD_NAME = " + results.rows.item(i).KEYWORD_NAME);
-	            
-	            str += "<li>"+results.rows.item(i).KEYWORD_NAME+"</li>";
-	            sugList.html(str);
-	            sugList.listview("refresh");
-	            
-	        }
-			    }, errCallback);
 
-	  });
-		
-	
-};
 /*var aaaa = function(keyWordList){
 	console.log("자동완성 기능!!!");
 	$("#schoolName").autocomplete({
