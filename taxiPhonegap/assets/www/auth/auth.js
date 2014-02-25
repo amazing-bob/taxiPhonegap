@@ -190,7 +190,7 @@ var isSignUp = function( myInfo ) {
 							insertRcntLocTable(rcntLocList);
 							insertBlackTable(blackList);
 		
-//							goHomeOrRoom(myInfo);
+							goHomeOrRoom(myInfo);
 		
 						} else {
 							alert("로그아웃!!");
