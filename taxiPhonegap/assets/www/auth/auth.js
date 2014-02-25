@@ -64,7 +64,7 @@ $(document).ready(function() {
 //	setLocalItem("myInfo", myInfo);
 	
 	// 웹 버전일 경우만 주석 풀어야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//	isSignUp( getLocalItem("myInfo") );
+	isSignUp( getLocalItem("myInfo") );
 
 
 
@@ -190,17 +190,16 @@ var isSignUp = function( myInfo ) {
 							insertRcntLocTable(rcntLocList);
 							insertBlackTable(blackList);
 		
-							goHomeOrRoom(myInfo);
+							// 이거는 꼭지워야 한다 WebDB를 동기방식으로 바꾸면서 꼭 지워야 하는 부분//////////////////////////////////////////////////////////
+							setInterval(function() {
+								goHomeOrRoom(myInfo);
+							}, 500);
 		
 						} else {
-							alert("로그아웃!!");
-							that.myInfo = myInfo;
+							clearSession();
+							clearLocal();
 		
 							// 회원가입 화면 이동 
-		
-							//디비에서 키워드 목록 가져오기.
-		
-		
 							$.mobile.changePage("#divPhonePage");
 						}
 		
@@ -210,6 +209,9 @@ var isSignUp = function( myInfo ) {
 				});
 
 	} else {
+		clearSession();
+		clearLocal();
+		
 		// 회원가입 화면 이동
 		$.mobile.changePage("#divPhonePage");
 	}
@@ -339,7 +341,7 @@ var goHomeOrRoom = function(myInfo) {
 	// 방 참여여부 설정
 	searchMyRoom(
 			// callbackFunc
-			function() { 
+			function() {
 				if ( isRoomMbr() ) { // 방 있을 때
 					var myRoom = getSessionItem("myRoom");
 					changeHref("../room/room.html", { roomNo : myRoom.roomNo });		

@@ -36,7 +36,7 @@ var createRcntLocTable = function (transaction) {
 
 
 /**
- *   설  명 : 즐겨찾기 추가
+ *   설  명 : 최근목적지 추가
  *   작성자 : 김상헌
  */
 var insertRcntLocTable = function( rcntLocList ) {
@@ -70,6 +70,39 @@ var insertRcntLocTable = function( rcntLocList ) {
 						console.log("insertRcntLocTable  fail");
 					});
 		}
+			
+	});
+};
+
+
+/**
+ *   설  명 : 최근목적지 전부 삭제
+ *   작성자 : 김상헌
+ */
+var deleteAllRcntLocTable = function( mbrNo ) {
+	console.log("deleteAllRcntLocTable(mbrNo)");
+//	console.log(mbrNo);
+
+	taxidb.transaction(function(transaction) {
+		var sql = 
+			" delete from Rcnt_LOC " +
+			" where 1 = 1 " +
+			" and 	mbrNo = ?" +
+			" ;";
+		transaction.executeSql(
+				sql, 
+				// Parameter
+				[
+					 mbrNo
+				 ],
+		 		// Success
+				function() {
+					console.log("deleteAllRcntLocTable  success");
+				},
+				// Fail
+				function () {
+					console.log("deleteAllRcntLocTable  fail");
+				});
 			
 	});
 };
