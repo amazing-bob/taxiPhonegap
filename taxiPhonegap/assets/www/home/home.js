@@ -125,8 +125,8 @@ $(document).ready(function() {
 	$("#divAddRoom").on("click", function(event) {		
 		event.stopPropagation();
 		
-		push.initialise("addRoom");
-//		addRoom('111111111111111111111111111'); //////////////////////////////////////////// Web용 임시
+//		push.initialise("addRoom");
+		addRoom('111111111111111111111111111'); //////////////////////////////////////////// Web용 임시
 		
 		$("#divAddRoomCondition_popup").popup("close");
 		
@@ -199,6 +199,31 @@ $(document).ready(function() {
     	$('#divToday').css('background','white');
     	$('#divTomorrow').css('background','whitesmoke');
     	$('#inputTime').attr("data-val","today");
+    });
+    
+    /**
+     * 설  명 : 방 생성 시 인원제한 관련
+     * 작성자 : 이용준
+     */
+    $("#divMemTwo").click(function() {
+    	$('#divMemTwo').css('background','white');
+    	$('#divMemThree').css('background','whitesmoke');
+    	$('#divMemFour').css('background','whitesmoke');
+    	$('#roomMbrNumLimit').attr("data-val","2");
+    });
+    
+    $("#divMemThree").click(function() {
+    	$('#divMemTwo').css('background','whitesmoke');
+    	$('#divMemThree').css('background','white');
+    	$('#divMemFour').css('background','whitesmoke');
+    	$('#roomMbrNumLimit').attr("data-val","3");
+    });
+    
+    $("#divMemFour").click(function() {
+    	$('#divMemTwo').css('background','whitesmoke');
+    	$('#divMemThree').css('background','whitesmoke');
+    	$('#divMemFour').css('background','white');
+    	$('#roomMbrNumLimit').attr("data-val","4");
     });
 
     $("<div>")
@@ -898,8 +923,8 @@ var createRoomList = function( roomList, isRoomMbr ) {
 											
 											var roomNo = $(this).parents("li").data("roomNo");
 											
-											push.initialise("joinRoom", roomNo);
-//											joinRoom('111111111111111111111111111', roomNo); //////////////////////////////////////////// Web용 임시
+//											push.initialise("joinRoom", roomNo);
+											joinRoom('111111111111111111111111111', roomNo); //////////////////////////////////////////// Web용 임시
 											
 											return false;
 										}) ) )
@@ -1048,7 +1073,7 @@ var addRoom = function( regId ) {
     			mbrNo			: myInfo.mbrNo,
 	    		gcmRegId 		: regId,
 	    	    roomStartTime 	: startTime,
-	    	    roomMbrNumLimit : 4,	// 방인원수 제한 2차개발때 값 설정하는 부분 추가 되야 함.
+	    	    roomMbrNumLimit : $('#roomMbrNumLimit').attr("data-val"),	// 2차 개발 수정 완료(이용준)
 	    	    roomColor		: (Math.ceil(Math.random() * roomColorArr.length) - 1),	// 방 생성 시 룸 칼라의 번호
 	            startLocName 	: locationSession.startName,
 	            startLocLng 	: locationSession.startX,
