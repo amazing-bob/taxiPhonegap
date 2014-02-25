@@ -1,38 +1,30 @@
 /**
- *   설   명  : WebDB 키워드 테이블 생성 트렌젝션
- *   작성자 : 장종혁
- */
-var openKeywordWebDb = function(){
-	taxidb.transaction(createKeywordTable);
-};
-
-/**
  *   설    명 : WebDB 생성( Keyword )
  *   작성자 : 장종혁
  *    PS1.   차후 서버에서 키워드 목록을 받아오는 소스 추가 예정
  *    PS2.   따로 뺀 이유 : KEYWORD는  회원가입시에 필요, 나머지는 회원 가입 후 정보이므로.
  */
 var createKeywordTable = function (transaction) {
+	console.log("createKeywordTable(transaction)");
 	
-	dropKeywordTable();
+	transaction.executeSql(("DROP TABLE IF EXISTS KEYWORD;"));
 	
-	transaction.executeSql
-    		('CREATE TABLE IF NOT EXISTS KEYWORD('+
-	    		'KEYWORD_NO INTEGER NOT NULL PRIMARY KEY,'+
-	    		'KEYWORD_NAME TEXT ,'+
-	    		' KEWORD_ST TEXT)');
-};
-
-
-/**
- *   설    명 : WebDB ( Keyword ) 테이블 삭제
- *   작성자 : 장종혁
- */
-var dropKeywordTable = function() {
-	
-		taxidb.transaction(function(transaction){
-				transaction.executeSql(("DROP KEYWORD TABLE IF EXISTS;"));
-		});
+	transaction.executeSql (
+				// SQL
+				' CREATE TABLE IF NOT EXISTS KEYWORD ('+
+	    		' 	KEYWORD_NO 		INTEGER NOT NULL PRIMARY KEY,'+
+	    		' 	KEYWORD_NAME 	TEXT ,'+
+	    		' 	KEWORD_ST 		TEXT)', 
+				// Parameter
+				[], 
+				// Success
+				function() {
+					console.log("createKeywordTable  success");
+				}, 
+				// Fail
+				function() {
+					console.log("createKeywordTable  fail");
+				});
 };
 
 

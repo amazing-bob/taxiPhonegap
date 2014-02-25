@@ -17,7 +17,6 @@ var memberCount;
 var contentWidth;
 var contentHeight;
 
-var roomColor = ['red','blue','yellow'];
 var thisRoomColor;
 
 
@@ -571,7 +570,7 @@ var getRoomInfo = function(roomNo) {
 		var minute = d.toTimeString().substring(3, 5);
 		startTime = hour;
 		memberCount = roomInfo.roomMbrCount;
-		thisRoomColor =roomColor[roomInfo.roomColor];
+		thisRoomColor =roomColorArr[roomInfo.roomColor];
 
 		$("#roomStartTime").text( hour +":"+ minute );
 		$("#roomStartDay").text("출발");

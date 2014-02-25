@@ -11,9 +11,7 @@ var sugLis;
 
 $(document).ready(function() {
 	
-	console.log("Ready to bring the awesome.");
-	
-	openKeywordWebDb();
+	openWebDB();
 	
 	sugList = $("#suggestions");
 
@@ -161,26 +159,38 @@ var getAddressBook = function() {
  */
 var isSignUp = function( myInfo ) {
 	console.log("isSignUp(myInfo)");
-	console.log(myInfo);
+//	console.log(myInfo);
 
 	if ( myInfo && myInfo.mbrNo ) {
-		console.log(myInfo.mbrNo);
 
 		$.getJSON( rootPath + "/auth/hasMember.do"
 				, { mbrNo: myInfo.mbrNo }
 				, function(result) {
 					if(result.status == "success") {
 						myInfo = result.data.myInfo;
+						
 						fvrtLocList = result.data.fvrtLocList;
+						console.log("fvrtLoc----");
+						console.log(fvrtLocList);		
+						
 						rcntLocList = result.data.rcntLocList;
+						console.log("rcntLoc----");
+						console.log(rcntLocList);
+						
 						blackList = result.data.blackList;
+						console.log("blackList----");
+						console.log(blackList);
 						
 						if ( myInfo ) {
-							alert("로그인!!");
+//							alert("로그인!!");
 							//로컬 스토리지에 저장
 							setLocalItem("myInfo", myInfo);
+							
+							insertFvrtLocTable(fvrtLocList);
+							insertRcntLocTable(rcntLocList);
+							insertBlackTable(blackList);
 		
-							goHomeOrRoom(myInfo);
+//							goHomeOrRoom(myInfo);
 		
 						} else {
 							alert("로그아웃!!");
@@ -369,11 +379,4 @@ var getKeyword = function(){
 };
 
 
-
-/*var aaaa = function(keyWordList){
-	console.log("자동완성 기능!!!");
-	$("#schoolName").autocomplete({
-		source: keyWordList
-	});
-};*/
 

@@ -1049,7 +1049,7 @@ var addRoom = function( regId ) {
 	    		gcmRegId 		: regId,
 	    	    roomStartTime 	: startTime,
 	    	    roomMbrNumLimit : 4,	// 방인원수 제한 2차개발때 값 설정하는 부분 추가 되야 함.
-	    	    roomColor		: (Math.ceil(Math.random() * roomColor.length) - 1),	// 방 생성 시 룸 칼라의 번호
+	    	    roomColor		: (Math.ceil(Math.random() * roomColorArr.length) - 1),	// 방 생성 시 룸 칼라의 번호
 	            startLocName 	: locationSession.startName,
 	            startLocLng 	: locationSession.startX,
 	            startLocLat 	: locationSession.startY,

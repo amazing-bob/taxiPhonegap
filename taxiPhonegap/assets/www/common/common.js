@@ -1,17 +1,13 @@
 console.log("commonjs...");
 
 //var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
-var rootPath = "http://localhost:9999/taxi";		//로컬
-//var rootPath = "http://192.168.43.240:9999/taxi";		//상헌
+//var rootPath = "http://localhost:9999/taxi";		//로컬
+var rootPath = "http://192.168.0.46:9999/taxi";		//상헌
 
 var myInfo;
 
+var roomColorArr = ['red','blue','yellow'];
 
-/**
- *   설  명 : Web DB 기본 셋팅
- *   작성자 : 장종혁
- */
-var taxidb = window.openDatabase("taxi", "1.0", "taxiDB", 1000000);
 
 /**
  * 설  명: ajax 로딩이미지 초기설정
@@ -679,20 +675,5 @@ var push = {
 })();
 
 
-/**
- * 설    명 : 오류 났을 경우 경고창으로 알림.(// Transaction error callback)
- * 작성자 : 장종혁
- */
-function errCallback(err) {
-	console.log(" WEB DB ERR =========================================================")
-	console.log(err);
-}
-
-/**
- * 설    명 : 성공일 경우 알림.( // Transaction success callback)
- * 작성자 : 장종혁
- */
-function successCallback() {
-}
 
 
