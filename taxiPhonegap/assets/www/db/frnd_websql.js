@@ -45,7 +45,7 @@ var insertFrndTable = function(transaction, frndList, mbrNo ) {
 		"INSERT INTO FRND "+
 		"	( mbrNo, frndPhoneNo, frndName, frndRegDate) "+
 		"VALUES "+
-		"	(     ?,          ?,               ?, '2014-02-25 23:45:45' );";
+		"	(     ?,          ?,               ?, ? );";
 	console.log(sql);
 	for(var  i = 0; i < frndList.length; i++){
 		transaction.executeSql(
@@ -55,7 +55,8 @@ var insertFrndTable = function(transaction, frndList, mbrNo ) {
 				[
 				 	mbrNo,
 				 	frndList[i].frndPhoneNo,
-				 	frndList[i].frndName
+				 	frndList[i].frndName,
+				 	frndList[i].frndRegDate
 				 ],
 		 		// Success
 				function() {

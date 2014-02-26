@@ -365,7 +365,7 @@ var signUp = function( phoneNo, mbrName, keywordNo ) {
 					executeQuery(
 							// Transaction Execute
 							function(transaction) {
-								insertFrndTable( transaction, getSessionItem("frndData"), myInfo.mbrNo);
+								insertFrndTable( result.data.frndList, myInfo.mbrNo);
 							}, 
 							// Success Callback
 							function() {
