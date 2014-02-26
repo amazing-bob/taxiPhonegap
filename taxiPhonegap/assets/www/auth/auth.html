@@ -36,7 +36,6 @@ $(document).on("mobileinit", function() {
 <script src="../db/rcntLoc_websql.js"></script>
 <script src="../common/common.js"></script>
 <script src="auth.js"></script>
-
 </head>
 
 <body>
@@ -63,7 +62,7 @@ $(document).on("mobileinit", function() {
 		<div id="line" data-theme="f" class="ui-li ui-li-static ui-btn-up-d" readonly="readonly">
 		(+82)Republic of Korea</div>
 		
-		<input id="txtPhone" name="phoneNo" type="number" data-theme="d" placeholder="휴대폰 번호 입력(01000000000)" value="0101111111"><span id="spnPhoneStatus"></span>
+		<input id="txtPhone" name="phoneNo" type="number" data-theme="d" placeholder="휴대폰 번호 입력(01000000000)" ><span id="spnPhoneStatus"></span>
 		<button  data-theme="d" id="btnPhoneNo" data-role="button" disabled="disabled" data-corners="false">다음</button>
 		<div id="info">
 			Texi 같이 타자는 전화번호의 본인사용 및 부정사용방지를 위하여 인증을 필요로 합니다.
@@ -87,7 +86,7 @@ $(document).on("mobileinit", function() {
 		</div>
 	</section>
 </div>
-
+<!-- 키워드 입력 화면 -->
 <div id="keyWordPage" data-role="page" data-theme="d">
 	<header data-role="header" data-theme="d">
 		<h1 id="result"><strong>키워드 입력</strong></h1>

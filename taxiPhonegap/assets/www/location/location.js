@@ -277,21 +277,24 @@ var createLocationList = function(locations, page) {
             map.moveTo(markers[currPageX].position, 10); 
         } 
           
-        // 즐겨찾기 초기설정 
-        getFavoriteLocation(function(favoriteLocationList) { 
-            for(var i in favoriteLocationList) { 
-                for(var j in locations ) { 
-                    if (favoriteLocationList[i].fvrtLocLat == locations[j].Y &  
-                            favoriteLocationList[i].fvrtLocLng == locations[j].X &  
-                            favoriteLocationList[i].fvrtLocName == locations[j].NAME) { 
-                        $(".divFavoriteIcon[data-idx=" + j + "] img") 
-                            .attr( 'src', '../images/common/favorite-icon.png') 
-                            .attr("data-status","true"); 
-                    } 
-                      
-                } 
-            } 
-        }); 
+        // WebDB 에서 즐겨찾기 목록 가져와서 별 표시 
+        selectMyFvrtLocList(
+        		myInfo.mbrNo, 
+        		// Callback
+        		function(favoriteLocationList) {
+		            for(var i in favoriteLocationList) { 
+		                for(var j in locations ) { 
+		                    if (favoriteLocationList[i].fvrtLocLat == locations[j].Y &  
+		                            favoriteLocationList[i].fvrtLocLng == locations[j].X &  
+		                            favoriteLocationList[i].fvrtLocName == locations[j].NAME) { 
+		                        $(".divFavoriteIcon[data-idx=" + j + "] img") 
+		                            .attr( 'src', '../images/common/favorite-icon.png') 
+		                            .attr("data-status","true"); 
+		                    } 
+		                      
+		                } 
+		            } 
+		        }); 
           
     } else { 
     	$("<li>")
@@ -311,89 +314,94 @@ var createLocationList = function(locations, page) {
   
 }; 
   
-var getFavoriteLocation = function(execute) { 
-    console.log("getFavoriteLocation()"); 
-
-    var params = { mbrNo : myInfo.mbrno };
-    $.getJSON( rootPath + "/location/getFavoriteList.do" 
-    		, params
-            , function(result) { 
-                if (result.status == "success") { 
-                    var favoriteLocationList = result.data; 
-                    execute(favoriteLocationList); 
-                    
-                } else { 
-                    alert(result.data); 
-                } 
-    }); 
-}; 
-  
+/**
+ * 설  명: 즐겨찾기 추가 & 삭제하기
+ * 작성자: 김상헌
+ */
 var addAndDelFavoriteLocation = function(idx, locations) { 
     console.log("favoriteLocation(idx, locations)"); 
 //    console.log(idx, location); 
-      
-    getFavoriteLocation(function(favoriteLocationList) {
-          
-        if($(".divFavoriteIcon[data-idx=" + idx + "] img").attr("data-status") =="false") {
-            $(".divFavoriteIcon[data-idx=" + idx + "] img").attr("data-status","true"); 
-            $(".divFavoriteIcon[data-idx=" + idx + "] img").attr('src', '../images/common/favorite-icon.png'); 
-            var isFavoriteLocation = false; 
-            for ( var i in favoriteLocationList) { 
-                if ((favoriteLocationList[i].fvrtLocLat == locations[idx].Y &  
-                        favoriteLocationList[i].fvrtLocLng == locations[idx].X &  
-                        favoriteLocationList[i].fvrtLocName == locations[idx].NAME)) { 
-                    isFavoriteLocation = true; 
-                } else { 
-                      
-                }  
-            } 
-              
-            if (isFavoriteLocation == false) { 
-            	var params = { 
-            			mbrNo 		: myInfo.mbrNo,
-            			fvrtLocName : locations[idx].NAME, 
-                        fvrtLocLng  : locations[idx].X, 
-                        fvrtLocLat  : locations[idx].Y
-            	};
-                $.post( rootPath + "/location/addFavoriteLocation.do"
-                		, params
-//                        ,{
-//                            fvrtLocName : locations[idx].NAME, 
-//                            fvrtLocLng  : locations[idx].X, 
-//                            fvrtLocLat  : locations[idx].Y, 
-                        , function(result) {
-                            if (result.status == "success") { 
-                                console.log("addFvrtLoc 성공"); 
-                            } else { 
-                                alert(result.data); 
-                            } 
-                        }, "json"); 
-            } 
-              
-        } else { 
-            $(".divFavoriteIcon[data-idx=" + idx + "] img").attr("data-status","false"); 
-            $(".divFavoriteIcon[data-idx=" + idx + "] img").attr('src', '../images/common/favorite-non-icon.png');
-            
-            for (var i in favoriteLocationList){ 
-                if (favoriteLocationList[i].fvrtLocLat == locations[idx].Y &  
-                        favoriteLocationList[i].fvrtLocLng == locations[idx].X &  
-                        favoriteLocationList[i].fvrtLocName == locations[idx].NAME) { 
-                    var url = rootPath + "/location/deleteFavoriteLocation.do"; 
-                    $.post(url 
-                            ,{ 
-                                fvrtLocNo : favoriteLocationList[i].fvrtLocNo 
-                            }, function(result) { 
-                                if (result.status == "success") { 
-                                    console.log("deleteFvrtLoc 성공"); 
-                                } else { 
-                                    alert(result.data); 
-                                } 
-                            }, "json"); 
-                } 
-            } 
-        } 
-    }); 
+
+    // WebDB 에서 즐겨찾기 목록 가져오기
+    selectMyFvrtLocList(
+    		myInfo.mbrNo,
+    		// Callback
+    		function( favoriteLocationList ) {
+		        if($(".divFavoriteIcon[data-idx=" + idx + "] img").attr("data-status") == "false") { // 즐겨찾기 추가
+		            $(".divFavoriteIcon[data-idx=" + idx + "] img").attr("data-status","true"); 
+		            $(".divFavoriteIcon[data-idx=" + idx + "] img").attr('src', '../images/common/favorite-icon.png'); 
+		            
+		            var isFavoriteLocation = false; 
+		            
+		            // 즐겨찾기 되어 있는것 표시
+		            for ( var i in favoriteLocationList) {
+		                if ((favoriteLocationList[i].fvrtLocLat == locations[idx].Y &  
+		                        favoriteLocationList[i].fvrtLocLng == locations[idx].X &  
+		                        favoriteLocationList[i].fvrtLocName == locations[idx].NAME)) { 
+		                    isFavoriteLocation = true; 
+		                } else { 
+		                      
+		                }  
+		            } 
+		              
+		            if (isFavoriteLocation == false) { 
+		            	var params = { 
+		            			mbrNo 		: myInfo.mbrNo,
+		            			fvrtLocName : locations[idx].NAME, 
+		                        fvrtLocLng  : locations[idx].X, 
+		                        fvrtLocLat  : locations[idx].Y
+		            	};
+		                $.post( rootPath + "/location/addFavoriteLocation.do"
+		                		, params
+		                        , function(result) {
+		                            if (result.status == "success") {
+		                            	var fvrtLocList = result.data;
+		                            	if (fvrtLocList) {
+		                            		// WebDB 에 적용
+		                            		executeQuery(
+		            								// Transaction Execute
+		            								function(transaction) {
+		            									deleteAllFvrtLocTable(transaction);
+		            									insertFvrtLocTable(transaction, fvrtLocList);
+		            								},
+		            								// Success Callback
+		            								function() {});
+		                            	}
+		                            } else { 
+		                                alert(result.data); 
+		                            } 
+		                        }, "json"); 
+		            } 
+		              
+		        } else { // 즐겨찾기 해제
+		            $(".divFavoriteIcon[data-idx=" + idx + "] img").attr("data-status","false"); 
+		            $(".divFavoriteIcon[data-idx=" + idx + "] img").attr('src', '../images/common/favorite-non-icon.png');
+		            
+		            for (var i in favoriteLocationList){ 
+		                if (favoriteLocationList[i].fvrtLocLat == locations[idx].Y &  
+		                        favoriteLocationList[i].fvrtLocLng == locations[idx].X &  
+		                        favoriteLocationList[i].fvrtLocName == locations[idx].NAME) { 
+		                	var fvrtLocNo = favoriteLocationList[i].fvrtLocNo;
+		                    var url = rootPath + "/location/deleteFavoriteLocation.do"; 
+		                    $.post(url 
+		                            ,{ 
+		                                fvrtLocNo : fvrtLocNo 
+		                            }, function(result) { 
+		                                if (result.status == "success") { 
+		                                	// WebDB 에 적용
+		                                	deleteFvrtLocTable(myInfo.mbrNo, fvrtLocNo);
+		                                	
+		                                } else { 
+		                                    alert("즐겨찾기 삭제중 오류 발생!!"); 
+		                                    
+		                                } 
+		                            }, "json"); 
+		                } 
+		            } 
+		        } 
+		    }); 
 }; 
+
   
 var initMap = function(callbackFunc) { 
     console.log("initMap()"); 

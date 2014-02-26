@@ -32,17 +32,15 @@ var createKeywordTable = function (transaction) {
  *   설    명 : WebDB ( Keyword )값 입력
  *   작성자 : 장종혁
  */
-var insertKeywordTable = function(keyWord){
-		taxidb.transaction(function(transaction){
-			
-			for(var  i = 0; i < keyWord.length; i++){
-				transaction.executeSql(("INSERT INTO KEYWORD (KEYWORD_NO, KEYWORD_NAME) VALUES (?,?);"), 
-				[i,keyWord[i].keyWordName], function(transaction, results){successCallback(results);}, null);
-			}
+var insertKeywordTable = function(transaction, keyWord){
+	console.log("insertKeywordTable(transaction, keyWord)");
+//	console.log(transaction, keyWord);
+	
+	for(var  i = 0; i < keyWord.length; i++){
+		transaction.executeSql(("INSERT INTO KEYWORD (KEYWORD_NO, KEYWORD_NAME) VALUES (?,?);"), 
+		[i,keyWord[i].keyWordName], function(transaction, results){successCallback(results);}, null);
+	}
 				
-			//transaction.executeSql(("INSERT INTO KEYWORD (KEYWORD_NO, KEYWORD_NAME,KEWORD_ST) VALUES (?, ?, ?);"), 
-			//[keyWord[i].keyWordNo, keyWord[i].keyWordName, keyWord[i].keyWordSt], function(transaction, results){successCallback(results);}, errCallback);
-		});
 };
 
 

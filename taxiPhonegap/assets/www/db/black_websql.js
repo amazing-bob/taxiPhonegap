@@ -33,36 +33,61 @@ var createBlackTable = function (transaction) {
 
 
 /**
- *   설  명 : 즐겨찾기 추가
+ *   설  명 : 블랙리스트 추가
  *   작성자 : 김상헌
  */
-var insertBlackTable = function( blackList ) {
+var insertBlackTable = function( transaction, blackList ) {
 	console.log("insertBlackTable(blackList)");
 //	console.log(blackList);
 
-	taxidb.transaction(function(transaction) {
-		for(var  i = 0; i < blackList.length; i++){
-			transaction.executeSql(
-					// SQL
-					"INSERT INTO BLACK "+
-					"	( mbrNo, blackMbrNo, blackMbrRegDate ) "+
-					"VALUES "+
-					"	(     ?,          ?,               ? );", 
-					// Parameter
-					[
-					 	blackList[i].mbrNo,
-						blackList[i].blackMbrNo, 
-						blackList[i].blackMbrRegDate
-					 ],
-			 		// Success
-					function() {
-						console.log("insertBlackTable  success");
-					},
-					// Fail
-					function () {
-						console.log("insertBlackTable  fail");
-					});
-		}
+	for(var  i = 0; i < blackList.length; i++){
+		transaction.executeSql(
+				// SQL
+				"INSERT INTO BLACK "+
+				"	( mbrNo, blackMbrNo, blackMbrRegDate ) "+
+				"VALUES "+
+				"	(     ?,          ?,               ? );", 
+				// Parameter
+				[
+				 	blackList[i].mbrNo,
+					blackList[i].blackMbrNo, 
+					blackList[i].blackMbrRegDate
+				 ],
+		 		// Success
+				function() {
+					console.log("insertBlackTable  success");
+				},
+				// Fail
+				function () {
+					console.log("insertBlackTable  fail");
+				});
+	}
 			
-	});
+};
+
+
+/**
+ *   설  명 : 블랙리스트 전부 삭제
+ *   작성자 : 김상헌
+ */
+var deleteAllBlackTable = function(transaction) {
+	console.log("deleteAllBlackTable()");
+
+	var sql = 
+		" delete from BLACK " +
+		" where 1 = 1 " +
+		" ;";
+	transaction.executeSql(
+			sql, 
+			// Parameter
+			[],
+	 		// Success
+			function() {
+				console.log("deleteAllBlackTable  success");
+			},
+			// Fail
+			function () {
+				console.log("deleteAllBlackTable  fail");
+			});
+		
 };

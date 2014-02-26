@@ -6,72 +6,53 @@ var myInfo;
 var contentHeight;
 
 var keyWordList = new Array();
-
-var sugLis;
+var keywordNo;
 
 $(document).ready(function() {
-	
-	openWebDB();
-	
-	sugList = $("#suggestions");
-
-	$("#schoolName").on("input", function(e) {
-		var text = $(this).val();
-
-		if(text.length < 1) {
-			sugList.html("");
-			sugList.listview("refresh");
-		} else {
-			searchKeywordList(text, function(keywordList) {
-				var str = "";
-				
-				for ( var i = 0; i < keywordList.length; i++ ) {
-					str += "<li>"+keywordList[i].KEYWORD_NAME+"</li>";
-					sugList.html(str);
-					sugList.listview("refresh");
-				}
-			});
-//			taxidb.transaction( sele(transaction, function(keywordList) {
-//			console.log("000");
-//			console.log(keywordList);
-//			var str = "";
-//			
-//			str += "<li>"+keywordList.KEYWORD_NAME+"</li>";
-//			sugList.html(str);
-//			sugList.listview("refresh");
-//		}));
-
-		}
-	});
-
-
 	console.log("ready()");
-	initAjaxLoading();
-
-	/* 임시 사용자 로그인 */
-//	console.log("tempLogin()...........");
-//	console.log(rootPath);
-//	var myInfo = {
-//			mbrNo: 1,
-//			mbrName:"회원001",
-//			mbrPhotoUrl: "../images/photo/m01.jpg",
-//			startRange: 500,
-//			endRange: 1000,
-//			fvrtLocList: null,
-//			rcntLocList: null,
-//			keyNoList: null
-//	};
-//	setLocalItem("myInfo", myInfo);
 	
-	// 웹 버전일 경우만 주석 풀어야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//	isSignUp( getLocalItem("myInfo") );
-
-
-
-	document.addEventListener("deviceready", onDeviceReady, false);
+	initAjaxLoading();
+	
 	contentHeight = $(window).height();
 	$("#selectionLoginContent").height(contentHeight+"px");
+	
+	// 최초 WebDB 만들기
+	openWebDB(function() { // Success Callback
+		
+		registerEvent();
+		
+		
+		/* 임시 사용자 로그인 */
+//		console.log("tempLogin()...........");
+//		console.log(rootPath);
+//		setLocalItem("myInfo", {
+//				mbrNo: 26,
+//				mbrName:"회원001",
+//				mbrPhotoUrl: "../images/photo/m01.jpg",
+//				startRange: 500,
+//				endRange: 1000,
+//				fvrtLocList: null,
+//				rcntLocList: null,
+//				keyNoList: null
+//		});
+		
+		// 웹 버전일 경우만 주석 풀어야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//		isSignUp( getLocalItem("myInfo") );
+		
+	});
+	
+}); //reday()
 
+
+/**
+ * 설  명: 이벤트 등록
+ * 작성자: 김상헌
+ */
+var registerEvent = function() {
+	console.log("registerEvent()");
+	
+	document.addEventListener("deviceready", onDeviceReady, false);
+	
 	// 폰번호 입력시 validatePhone() 호출
 	$("#content").on('keyup','#txtPhone', function(e) {
 		if ( validatePhone('txtPhone') ) {
@@ -107,25 +88,56 @@ $(document).ready(function() {
 	$("#btnName").on('click', clickKeyWordPage);
 	$("#signUpComplete").on('click', clickSignupBtn);
 
-	/*$("#schoolName").on("input",function(){
-		var keyVal = $("#schoolName");
-		serchKeyWord(keyVal);
-	});*/
+	
+	// 키워드 입력란 검색어 입력
+	$("#schoolName").on("input", function(e) {
+		var sugList = $("#suggestions");
+		var text = $(this).val();
 
+		if(text.length < 1) {
+			sugList.html("");
+			sugList.listview("refresh");
+		} else {
+			searchKeywordList(text, function(keywordList) {
+				console.log(keywordList);
+				var str = "";
+		
+				for ( var i = 0; i < keywordList.length; i++ ) {
+					str += "<li class='listdata' data-no="+keywordList[i].KEYWORD_NO+">"
+	            	+keywordList[i].KEYWORD_NAME+"</li>";
+					console.log(str);
+				}
+				sugList.html(str);
+				sugList.listview("refresh");
+			});
+		}
+	});
+	
+	// 키워드 클릭 
+	$('body').on('click', ".listdata", function (e) { 
+		var i = $(this)[0];
+		keywordNo = i.dataset.no;
+		console.log(i.dataset.no);
+		console.log(i.innerHTML);
+	 	    $("#schoolName").val(i.innerHTML);
+	    $(".listdata").remove();
+	});  
+};
 
-}); //reday()
 
 /**
  * deviceready 이벤트
  */
 function onDeviceReady() {
 	console.log("onDeviceReady()");
-   
+
 	//휴대폰 기기안의 주소록 가져오기
     var options = new ContactFindOptions();
     options.multiple  = true; 
     var fields = ["displayName", "name","phoneNumbers"];
     navigator.contacts.find(fields, extractionContactData, onError, options);
+	
+    setPhoneNo();
 	
 	try {
 		//로컬스토리지로 변경 - 종혁
@@ -135,7 +147,22 @@ function onDeviceReady() {
 	}
 }
 
-
+/**
+ *  설   명 : 휴대폰 전화번호를 자동으로 txtPhone 에 추가.
+ *  작성자 : 장종혁
+ */
+var setPhoneNo = function() {
+    PhoneNumber.getPhoneNo(function(result) {
+		$("#txtPhone").val(result.phoneNo);
+		
+		$('#spnPhoneStatus').text('Valid');
+		$('#spnPhoneStatus').css('color', 'green');
+		$("#btnPhoneNo").removeAttr("disabled").button("refresh");
+		
+	}, function() {
+		// error
+	});
+};
 
 /**
  * 설    명 : 주소록 가져온 정보를 추출하여 contactsList에 저장 후 임시로 세션 스토리지에 저장
@@ -193,16 +220,9 @@ function extractionContactData(contacts) {
     
 };
 
-
-//onError: Failed to get the contacts
-//
-function onError(contactError) {
-    alert('onError! : '+contactError);
-}
-
-
 /**
- * Taix 어플 회원가입 여부
+ * 설  명: Taix 어플 회원가입 여부
+ * 작성자: 김상헌
  */
 var isSignUp = function( myInfo ) {
 	console.log("isSignUp(myInfo)");
@@ -215,39 +235,31 @@ var isSignUp = function( myInfo ) {
 				, function(result) {
 					if(result.status == "success") {
 						myInfo = result.data.myInfo;
-						
 						fvrtLocList = result.data.fvrtLocList;
-						console.log("fvrtLoc----");
-						console.log(fvrtLocList);		
-						
 						rcntLocList = result.data.rcntLocList;
-						console.log("rcntLoc----");
-						console.log(rcntLocList);
-						
 						blackList = result.data.blackList;
-						console.log("blackList----");
-						console.log(blackList);
 						
 						if ( myInfo ) {
-//							alert("로그인!!");
 							//로컬 스토리지에 저장
 							setLocalItem("myInfo", myInfo);
 							
-							insertFvrtLocTable(fvrtLocList);
-							insertRcntLocTable(rcntLocList);
-							insertBlackTable(blackList);
-		
-							goHomeOrRoom(myInfo);
-		
+							// WebDB 에 추가
+							executeQuery(
+									// Transaction Execute
+									function(transaction) {
+										insertFvrtLocTable(transaction, fvrtLocList);
+										insertRcntLocTable(transaction, rcntLocList);
+										insertBlackTable(transaction, blackList);
+									},
+									// Success Callback
+									function() {
+										goHomeOrRoom(myInfo);
+									});
+							
 						} else {
-							alert("로그아웃!!");
-							that.myInfo = myInfo;
+							clearLocalData();
 		
 							// 회원가입 화면 이동 
-		
-							//디비에서 키워드 목록 가져오기.
-		
-		
 							$.mobile.changePage("#divPhonePage");
 						}
 		
@@ -257,10 +269,33 @@ var isSignUp = function( myInfo ) {
 				});
 
 	} else {
+		clearLocalData();
+		
 		// 회원가입 화면 이동
 		$.mobile.changePage("#divPhonePage");
 	}
 };
+
+/**
+ * 설  명: 로컬 데이터 삭제(WebDB, LocalStorage, SessionStorage)
+ * 작성자: 김상헌
+ */
+var clearLocalData = function() {
+	console.log("clearLocalData()");
+	executeQuery(
+			// Transaction Execute
+			function(transaction) {
+				deleteAllFvrtLocTable(transaction);
+				deleteAllRcntLocTable(transaction);
+				deleteAllBlackTable(transaction);
+			}, 
+			// Success Callback
+			function() {
+				clearSession();
+				clearLocal();
+			});
+};
+
 
 /**
  * 전화번호 입력후 다음 버튼 클릭
@@ -288,7 +323,7 @@ var clickSignupBtn = function(){
 	var mbrName = $("#txtName").val();
 
 	if ( phoneNo && mbrName ) {
-		signUp( phoneNo, mbrName );
+		signUp( phoneNo, mbrName , keywordNo);
 
 	} else {
 		console.log("clickSignupBtn 예외발생");
@@ -303,12 +338,13 @@ var clickSignupBtn = function(){
  * 
  * 추가 : 2014-02-25 장종혁 : WebDB에 myInfo값 추가를 위해 서버에서 받은 mbrNo를 받아서 저장.
  */
-var signUp = function( phoneNo, mbrName ) {
-	console.log("signUp(myInfo, phoneNo,mbrName)");
+var signUp = function( phoneNo, mbrName, keywordNo ) {
+	console.log("signUp(myInfo, phoneNo, mbrName="+keywordNo+")");
 
 	var params = {
-			mbrName 	: mbrName,
-			mbrPhoneNo 	: phoneNo,
+			mbrName 		: 	mbrName,
+			mbrPhoneNo 		: 	phoneNo,
+			mbrKeywordNo	: 	keywordNo,
 			frndList : getSessionItem("frndData")
 	};
 
@@ -322,18 +358,20 @@ var signUp = function( phoneNo, mbrName ) {
 				var myInfo = result.data;
 
 				if ( myInfo ) {
+					//로컬스토리지에 저장
+					setLocalItem("myInfo", myInfo);
 					
 					//주소록 친구 정보 base64 md5 형식으로 웹DB에 저장.
-					insertFrndTable(getSessionItem("frndData"),myInfo.mbrNo);
-					
-					// 세션스토리지에 저장
-					//setSessionItem("myInfo", myInfo );
-					//로컬스토리지에 저장
-					//일단 무조건 회원가입을 매번 하는 화면보기위해 잠시 주석.
-					setLocalItem("myInfo", myInfo);
+					executeQuery(
+							// Transaction Execute
+							function(transaction) {
+								insertFrndTable( transaction, getSessionItem("frndData"), myInfo.mbrNo);
+							}, 
+							// Success Callback
+							function() {
+								changeHref("../home/home.html",myInfo);
+							});
 				}
-
-				changeHref("../home/home.html",myInfo);
 
 			} else {
 				alert("회원등록 중 오류 발생");
@@ -393,7 +431,7 @@ var goHomeOrRoom = function(myInfo) {
 	// 방 참여여부 설정
 	searchMyRoom(
 			// callbackFunc
-			function() { 
+			function() {
 				if ( isRoomMbr() ) { // 방 있을 때
 					var myRoom = getSessionItem("myRoom");
 					changeHref("../room/room.html", { roomNo : myRoom.roomNo });		
@@ -422,7 +460,14 @@ var getKeyword = function(){
 					keyWordList.push(keyWord[i].keyWordName);
 				};
 
-				insertKeywordTable(keyWord);
+				executeQuery(
+						// Transaction Execute
+						function(transaction) {
+							insertKeywordTable(transaction, keyWord);
+						}, 
+						// Success Callback
+						function() {});
+				
 
 			}
 

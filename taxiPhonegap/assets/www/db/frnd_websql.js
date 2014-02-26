@@ -9,16 +9,18 @@ var createFrndTable = function (transaction) {
 			// SQL
 			"DROP TABLE IF EXISTS FRND;"
 			);
-	
+	var sql  = 
+		' CREATE TABLE IF NOT EXISTS FRND '+ 
+		' ('+
+	    '  	  mbrNo 			INTEGER NOT NULL '+ 
+	    ' 	, frndPhoneNo		TEXT NOT NULL'+
+	    ' 	, frndName 			TEXT '+
+	    ' 	, frndRegDate 		TIMESTAMP '+
+	    '	, PRIMARY KEY(mbrNo, frndPhoneNo) '+
+		' );';
 	transaction.executeSql(
 			// SQL
-			' CREATE TABLE IF NOT EXISTS FRND '+ 
-			' ('+
-		    '  	  mbrNo 			INTEGER NOT NULL PRIMARY KEY'+ 
-		    ' 	, frndPhoneNo		TEXT '+
-		    ' 	, frndName 	TEXT '+
-		    ' 	, frndRegDate TIMESTAMP;'+
-    		' );', 
+			sql, 
 			// Parameter
 			[], 
 			// Success
@@ -35,34 +37,35 @@ var createFrndTable = function (transaction) {
  *   설  명 : 친구정보 추가
  *   작성자 : 장종혁
  */
-var insertFrndTable = function( frndList, mbrNo ) {
-	console.log("insertFrndTable(blackList)");
-//	console.log(blackList);
+var insertFrndTable = function(transaction, frndList, mbrNo ) {
+	console.log("insertFrndTable(frndList, mbrNo)");
+	console.log(frndList, mbrNo);
 
-	taxidb.transaction(function(transaction) {
-		for(var  i = 0; i < frndList.length; i++){
-			transaction.executeSql(
-					// SQL
-					"INSERT INTO FRND "+
-					"	( mbrNo, frndPhoneNo, frndName, frndRegDate) "+
-					"VALUES "+
-					"	(     ?,          ?,               ?,now() );", 
-					// Parameter
-					[
-					 	mbrNo,
-					 	frndList[i].frndName, 
-					 	frndList[i].frndPhoneNo
-					 ],
-			 		// Success
-					function() {
-						console.log("insertFrndTable  success");
-					},
-					// Fail
-					function () {
-						console.log("insertFrndTable  fail");
-					});
-		}
+	var sql = 
+		"INSERT INTO FRND "+
+		"	( mbrNo, frndPhoneNo, frndName, frndRegDate) "+
+		"VALUES "+
+		"	(     ?,          ?,               ?, '2014-02-25 23:45:45' );";
+	console.log(sql);
+	for(var  i = 0; i < frndList.length; i++){
+		transaction.executeSql(
+				// SQL
+				sql, 
+				// Parameter
+				[
+				 	mbrNo,
+				 	frndList[i].frndPhoneNo,
+				 	frndList[i].frndName
+				 ],
+		 		// Success
+				function() {
+					console.log("insertFrndTable  success");
+				},
+				// Fail
+				function () {
+					console.log("insertFrndTable  fail");
+				});
+	}
 			
-	});
 };
 

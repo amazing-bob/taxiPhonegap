@@ -397,6 +397,43 @@ a.btnJoinRoom span {
     background:white;
 }
 
+/**
+ * 설  명 : 방 생성 시 인원제한 관련
+ * 작성자 : 이용준
+ */
+.liRoomMemberArea{
+	background: white;
+	font-family: 'Nanum Gothic';
+	font-size : medium; 
+    height: 30px;
+    line-height: 30px;
+   	padding: 0px;
+	text-align:center ;
+}
+
+#divMemTwo{
+	background: whitesmoke;
+	float:left;
+	position:relative;
+	width: 32.5%;
+}
+#divMemThree{
+	display: inline-block;
+	width: 32.5%;
+}
+
+#divMemFour{
+	background: whitesmoke;
+	float : right;
+	width: 32.5%;
+}
+
+#bMemTwo #bMemThree #bMemFour{
+    color: dimgrey;
+    font-family: 'Nanum Gothic';
+    text-shadow: none;
+}
+
 .liBtnArea {
     padding: 0px;
     height: 45px;
