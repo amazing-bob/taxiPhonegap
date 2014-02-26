@@ -77,22 +77,18 @@ var insertFvrtLocTable = function( fvrtLocList ) {
  *   설  명 : 즐겨찾기 전부 삭제
  *   작성자 : 김상헌
  */
-var deleteAllFvrtLocTable = function( mbrNo ) {
-	console.log("deleteAllFvrtLocTable(mbrNo)");
-//	console.log(mbrNo);
+var deleteAllFvrtLocTable = function() {
+	console.log("deleteAllFvrtLocTable()");
 
 	taxidb.transaction(function(transaction) {
 		var sql = 
 			" delete from FVRT_LOC " +
 			" where 1 = 1 " +
-			" and 	mbrNo = ?" +
 			" ;";
 		transaction.executeSql(
 				sql, 
 				// Parameter
-				[
-					 mbrNo
-				 ],
+				[],
 		 		// Success
 				function() {
 					console.log("deleteAllFvrtLocTable  success");

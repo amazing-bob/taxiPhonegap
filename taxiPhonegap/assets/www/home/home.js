@@ -1279,7 +1279,7 @@ var joinRoom = function(regId, roomNo) {
 					if (result.status =="success") {
 						setSessionItem("myRoom", result.data.myRoom);
 						// WebDB 에 적용
-						deleteAllRcntLocTable( myInfo.mbrNo );
+						deleteAllRcntLocTable();
                 		insertRcntLocTable( result.data.rcntLocList );
 						
 						changeHref("../room/room.html", { roomNo : roomNo });

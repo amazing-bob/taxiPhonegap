@@ -358,7 +358,7 @@ var addAndDelFavoriteLocation = function(idx, locations) {
 		                            	var fvrtLocList = result.data;
 		                            	if (fvrtLocList) {
 		                            		// WebDB 에 적용
-		                            		deleteAllFvrtLocTable( myInfo.mbrNo );
+		                            		deleteAllFvrtLocTable();
 		                            		insertFvrtLocTable( fvrtLocList );
 		                            	}
 		                            } else { 

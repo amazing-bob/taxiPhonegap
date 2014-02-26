@@ -52,7 +52,7 @@ $(document).ready(function() {
 //	console.log("tempLogin()...........");
 //	console.log(rootPath);
 //	var myInfo = {
-//			mbrNo: 1,
+//			mbrNo: 26,
 //			mbrName:"회원001",
 //			mbrPhotoUrl: "../images/photo/m01.jpg",
 //			startRange: 500,
@@ -155,7 +155,8 @@ var getAddressBook = function() {
 
 
 /**
- * Taix 어플 회원가입 여부
+ * 설  명: Taix 어플 회원가입 여부
+ * 작성자: 김상헌
  */
 var isSignUp = function( myInfo ) {
 	console.log("isSignUp(myInfo)");
@@ -168,24 +169,15 @@ var isSignUp = function( myInfo ) {
 				, function(result) {
 					if(result.status == "success") {
 						myInfo = result.data.myInfo;
-						
 						fvrtLocList = result.data.fvrtLocList;
-						console.log("fvrtLoc----");
-						console.log(fvrtLocList);		
-						
 						rcntLocList = result.data.rcntLocList;
-						console.log("rcntLoc----");
-						console.log(rcntLocList);
-						
 						blackList = result.data.blackList;
-						console.log("blackList----");
-						console.log(blackList);
 						
 						if ( myInfo ) {
-//							alert("로그인!!");
 							//로컬 스토리지에 저장
 							setLocalItem("myInfo", myInfo);
 							
+							// WebDB 에 추가
 							insertFvrtLocTable(fvrtLocList);
 							insertRcntLocTable(rcntLocList);
 							insertBlackTable(blackList);
@@ -196,8 +188,7 @@ var isSignUp = function( myInfo ) {
 							}, 500);
 		
 						} else {
-							clearSession();
-							clearLocal();
+							clearLocalData();
 		
 							// 회원가입 화면 이동 
 							$.mobile.changePage("#divPhonePage");
@@ -209,13 +200,27 @@ var isSignUp = function( myInfo ) {
 				});
 
 	} else {
-		clearSession();
-		clearLocal();
+		clearLocalData();
 		
 		// 회원가입 화면 이동
 		$.mobile.changePage("#divPhonePage");
 	}
 };
+
+/**
+ * 설  명: 로컬 데이터 삭제(WebDB, LocalStorage, SessionStorage)
+ * 작성자: 김상헌
+ */
+var clearLocalData = function() {
+	console.log("clearLocalData()");
+	
+	deleteAllFvrtLocTable();
+	deleteAllRcntLocTable();
+	deleteAllBlackTable();
+	clearSession();
+	clearLocal();
+};
+
 
 /**
  * 전화번호 입력후 다음 버튼 클릭

@@ -79,22 +79,18 @@ var insertRcntLocTable = function( rcntLocList ) {
  *   설  명 : 최근목적지 전부 삭제
  *   작성자 : 김상헌
  */
-var deleteAllRcntLocTable = function( mbrNo ) {
-	console.log("deleteAllRcntLocTable(mbrNo)");
-//	console.log(mbrNo);
+var deleteAllRcntLocTable = function() {
+	console.log("deleteAllRcntLocTable()");
 
 	taxidb.transaction(function(transaction) {
 		var sql = 
 			" delete from Rcnt_LOC " +
 			" where 1 = 1 " +
-			" and 	mbrNo = ?" +
 			" ;";
 		transaction.executeSql(
 				sql, 
 				// Parameter
-				[
-					 mbrNo
-				 ],
+				[],
 		 		// Success
 				function() {
 					console.log("deleteAllRcntLocTable  success");
