@@ -358,8 +358,14 @@ var addAndDelFavoriteLocation = function(idx, locations) {
 		                            	var fvrtLocList = result.data;
 		                            	if (fvrtLocList) {
 		                            		// WebDB 에 적용
-		                            		deleteAllFvrtLocTable();
-		                            		insertFvrtLocTable( fvrtLocList );
+		                            		executeQuery(
+		            								// Transaction Execute
+		            								function(transaction) {
+		            									deleteAllFvrtLocTable(transaction);
+		            									insertFvrtLocTable(transaction, fvrtLocList);
+		            								},
+		            								// Success Callback
+		            								function() {});
 		                            	}
 		                            } else { 
 		                                alert(result.data); 

@@ -1279,10 +1279,16 @@ var joinRoom = function(regId, roomNo) {
 					if (result.status =="success") {
 						setSessionItem("myRoom", result.data.myRoom);
 						// WebDB 에 적용
-						deleteAllRcntLocTable();
-                		insertRcntLocTable( result.data.rcntLocList );
-						
-						changeHref("../room/room.html", { roomNo : roomNo });
+						executeQuery(
+								// Transaction Execute
+								function(transaction) {
+									deleteAllRcntLocTable(transaction);
+									insertRcntLocTable(transaction, result.data.rcntLocList);
+								},
+								// Success Callback
+								function() {
+									changeHref("../room/room.html", { roomNo : roomNo });
+								});
 
 					} else {
 						console.log(result.data);
