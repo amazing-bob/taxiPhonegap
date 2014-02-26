@@ -15,6 +15,7 @@ var openWebDB = function() {
 		createRcntLocTable(transaction);
 		createBlackTable(transaction);
 		createKeywordTable(transaction);
+		createFrndTable(transaction);
 	});
 };
 

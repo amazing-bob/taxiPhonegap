@@ -120,7 +120,13 @@ $(document).ready(function() {
  */
 function onDeviceReady() {
 	console.log("onDeviceReady()");
-
+   
+	//휴대폰 기기안의 주소록 가져오기
+    var options = new ContactFindOptions();
+    options.multiple  = true; 
+    var fields = ["displayName", "name","phoneNumbers"];
+    navigator.contacts.find(fields, extractionContactData, onError, options);
+	
 	try {
 		//로컬스토리지로 변경 - 종혁
 		isSignUp( getLocalItem("myInfo") );
@@ -130,28 +136,69 @@ function onDeviceReady() {
 }
 
 
+
 /**
- * 설  명 :
- * 작성자 : 
+ * 설    명 : 주소록 가져온 정보를 추출하여 contactsList에 저장 후 임시로 세션 스토리지에 저장
+ * 작성자 : 장종혁
+ * P     S  : 친구의 휴대폰 정보는 Base64 md5 형식으로 저장됨. 
  */
-var getAddressBook = function() {
-	console.log("getAddressBook");
-//	console.log(callback, args);
+function extractionContactData(contacts) {
 
+	var contactsList = new Array();
+	var frndList = new Array();
+	
+    for (var i=0; i<contacts.length; i++) {
 
-	/*if ( user.friends && user.friends.data ) {
-	myInfo.friendList = [user.friends.data.length];
-	for ( var i = 0; i < user.friends.data.length; i++ ) {
-		myInfo.friendList[i] = {
-    			frndId: 		user.friends.data[i].id,
-    			mbrId:			myInfo.mbrId,
-    			frndName: 		user.friends.data[i].name,
-    			frndGender:		user.friends.data[i].gender,
-    			frndPhotoUrl: 	user.friends.data[i].picture.data.url
-    	};
-	}
-}*/
+        	if(contacts[i].phoneNumbers==null){
+        		
+        		contactsList[i] = {
+    					type : "notFound",
+    					name : 	contacts[i].displayName,
+    					value : "noHaveValue"
+    			};
+        		
+        	}else{
+        		
+	        		for (var j=0; j<contacts[i].phoneNumbers.length; j++) {
+
+	        			contactsList[i] = {
+	        					type : contacts[i].phoneNumbers[j].type,
+	        					name : 	contacts[i].displayName,
+	        					value : contacts[i].phoneNumbers[j].value
+	        			};
+	        		}
+        	}
+    }
+    
+    var num = 0;
+    console.log(contactsList);
+    for(var i = 0; i<contactsList.length;i++){
+    	
+    //	console.log("정보 )    타입 : " + contactsList[i].type + "   | 이름 : " + contactsList[i].name + "   |번호 : " + contactsList[i].value+"\n");
+
+    	if( contactsList[i].value.substring(0,3)=="010"){
+    		
+    		frndList[num] = {
+    				frndName : contactsList[i].name ,
+    				frndPhoneNo : b64_md5(contactsList[i].value)
+    		};
+    		
+    		num++;
+    		
+    	}
+    	
+    }
+    
+    setSessionItem("frndData",frndList);
+    
 };
+
+
+//onError: Failed to get the contacts
+//
+function onError(contactError) {
+    alert('onError! : '+contactError);
+}
 
 
 /**
@@ -252,14 +299,17 @@ var clickSignupBtn = function(){
 }; 
 
 /**
- * 회원가입
+ * 회원가입 
+ * 
+ * 추가 : 2014-02-25 장종혁 : WebDB에 myInfo값 추가를 위해 서버에서 받은 mbrNo를 받아서 저장.
  */
 var signUp = function( phoneNo, mbrName ) {
 	console.log("signUp(myInfo, phoneNo,mbrName)");
 
 	var params = {
 			mbrName 	: mbrName,
-			mbrPhoneNo 	: phoneNo
+			mbrPhoneNo 	: phoneNo,
+			frndList : getSessionItem("frndData")
 	};
 
 	$.ajax( rootPath + "/auth/signUp.do", {
@@ -272,6 +322,10 @@ var signUp = function( phoneNo, mbrName ) {
 				var myInfo = result.data;
 
 				if ( myInfo ) {
+					
+					//주소록 친구 정보 base64 md5 형식으로 웹DB에 저장.
+					insertFrndTable(getSessionItem("frndData"),myInfo.mbrNo);
+					
 					// 세션스토리지에 저장
 					//setSessionItem("myInfo", myInfo );
 					//로컬스토리지에 저장
