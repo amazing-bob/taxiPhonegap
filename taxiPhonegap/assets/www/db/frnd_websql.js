@@ -37,35 +37,39 @@ var createFrndTable = function (transaction) {
  *   설  명 : 친구정보 추가
  *   작성자 : 장종혁
  */
-var insertFrndTable = function(transaction, frndList, mbrNo ) {
-	console.log("insertFrndTable(frndList, mbrNo)");
-	console.log(frndList, mbrNo);
+var insertFrndTable = function( transaction, frndList ) {
+	console.log("insertFrndTable(transaction, frndList)");
+//	console.log(frndList);
 
 	var sql = 
 		"INSERT INTO FRND "+
-		"	( mbrNo, frndPhoneNo, frndName, frndRegDate) "+
+		"	( mbrNo, frndPhoneNo, frndName, frndRegDate ) "+
 		"VALUES "+
-		"	(     ?,          ?,               ?, ?);";
-	console.log(sql);
-	for(var  i = 0; i < frndList.length; i++){
-		transaction.executeSql(
-				// SQL
-				sql, 
-				// Parameter
-				[
-				 	mbrNo,
-				 	frndList[i].frndPhoneNo,
-				 	frndList[i].frndName,
-				 	frndList[i].frndRegDate
-				 ],
-		 		// Success
-				function() {
-					console.log("insertFrndTable  success");
-				},
-				// Fail
-				function () {
-					console.log("insertFrndTable  fail");
-				});
+		"	(     ?,           ?,        ?,           ? );";
+	if ( frndList && frndList.length > 0 ) {
+		for(var  i = 0; i < frndList.length; i++){
+			transaction.executeSql(
+					// SQL
+					sql, 
+					// Parameter
+					[
+					 	frndList[i].mbrNo,
+					 	frndList[i].frndPhoneNo,
+					 	frndList[i].frndName,
+					 	frndList[i].frndRegDate
+					 ],
+			 		// Success
+					function() {
+						console.log("insertFrndTable  success");
+					},
+					// Fail
+					function () {
+						console.log("insertFrndTable  fail");
+					});
+		}
+		
+	} else {
+		console.log("insertFrndTable  null");
 	}
 			
 };

@@ -40,32 +40,37 @@ var createFvrtLocTable = function (transaction) {
  */
 var insertFvrtLocTable = function( transaction, fvrtLocList ) {
 	console.log("insertFvrtLocTable(fvrtLocList)");
-	console.log(fvrtLocList);
+//	console.log(fvrtLocList);
 
-	for ( var  i = 0; i < fvrtLocList.length; i++ ) {
-		transaction.executeSql(
-				// SQL
-				"INSERT INTO FVRT_LOC "+
-				"	( fvrtLocNo, mbrNo, fvrtLocName, fvrtLocLat, fvrtLocLng, fvrtLocRank ) "+
-				"VALUES "+
-				"	(         ?,     ?,           ?,          ?,           ?,          ? );", 
-				// Parameter
-				[
-					 fvrtLocList[i].fvrtLocNo, 
-					 fvrtLocList[i].mbrNo,
-					 fvrtLocList[i].fvrtLocName,
-					 fvrtLocList[i].fvrtLocLat, 
-					 fvrtLocList[i].fvrtLocLng, 
-					 fvrtLocList[i].fvrtLocRank
-				 ],
-		 		// Success
-				function() {
-					console.log("insertFvrtLocTable  success");
-				},
-				// Fail
-				function () {
-					console.log("insertFvrtLocTable  fail");
-				});
+	if ( fvrtLocList && fvrtLocList.length > 0 ) {
+		for ( var  i = 0; i < fvrtLocList.length; i++ ) {
+			transaction.executeSql(
+					// SQL
+					"INSERT INTO FVRT_LOC "+
+					"	( fvrtLocNo, mbrNo, fvrtLocName, fvrtLocLat, fvrtLocLng, fvrtLocRank ) "+
+					"VALUES "+
+					"	(         ?,     ?,           ?,          ?,           ?,          ? );", 
+					// Parameter
+					[
+						 fvrtLocList[i].fvrtLocNo, 
+						 fvrtLocList[i].mbrNo,
+						 fvrtLocList[i].fvrtLocName,
+						 fvrtLocList[i].fvrtLocLat, 
+						 fvrtLocList[i].fvrtLocLng, 
+						 fvrtLocList[i].fvrtLocRank
+					 ],
+			 		// Success
+					function() {
+						console.log("insertFvrtLocTable  success");
+					},
+					// Fail
+					function () {
+						console.log("insertFvrtLocTable  fail");
+					});
+		}
+		
+	} else {
+		console.log("insertFrndTable  null");
 	}
 };
 

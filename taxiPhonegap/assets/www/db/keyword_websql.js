@@ -41,27 +41,32 @@ var insertKeywordTable = function(transaction, keywordList){
 	console.log("insertKeywordTable(transaction, keywordList)");
 //	console.log(keywordList);
 
-	for ( var  i = 0; i < keywordList.length; i++ ) {
-		transaction.executeSql(
-				// SQL
-				"INSERT INTO KEYWORD "+
-				"	( keywordNo, keywordName, keywordSt ) "+
-				"VALUES "+
-				"	(         ?,           ?,         ? ); ", 
-				// Parameter
-				[
-					keywordList[i].keywordNo, 
-					keywordList[i].keywordName,
-					keywordList[i].keywordSt
-				 ],
-		 		// Success
-				function() {
-					console.log("insertKeywordTable  success");
-				},
-				// Fail
-				function () {
-					console.log("insertKeywordTable  fail");
-				});
+	if ( keywordList && keywordList.length > 0 ) {
+		for ( var  i = 0; i < keywordList.length; i++ ) {
+			transaction.executeSql(
+					// SQL
+					"INSERT INTO KEYWORD "+
+					"	( keywordNo, keywordName, keywordSt ) "+
+					"VALUES "+
+					"	(         ?,           ?,         ? ); ", 
+					// Parameter
+					[
+						keywordList[i].keywordNo, 
+						keywordList[i].keywordName,
+						keywordList[i].keywordSt
+					 ],
+			 		// Success
+					function() {
+						console.log("insertKeywordTable  success");
+					},
+					// Fail
+					function () {
+						console.log("insertKeywordTable  fail");
+					});
+		}
+		
+	} else {
+		console.log("insertFrndTable  null");
 	}
 				
 };
@@ -91,9 +96,8 @@ var selectMyKeywordList = function(text, callback){
 				// Success
 				function (transaction, results) {
 					console.log("selectMyFvrtLocList  success");
-					console.log(results.rows);
+
 					var len = results.rows.length;
-					
 					var keywordList = new Array();
 			        for (var i=0; i<len; i++){
 			        	keywordList[i] = results.rows.item(i);

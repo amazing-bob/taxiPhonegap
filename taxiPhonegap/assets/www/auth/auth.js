@@ -232,9 +232,6 @@ var isSignUp = function( myInfo ) {
 				, function(result) {
 					if(result.status == "success") {
 						myInfo = result.data.myInfo;
-						fvrtLocList = result.data.fvrtLocList;
-						rcntLocList = result.data.rcntLocList;
-						blackList = result.data.blackList;
 						
 						if ( myInfo ) {
 							//로컬 스토리지에 저장
@@ -244,9 +241,10 @@ var isSignUp = function( myInfo ) {
 							executeQuery(
 									// Transaction Execute
 									function(transaction) {
-										insertFvrtLocTable(transaction, fvrtLocList);
-										insertRcntLocTable(transaction, rcntLocList);
-										insertBlackTable(transaction, blackList);
+										insertFrndTable( 	transaction, result.data.frndList);
+										insertFvrtLocTable(	transaction, result.data.fvrtLocList);
+										insertRcntLocTable(	transaction, result.data.rcntLocList);
+										insertBlackTable(	transaction, result.data.blackList);
 									},
 									// Success Callback
 									function() {
@@ -331,19 +329,21 @@ var clickSignupBtn = function(){
 	return false;
 }; 
 
+
 /**
  * 회원가입 
  * 
  * 추가 : 2014-02-25 장종혁 : WebDB에 myInfo값 추가를 위해 서버에서 받은 mbrNo를 받아서 저장.
  */
 var signUp = function( phoneNo, mbrName, keywordNo ) {
-	console.log("signUp(myInfo, phoneNo, mbrName="+keywordNo+")");
+	console.log("signUp(phoneNo, mbrName, keywordNo)");
+//	console.log(phoneNo, mbrName, keywordNo);
 
 	var params = {
-			mbrName 		: 	mbrName,
-			mbrPhoneNo 		: 	phoneNo,
-			keywordNo	: 	keywordNo,
-			frndList : getSessionItem("frndData")
+			mbrName 	: mbrName,
+			mbrPhoneNo 	: phoneNo,
+			keywordNo	: keywordNo,
+			frndList 	: getSessionItem("frndData")
 	};
 
 	$.ajax( rootPath + "/auth/signUp.do", {
@@ -353,7 +353,8 @@ var signUp = function( phoneNo, mbrName, keywordNo ) {
 		contentType: "application/json",
 		success: function(result) {
 			if(result.status == "success") {
-				var myInfo = result.data;
+				console.log(result.data);
+				var myInfo = result.data.myInfo;
 
 				if ( myInfo ) {
 					//로컬스토리지에 저장
@@ -363,7 +364,10 @@ var signUp = function( phoneNo, mbrName, keywordNo ) {
 					executeQuery(
 							// Transaction Execute
 							function(transaction) {
-								insertFrndTable( result.data.frndList, myInfo.mbrNo);
+								insertFrndTable( 	transaction, result.data.frndList);
+								insertFvrtLocTable(	transaction, result.data.fvrtLocList);
+								insertRcntLocTable(	transaction, result.data.rcntLocList);
+								insertBlackTable(	transaction, result.data.blackList);
 							}, 
 							// Success Callback
 							function() {

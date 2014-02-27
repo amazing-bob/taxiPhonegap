@@ -40,27 +40,32 @@ var insertBlackTable = function( transaction, blackList ) {
 	console.log("insertBlackTable(blackList)");
 //	console.log(blackList);
 
-	for(var  i = 0; i < blackList.length; i++){
-		transaction.executeSql(
-				// SQL
-				"INSERT INTO BLACK "+
-				"	( mbrNo, blackMbrNo, blackMbrRegDate ) "+
-				"VALUES "+
-				"	(     ?,          ?,               ? );", 
-				// Parameter
-				[
-				 	blackList[i].mbrNo,
-					blackList[i].blackMbrNo, 
-					blackList[i].blackMbrRegDate
-				 ],
-		 		// Success
-				function() {
-					console.log("insertBlackTable  success");
-				},
-				// Fail
-				function () {
-					console.log("insertBlackTable  fail");
-				});
+	if ( blackList && blackList.length > 0 ) {
+		for(var  i = 0; i < blackList.length; i++){
+			transaction.executeSql(
+					// SQL
+					"INSERT INTO BLACK "+
+					"	( mbrNo, blackMbrNo, blackMbrRegDate ) "+
+					"VALUES "+
+					"	(     ?,          ?,               ? );", 
+					// Parameter
+					[
+					 	blackList[i].mbrNo,
+						blackList[i].blackMbrNo, 
+						blackList[i].blackMbrRegDate
+					 ],
+			 		// Success
+					function() {
+						console.log("insertBlackTable  success");
+					},
+					// Fail
+					function () {
+						console.log("insertBlackTable  fail");
+					});
+		}
+		
+	} else {
+		console.log("insertFrndTable  null");
 	}
 			
 };

@@ -43,31 +43,36 @@ var insertRcntLocTable = function( transaction, rcntLocList ) {
 	console.log("insertRcntLocTable(rcntLocList)");
 //	console.log(rcntLocList);
 
-	for(var  i = 0; i < rcntLocList.length; i++){
-		transaction.executeSql(
-				// SQL
-				"INSERT INTO RCNT_LOC "+
-				"	( rcntLocNo, mbrNo, rcntLocName, rcntLocSt, rcntLocLat, rcntLocLng, rcntLocRegDate ) "+
-				"VALUES "+
-				"	(         ?,     ?,           ?,         ?,           ?,         ?,              ? );", 
-				// Parameter
-				[
-					 rcntLocList[i].rcntLocNo, 
-					 rcntLocList[i].mbrNo,
-					 rcntLocList[i].rcntLocName,
-					 rcntLocList[i].rcntLocSt,
-					 rcntLocList[i].rcntLocLat, 
-					 rcntLocList[i].rcntLocLng, 
-					 rcntLocList[i].rcntLocRegDate
-				 ],
-		 		// Success
-				function() {
-					console.log("insertRcntLocTable  success");
-				},
-				// Fail
-				function () {
-					console.log("insertRcntLocTable  fail");
-				});
+	if ( rcntLocList && rcntLocList.length > 0 ) {
+		for(var  i = 0; i < rcntLocList.length; i++){
+			transaction.executeSql(
+					// SQL
+					"INSERT INTO RCNT_LOC "+
+					"	( rcntLocNo, mbrNo, rcntLocName, rcntLocSt, rcntLocLat, rcntLocLng, rcntLocRegDate ) "+
+					"VALUES "+
+					"	(         ?,     ?,           ?,         ?,           ?,         ?,              ? );", 
+					// Parameter
+					[
+						 rcntLocList[i].rcntLocNo, 
+						 rcntLocList[i].mbrNo,
+						 rcntLocList[i].rcntLocName,
+						 rcntLocList[i].rcntLocSt,
+						 rcntLocList[i].rcntLocLat, 
+						 rcntLocList[i].rcntLocLng, 
+						 rcntLocList[i].rcntLocRegDate
+					 ],
+			 		// Success
+					function() {
+						console.log("insertRcntLocTable  success");
+					},
+					// Fail
+					function () {
+						console.log("insertRcntLocTable  fail");
+					});
+		}
+		
+	} else {
+		console.log("insertFrndTable  null");
 	}
 			
 };
