@@ -24,7 +24,8 @@
 <!--  상용key -->
 <!--<script src="http://map.ktgis.com/MapAPI/serviceJSP/AuthAPI.jsp?key=VThnQjRtU3ZPUHlUQkxKWVMzeU1HaVpkM2ljQ1RNNWQ3Y0JXT05wc2IyZTB2QlByOFk6dUNvYm9tbHROMUZQR0NCVjB1SnZyZngxQ1dhb3JkV21DY1U4Rm0wZkJKelhqQlN6VkE=&module=Map,Geocoder,Directions"></script>-->
 <!-- Olleh 예제키 -->
-<script src="http://map.ktgis.com/MapAPI/serviceJSP/AuthAPI.jsp?key=ODEwMDFFRkE6VDc3REVGRjhCMUQzMzA=&module=Map,Geocoder,Directions"></script>
+<script
+	src="http://map.ktgis.com/MapAPI/serviceJSP/AuthAPI.jsp?key=ODEwMDFFRkE6VDc3REVGRjhCMUQzMzA=&module=Map,Geocoder,Directions"></script>
 
 <!-- md5 -->
 <script src="../lib/md5.js"></script>
@@ -47,107 +48,127 @@
 </head>
 
 <body>
-<div id="roomPage" data-role="page" data-theme="none" data-iscroll="enable">
-	<!-- room color sign -->
-	<div id="roomColor">
-		<img id="colorClear" src="../images/common/cancle-icon.png">
-	</div>
-	<!-- Header  -->
-	<section id="roomSubHeader" data-flag="close" data-theme="none" data-role="header" data-position="fixed" data-tap-toggle="false">
-		<ul id="roomHeaderUl" data-theme="none" data-role="listview" data-inset="true" data-corners="false">
-		    <li data-theme="none" style="padding: 0;">
-				<span id="roomStartTime"></span>
-				<span id="roomStartDay" style="margin-top:24px; font:110%;"></span>
-				<span id="fareName"></span>
-				<span id="totalFareName"></span>
-				<span id="myFare"></span>
-				<span id="roomFare"></span>
-				<span hidden="ture" id="roomNo"></span>
-			</li>
-		</ul>
-	</section>
+	<div id="roomPage" data-role="page" data-theme="none"
+		data-iscroll="enable">
 
-
-	<!-- content -->
-	<section id="contentHome" data-role="content" data-theme="none">
-		<div id="divMapWrap">
-			<a href="#" id="btnExitRoom" data-rel="popup" >
-				<img id="exitRoom" src="../images/common/button/out_room.png">
-			</a>
-			<!-- sign button -->
-			<a id="btnColorSign" data-rel="popup" >
-				<img id="colorSign" src="../images/common/star-hi.png">
-			</a>
-			<span id="roomDistance"></span>
-			<div id="canvas_map"></div>
-			<div id="divRoomList"  data-theme="none" data-tap-toggle="false" data-flag="close"></div>
+		
+		<!-- room color sign -->
+		<div id="roomColor">
+			<img id="colorClear" src="../images/common/cancle-icon.png">
+		</div>
+		<!-- Header  -->
+		<section id="roomSubHeader" data-flag="close" data-theme="none"
+			data-role="header" data-position="fixed" data-tap-toggle="false">
+			<ul id="roomHeaderUl" data-theme="none" data-role="listview"
+				data-inset="true" data-corners="false">
+				<li data-theme="none" style="padding: 0;"><span
+					id="roomStartTime"></span> <span id="roomStartDay"
+					style="margin-top: 24px; font: 110%;"></span> <span id="fareName"></span>
+					<span id="totalFareName"></span> <span id="myFare"></span> <span
+					id="roomFare"></span> <span hidden="ture" id="roomNo"></span></li>
+			</ul>
+		</section>
+		<!-- 왼쪽패널 -->
+		<div data-role="panel" id="leftPanel" data-display="overlay"
+			data-position="left" data-theme="none">
+			<ul>
+				<li><a href="#btnSettings" id="btnSettings" class="contentLink">설정
+				</a></li>
+				<li><a href="#home" id="btnComment" class="contentLink">의견보내기</a></li>
+			</ul>
 		</div>
 
-		<div id="commentList">
-			<section>
-				<ul data-role="listview" data-theme="c" data-inset="true" data-corners="false" id="aaa">
-				    <li data-inset="true">
-				    	<img id="imgMbrPhoto"  src="">
-						<span id="mbrName"></span>
-				        <input type="text" data-theme="c" id="reply" placeholder="한줄 댓글 달기" value="" data-mini="true">
-					</li>
-				</ul>
-			</section>
-	
-			<section id="feedView">
-				<ul id="thelist" data-iscroll="enable" class="listViewUl" data-role="listview" data-inset="true" data-corners="false">
-				</ul>
-			</section>
-		</div>
-	</section>
-	
-	<!-- 나가기 팝업 -->
-	<div id="popupExit_popup" data-role="popup" data-theme="none" data-dismissible="true"
-			data-inset="true" data-overlay-theme="a" data-corners="false">
-		<ul id="exitUi" data-role="listview" data-inset="true"  data-theme="d"  data-corners="false">
-			<li class="exitHeader title_li"  data-role="list-divider" data-theme="c">방 나가기</li>
-			<li class="outText">
-				<span class="outTextSpan">정말 방에서 나가시겠습니까?</span>
-			</li>
-			<li class="liBtnArea">
-				<div class="divCancel">
-					<a class="cancelExit" data-theme="none" data-rel="back" href="#" data-corners="false">
-						<span class="spanCancel">취소</span>
-					</a>
-				</div>
-				<div id="divExit">
-                	<a id="outRoom" href="#" data-theme="none" data-corners="false">
-                		<span id="spanExit">나가기</span>
-                	</a>
-				</div>
-			</li>
-		</ul>
-	</div>
 
-	<!-- 전화걸기 팝업 -->
-	<div id="popupCall_popup" data-role="popup" data-theme="none" data-dismissible="true"
-			data-inset="true" data-overlay-theme="a" data-corners="false">
-		<ul id="exitUi" data-role="listview" data-inset="true"  data-theme="d"  data-corners="false">
-			<li class="exitHeader title_li" data-role="list-divider" data-theme="c">전화걸기</li>
-			<li class="outText">
-				<span id="callTextSpan"></span>
-				<span class="outTextSpan">님에게 전화하시겠습니까?</span>
-			</li>
-			<li class="liBtnArea">
-				<div class="divCancel">
-					<a class="cancelExit" data-theme="none" data-rel="back" href="#" data-corners="false">
-						<span class="spanCancel">취소</span>
-					</a>
-				</div>
-				<div id="divCallMbr">
-                	<a id="callRoom" href="#" data-theme="none" data-corners="false">
-                		<span id="spanCall">통화하기</span>
-                	</a>
-				</div>
-			</li>
-		</ul>
-	</div>	
-</div> <!-- end page -->
+		<!-- content -->
+		<section id="contentHome" data-role="content" data-theme="none">
+			<div id="divMapWrap">
+				<a href="#" id="btnExitRoom" data-rel="popup"> <img
+					id="exitRoom" src="../images/common/button/out_room.png">
+				</a>
+				<!-- sign button -->
+				<a id="btnColorSign" data-rel="popup"> <img id="colorSign"
+					src="../images/common/star-hi.png">
+				</a> <span id="roomDistance"></span>
+				<div id="canvas_map"></div>
+				<div id="divRoomList" data-theme="none" data-tap-toggle="false"
+					data-flag="close"></div>
+			</div>
+
+			<div id="commentList">
+				<section>
+					<ul data-role="listview" data-theme="c" data-inset="true"
+						data-corners="false" id="aaa">
+						<li data-inset="true"><img id="imgMbrPhoto" src=""> <span
+							id="mbrName"></span> <input type="text" data-theme="c" id="reply"
+							placeholder="한줄 댓글 달기" value="" data-mini="true"></li>
+					</ul>
+				</section>
+
+				<section id="feedView">
+					<ul id="thelist" data-iscroll="enable" class="listViewUl"
+						data-role="listview" data-inset="true" data-corners="false">
+					</ul>
+				</section>
+			</div>
+			<!-- 왼쪽패널 버튼 -->
+			<a id="btnShowMenu" data-enhance="false"> <img
+				src="../images/common/menu.png">
+			</a>
+		</section>
+
+
+		<!-- 나가기 팝업 -->
+		<div id="popupExit_popup" data-role="popup" data-theme="none"
+			data-dismissible="true" data-inset="true" data-overlay-theme="a"
+			data-corners="false">
+			<ul id="exitUi" data-role="listview" data-inset="true" data-theme="d"
+				data-corners="false">
+				<li class="exitHeader title_li" data-role="list-divider"
+					data-theme="c">방 나가기</li>
+				<li class="outText"><span class="outTextSpan">정말 방에서
+						나가시겠습니까?</span></li>
+				<li class="liBtnArea">
+					<div class="divCancel">
+						<a class="cancelExit" data-theme="none" data-rel="back" href="#"
+							data-corners="false"> <span class="spanCancel">취소</span>
+						</a>
+					</div>
+					<div id="divExit">
+						<a id="outRoom" href="#" data-theme="none" data-corners="false">
+							<span id="spanExit">나가기</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<!-- 전화걸기 팝업 -->
+		<div id="popupCall_popup" data-role="popup" data-theme="none"
+			data-dismissible="true" data-inset="true" data-overlay-theme="a"
+			data-corners="false">
+			<ul id="exitUi" data-role="listview" data-inset="true" data-theme="d"
+				data-corners="false">
+				<li class="exitHeader title_li" data-role="list-divider"
+					data-theme="c">전화걸기</li>
+				<li class="outText"><span id="callTextSpan"></span> <span
+					class="outTextSpan">님에게 전화하시겠습니까?</span></li>
+				<li class="liBtnArea">
+					<div class="divCancel">
+						<a class="cancelExit" data-theme="none" data-rel="back" href="#"
+							data-corners="false"> <span class="spanCancel">취소</span>
+						</a>
+					</div>
+					<div id="divCallMbr">
+						<a id="callRoom" href="#" data-theme="none" data-corners="false">
+							<span id="spanCall">통화하기</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- end page -->
+
 </body>
 </html>
 

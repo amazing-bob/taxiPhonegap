@@ -26,9 +26,10 @@ $(document).ready(function(){
 	document.addEventListener("deviceready", onDeviceReady, false);
 
 	var params = getHrefParams();
-	
+
 	var roomNo = params.roomNo;  
 	var contentHeight = $(window).height();
+	contentWidth = $("#roomPage").outerWidth();
 //	console.log(contentHeight);
 //	console.log($("#mainHeader").outerHeight());
 //	console.log($("#content").outerHeight());
@@ -38,64 +39,120 @@ $(document).ready(function(){
 
 //	loginInfo();
 //	개인 세션 정보로 Select
+
+
+	$("<div>")
+	.attr("id", "blackImage")
+	.css("width",(contentWidth + 2) + "px")
+	// .css("width","100%")
+	.css("height",contentHeight + "px")
+	// .css("height","100%")
+	.css("background","black")
+	.css("z-index","9998")
+	.css("left","-1px")
+	.css("top","0")
+	.css("position","absolute")
+	.css("opacity","0.5")
+	.css("visibility","hidden")
+	.appendTo($("#roomPage"));
+
+	$("#btnSettings").click(function(event) {
+//		event.stopPropagation();
+		changeHref("../settings/settings.html");
+		return false;
+	});
+	
+	$("#btnComment").click(function(event) {
+//		event.stopPropagation();
+		changeHref("../comment/comment.html");
+		return false;
+	});
+
+	$("#leftPanel ul li a:link").css("width", ((contentWidth / 2) -10) + "px");
+	$("#leftPanel ul li a:visited").css("width", ((contentWidth / 2) - 10) + "px");
+	$(".ui-panel").css("width", (contentWidth / 2) + "px");
+	
+	
+	$("#blackImage").on({
+//		touchend:function(){
+			click:function(){
+	    	$("#leftPanel").panel("close");
+	    	$("#blackImage").css("visibility","hidden");
+		},
+		swipeleft: function() {
+			$("#leftPanel").panel("close");
+	    	$("#blackImage").css("visibility","hidden");
+		}
+	});
+	
 	$("#divMapWrap").css("height",(contentHeight * 2 / 3) + "px");
 	getRoomInfo(roomNo);
 	getFeedList(roomNo);
 
+
+	$("#btnShowMenu").click(function() {
+		$("#leftPanel").panel("open");
+		backgroundBlack();
+		return false;
+	});
+	
+	$( "#leftPanel" ).on( "panelbeforeclose", function() {
+		$("#blackImage").css("visibility","hidden");
+	} );
 	$(document).on('keypress', '#reply', function(evt){
 
-	        var keyPressed = evt.which || evt.keyCode;
-	        var mbrNo = myInfo.mbrNo;
+		var keyPressed = evt.which || evt.keyCode;
+		var mbrNo = myInfo.mbrNo;
 
-	        if (keyPressed == 13) {
+		if (keyPressed == 13) {
 
-	        	var feedContent = $("#reply").val();
-	        	$("#reply").val("");
-	        	addFeed(mbrNo, feedContent, roomNo);
-	        }
-	 });
+			var feedContent = $("#reply").val();
+			$("#reply").val("");
+			addFeed(mbrNo, feedContent, roomNo);
+		}
+	});
 
-	 $(document).on("click", ".btnDelete", function(event){
-		 event.stopPropagation();
-		 var mbrNo = $(this).attr("data-mbrNo");
-		 var feedNo = $(this).attr("data-feedNo");
-		 var roomNo = $(this).attr("data-roomNo");
-		 console.log("=============&&&&&&&&&&&&");
-		 console.log(mbrNo +feedNo +roomNo );
-		 deleteFeed(mbrNo, feedNo, roomNo);
+	$(document).on("click", ".btnDelete", function(event){
+		event.stopPropagation();
+		var mbrNo = $(this).attr("data-mbrNo");
+		var feedNo = $(this).attr("data-feedNo");
+		var roomNo = $(this).attr("data-roomNo");
+		console.log("=============&&&&&&&&&&&&");
+		console.log(mbrNo +feedNo +roomNo );
+		deleteFeed(mbrNo, feedNo, roomNo);
 
-		 return false;
-	 });
+		return false;
+	});
 
-	 $("#icons").click(function(event){
-		 event.stopPropagation();
-		 changeHref("../home/home.html");
+	$("#icons").click(function(event){
+		event.stopPropagation();
+		changeHref("../home/home.html");
 
-		 return false;
-	 });
+		return false;
+	});
 
-	 $(document).on("click", "#exitRoom",function(){
-			$("#popupExit_popup").popup("open", {
-				transition : "pop"
-			});
+	$(document).on("click", "#exitRoom",function(){
+		$("#popupExit_popup").popup("open", {
+			transition : "pop"
+		});
 
-			return false;
-	 });
+		return false;
+	});
 
-	 $(document).on("click", "#cancleExit", function(event){
-		 	event.stopPropagation();
-			$("#popupExit_popup").popup("close", {
-				transition : "pop"
-			});
+	$(document).on("click", "#cancleExit", function(event){
+		event.stopPropagation();
+		$("#popupExit_popup").popup("close", {
+			transition : "pop"
+		});
 
-			return false;
-	 });
-	 $("#popupExit_popup").on("popupafterclose", function(event, ui) {
-		 $(this).data("isOpen", false);
-	 });
-	 $("#popupExit_popup").on("popupafteropen", function(event, ui) {
-		 $(this).data("isOpen", true);
-	 });
+		return false;
+	});
+	$("#popupExit_popup").on("popupafterclose", function(event, ui) {
+		$(this).data("isOpen", false);
+	});
+	$("#popupExit_popup").on("popupafteropen", function(event, ui) {
+		$(this).data("isOpen", true);
+	});
 
 	$("#popupCall_popup").on("popupafterclose", function(event, ui) {
 		$(this).data("isOpen", false);
@@ -105,85 +162,85 @@ $(document).ready(function(){
 	});
 
 
-	 $("#outRoom").on("click", function(event){
+	$("#outRoom").on("click", function(event){
 
-		 event.stopPropagation();
+		event.stopPropagation();
 
-		 var mbrNo = myInfo.mbrNo;
-		 var roomNo = $("#roomNo").attr("data-roomNo");
-		 outRoom(mbrNo, roomNo);
+		var mbrNo = myInfo.mbrNo;
+		var roomNo = $("#roomNo").attr("data-roomNo");
+		outRoom(mbrNo, roomNo);
 
-		 return false;
-	 });
+		return false;
+	});
 
-	 $(document).on("click", "#colorSign",function(){
-		 var screenWidth = $(document).width();
-		 var screenHeight = $(document).height(); 
-		 $('#roomColor').css({'width':screenWidth,'height':screenHeight, 'background-color':thisRoomColor});
-		 $('#roomColor').fadeIn(0);      
-		 $('#roomColor').fadeTo("speed",1.0);
-	 });
-	 $(document).on("click", "#colorClear",function(){
-		 $('#roomColor').css('display',"none");
-	 });
+	$(document).on("click", "#colorSign",function(){
+		var screenWidth = $(document).width();
+		var screenHeight = $(document).height(); 
+		$('#roomColor').css({'width':screenWidth,'height':screenHeight, 'background-color':thisRoomColor});
+		$('#roomColor').fadeIn(0);      
+		$('#roomColor').fadeTo("speed",1.0);
+	});
+	$(document).on("click", "#colorClear",function(){
+		$('#roomColor').css('display',"none");
+	});
 
-	 // Swipe 관련
-	 $(function() {
-		 $(document).swipe({
-			  swipe:function(event, direction) {
+	// Swipe 관련
+	$(function() {
+		$(document).swipe({
+			swipe:function(event, direction) {
 
-			    if(direction == "up" && event.target.offsetParent.id == "divRoomList") {
-			    	if($("#roomSubHeader").attr("data-flag") == "open"){
-			    		closePanel(event);
+				if(direction == "up" && event.target.offsetParent.id == "divRoomList") {
+					if($("#roomSubHeader").attr("data-flag") == "open"){
+						closePanel(event);
 					}
-			    } else if(direction == "right") {
-			    	if($("#roomSubHeader").attr("data-flag") == "open"){
-			    		closePanel(event);
+				} else if(direction == "right") {
+					if($("#roomSubHeader").attr("data-flag") == "open"){
+						closePanel(event);
 					}
-			    } else if(direction == "left") {
-			    	if($("#roomSubHeader").attr("data-flag") == "open"){
-			    		closePanel(event);
+				} else if(direction == "left") {
+					if($("#roomSubHeader").attr("data-flag") == "open"){
+						closePanel(event);
 					}
-			    } else if(direction == "down" && event.target.className != "TileImage"){
-			    	if($("#roomSubHeader").attr("data-flag") == "close"){
-			    		openPanel(event);
-			    	}
-			    } else if(direction == "left"){
-			    	if($("#roomSubHeader").attr("data-flag") == "close"){
-			    		openPanel(event);
-			    	}
-			    } else if(direction == "right"){
-			    	if($("#roomSubHeader").attr("data-flag") == "close"){
-			    		openPanel(event);
-			    	}
-			    }
-
-			  },
-			  allowPageScroll:"none",
-			  triggerOnTouchEnd : true,
-			  excludedElements:$.fn.swipe.defaults.excludedElements+"#divMapWrap, #commentList, " +
-			  														".divCall1, .divCall2, .divCall3, .divCall4," +
-			  														"#popupExit_popup-screen, #popupExit"
-			});
-
-			$("#roomPage").on("click", "#roomSubHeader",function(event){
-				console.log("click" + event);
-				if(event.type == "click" && $("#roomSubHeader").attr("data-flag") == "close"){
-					openPanel(event);
-				} else if(event.type == "click" && ($("#divRoomList").attr("data-flag") == "open")){
-					closePanel(event);
+				} else if(direction == "down" && event.target.className != "TileImage"){
+					if($("#roomSubHeader").attr("data-flag") == "close"){
+						openPanel(event);
+					}
+				} else if(direction == "left"){
+					if($("#roomSubHeader").attr("data-flag") == "close"){
+						openPanel(event);
+					}
+				} else if(direction == "right"){
+					if($("#roomSubHeader").attr("data-flag") == "close"){
+						openPanel(event);
+					}
 				}
 
-				return false;
-			});
+			},
+			allowPageScroll:"none",
+			triggerOnTouchEnd : true,
+			excludedElements:$.fn.swipe.defaults.excludedElements+"#divMapWrap, #commentList, " +
+			".divCall1, .divCall2, .divCall3, .divCall4," +
+			"#popupExit_popup-screen, #popupExit"
+		});
 
-	 });
+		$("#roomPage").on("click", "#roomSubHeader",function(event){
+			console.log("click" + event);
+			if(event.type == "click" && $("#roomSubHeader").attr("data-flag") == "close"){
+				openPanel(event);
+			} else if(event.type == "click" && ($("#divRoomList").attr("data-flag") == "open")){
+				closePanel(event);
+			}
+
+			return false;
+		});
+
+	});
 
 	document.addEventListener('DOMMouseScroll', moveObject, false);
 	document.onmousewheel = moveObject;
 
 	$(document).bind("touchstart touchend", "#commentList",function(event){
-//				console.log(event.toElement);
+//		console.log(event.toElement);
 		event.stopPropagation();
 	});
 
@@ -191,7 +248,7 @@ $(document).ready(function(){
 	$(document).on("click", ".divCall0",function(event){
 		event.stopPropagation();
 		beforeCall( $(event.currentTarget)[0].dataset.callname,
-						$(event.currentTarget)[0].dataset.mbrphoneno);
+				$(event.currentTarget)[0].dataset.mbrphoneno);
 
 		return false;
 	});
@@ -199,7 +256,7 @@ $(document).ready(function(){
 	$(document).on("click", ".divCall1",function(event){
 		event.stopPropagation();
 		beforeCall( $(event.currentTarget)[0].dataset.callname,
-						$(event.currentTarget)[0].dataset.mbrphoneno);
+				$(event.currentTarget)[0].dataset.mbrphoneno);
 
 		return false;
 	});
@@ -207,7 +264,7 @@ $(document).ready(function(){
 	$(document).on("click", ".divCall2",function(event){
 		event.stopPropagation();
 		beforeCall( $(event.currentTarget)[0].dataset.callname,
-						$(event.currentTarget)[0].dataset.mbrphoneno);
+				$(event.currentTarget)[0].dataset.mbrphoneno);
 
 		return false;
 	});
@@ -215,7 +272,7 @@ $(document).ready(function(){
 	$(document).on("click", ".divCall3",function(event){
 		event.stopPropagation();
 		beforeCall( $(event.currentTarget)[0].dataset.callname,
-						$(event.currentTarget)[0].dataset.mbrphoneno);
+				$(event.currentTarget)[0].dataset.mbrphoneno);
 
 		return false;
 	});
@@ -231,22 +288,22 @@ $(document).ready(function(){
 	$("<div>")
 	.addClass("divHeaderLine")
 	.attr("data-flag", "close")
-				  		.append($("<a>")
-				  		.attr("href", "#")
-				  		.attr("id", "btnHeaderVar")
-								.append(
-										$("<img>")
-												  .attr("src", "../images/common/defaultvar.png")
-												  .attr("id", "headerVar")
-												  .addClass("headerVar")))
-	.appendTo(divRoomList);
+	.append($("<a>")
+			.attr("href", "#")
+			.attr("id", "btnHeaderVar")
+			.append(
+					$("<img>")
+					.attr("src", "../images/common/defaultvar.png")
+					.attr("id", "headerVar")
+					.addClass("headerVar")))
+					.appendTo(divRoomList);
 
 
 });
 
 function beforeCall(mbrName, phoneNo){
 	$("#callTextSpan").text(mbrName)
-					  .attr("data-phoneno", phoneNo);
+	.attr("data-phoneno", phoneNo);
 	$("#popupCall_popup").popup("open", {
 		transition : "pop"
 	});
@@ -265,7 +322,7 @@ function openPanel(event){
 	$("#roomSubHeader").attr("data-flag", "open");
 	$(".divHeaderLine").attr("data-flag", "open");
 	$("#divRoomList").attr("data-flag", "open").
-				transition({y: ''+ ($("#divRoomList").height() - 11) +'px'}, 300, 'linear');
+	transition({y: ''+ ($("#divRoomList").height() - 11) +'px'}, 300, 'linear');
 	$("#headerVar").attr("src", "../images/common/upheadervar.png");
 
 }
@@ -283,16 +340,16 @@ function closePanel(event){
 
 function moveObject(event) {
 	if($("#roomSubHeader").attr("data-flag") == "close"){
-			console.log("close" + event);
-		  event.preventDefault();
-		  event.stopPropagation();
-		  event.returnValue = true;
+		console.log("close" + event);
+		event.preventDefault();
+		event.stopPropagation();
+		event.returnValue = true;
 
 	} else {
-			console.log("open" + event);
-		  event.preventDefault();
-		  event.stopPropagation();
-		  event.returnValue = false;
+		console.log("open" + event);
+		event.preventDefault();
+		event.stopPropagation();
+		event.returnValue = false;
 	}
 }
 
@@ -329,12 +386,12 @@ var initRoute = function() {
 var searchRoute = function ( startX, startY, endX, endY, callbackFunc, waypoints ) {
 	console.log("searchRoute()");
 	var DirectionsRequest = {
-		origin 		: new olleh.maps.Coord( startX, startY ),
-		destination : new olleh.maps.Coord( endX, endY ),
-		waypoints 	: waypoints,
-		projection 	: olleh.maps.DirectionsProjection.UTM_K,
-		travelMode	: olleh.maps.DirectionsTravelMode.DRIVING,
-		priority  		: olleh.maps.DirectionsDrivePriority.PRIORITY_3
+			origin 		: new olleh.maps.Coord( startX, startY ),
+			destination : new olleh.maps.Coord( endX, endY ),
+			waypoints 	: waypoints,
+			projection 	: olleh.maps.DirectionsProjection.UTM_K,
+			travelMode	: olleh.maps.DirectionsTravelMode.DRIVING,
+			priority  		: olleh.maps.DirectionsDrivePriority.PRIORITY_3
 	};
 	directionsService.route(DirectionsRequest, callbackFunc);
 };
@@ -360,12 +417,12 @@ var directionsService_callback = function (data) {
 			(DirectionsResult.result.total_distance.value / 142) * 120;
 
 //		var durationFare =
-//				Math.round(((
-//					(Math.round(DirectionsResult.result.total_duration.value) * 60) - 540) / 35) * 100);
+//		Math.round(((
+//		(Math.round(DirectionsResult.result.total_duration.value) * 60) - 540) / 35) * 100);
 
 		var totalFare = Math.round(distanceFare + 3600);
-			totalFare = totalFare.toString().substr(
-												0, totalFare.toString().length -2).concat("00");
+		totalFare = totalFare.toString().substr(
+				0, totalFare.toString().length -2).concat("00");
 
 		console.log(totalFare);
 		distance = DirectionsResult.result.total_distance.value  / 10.0;
@@ -373,14 +430,14 @@ var directionsService_callback = function (data) {
 
 		$("#roomDistance").text( distance +"km");
 		$("#totalFareName").text("할증요금")
-							.css("background-color", "crimson")
-							.css("color", "lightyellow");
+		.css("background-color", "crimson")
+		.css("color", "lightyellow");
 
 		$("#roomFare").text( totalFare + "원");
 
 		var roomFare = ((totalFare / memberCount) / 100);
 		var myFare = roomFare.toString().substr(
-								0, totalFare.toString().length -2).concat("00").replace(".", "");
+				0, totalFare.toString().length -2).concat("00").replace(".", "");
 		console.log(myFare);
 		$("#myFare").text( myFare + "원");
 
@@ -393,12 +450,12 @@ var directionsService_callback = function (data) {
 			(DirectionsResult.result.total_distance.value / 142) * 100;
 
 //		var durationFare =
-//				Math.round(((
-//					(Math.round(DirectionsResult.result.total_duration.value) * 60) - 540) / 35) * 100) / 2;
+//		Math.round(((
+//		(Math.round(DirectionsResult.result.total_duration.value) * 60) - 540) / 35) * 100) / 2;
 
 		var totalFare = Math.round(distanceFare + 3000);
-			totalFare = totalFare.toString().substr(
-												0, totalFare.toString().length -2).concat("00");
+		totalFare = totalFare.toString().substr(
+				0, totalFare.toString().length -2).concat("00");
 
 		distance = DirectionsResult.result.total_distance.value  / 10.0;
 		distance = Math.round(distance) / 100;
@@ -407,14 +464,14 @@ var directionsService_callback = function (data) {
 
 		var roomFare = ((totalFare / memberCount) / 100);
 		var myFare = roomFare.toString().substr(
-								0, totalFare.toString().length -2).concat("00").replace(".", "");
+				0, totalFare.toString().length -2).concat("00").replace(".", "");
 
 		$("#myFare").text( myFare + "원");
 		$("#roomDistance").text( distance +"km");
 
 		$("#totalFareName").text("Total")
-						   .css("background-color", "wheat")
-						   .css("color", "darkgreen");
+		.css("background-color", "wheat")
+		.css("color", "darkgreen");
 
 	}
 
@@ -425,29 +482,29 @@ var directionsService_callback = function (data) {
 		if ( routes[i].type == "999" ) {
 			directionMarkers[directionMarkers.length] = setWaypointMarker(
 					new olleh.maps.Coord( routes[i].point.x, routes[i].point.y ),
-					"../images/common/marker/MapMarker_Marker_Outside_Azure.png" );
+			"../images/common/marker/MapMarker_Marker_Outside_Azure.png" );
 			strCoord = new olleh.maps.Coord( routes[i].point.x, routes[i].point.y );
 		}
 
 		if ( routes[i].type == "1000" ) {
 			directionMarkers[directionMarkers.length] = setWaypointMarker(
 					new olleh.maps.Coord( routes[i].point.x, routes[i].point.y ),
-					"../images/common/marker/MapMarker_Marker_Outside_Pink.png" );
+			"../images/common/marker/MapMarker_Marker_Outside_Pink.png" );
 		}
 
 		if ( routes[i].type == "1001" ) {
 			directionMarkers[directionMarkers.length] = setWaypointMarker(
 					new olleh.maps.Coord( routes[i].point.x, routes[i].point.y ),
-					"../images/common/marker/MapMarker_Marker_Outside_Chartreuse.png" );
+			"../images/common/marker/MapMarker_Marker_Outside_Chartreuse.png" );
 		}
 	}
 
 	var DirectionsRendererOptions = {
-		directions : DirectionsResult,
-		map : map,
-		keepView : true,
-		offMarkers : true,
-		offPolylines : false
+			directions : DirectionsResult,
+			map : map,
+			keepView : true,
+			offMarkers : true,
+			offPolylines : false
 	};
 
 	directionsRenderer = new olleh.maps.DirectionsRenderer(DirectionsRendererOptions);
@@ -483,10 +540,10 @@ var strRefresh = function() {
 var setWaypointMarker = function( coord, imageUrl ) {
 	console.log("setWaypointMarker()");
 	var icon = new olleh.maps.MarkerImage(
-		imageUrl,
-		new olleh.maps.Size(30, 30),
-		new olleh.maps.Pixel(0,0),
-		new olleh.maps.Pixel(15, 30)
+			imageUrl,
+			new olleh.maps.Size(30, 30),
+			new olleh.maps.Pixel(0,0),
+			new olleh.maps.Pixel(15, 30)
 	);
 	var marker = new olleh.maps.Marker({
 		position: coord,
@@ -495,7 +552,7 @@ var setWaypointMarker = function( coord, imageUrl ) {
 		icon: icon,
 		title : 'Current Location',
 		zIndex : 1
-  	});
+	});
 
 	return marker;
 };
@@ -509,91 +566,91 @@ var outRoom = function (mbrNo, roomNo) {
 //	console.log(mbrNo, roomNo);
 
 	var params = {
-		mbrNo 	: mbrNo,
-		roomNo 	: roomNo 
+			mbrNo 	: mbrNo,
+			roomNo 	: roomNo 
 	};
 	$.getJSON( rootPath + "/room/outRoom.do"
 			, params
 			, function( result ) {
-				if(result.status == "success") {
-					// myRoom SessionStorage에 방 정보 제거
-					removeSessionItem("myRoom");
-					
-					changeHref("../home/home.html");
+		if(result.status == "success") {
+			// myRoom SessionStorage에 방 정보 제거
+			removeSessionItem("myRoom");
 
-				} else {
-					alert("실행중 오류발생!"); 
-					console.log(result.data);
-				}
-			 });
+			changeHref("../home/home.html");
+
+		} else {
+			alert("실행중 오류발생!"); 
+			console.log(result.data);
+		}
+	});
 };
 
 
 var getRoomInfo = function(roomNo) {
 	console.log("getRoomInfo()");
 	$.getJSON( rootPath + "/room/getRoomInfo.do?roomNo=" + roomNo,
-								function(result) {
+			function(result) {
 		console.log(result);
-	var roomInfo = result.data;
-	console.log(roomInfo);
-	if(result.status == "success") {
+		var roomInfo = result.data;
+		console.log(roomInfo);
+		if(result.status == "success") {
 
-		console.log("init()	- getRoomInfo()");
-		var startLat = roomInfo.roomPathList[0].pathLat;
-		var startLng = roomInfo.roomPathList[0].pathLng;
-		var endLat = roomInfo.roomPathList[1].pathLat;
-		var endLng = roomInfo.roomPathList[1].pathLng;
-		var dsCallBack = "directionsService_callback";
+			console.log("init()	- getRoomInfo()");
+			var startLat = roomInfo.roomPathList[0].pathLat;
+			var startLng = roomInfo.roomPathList[0].pathLng;
+			var endLat = roomInfo.roomPathList[1].pathLat;
+			var endLng = roomInfo.roomPathList[1].pathLng;
+			var dsCallBack = "directionsService_callback";
 
-		geocoder = new olleh.maps.Geocoder("KEY");
-		directionsService = new olleh.maps.DirectionsService('frKMcOKXS*l9iO5g');
+			geocoder = new olleh.maps.Geocoder("KEY");
+			directionsService = new olleh.maps.DirectionsService('frKMcOKXS*l9iO5g');
 
-		curCoord = new olleh.maps.Coord(startLng, startLat);
+			curCoord = new olleh.maps.Coord(startLng, startLat);
 
-		console.log("loadMap()");
+			console.log("loadMap()");
 
-	  	var mapOptions = {
-	     	center : curCoord,
-	     	zoom : 1,
-	     	mapTypeId : olleh.maps.MapTypeId.BASEMAP,
-	     	mapTypeControl: false
-	  	};
+			var mapOptions = {
+					center : curCoord,
+					zoom : 1,
+					mapTypeId : olleh.maps.MapTypeId.BASEMAP,
+					mapTypeControl: false
+			};
 
-	  	map = new olleh.maps.Map(document.getElementById("canvas_map"), mapOptions);
+			map = new olleh.maps.Map(document.getElementById("canvas_map"), mapOptions);
 
-	  	initRoute();
-	  	searchRoute(startLng, startLat, endLng, endLat, dsCallBack);
+			initRoute();
+			searchRoute(startLng, startLat, endLng, endLat, dsCallBack);
 
-		var d = new Date(roomInfo.roomStartTime);
+			var d = new Date(roomInfo.roomStartTime);
 
-		var hour = d.toTimeString().substring(0, 2);
-		var minute = d.toTimeString().substring(3, 5);
-		startTime = hour;
-		memberCount = roomInfo.roomMbrCount;
-		thisRoomColor =roomColorArr[roomInfo.roomColor];
+			var hour = d.toTimeString().substring(0, 2);
+			var minute = d.toTimeString().substring(3, 5);
+			startTime = hour;
+			memberCount = roomInfo.roomMbrCount;
+			thisRoomColor =roomColorArr[roomInfo.roomColor];
 
-		$("#roomStartTime").text( hour +":"+ minute );
-		$("#roomStartDay").text("출발");
-		$("#imgMbrPhoto").attr( "src", myInfo.mbrPhotoUrl );
-		$("#mbrName").text( myInfo.mbrName );
-		$("#roomNo").attr("data-roomNo", roomInfo.roomNo);
+			$("#roomStartTime").text( hour +":"+ minute );
+			$("#roomStartDay").text("출발");
+			$("#imgMbrPhoto").attr( "src", myInfo.mbrPhotoUrl );
+			$("#mbrName").text( myInfo.mbrName );
+			$("#roomNo").attr("data-roomNo", roomInfo.roomNo);
 
-		var idx = 0;
-		var divRoomList = $("#divRoomList");
+			var idx = 0;
+			var divRoomList = $("#divRoomList");
 
-		$("#divCanvas").remove();
+			$("#divCanvas").remove();
 
-		$("<div>")
+			$("<div>")
 			.attr("id", "divCanvas")
-				  .append(
-						  $("<canvas>")
-						  			  .addClass("canvas")
-						  			  .attr("id", "myCanvas_" + idx))
-			      .prependTo(divRoomList);
+			.append(
+					$("<canvas>")
+					.addClass("canvas")
+					.attr("id", "myCanvas_" + idx))
+					.prependTo(divRoomList);
 
-		var roomMbrList =  roomInfo.roomMbrList;
+			var roomMbrList =  roomInfo.roomMbrList;
 
-		for(var i in  roomMbrList){
+			for(var i in  roomMbrList){
 				$("#divCanvas")
 				.append($("<div>")
 						.attr("style", "z-index:1000")
@@ -601,58 +658,58 @@ var getRoomInfo = function(roomNo) {
 						.attr("data-callname", roomMbrList[i].mbrName)
 						.attr("data-mbrphoneno", roomMbrList[i].mbrPhoneNo)
 				);
-		}
+			}
 
-		$("#divMapWrap").append(
-								$("<div>").attr("id", "divTouch"));
+			$("#divMapWrap").append(
+					$("<div>").attr("id", "divTouch"));
 
 
-		console.log("" + screen.width);
-		console.log("" + screen.height);
+			console.log("" + screen.width);
+			console.log("" + screen.height);
 
-		if ( contentWidth < 340 || contentHeight < 580 ) {
+			if ( contentWidth < 340 || contentHeight < 580 ) {
 
-			$("#divRoomList").css("top", "-277px" );
+				$("#divRoomList").css("top", "-277px" );
 
-//			$("#roomStartDay").css("margin-top", "20px")
-//							.css("margin-left", "13px")
-//							.css("font-size: 100%");
+//				$("#roomStartDay").css("margin-top", "20px")
+//				.css("margin-left", "13px")
+//				.css("font-size: 100%");
 
-			$("#roomFare").css("font-size", "78%");
-			$("#roomStartTime").css("font-size", "200%");
+				$("#roomFare").css("font-size", "78%");
+				$("#roomStartTime").css("font-size", "200%");
 
-			$("#roomDistance").css("width", "22%");
-			$("#fareName").text("예상요금")
-						  .css("width", "20%");
+				$("#roomDistance").css("width", "22%");
+				$("#fareName").text("예상요금")
+				.css("width", "20%");
 
-			$("#myFare").attr("style", "font-size: 81%")
-						.attr("style", "width: 20%");
+				$("#myFare").attr("style", "font-size: 81%")
+				.attr("style", "width: 20%");
+
+			} else {
+				$("#divRoomList").css("top", "-327px" );
+
+//				$("#roomStartDay").css("margin-top", "24px")
+//				.css("margin-left", "13px")
+//				.css("font-size: 110%");
+
+				$("#roomFare").attr("style", "font-size: 85%");
+
+				$("#roomStartTime").attr("style", "font-size: 235%");
+
+				$("#roomDistance").attr("style", "width: 22%");
+				$("#fareName").text("예상요금")
+				.css("width", "22%");
+
+				$("#myFare").attr("style", "font-size: 90%")
+				.attr("style", "width:22%");
+			}
+			showRelationInfo(roomInfo, idx);
 
 		} else {
-			$("#divRoomList").css("top", "-327px" );
-
-//			$("#roomStartDay").css("margin-top", "24px")
-//			  					.css("margin-left", "13px")
-//			  						.css("font-size: 110%");
-
-			$("#roomFare").attr("style", "font-size: 85%");
-
-			$("#roomStartTime").attr("style", "font-size: 235%");
-
-			$("#roomDistance").attr("style", "width: 22%");
-			$("#fareName").text("예상요금")
-			 			  .css("width", "22%");
-
-			$("#myFare").attr("style", "font-size: 90%")
-						.attr("style", "width:22%");
+			alert("실행중 오류발생!");
+			console.log(result.data);
 		}
-		showRelationInfo(roomInfo, idx);
-
-	} else {
-		alert("실행중 오류발생!");
-		console.log(result.data);
-	}
-});
+	});
 };
 
 
@@ -683,57 +740,57 @@ var getFeedList = function(roomNo){
 	$.getJSON( rootPath + "/feed/feedList.do"
 			, params
 			, function(result) {
-				if(result.status == "success") {
-			
-					var feedList = result.data;
-					console.log(feedList);
-					var mbrNo = myInfo.mbrNo;
-					var ul = $(".listViewUl");
-		
-					$(".listViewUl .feedList").remove();
-		
-					for (var i in feedList) {
-						var li = $("<li>")
-									.addClass("feedList")
-									.append( $("<p>") 
-			                                    .attr("class","ui-li-aside") 
-			                                    .text(feedList[i].feedRegDate) )
-									.append( $("<img>")
-										.attr("id", "feedMbrImg")
-										.attr("src", feedList[i].mbrPhotoUrl) )
-									.append( $("<h2>")
+		if(result.status == "success") {
+
+			var feedList = result.data;
+			console.log(feedList);
+			var mbrNo = myInfo.mbrNo;
+			var ul = $(".listViewUl");
+
+			$(".listViewUl .feedList").remove();
+
+			for (var i in feedList) {
+				var li = $("<li>")
+				.addClass("feedList")
+				.append( $("<p>") 
+						.attr("class","ui-li-aside") 
+						.text(feedList[i].feedRegDate) )
+						.append( $("<img>")
+								.attr("id", "feedMbrImg")
+								.attr("src", feedList[i].mbrPhotoUrl) )
+								.append( $("<h2>")
 										.text(feedList[i].mbrName) );
-		
-							if(feedList[i].mbrNo === mbrNo){
-										 	li.append( $("<p>")
-										 			.append( $("<strong>").text(feedList[i].feedContent) )
-										 			.append( $("<a>")
-										 						.addClass("btnDelete")
-										 						.attr("data-inline", "true")
-																.attr("data-roomNo", feedList[i].roomNo)
-																.attr("data-feedNo", feedList[i].feedNo)
-																.attr("data-mbrNo", feedList[i].mbrNo)
-																.append(
-																		$("<img>").attr("src", "../images/common/button/deletefeedx.png")
-																				  .addClass("deleteFeed"))
-										 						) )
-											.appendTo(ul);
-		
-										 	$('ul a[data-role=button]').buttonMarkup("refresh");
-							} else {
-								console.log("else");
-								li.append( $("<p>")
-										 .append( $("<strong>").text(feedList[i].feedContent) ) )
-									 	.appendTo(ul);
-							}
-					} // 반복문 end
-					$('ul').listview('refresh');
-		
-		            contentHeight = $(window).height();
-		            var currentWarpperHeight = $("#wrapper").css("height");
-		            $("#wrapper").css("height", (currentWarpperHeight + 81)  + "px");
+
+				if(feedList[i].mbrNo === mbrNo){
+					li.append( $("<p>")
+							.append( $("<strong>").text(feedList[i].feedContent) )
+							.append( $("<a>")
+									.addClass("btnDelete")
+									.attr("data-inline", "true")
+									.attr("data-roomNo", feedList[i].roomNo)
+									.attr("data-feedNo", feedList[i].feedNo)
+									.attr("data-mbrNo", feedList[i].mbrNo)
+									.append(
+											$("<img>").attr("src", "../images/common/button/deletefeedx.png")
+											.addClass("deleteFeed"))
+							) )
+							.appendTo(ul);
+
+					$('ul a[data-role=button]').buttonMarkup("refresh");
+				} else {
+					console.log("else");
+					li.append( $("<p>")
+							.append( $("<strong>").text(feedList[i].feedContent) ) )
+							.appendTo(ul);
 				}
-			});
+			} // 반복문 end
+			$('ul').listview('refresh');
+
+			contentHeight = $(window).height();
+			var currentWarpperHeight = $("#wrapper").css("height");
+			$("#wrapper").css("height", (currentWarpperHeight + 81)  + "px");
+		}
+	});
 };
 
 
@@ -741,9 +798,9 @@ var addFeed = function(mbrNo, feedContent, roomNo) {
 	console.log("addFeed:" + mbrNo, feedContent, roomNo);
 	$.post( rootPath + "/feed/addFeed.do",
 			{
-					mbrNo	:  mbrNo,
-					roomNo	:  roomNo,
-			  feedContent	:  feedContent
+		mbrNo	:  mbrNo,
+		roomNo	:  roomNo,
+		feedContent	:  feedContent
 			},
 			function(result) {
 				if(result.status == "success") {
@@ -762,17 +819,17 @@ var addFeed = function(mbrNo, feedContent, roomNo) {
 var deleteFeed = function(mbrNo, feedNo, roomNo){
 
 	$.getJSON( rootPath + "/feed/deleteFeed.do?mbrNo=" + mbrNo +
-									"&feedNo=" + feedNo
-										, function(result) {
+			"&feedNo=" + feedNo
+			, function(result) {
 
-				if(result.status == "success") {
-					getFeedList(roomNo);
+		if(result.status == "success") {
+			getFeedList(roomNo);
 
-				} else {
-					alert("실행중 오류발생!");
-					console.log(result.data);
-				}
-		});
+		} else {
+			alert("실행중 오류발생!");
+			console.log(result.data);
+		}
+	});
 };
 
 /**
@@ -796,6 +853,23 @@ var touchBackBtnCallbackFunc = function() {
 	}
 
 };
+/**
+ * 설  명: background black 처리
+ * 작성자: 김상헌
+ */
+var backgroundBlack = function() {
+	$("#blackImage").css("visibility","visible");
+};
+/**
+ *설   명 : 메뉴버튼 눌렀을 때 메뉴 나오기 
+ *작성자 : 장종혁
+ */
+function slideMenuPanel() {
 
+	$("#leftPanel").panel("open");
+	backgroundBlack();
+	return false;
+
+}
 
 
