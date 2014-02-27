@@ -225,7 +225,6 @@ $(document).ready(function() {
     	$('#divMemFour').css('background','white');
     	$('#roomMbrNumLimit').attr("data-val","4");
     });
-
     $("<div>")
 	    .attr("id", "blackImage")
 	    .css("width",(contentWidth + 2) + "px")
@@ -238,7 +237,6 @@ $(document).ready(function() {
 	    .css("opacity","0.5")
 	    .css("visibility","hidden")
 	    .appendTo($("#contentHome"));
-    
     $("#divAddRoomCondition_popup").on( "popupafterclose", function( event, ui ) {
     	$("#blackImage").css("visibility","hidden");
     } );
@@ -246,22 +244,20 @@ $(document).ready(function() {
     $("#divFavoriteLoc_popup").on( "popupafterclose", function( event, ui ) {
     	$("#blackImage").css("visibility","hidden");
     } );
-
 	$("#leftPanel ul li a:link").css("width", ((contentWidth / 2) -10) + "px");
 	$("#leftPanel ul li a:visited").css("width", ((contentWidth / 2) - 10) + "px");
 	$(".ui-panel").css("width", (contentWidth / 2) + "px");
-
 
 	$("#btnShowMenu").click(function() {
 		$("#leftPanel").panel("open");
 		backgroundBlack();
 		return false;
 	});
-
+	
 	$( "#leftPanel" ).on( "panelbeforeclose", function() {
 		$("#blackImage").css("visibility","hidden");
 	} );
-
+	
 	$("#blackImage").on({
 		touchend:function(){
 //		click:function(){
@@ -295,7 +291,7 @@ var onDeviceReady = function() {
  * 작성자: 김상헌
  */
 var initStartTime = function() {
-	console.log()
+	console.log();
 	var curr = new Date().getFullYear();
 	var opt = {
 	}
@@ -1439,6 +1435,8 @@ var showRelationInfo = function(roomInfo, idx) {
  * 설  명: 뒤로가기 버튼 처리
  * 작성자: 김상헌
  */
+
+
 var FINSH_INTERVAL_TIME = 2000;
 var backPressedTime = 0;
 
@@ -1466,6 +1464,7 @@ var touchBackBtnCallbackFunc = function() {
  * 설  명: background black 처리
  * 작성자: 김상헌
  */
+
 var backgroundBlack = function() {
 	$("#blackImage").css("visibility","visible");
 };
