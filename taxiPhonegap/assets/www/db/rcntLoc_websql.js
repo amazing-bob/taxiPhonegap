@@ -7,11 +7,6 @@ var createRcntLocTable = function (transaction) {
 	
 	transaction.executeSql(
 			// SQL
-			"DROP TABLE IF EXISTS RCNT_LOC;"
-			);
-	
-	transaction.executeSql(
-			// SQL
 			' CREATE TABLE IF NOT EXISTS RCNT_LOC '+ 
 			' ('+
 		    		'  rcntLocNo 		INTEGER NOT NULL PRIMARY KEY'+
@@ -31,6 +26,29 @@ var createRcntLocTable = function (transaction) {
 			// Fail
 			function() {
 				console.log("createRcntLocTable  fail");
+			});
+};
+
+
+/**
+ * 설  명: RCNT_LOC WebDB 삭제
+ * 작성자: 김상헌
+ */
+var dropRcntLocTable = function (transaction) {
+	console.log("dropRcntLocTable(transaction)");
+	
+	transaction.executeSql(
+			// SQL
+			"DROP TABLE IF EXISTS RCNT_LOC;", 
+			// Parameter
+			[], 
+			// Success
+			function() {
+				console.log("dropRcntLocTable  success");
+			}, 
+			// Fail
+			function() {
+				console.log("dropRcntLocTable  fail");
 			});
 };
 

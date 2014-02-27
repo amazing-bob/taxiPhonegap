@@ -12,6 +12,9 @@ var taxidb = window.openDatabase("taxi", "1.0", "taxiDB", 1000000);
 var openWebDB = function( successCallbackFunc) {
 	console.log("openWebDB(errCallbackFunc, successCallbackFunc)");
 	
+	console.log(taxidb);
+	console.log(taxidb.frnd);
+	
 	taxidb.transaction( function(transaction) { // Transaction Execute
 		createFvrtLocTable(transaction);
 		createRcntLocTable(transaction);

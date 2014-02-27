@@ -34,6 +34,29 @@ var createKeywordTable = function (transaction) {
 
 
 /**
+ * 설  명: KEYWORD WebDB 삭제
+ * 작성자: 김상헌
+ */
+var dropKeywordTable = function (transaction) {
+	console.log("dropKeywordTable(transaction)");
+	
+	transaction.executeSql(
+			// SQL
+			"DROP TABLE IF EXISTS KEYWORD;", 
+			// Parameter
+			[], 
+			// Success
+			function() {
+				console.log("dropKeywordTable  success");
+			}, 
+			// Fail
+			function() {
+				console.log("dropKeywordTable  fail");
+			});
+};
+
+
+/**
  *   설    명 : WebDB ( Keyword )값 입력
  *   작성자 : 장종혁
  */

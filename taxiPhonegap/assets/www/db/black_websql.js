@@ -1,14 +1,9 @@
 /**
- *   설  명 : black WebDB 생성
+ *   설  명 : BLACK WebDB 생성
  *   작성자 : 김상헌
  */
 var createBlackTable = function (transaction) {
 	console.log("createBlackTable(transaction)");
-	
-	transaction.executeSql(
-			// SQL
-			"DROP TABLE IF EXISTS BLACK;"
-			);
 	
 	transaction.executeSql(
 			// SQL
@@ -28,6 +23,29 @@ var createBlackTable = function (transaction) {
 			// Fail
 			function() {
 				console.log("createBlackTable  fail");
+			});
+};
+
+
+/**
+ * 설  명: BLACK WebDB 삭제
+ * 작성자: 김상헌
+ */
+var dropBlackTable = function (transaction) {
+	console.log("dropBlackTable(transaction)");
+	
+	transaction.executeSql(
+			// SQL
+			"DROP TABLE IF EXISTS BLACK;", 
+			// Parameter
+			[], 
+			// Success
+			function() {
+				console.log("dropBlackTable  success");
+			}, 
+			// Fail
+			function() {
+				console.log("dropBlackTable  fail");
 			});
 };
 

@@ -105,27 +105,6 @@ $(document).ready(function() {
 	});
 	$.mobile.loadPage( "settings.html", { showLoadMsg: false } );
 
-	if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined'))
-		Toast.shortshow('Cordova variable does not exist. Check that you have included cordova.js correctly');
-    if (typeof CDV == 'undefined')
-    	Toast.shortshow('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
-    if (typeof FB == 'undefined')
-    	Toast.shortshow('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
-
-    FB.Event.subscribe('auth.login', function(response) {
-                       });
-
-    FB.Event.subscribe('auth.logout', function(response) {
-							changeHref("../auth/auth.html");
-                       	});
-
-    FB.Event.subscribe('auth.sessionChange', function(response) {
-                       		getLoginStatus();
-                       });
-
-    FB.Event.subscribe('auth.statusChange', function(response) {
-    						getLoginStatus();
-    					});
 });//ready()
 
 /*친구목록갱신 버튼*/
@@ -150,8 +129,6 @@ function onDeviceReady() {
 	document.addEventListener("backbutton", touchBackBtnCallbackFunc, false);
 
 	try {
-	    FB.init({ appId: "536450846448669", nativeInterface: CDV.FB, useCachedDialogs: false });
-
 	    getLoginStatus();
 
     } catch (e) {
@@ -159,105 +136,7 @@ function onDeviceReady() {
     }
 }
 
-/**
- * Facebook 로그인 상태 가져오기
- * 
- * 수정 : Facebook을 사용 안하지만..  확인을 하는 과정에서 else로 빠져서 auth.html로 빠짐.
- *  차후 사용할 지 모르기 때문에 일단 주석으로 막음.- 장종혁
- */
-var getLoginStatus = function() {
-	console.log("getLoginStatus()");
 
-	FB.getLoginStatus(function(response) {
-		if (response.status == 'connected') {
-
-		} else {
-//			changeHref("../auth/auth.html");
-		}
-    });
-};
-
-/**
- * Facebook 로그인
- */
-var facebookLogin = function() {
-	console.log("facebookLogin()");
-
-    FB.login(
-             function(response) {
-            	 console.log(response.session);
-	             if (response.session) {
-	            	 console.log('logged in');
-
-	             } else {
-	            	 console.log('not logged in');
-
-	             }
-             },
-             { scope: "email" }
-             );
-};
-
-/**
- * Facebook 로그아웃
- */
-var facebookLogout = function() {
-	console.log("facebookLogout()");
-    FB.logout(function(response) {
-		    	changeHref("../auth/auth.html");
-		    });
-};
-
-/**
- * Facebook 회원 정보 가져오기
- */
-var getFacebookMyInfo = function( callback, args ) {
-	console.log("getFacebookMyInfo(callback, args)");
-//	console.log(callback, args);
-
-	FB.api(
-			'me',
-			{
-				fields: 'id,name,gender,picture.height(100).width(100),'
-					+'friends.fields(id,name,gender,picture.height(100).width(100))'
-			},
-			function(user) {
-               if (user.error) {
-            	   Toast.shortshow(JSON.stringify(user.error));
-
-               } else {
-				   var myInfo = null;
-				   myInfo = {
-		        			mbrId: 			user.id,
-		        			mbrName: 		user.name,
-		        			mbrGender:		user.gender,
-		        			mbrPhotoUrl: 	user.picture.data.url,
-		        			friendList:		[]
-		        	};
-
-		            if ( user.friends && user.friends.data ) {
-		            	myInfo.friendList = [user.friends.data.length];
-		            	for ( var i = 0; i < user.friends.data.length; i++ ) {
-		            		myInfo.friendList[i] = {
-		                			frndId: 		user.friends.data[i].id,
-		                			mbrId:			myInfo.mbrId,
-		                			frndName: 		user.friends.data[i].name,
-		                			frndGender:		user.friends.data[i].gender,
-		                			frndPhotoUrl: 	user.friends.data[i].picture.data.url
-		                	};
-		            	}
-		            }
-
-		            if (args) {
-		            	callback(myInfo, args);
-		            } else {
-		            	callback(myInfo);
-		            }
-               }
-
-			});
-
-};
 /**
  * 내용:출발지 거리 반경 정보 localStorage 에서 얻어서 화면에 checked 로 그리기
  * 작성자:김태경
@@ -277,28 +156,8 @@ function startRangeChk() {
 		$("#radio-choice-h-2d").prop("checked", true);
 	}
 	
-	
-	
-	/*$.getJSON(rootPath + "/setting/getRange.do", function(result){
-		if(result.status == "success") {
-		var setting = result.data;
-			if(setting.startRange == "500"){
-				$("#radio-choice-h-2a").prop("checked", true).checkboxradio("refresh");
-			}else if(setting.startRange =="1000"){
-				$("#radio-choice-h-2b").prop("checked", true).checkboxradio("refresh");
-			}else if(setting.startRange =="2000"){
-				$("#radio-choice-h-2c").prop("checked", true).checkboxradio("refresh");
-			}else if(setting.startRange =="3000"){
-				$("#radio-choice-h-2d").prop("checked", true).checkboxradio("refresh");
-			}
-		$("#startRange1").val(setting.startRange);
-		$("#endRange1").val(setting.endRange);
-		}else{
-			Toast.shortshow("실행중 오류발생!");
-			console.log(result.data);
-		}
-	});*/
- }
+}
+
 
 /**
  * 내용:도착지 거리 반경 정보 localStorage 에서 얻어서 화면에 checked 로 그리기
@@ -315,36 +174,9 @@ function endRangeChk() {
 	}else if(myInfo.endRange =="3000"){
 		$("#radio-choice-h-3d").prop("checked", true);
 	}
-	/*$.getJSON(rootPath + "/setting/getRange.do", function(result){
-		if(result.status == "success") {
-		var setting = result.data;
-			if(setting.endRange == "500"){
-				$("#radio-choice-h-3a").prop("checked", true).checkboxradio("refresh");
-			}else if(setting.endRange =="1000"){
-				$("#radio-choice-h-3b").prop("checked", true).checkboxradio("refresh");
-			}else if(setting.endRange =="2000"){
-				$("#radio-choice-h-3c").prop("checked", true).checkboxradio("refresh");
-			}else if(setting.endRange =="3000"){
-				$("#radio-choice-h-3d").prop("checked", true).checkboxradio("refresh");
-			}
-		} else {
-			Toast.shortshow("실행중 오류발생!");
-			console.log(result.data);
-		}
-	});*/
- }
+}
 
-//로그아웃
-function logout() {
-	console.log("logout()");
-//	event.preventDefault();
-	$.getJSON(rootPath + "/setting/logout.do", function(result) {
-		if(result.status == "success") {
-			Toast.shortshow("로그아웃이 성공적으로 되었습니다.");
-			facebookLogout();
-		}
-	});
-};
+
 function frndRefresh() {
 	console.log("frndRefresh()");
 	getFacebookMyInfo(function(myInfo) {

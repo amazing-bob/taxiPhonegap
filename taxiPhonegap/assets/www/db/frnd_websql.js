@@ -1,14 +1,10 @@
 /**
- *   설  명 : frnd WebDB 생성
+ *   설  명 : FRND WebDB 생성
  *   작성자 : 장종혁
  */
 var createFrndTable = function (transaction) {
 	console.log("createFrndTable(transaction)");
 	
-	transaction.executeSql(
-			// SQL
-			"DROP TABLE IF EXISTS FRND;"
-			);
 	var sql  = 
 		' CREATE TABLE IF NOT EXISTS FRND '+ 
 		' ('+
@@ -32,6 +28,30 @@ var createFrndTable = function (transaction) {
 				console.log("createFrndTable  fail");
 			});
 };
+
+
+/**
+ * 설  명: FRND WebDB 삭제
+ * 작성자: 김상헌
+ */
+var dropFrndTable = function (transaction) {
+	console.log("dropFrndTable(transaction)");
+	
+	transaction.executeSql(
+			// SQL
+			"DROP TABLE IF EXISTS FRND;", 
+			// Parameter
+			[], 
+			// Success
+			function() {
+				console.log("dropFrndTable  success");
+			}, 
+			// Fail
+			function() {
+				console.log("dropFrndTable  fail");
+			});
+};
+
 
 /**
  *   설  명 : 친구정보 추가

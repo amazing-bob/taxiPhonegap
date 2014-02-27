@@ -1,14 +1,9 @@
 /**
- *   설  명 : fvrtLoc WebDB 생성
+ *   설  명 : FVRT_LOC WebDB 생성
  *   작성자 : 김상헌
  */
 var createFvrtLocTable = function (transaction) {
 	console.log("createFvrtLocTable(transaction)");
-	
-	transaction.executeSql(
-			// SQL
-			"DROP TABLE IF EXISTS FVRT_LOC;"
-			);
 	
 	transaction.executeSql(
 			// SQL
@@ -30,6 +25,29 @@ var createFvrtLocTable = function (transaction) {
 			// Fail
 			function() {
 				console.log("createFvrtLocTable  fail");
+			});
+};
+
+
+/**
+ * 설  명: FVRT_LOC WebDB 삭제
+ * 작성자: 김상헌
+ */
+var dropFvrtLocTable = function (transaction) {
+	console.log("dropFvrtLocTable(transaction)");
+	
+	transaction.executeSql(
+			// SQL
+			"DROP TABLE IF EXISTS FVRT_LOC;", 
+			// Parameter
+			[], 
+			// Success
+			function() {
+				console.log("dropFvrtLocTable  success");
+			}, 
+			// Fail
+			function() {
+				console.log("dropFvrtLocTable  fail");
 			});
 };
 
