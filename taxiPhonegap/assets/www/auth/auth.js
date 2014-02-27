@@ -243,6 +243,7 @@ var isSignUp = function( myInfo ) {
 						myInfo = result.data.myInfo;
 						
 						if ( myInfo ) {
+							
 							//로컬 스토리지에 저장
 							setLocalItem("myInfo", myInfo);
 							
