@@ -21,6 +21,7 @@ var openWebDB = function( successCallbackFunc) {
 	},
 	// Error Callback
 	function(err) {
+		console.log("-------err");
 		console.log(err);
 	}, 
 	// Success Callback
@@ -40,6 +41,7 @@ var executeQuery = function( executeFunc, successCallbackFunc ) {
 			executeFunc,
 			// Error Callback
 			function(err) {
+				console.log("-------err");
 				console.log(err);
 			},
 			// Success Callback

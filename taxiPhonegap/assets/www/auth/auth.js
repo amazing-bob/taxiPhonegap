@@ -1,6 +1,5 @@
 console.log("authjs...");
 
-var that = this;
 var myInfo;
 
 var contentHeight;
@@ -98,14 +97,12 @@ var registerEvent = function() {
 			sugList.html("");
 			sugList.listview("refresh");
 		} else {
-			searchKeywordList(text, function(keywordList) {
-				console.log(keywordList);
+			selectMyKeywordList(text, function(keywordList) {
 				var str = "";
 		
 				for ( var i = 0; i < keywordList.length; i++ ) {
-					str += "<li class='listdata' data-no="+keywordList[i].KEYWORD_NO+">"
-	            	+keywordList[i].KEYWORD_NAME+"</li>";
-					console.log(str);
+					str += "<li class='listdata' data-no="+keywordList[i].keywordNo+">"
+	            	+keywordList[i].keywordName+"</li>";
 				}
 				sugList.html(str);
 				sugList.listview("refresh");
@@ -309,7 +306,8 @@ var clickNextBtn = function(){
  */
 var clickKeyWordPage = function(){
 	console.log("getKeyword()");
-	that.getKeyword();
+	
+	getKeyword();
 	$.mobile.changePage("#keyWordPage");
 
 };
@@ -344,7 +342,7 @@ var signUp = function( phoneNo, mbrName, keywordNo ) {
 	var params = {
 			mbrName 		: 	mbrName,
 			mbrPhoneNo 		: 	phoneNo,
-			mbrKeywordNo	: 	keywordNo,
+			keywordNo	: 	keywordNo,
 			frndList : getSessionItem("frndData")
 	};
 
@@ -449,16 +447,11 @@ var goHomeOrRoom = function(myInfo) {
  * 작성자: 김태경
  */
 var getKeyword = function(){
-	$.getJSON( rootPath + "/auth/getKeyWordList.do"
+	$.getJSON( rootPath + "/keyword/getKeywordList.do"
 			, function(result) {
 		if(result.status == "success") {
 			if ( result.data ) {
 				var keyWord = result.data;
-
-
-				for(var i in result.data){
-					keyWordList.push(keyWord[i].keyWordName);
-				};
 
 				executeQuery(
 						// Transaction Execute

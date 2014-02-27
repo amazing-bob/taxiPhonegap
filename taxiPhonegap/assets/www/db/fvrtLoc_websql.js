@@ -1,5 +1,3 @@
-var isWorkingFvrtLoc = false;
-
 /**
  *   설  명 : fvrtLoc WebDB 생성
  *   작성자 : 김상헌

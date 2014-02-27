@@ -7,14 +7,19 @@
 var createKeywordTable = function (transaction) {
 	console.log("createKeywordTable(transaction)");
 	
-	transaction.executeSql(("DROP TABLE IF EXISTS KEYWORD;"));
+	transaction.executeSql(
+			// SQL
+			"DROP TABLE IF EXISTS KEYWORD;"
+			);
 	
 	transaction.executeSql (
 				// SQL
-				' CREATE TABLE IF NOT EXISTS KEYWORD ('+
-	    		' 	KEYWORD_NO 		INTEGER NOT NULL PRIMARY KEY,'+
-	    		' 	KEYWORD_NAME 	TEXT ,'+
-	    		' 	KEWORD_ST 		TEXT)', 
+				' CREATE TABLE IF NOT EXISTS KEYWORD '+ 
+				' ( '+
+	    		' 		keywordNo 		INTEGER NOT NULL PRIMARY KEY '+     
+	    		' 	, 	keywordName 	TEXT '+
+	    		' 	, 	keywordSt 		TEXT '+ 
+	    		' ); ', 
 				// Parameter
 				[], 
 				// Success
@@ -32,13 +37,31 @@ var createKeywordTable = function (transaction) {
  *   설    명 : WebDB ( Keyword )값 입력
  *   작성자 : 장종혁
  */
-var insertKeywordTable = function(transaction, keyWord){
-	console.log("insertKeywordTable(transaction, keyWord)");
-//	console.log(transaction, keyWord);
-	
-	for(var  i = 0; i < keyWord.length; i++){
-		transaction.executeSql(("INSERT INTO KEYWORD (KEYWORD_NO, KEYWORD_NAME) VALUES (?,?);"), 
-		[i,keyWord[i].keyWordName], function(transaction, results){successCallback(results);}, null);
+var insertKeywordTable = function(transaction, keywordList){
+	console.log("insertKeywordTable(transaction, keywordList)");
+//	console.log(keywordList);
+
+	for ( var  i = 0; i < keywordList.length; i++ ) {
+		transaction.executeSql(
+				// SQL
+				"INSERT INTO KEYWORD "+
+				"	( keywordNo, keywordName, keywordSt ) "+
+				"VALUES "+
+				"	(         ?,           ?,         ? ); ", 
+				// Parameter
+				[
+					keywordList[i].keywordNo, 
+					keywordList[i].keywordName,
+					keywordList[i].keywordSt
+				 ],
+		 		// Success
+				function() {
+					console.log("insertKeywordTable  success");
+				},
+				// Fail
+				function () {
+					console.log("insertKeywordTable  fail");
+				});
 	}
 				
 };
@@ -48,16 +71,27 @@ var insertKeywordTable = function(transaction, keyWord){
  * 내  용 : 키워드 검색
  * 작성자 : 장종혁
  */
-var searchKeywordList = function(text, callback){
-	console.log("getSerchKeyWordList(text, callback)");
+var selectMyKeywordList = function(text, callback){
+	console.log("selectMyKeywordList(text, callback)");
 //	console.log(text, callback);
 	
 	var value = text;
 	
 	taxidb.transaction(	function(transaction) {
-		transaction.executeSql('SELECT * FROM KEYWORD WHERE KEYWORD_NAME LIKE ? limit 5'
-				, ["%"+value+"%"]
-				, function (tx, results) {
+		transaction.executeSql(
+				// SQL
+				" select 	keywordNo " +
+				"		, 	keywordName " +
+				"		, 	keywordSt " +
+				" from 		KEYWORD " +
+				" where 	keywordName like ? " +
+				" limit 5",
+				// Parameter
+				["%"+value+"%"],
+				// Success
+				function (transaction, results) {
+					console.log("selectMyFvrtLocList  success");
+					console.log(results.rows);
 					var len = results.rows.length;
 					
 					var keywordList = new Array();
@@ -67,7 +101,11 @@ var searchKeywordList = function(text, callback){
 			        
 			        callback(keywordList);
 			        
-			    }, errCallback);
+			    }, 
+			    // Fail
+			    function() {
+			    	console.log("selectMyFvrtLocList  fail");
+			    });
 	  });
 
 };

@@ -45,7 +45,7 @@ var insertFrndTable = function(transaction, frndList, mbrNo ) {
 		"INSERT INTO FRND "+
 		"	( mbrNo, frndPhoneNo, frndName, frndRegDate) "+
 		"VALUES "+
-		"	(     ?,          ?,               ?, ? );";
+		"	(     ?,          ?,               ?, ?);";
 	console.log(sql);
 	for(var  i = 0; i < frndList.length; i++){
 		transaction.executeSql(
