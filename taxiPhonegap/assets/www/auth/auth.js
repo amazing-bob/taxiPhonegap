@@ -145,13 +145,22 @@ function onDeviceReady() {
 }
 
 /**
- *  설   명 : 휴대폰 전화번호를 자동으로 txtPhone 에 추가.
+ *  설   명 : 휴대폰 전화번호를 자동으로 txtPhone 에 추가. 
  *  작성자 : 장종혁
+ *  수정내용 : 폰 번호를 +8210293023  이런 형식으로 가져올 경우 자동기입 안됨.
  */
 var setPhoneNo = function() {
     PhoneNumber.getPhoneNo(function(result) {
-		$("#txtPhone").val(result.phoneNo);
 		
+		var number = result.phoneNo;
+
+		if(number.substring(0,3)=="010"){
+			
+		}else{
+			number = "0"+ number.substring(3);
+		}
+		
+		$("#txtPhone").val(number);
 		$('#spnPhoneStatus').text('Valid');
 		$('#spnPhoneStatus').css('color', 'green');
 		$("#btnPhoneNo").removeAttr("disabled").button("refresh");
