@@ -132,7 +132,7 @@ function onDeviceReady() {
     var options = new ContactFindOptions();
     options.multiple  = true; 
     var fields = ["displayName", "name","phoneNumbers"];
-    navigator.contacts.find(fields, extractionContactData, onError, options);
+    navigator.contacts.find(fields, extractionContactData, null, options);
 	
     setPhoneNo();
 	
