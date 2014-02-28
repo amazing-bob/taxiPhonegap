@@ -2,6 +2,8 @@ console.log("authjs...");
 
 var myInfo;
 
+var isGetContactsComplet = false;
+
 var contentHeight;
 
 var keyWordList = new Array();
@@ -128,20 +130,12 @@ var registerEvent = function() {
 function onDeviceReady() {
 	console.log("onDeviceReady()");
 
-	//휴대폰 기기안의 주소록 가져오기
-    var options = new ContactFindOptions();
-    options.multiple  = true; 
-    var fields = ["displayName", "name","phoneNumbers"];
-    navigator.contacts.find(fields, extractionContactData, null, options);
-	
     setPhoneNo();
-	
-	try {
-		//로컬스토리지로 변경 - 종혁
-		isSignUp( getLocalItem("myInfo") );
-	} catch (e) {
-		alert(e);
-	}
+    
+    getContacts();
+    
+    isSignUp( getLocalItem("myInfo") );
+    
 }
 
 /**
@@ -150,6 +144,8 @@ function onDeviceReady() {
  *  수정내용 : 폰 번호를 +8210293023  이런 형식으로 가져올 경우 자동기입 안됨.
  */
 var setPhoneNo = function() {
+	console.log("setPhoneNo()");
+	
     PhoneNumber.getPhoneNo(function(result) {
 
     	var number = result.phoneNo;
@@ -170,13 +166,30 @@ var setPhoneNo = function() {
 	});
 };
 
+
+/**
+ * 설  명: 연락처 가져오기
+ * 작성자: 장종혁
+ */
+var getContacts = function() {
+	console.log("getContacks()");
+	
+	//휴대폰 기기안의 주소록 가져오기
+    var options = new ContactFindOptions();
+    options.multiple  = true; 
+    var fields = ["displayName", "name","phoneNumbers"];
+    navigator.contacts.find(fields, extractionContactData, null, options);
+};
+
+
 /**
  * 설    명 : 주소록 가져온 정보를 추출하여 contactsList에 저장 후 임시로 세션 스토리지에 저장
  * 작성자 : 장종혁
  * P     S  : 친구의 휴대폰 정보는 Base64 md5 형식으로 저장됨. 
  */
 function extractionContactData(contacts) {
-
+	console.log("extractionContactData(contacts)");
+	
 	var contactsList = new Array();
 	var frndList = new Array();
 	
@@ -223,7 +236,8 @@ function extractionContactData(contacts) {
     }
     
     setSessionItem("frndData",frndList);
-    
+
+    isGetContactsComplet = true;
 };
 
 /**
@@ -349,48 +363,55 @@ var signUp = function( phoneNo, mbrName, keywordNo ) {
 	console.log("signUp(phoneNo, mbrName, keywordNo)");
 //	console.log(phoneNo, mbrName, keywordNo);
 
-	var params = {
-			mbrName 	: mbrName,
-			mbrPhoneNo 	: phoneNo,
-			keywordNo	: keywordNo,
-			frndList 	: getSessionItem("frndData")
-	};
-
-	$.ajax( rootPath + "/auth/signUp.do", {
-		type: "POST",
-		data: JSON.stringify( params ),
-		dataType: "json",
-		contentType: "application/json",
-		success: function(result) {
-			if(result.status == "success") {
-				console.log(result.data);
-				var myInfo = result.data.myInfo;
-
-				if ( myInfo ) {
-					//로컬스토리지에 저장
-					setLocalItem("myInfo", myInfo);
-					
-					//주소록 친구 정보 base64 md5 형식으로 웹DB에 저장.
-					executeQuery(
-							// Transaction Execute
-							function(transaction) {
-								insertFrndTable( 	transaction, result.data.frndList);
-								insertFvrtLocTable(	transaction, result.data.fvrtLocList);
-								insertRcntLocTable(	transaction, result.data.rcntLocList);
-								insertBlackTable(	transaction, result.data.blackList);
-							}, 
-							// Success Callback
-							function() {
-								changeHref("../home/home.html",myInfo);
-							});
+	showLoadingImg();
+	
+	// 연락처 모두 가져오면 다음으로 진행
+	var interval = setInterval(function() {
+		if ( isGetContactsComplet ) {
+			clearInterval(interval);
+			
+			var params = {
+					mbrName 	: mbrName,
+					mbrPhoneNo 	: phoneNo,
+					keywordNo	: keywordNo,
+					frndList 	: getSessionItem("frndData")
+			};
+			$.ajax( rootPath + "/auth/signUp.do", {
+				type: "POST",
+				data: JSON.stringify( params ),
+				dataType: "json",
+				contentType: "application/json",
+				success: function(result) {
+					if(result.status == "success") {
+						var myInfo = result.data.myInfo;
+		
+						if ( myInfo ) {
+							//로컬스토리지에 저장
+							setLocalItem("myInfo", myInfo);
+							
+							//주소록 친구 정보 base64 md5 형식으로 웹DB에 저장.
+							executeQuery(
+									// Transaction Execute
+									function(transaction) {
+										insertFrndTable( 	transaction, result.data.frndList);
+										insertFvrtLocTable(	transaction, result.data.fvrtLocList);
+										insertRcntLocTable(	transaction, result.data.rcntLocList);
+										insertBlackTable(	transaction, result.data.blackList);
+									}, 
+									// Success Callback
+									function() {
+										changeHref("../home/home.html",myInfo);
+									});
+						}
+		
+					} else {
+						alert("회원등록 중 오류 발생");
+		
+					}
 				}
-
-			} else {
-				alert("회원등록 중 오류 발생");
-
-			}
+			});
 		}
-	});
+	}, 300);
 };
 
 

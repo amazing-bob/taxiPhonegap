@@ -8,24 +8,41 @@ var myInfo;
 
 var roomColorArr = ['red','blue','yellow'];
 
-
 /**
  * 설  명: ajax 로딩이미지 초기설정
  * 작성자: 김상헌
  */
 var initAjaxLoading = function() {
-	$( document ).ajaxStart(function() {
-		$.mobile.loading("show",{
-			text: "",
-			textVisible: false,
-			theme: "b",
-			textonly: false,
-			html: ""
-		});
+	console.log("initAjaxLoading()");
+	
+	$( document ).ajaxStart( showLoadingImg() );
+	$( document ).ajaxStop( hideLoadingImg() );
+};
+
+/**
+ * 설  명: 로딩이미지 보이기
+ * 작상자: 김상헌
+ */
+var showLoadingImg = function() {
+	console.log("showLoadingImg()");
+	
+	$.mobile.loading("show",{
+		text: "",
+		textVisible: false,
+		theme: "b",
+		textonly: false,
+		html: ""
 	});
-	$( document ).ajaxStop(function() {
-		$.mobile.loading("hide");
-	});
+};
+
+/**
+ * 설  명: 로딩이미지 숨기기
+ * 작성자: 김상헌
+ */
+var hideLoadingImg = function() {
+	console.log("hideLoadingImg()");
+	
+	$.mobile.loading("hide");
 };
 
 
