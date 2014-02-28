@@ -1298,6 +1298,8 @@ var joinRoom = function(regId, roomNo) {
 /**
  * 설  명: WebDB 에서 즐겨찾기 목록가져와서 그리기
  * 작성자: 김상헌
+ * 수정내용 : 스와이프시 왼쪽:출발지 오른쪽 : 목적지 & 버튼 추가
+ * 수정자 : 장종혁
  */
 var favoriteList = function() {
     console.log("favoriteList()");
@@ -1315,11 +1317,85 @@ var favoriteList = function() {
 	                    .attr("id" 			, "favoriteList")
 	                    .attr("data-theme" 	,"d")
 	                    .attr("data-icon" 	, "false")
+	                    .attr("data-rel","popup")
 	                    .data("endX" 		, favoriteLocationList[i].fvrtLocLng)
 	                    .data("endY" 		, favoriteLocationList[i].fvrtLocLat)
 	                    .data("locName" 	, favoriteLocationList[i].fvrtLocName)
 	                    .click( function(event){
-	                    	setEndLocationSession(
+	                    	
+	                    	$('.fvrbtn').remove();
+	                    	
+	                    	var loc = {
+	                    			 locX : $(this).data("endX"),
+	                    			 locY : $(this).data("endY"),
+	                    			 locName : $(this).data("locName")
+	                    	 };
+	                    	 
+	                      	 
+	                    	$(".fvlx"+$(this).data("endX")).append(
+                             		$("<a>")
+                            		.addClass("ui-btn ui-icon-arrow-r ui-btn-icon-left ui-corner-all ui-shadow ui-btn-inline fvrbtn")
+                            		.css("float","right")
+                            		.css("border","0.5px dotted  gray")
+                            		.text("목적지")
+                            		.click( function(event){
+                            			
+                            			setEndLocationSession(
+    	    	                       			loc.locX,
+    	    	                     			loc.locY,
+    	    	                     			loc.locName,
+    	    	                    			"",
+    	    	                    			function () {
+    	    	                		    		checkEndLocation();
+    	    	                		    		map.moveTo( new olleh.maps.Coord(loc.locX, loc.locY) );
+    	    	                		    	});
+    	                            	
+                            			  $("#divFavoriteLoc_popup").popup("close");
+    	                              return false;
+                            			
+                            		})
+                            )
+                            .append(
+                            		$("<a>")
+                            		.addClass("ui-btn ui-icon-arrow-r ui-btn-icon-left ui-corner-all ui-shadow ui-btn-inline fvrbtn")
+                            		.css("float","right")
+                            		.css("margin-right","40px")
+                            		.css("border","0.5px dotted  gray")
+                            		.text("출발지")
+                            		.click(function(event) {
+                            			
+                            			setStartLocationSession(
+    	    	                     			loc.locX,
+    	    	                     			loc.locY,
+    	    	                     			loc.locName,
+    	    	                    			"",
+    	    	                    			function () {
+    	    	                     				checkStartLocation();
+    	    	                		    		map.moveTo( new olleh.maps.Coord(loc.locX, loc.locY) );
+    	    	                		    	});
+    	                            	
+                            		$("#divFavoriteLoc_popup").popup("close");
+    	                              return false;
+                            			
+									})
+                            );
+	                    	
+	                    })
+	                    .swipeleft( function(event) {
+	                    	setStartLocationSession(
+	                     			$(this).data("endX"),
+	                     			$(this).data("endY"),
+	                     			$(this).data("locName"),
+	                    			"",
+	                    			function () {
+	                     				checkStartLocation();
+	                		    		map.moveTo( new olleh.maps.Coord($(this).data("endX"), $(this).data("endY")) );
+	                                    $("#divFavoriteLoc_popup").popup("close");
+	                		    	});
+	                     	return false;
+	            		})
+	            		.swiperight( function(event) {
+	            			setEndLocationSession(
 	                     			$(this).data("endX"),
 	                     			$(this).data("endY"),
 	                     			$(this).data("locName"),
@@ -1330,10 +1406,11 @@ var favoriteList = function() {
 	                                    $("#divFavoriteLoc_popup").popup("close");
 	                		    	});
 	                     	return false;
-	                    })
+	            		})
 	                    .append(
 	                    		$("<a>")
 	                            	.attr("id", "favoriteLink")
+	                            	.addClass("fvrTag  fvlx"+favoriteLocationList[i].fvrtLocLng)
 	                                .attr("href","#")
 	                                .text( favoriteLocationList[i].fvrtLocName)
 	                                .append(
@@ -1341,7 +1418,7 @@ var favoriteList = function() {
 	                                			.addClass("ui-li-icon ui-corner-none")
 		                                        .attr("src", "../images/common/star-th.png")
 	                                )
-	                    )
+	                     )
 	                    .appendTo(ul);
 	                $("#favoriteUl").listview("refresh");
 	            }
