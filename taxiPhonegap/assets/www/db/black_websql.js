@@ -9,8 +9,11 @@ var createBlackTable = function (transaction) {
 			// SQL
 			' CREATE TABLE IF NOT EXISTS BLACK '+ 
 			' ('+
-		    '  	  mbrNo 			INTEGER NOT NULL '+ //PRIMARY KEY 
+		    '  	  mbrNo 			INTEGER NOT NULL '+ 
 		    ' 	, blackMbrNo		INTEGER NOT NULL '+
+		    ' 	, blackMbrName 		TEXT '+
+		    ' 	, blackMbrPhoneNo 	INTEGER '+
+		    ' 	, blackMbrPhotoUrl 	TEXT '+
 		    ' 	, blackMbrRegDate 	DATETIME '+
 		    ' 	, PRIMARY KEY (mbrNo, blackMbrNo)'+
     		' );', 
@@ -63,13 +66,16 @@ var insertBlackTable = function( transaction, blackList ) {
 			transaction.executeSql(
 					// SQL
 					"INSERT INTO BLACK "+
-					"	( mbrNo, blackMbrNo, blackMbrRegDate ) "+
+					"	( mbrNo, blackMbrNo, blackMbrName, blackMbrPhoneNo, blackMbrPhotoUrl, blackMbrRegDate ) "+
 					"VALUES "+
-					"	(     ?,          ?,               ? );", 
+					"	(     ?,          ?,            ?,               ?,                ?,               ? ); ", 
 					// Parameter
 					[
 					 	blackList[i].mbrNo,
-						blackList[i].blackMbrNo, 
+						blackList[i].blackMbrNo,
+						blackList[i].blackMbrName,
+						blackList[i].blackMbrPhoneNo,
+						blackList[i].blackMbrPhotoUrl,
 						blackList[i].blackMbrRegDate
 					 ],
 			 		// Success

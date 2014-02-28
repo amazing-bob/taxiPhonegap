@@ -27,7 +27,7 @@ $(document).ready(function() {
 //		console.log("tempLogin()...........");
 //		console.log(rootPath);
 //		setLocalItem("myInfo", {
-//				mbrNo: 26,
+//				mbrNo: 1,
 //				mbrName:"회원001",
 //				mbrPhotoUrl: "../images/photo/m01.jpg",
 //				startRange: 500,
@@ -38,7 +38,7 @@ $(document).ready(function() {
 //		});
 		
 		// 웹 버전일 경우만 주석 풀어야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//		isSignUp( getLocalItem("myInfo") );
+		isSignUp( getLocalItem("myInfo") );
 		
 	});
 	
@@ -226,7 +226,8 @@ function extractionContactData(contacts) {
     		
     		frndList[num] = {
     				frndName : contactsList[i].name ,
-    				frndPhoneNo : b64_md5(contactsList[i].value)
+    				frndPhoneNo : contactsList[i].value
+    				//frndPhoneNo : b64_md5(contactsList[i].value)
     		};
     		
     		num++;

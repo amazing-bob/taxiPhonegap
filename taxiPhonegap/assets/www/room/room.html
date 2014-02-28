@@ -63,7 +63,7 @@
 				data-inset="true" data-corners="false">
 				<li data-theme="none" style="padding: 0;"><span
 					id="roomStartTime"></span> <span id="roomStartDay"
-					style="margin-top: 24px; font: 110%;"></span> <span id="fareName"></span>
+					style="margin-top: 24px; font: 110%;">출발</span> <span id="fareName"></span>
 					<span id="totalFareName"></span> <span id="myFare"></span> <span
 					id="roomFare"></span> <span hidden="ture" id="roomNo"></span></li>
 			</ul>
@@ -89,7 +89,12 @@
 				<a id="btnColorSign" data-rel="popup"> <img id="colorSign"
 					src="../images/common/star-hi.png">
 				</a> <span id="roomDistance"></span>
-				<div id="canvas_map"></div>
+				<div id="canvas_map">
+					<!-- 왼쪽패널 버튼 -->
+					<a id="btnShowMenu" data-enhance="false"> <img
+						src="../images/common/menu.png">
+					</a>
+				</div>
 				<div id="divRoomList" data-theme="none" data-tap-toggle="false"
 					data-flag="close"></div>
 			</div>
@@ -110,10 +115,6 @@
 					</ul>
 				</section>
 			</div>
-			<!-- 왼쪽패널 버튼 -->
-			<a id="btnShowMenu" data-enhance="false"> <img
-				src="../images/common/menu.png">
-			</a>
 		</section>
 
 
@@ -142,30 +143,31 @@
 			</ul>
 		</div>
 
-		<!-- 전화걸기 팝업 -->
-		<div id="popupCall_popup" data-role="popup" data-theme="none"
+		<!-- 블랙리스트 등록 팝업 -->
+		<div id="blacklistRegister_popup" data-role="popup" data-theme="none"
 			data-dismissible="true" data-inset="true" data-overlay-theme="a"
 			data-corners="false">
 			<ul id="exitUi" data-role="listview" data-inset="true" data-theme="d"
 				data-corners="false">
 				<li class="exitHeader title_li" data-role="list-divider"
-					data-theme="c">전화걸기</li>
-				<li class="outText"><span id="callTextSpan"></span> <span
-					class="outTextSpan">님에게 전화하시겠습니까?</span></li>
+					data-theme="c">블랙리스트 등록</li>
+				<li class="outText"><span id="spanBlackText"></span> <span
+					class="outTextSpan">님을 블랙리스트로 등록 하시겠습니까?</span></li>
 				<li class="liBtnArea">
 					<div class="divCancel">
 						<a class="cancelExit" data-theme="none" data-rel="back" href="#"
 							data-corners="false"> <span class="spanCancel">취소</span>
 						</a>
 					</div>
-					<div id="divCallMbr">
-						<a id="callRoom" href="#" data-theme="none" data-corners="false">
-							<span id="spanCall">통화하기</span>
+					<div id="divRegisterBlacklist">
+						<a id="btnRegisterBlacklist" href="#" data-theme="none" data-corners="false">
+							<span id="spanCall">등록하기</span>
 						</a>
 					</div>
 				</li>
 			</ul>
 		</div>
+		
 	</div>
 	<!-- end page -->
 
