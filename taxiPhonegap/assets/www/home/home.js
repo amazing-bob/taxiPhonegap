@@ -124,8 +124,8 @@ $(document).ready(function() {
 	$("#divAddRoom").on("click", function(event) {		
 		event.stopPropagation();
 		
-//		push.initialise("addRoom");
-		addRoom('111111111111111111111111111'); //////////////////////////////////////////// Web용 임시
+		push.initialise("addRoom");
+//		addRoom('111111111111111111111111111'); //////////////////////////////////////////// Web용 임시
 		
 		$("#divAddRoomCondition_popup").popup("close");
 		
@@ -918,8 +918,8 @@ var createRoomList = function( roomList, isRoomMbr ) {
 											
 											var roomNo = $(this).parents("li").data("roomNo");
 											
-//											push.initialise("joinRoom", roomNo);
-											joinRoom('111111111111111111111111111', roomNo); //////////////////////////////////////////// Web용 임시
+											push.initialise("joinRoom", roomNo);
+//											joinRoom('111111111111111111111111111', roomNo); //////////////////////////////////////////// Web용 임시
 											
 											return false;
 										}) ) )
