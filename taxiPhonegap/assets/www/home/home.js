@@ -71,13 +71,16 @@ $(document).ready(function() {
 		 return false;
 	 });
 
-
+/**
+ *    설   명 : 출발지 최근 이용지 실시간 검색
+ *    작성자 : 장종혁
+ */
 	$("#divStartEndLoc input[type=text]").bind("keypress", function(e) {
 		if (e.keyCode == 13) {
 			searchLocation(this);
 		}
 	});
-	$("#startInput").on("input", function(e) {
+    $("#startInput").on("input", function(e) {
 		if ( $("#startInput").val() == "" ) {
 			$("#aStartSearchClear").css("visibility", "hidden");
 		} else {

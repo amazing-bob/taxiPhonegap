@@ -122,12 +122,13 @@ var registerEvent = function() {
 
 		var keyPressed = evt.which || evt.keyCode;
 		var mbrNo = myInfo.mbrNo;
-
+		var myRoom = getSessionItem("myRoom");
+		
 		if (keyPressed == 13) {
 
 			var feedContent = $("#reply").val();
 			$("#reply").val("");
-			addFeed(mbrNo, feedContent, roomNo);
+			addFeed(mbrNo, feedContent, myRoom.roomNo);
 		}
 	});
 
@@ -723,18 +724,17 @@ var getAndSetFeedList = function(roomNo){
  */
 var addFeed = function(mbrNo, feedContent, roomNo) {
 	console.log("addFeed(mbrNo, feedContent, roomNo)");
-//	console.log(mbrNo, feedContent, roomNo);
+	console.log(mbrNo, feedContent, roomNo);
 	
 	$.post( rootPath + "/feed/addFeed.do",
 			{
-		mbrNo	:  mbrNo,
-		roomNo	:  roomNo,
-		feedContent	:  feedContent
+				mbrNo		:  mbrNo,
+				roomNo		:  roomNo,
+				feedContent	:  feedContent
 			},
 			function(result) {
 				if(result.status == "success") {
 					getAndSetFeedList(roomNo);
-					console.log("성공!!! 방정보 받기");
 
 				} else {
 					alert("실행중 오류발생!");
@@ -806,7 +806,7 @@ var registerBlacklist = function( blackMbrNo ){
 	
 	$.getJSON(
 			// URL
-			rootPath + "/blackList/registerBlacklist.do",
+			rootPath + "/black/registerBlacklist.do",
 			// Parameter
 			{ 
 				mbrNo 		: myInfo.mbrNo,

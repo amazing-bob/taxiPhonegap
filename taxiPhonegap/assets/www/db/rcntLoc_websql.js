@@ -123,7 +123,6 @@ var deleteAllRcntLocTable = function(transaction) {
 };
 
 
-
 /**
  *    설   명 : 최근 출발지 , 목적지 검사
  *    작성자 : 장종혁
