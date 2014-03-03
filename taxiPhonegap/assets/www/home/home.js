@@ -77,18 +77,106 @@ $(document).ready(function() {
 			searchLocation(this);
 		}
 	});
-    $("#startInput").on("input", function(e) {
+	$("#startInput").on("input", function(e) {
 		if ( $("#startInput").val() == "" ) {
 			$("#aStartSearchClear").css("visibility", "hidden");
 		} else {
 			$("#aStartSearchClear").css("visibility", "visible");
+			
+			var value = {
+					text : $("#startInput").val(),
+					type : 'S'
+			};
+			
+			selectRcntLoc(value, function(rcntList) {
+		
+			var startRcntList = new Array();
+				
+				console.log(rcntList[i]);
+				for ( var i = 0; i < rcntList.length; i++ ) {
+					startRcntList[i] = rcntList[i].rcntLocName;
+				}
+			
+				$( "#startInput" ).autocomplete({
+				      source: startRcntList,
+				      select: function( event, ui ) {
+				    	  
+				    	  for ( var i = 0; i < rcntList.length; i++ ) {
+								
+					    		  if(rcntList[i].rcntLocName == ui.item.value){
+					    			  
+					    			  setStartLocationSession(
+					    					  	rcntList[i].rcntLocLng,
+				                     			rcntList[i].rcntLocLat,
+				                     			rcntList[i].rcntLocName,
+				                    			"",
+				                    			function () {
+				                		    		checkEndLocation();
+				                		    		map.moveTo( new olleh.maps.Coord(rcntList[i].rcntLocLng, rcntList[i].rcntLocLat) );
+				                		    	});
+					    			  
+					    		  }
+							}
+				    	  
+				      }
+				    });
+				
+				
+			
+			});
+			
 		}
 	});
+    
+    /**
+     *    설   명 : 목적지 최근 이용지 실시간 검색
+     *    작성자 : 장종혁
+     */
     $("#endInput").on("input", function(e) {
 		if ( $("#endInput").val() == "" ) {
 			$("#aEndSearchClear").css("visibility", "hidden");
 		} else {
 			$("#aEndSearchClear").css("visibility", "visible");
+
+			var value = {
+					text : $("#endInput").val(),
+					type : 'E'
+			};
+			selectRcntLoc(value, function(rcntList) {
+		
+			var endRcntList = new Array();
+			
+				for ( var i = 0; i < rcntList.length; i++ ) {
+					
+					endRcntList[i] = rcntList[i].rcntLocName;
+
+				}
+			
+				$( "#endInput" ).autocomplete({
+				      source: endRcntList,
+				      select: function( event, ui ) {
+				    	  
+				    	  for ( var i = 0; i < rcntList.length; i++ ) {
+								
+					    		  if(rcntList[i].rcntLocName == ui.item.value){
+					    			  
+					    			  setEndLocationSession(
+					    					  	rcntList[i].rcntLocLng,
+				                     			rcntList[i].rcntLocLat,
+				                     			rcntList[i].rcntLocName,
+				                    			"",
+				                    			function () {
+				                		    		checkEndLocation();
+				                		    		map.moveTo( new olleh.maps.Coord(rcntList[i].rcntLocLng, rcntList[i].rcntLocLat) );
+				                		    	});
+					    			  
+					    		  }
+							}
+				    	  
+				      }
+				    });
+			
+			});
 		}
 	});
     $("#startInput").click(function(event) {
@@ -1263,6 +1351,9 @@ var joinRoom = function(regId, roomNo) {
     	var params = {
 	    		roomNo 		: roomNo,
 	    		mbrNo		: myInfo.mbrNo,
+	            startLocName 	: locationSession.startName,
+	            startLocLng 	: locationSession.startX,
+	            startLocLat 	: locationSession.startY,
 				endLocName 	: locationSession.endName,
 				endLocLat 	: locationSession.endY,
 				endLocLng 	: locationSession.endX,

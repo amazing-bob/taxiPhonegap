@@ -121,3 +121,52 @@ var deleteAllRcntLocTable = function(transaction) {
 			});
 			
 };
+
+
+
+/**
+ *    설   명 : 최근 출발지 , 목적지 검사
+ *    작성자 : 장종혁
+ */
+var selectRcntLoc = function(value, callback){
+	console.log("selectRcntLoc(value, callback)");
+	
+	var text = value.text;
+	var type = value.type;
+	
+	taxidb.transaction(	function(transaction) {
+		transaction.executeSql(
+				// SQL
+				" select 	rcntLocNo " +
+				"		, 	mbrNo " +
+				"		, 	rcntLocName" +
+				"		, 	rcntLocSt" +
+				"		, 	rcntLocLat" +
+				"		, 	rcntLocLng" +
+				"		, 	rcntLocRegDate" +
+				" from 		RCNT_LOC " +
+				" where 	rcntLocName like ? " +
+				" and rcntLocSt = ? " +
+				" limit 5",
+				// Parameter
+				["%"+text+"%", type],
+				// Success
+				function (transaction, results) {
+					console.log("selectRcntLoc  success");
+					var len = results.rows.length;
+					console.log("size : " + len);
+					var rcntList = new Array();
+			        for (var i=0; i<len; i++){
+			        	rcntList[i] = results.rows.item(i);
+			        }
+			        
+			        callback(rcntList);
+			        
+			    }, 
+			    // Fail
+			    function() {
+			    	console.log("selectRcntLoc  fail");
+			    });
+	  });
+
+};
