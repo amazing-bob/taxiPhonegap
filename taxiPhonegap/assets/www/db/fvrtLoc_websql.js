@@ -4,18 +4,18 @@
  */
 var createFvrtLocTable = function (transaction) {
 	console.log("createFvrtLocTable(transaction)");
-	
+
 	transaction.executeSql(
 			// SQL
 			' CREATE TABLE IF NOT EXISTS FVRT_LOC '+ 
 			' ('+
-		    		'  fvrtLocNo 	INTEGER NOT NULL PRIMARY KEY'+
-		    		', mbrNo 		INTEGER'+
-		    		', fvrtLocName 	TEXT'+
-		    		', fvrtLocLat 	DOUBLE'+
-		    		', fvrtLocLng 	DOUBLE'+
-		    		', fvrtLocRank 	INTEGER'+
-    		' );', 
+			'  fvrtLocNo 	INTEGER NOT NULL PRIMARY KEY'+
+			', mbrNo 		INTEGER'+
+			', fvrtLocName 	TEXT'+
+			', fvrtLocLat 	DOUBLE'+
+			', fvrtLocLng 	DOUBLE'+
+			', fvrtLocRank 	INTEGER'+
+			' );', 
 			// Parameter
 			[], 
 			// Success
@@ -35,7 +35,7 @@ var createFvrtLocTable = function (transaction) {
  */
 var dropFvrtLocTable = function (transaction) {
 	console.log("dropFvrtLocTable(transaction)");
-	
+
 	transaction.executeSql(
 			// SQL
 			"DROP TABLE IF EXISTS FVRT_LOC;", 
@@ -70,15 +70,15 @@ var insertFvrtLocTable = function( transaction, fvrtLocList ) {
 					"	(         ?,     ?,           ?,          ?,           ?,          ? );", 
 					// Parameter
 					[
-						 fvrtLocList[i].fvrtLocNo, 
-						 fvrtLocList[i].mbrNo,
-						 fvrtLocList[i].fvrtLocName,
-						 fvrtLocList[i].fvrtLocLat, 
-						 fvrtLocList[i].fvrtLocLng, 
-						 fvrtLocList[i].fvrtLocRank
+					 fvrtLocList[i].fvrtLocNo, 
+					 fvrtLocList[i].mbrNo,
+					 fvrtLocList[i].fvrtLocName,
+					 fvrtLocList[i].fvrtLocLat, 
+					 fvrtLocList[i].fvrtLocLng, 
+					 fvrtLocList[i].fvrtLocRank
 					 ],
-			 		// Success
-					function() {
+					 // Success
+					 function() {
 						console.log("insertFvrtLocTable  success");
 					},
 					// Fail
@@ -86,13 +86,47 @@ var insertFvrtLocTable = function( transaction, fvrtLocList ) {
 						console.log("insertFvrtLocTable  fail");
 					});
 		}
-		
+
 	} else {
 		console.log("insertFrndTable  null");
 	}
 };
+/**
+ * 즐겨찾기 랭크 업데이트 (현재 업데이트 문 error 로 안쓰지만 추후 수정예정)
+ * 작성자 : 김태경
+ */
+var updateFvrtLocRank = function( transaction , fvrtLocList ) {
+	console.log("updateFvrtLocRank(fvrtLocList)");
+	
+	var sql = 
+		"UPDATE FVRT_LOC" +
+		"SET fvrtLocRank =?" + 
+		"WHERE fvrtLocNo =?;";
+	
+	for(var i in fvrtLocList){
+		console.log(fvrtLocList[i].fvrtLocRank+"====================================");
+		console.log(fvrtLocList[i].fvrtLocNo+"=====================================");
+		
+		transaction.executeSql(
+				sql, 
+				// Parameter
+				[
+				 fvrtLocList[i].fvrtLocRank,
+				 fvrtLocList[i].fvrtLocNo
+				 ],
+				 // Success
+				 function() {
+					console.log("updateFvrtLocTable  success");
+				},
+				// Fail
+				function () {
+					console.log("updateFvrtLocTable  fail");
+				});
 
 
+	}
+
+};
 /**
  *   설  명 : 즐겨찾기 전부 삭제
  *   작성자 : 김상헌
@@ -108,7 +142,7 @@ var deleteAllFvrtLocTable = function(transaction) {
 			sql, 
 			// Parameter
 			[],
-	 		// Success
+			// Success
 			function() {
 				console.log("deleteAllFvrtLocTable  success");
 			},
@@ -116,7 +150,7 @@ var deleteAllFvrtLocTable = function(transaction) {
 			function () {
 				console.log("deleteAllFvrtLocTable  fail");
 			});
-			
+
 };
 
 
@@ -139,18 +173,18 @@ var deleteFvrtLocTable = function( mbrNo, fvrtLocNo ) {
 				sql, 
 				// Parameter
 				[
-					 mbrNo,
-					 fvrtLocNo
+				 mbrNo,
+				 fvrtLocNo
 				 ],
-		 		// Success
-				function() {
+				 // Success
+				 function() {
 					console.log("deleteFvrtLocTable  success");
 				},
 				// Fail
 				function () {
 					console.log("deleteFvrtLocTable  fail");
 				});
-			
+
 	});
 };
 
@@ -162,7 +196,7 @@ var deleteFvrtLocTable = function( mbrNo, fvrtLocNo ) {
 var selectMyFvrtLocList = function(mbrNo, callback){
 	console.log("selectMyFvrtLocList(mbrNo, callback)");
 //	console.log(mbrNo, callback);
-	
+
 	taxidb.transaction(	function(transaction) {
 		var sql = 
 			" select 	" +
@@ -175,7 +209,7 @@ var selectMyFvrtLocList = function(mbrNo, callback){
 			" from  	FVRT_LOC " +
 			" where 	1 = 1 " +
 			" and 		mbrNo = ? " +
-			" order by  fvrtLocRank desc";
+			" order by  fvrtLocRank";
 		console.log(sql);
 		transaction.executeSql(
 				sql,
@@ -185,19 +219,19 @@ var selectMyFvrtLocList = function(mbrNo, callback){
 				function (transaction, results) {
 					console.log("selectMyFvrtLocList  success");
 					var len = results.rows.length;
-					
+
 					var fvrtLocList = new Array();
-			        for( var i = 0; i < len; i++ ){
-			        	fvrtLocList[i] = results.rows.item(i);
-			        }
-			        
-			        callback(fvrtLocList);
-			        
-			    }, 
-			    // Fail
-			    function() {
-			    	console.log("selectMyFvrtLocList  fail");
-			    });
-	  });
+					for( var i = 0; i < len; i++ ){
+						fvrtLocList[i] = results.rows.item(i);
+					}
+
+					callback(fvrtLocList);
+
+				}, 
+				// Fail
+				function() {
+					console.log("selectMyFvrtLocList  fail");
+				});
+	});
 
 };

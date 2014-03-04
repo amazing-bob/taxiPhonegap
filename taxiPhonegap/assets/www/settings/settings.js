@@ -6,27 +6,27 @@ var myInfo;
 var fvrtLocNo;
 
 $(document).ready(function() {
-	
-	myInfo = getSessionItem("myInfo");
-	
+
+	myInfo = getLocalItem("myInfo");
+
 	initAjaxLoading();
-	
+
 	document.addEventListener("deviceready", onDeviceReady, false);
 
-	
+
 	$("#seach").click(function() {
 		startRangeChk();
 		endRangeChk();
-		 $("#startRange").find("input[type='radio']").bind("change", function(){
-      });
+		$("#startRange").find("input[type='radio']").bind("change", function(){
+		});
 	});
-	
-	
+
+
 	$(".rangeSave").click(function() {
 		addRange();
 	});
-	
-	
+
+
 	/*$.getJSON( rootPath + "/setting/getRange.do", function(result){
 		if(result.status == "success") {
 			var setting = result.data;
@@ -55,9 +55,9 @@ $(document).ready(function() {
 		$(".btnRefresh").css("border-radius","40px");
 		frndRefresh();
 	});
-	
-	
-	
+
+
+
 	/**
 	 * 내용:회원탈퇴부분
 	 * 작성자:김태경
@@ -74,11 +74,11 @@ $(document).ready(function() {
 	});
 
 	$("#btnChange").click(function(){
-	   fvrtLocLists();
+		fvrtLocLists();
 	});
 
 	$("#btnDeleteLoc").click(function() {
-		
+
 		deleteFvrtLoc();
 	});
 
@@ -86,7 +86,7 @@ $(document).ready(function() {
 		listFvrtLoc();
 	});
 	$("#btnFvrtLocUpdate").click(function(){
-    	fvrtLocUpdate();
+		fvrtLocUpdate();
 	});
 	$(".save").click(function(){
 		rankUpdate();
@@ -95,13 +95,13 @@ $(document).ready(function() {
 	$(".content").hide();
 	$("#btnList").show();
 	$("#btnList").click(function () {
-	$(".content").toggle("slide");
+		$(".content").toggle("slide");
 	});
 
 	$(".contents").hide();
 	$("#btnChange").show();
 	$("#btnChange").click(function () {
-	$(".contents").toggle("slide");
+		$(".contents").toggle("slide");
 	});
 	$.mobile.loadPage( "settings.html", { showLoadMsg: false } );
 
@@ -109,13 +109,13 @@ $(document).ready(function() {
 
 /*친구목록갱신 버튼*/
 $( document ).on( "click", ".show-page-loading-msg", function() {
-    $.mobile.loading( "show", {
-            text: "친구목록 갱신중...",
-            textVisible: textVisible,
-            theme: theme,
-            textonly: textonly,
-            html: html
-    });
+	$.mobile.loading( "show", {
+		text: "친구목록 갱신중...",
+		textVisible: textVisible,
+		theme: theme,
+		textonly: textonly,
+		html: html
+	});
 });
 
 /**
@@ -129,11 +129,11 @@ function onDeviceReady() {
 	document.addEventListener("backbutton", touchBackBtnCallbackFunc, false);
 
 	try {
-	    getLoginStatus();
+		getLoginStatus();
 
-    } catch (e) {
-    	Toast.shortshow(e);
-    }
+	} catch (e) {
+		Toast.shortshow(e);
+	}
 }
 
 
@@ -143,7 +143,7 @@ function onDeviceReady() {
  */
 
 function startRangeChk() {
-	
+
 	myInfo = getSessionItem("myInfo");
 
 	if(myInfo.startRange == "500"){
@@ -155,7 +155,7 @@ function startRangeChk() {
 	}else if(myInfo.startRange =="3000"){
 		$("#radio-choice-h-2d").prop("checked", true);
 	}
-	
+
 }
 
 
@@ -182,40 +182,40 @@ function frndRefresh() {
 	getFacebookMyInfo(function(myInfo) {
 		console.log(myInfo);
 		$.ajax(rootPath + "/member/frndRefresh.do", {
-    		type: "POST",
-    		data: JSON.stringify( myInfo ),
-    		dataType: "json",
-    		contentType: "application/json",
-    		success: function(result) {
-    			if(result.status == "success") {
-    				Toast.shortshow("친구목록이 갱신 되었습니다.");
-//    				location.href = "../setting/settings.html";
-    				$(".btnRefresh").attr("src", "../images/common/btn_refresh.png");
-    				$(".btnRefresh").attr("style", "width:40px");
-    				$(".btnRefresh").attr("style", "height:40px");
-    				$(".btnRefresh").attr("style", "margin-top:-10px");
+			type: "POST",
+			data: JSON.stringify( myInfo ),
+			dataType: "json",
+			contentType: "application/json",
+			success: function(result) {
+				if(result.status == "success") {
+					Toast.shortshow("친구목록이 갱신 되었습니다.");
+//					location.href = "../setting/settings.html";
+					$(".btnRefresh").attr("src", "../images/common/btn_refresh.png");
+					$(".btnRefresh").attr("style", "width:40px");
+					$(".btnRefresh").attr("style", "height:40px");
+					$(".btnRefresh").attr("style", "margin-top:-10px");
 
-    				var d = new Date();
-//    				var year = d. getFullYear().toString().substr(2, 2);
-    				var year = d. getFullYear();
-    				var month = d.getMonth();
-    				var dates = d.getDate();
-    				var time = d.toLocaleTimeString().slice(0, 5);
-    				var ampm = null;
+					var d = new Date();
+//					var year = d. getFullYear().toString().substr(2, 2);
+					var year = d. getFullYear();
+					var month = d.getMonth();
+					var dates = d.getDate();
+					var time = d.toLocaleTimeString().slice(0, 5);
+					var ampm = null;
 
-//    				if(time.slice(0, 2) < 12){
-//    					ampm = "오전";
-//    				} else {
-//    					ampm = "오후";
-//    				}
-    				$("#frndUpdateDate").text(year + "." + month + "." + dates + " " + time);
+//					if(time.slice(0, 2) < 12){
+//					ampm = "오전";
+//					} else {
+//					ampm = "오후";
+//					}
+					$("#frndUpdateDate").text(year + "." + month + "." + dates + " " + time);
 
 
-    			} else {
-    				Toast.shortshow("친구목록 갱신 실패");
-    			}
-    		}
-    	});
+				} else {
+					Toast.shortshow("친구목록 갱신 실패");
+				}
+			}
+		});
 	});
 };
 
@@ -225,44 +225,33 @@ function frndRefresh() {
  * 작성자:김태경
  */
 function leaveMember() {
-	
+
 	$.post(rootPath + "/member/leaveMember.do",
 			myInfo,
 			function(result) {
-				if(result.status == "success") {
-					
-					removeSessionItem("myInfo");
-					/*Toast.shortshow("탈퇴가 성공적으로 되었습니다.");*/
-					alert("회원탈퇴 성공");
-					changeHref("../auth/auth.html");
-					console.log("처리됨");
-//					facebookLogout();	//이 부분은 아직 나중에 처리 하고.
-				} else {
-					/*Toast.shortshow("실행중 오류발생!");*/
-					
-				}
-			},
+		if(result.status == "success") {
+
+			removeSessionItem("myInfo");
+			/*Toast.shortshow("탈퇴가 성공적으로 되었습니다.");*/
+			alert("회원탈퇴 성공");
+			changeHref("../auth/auth.html");
+			console.log("처리됨");
+//			facebookLogout();	//이 부분은 아직 나중에 처리 하고.
+		} else {
+			/*Toast.shortshow("실행중 오류발생!");*/
+
+		}
+	},
 	"json");
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * 내  용:즐겨찾기 서버디비 데이타 삭제 후 로컬디비 동기화.
  * 작성자:김태경
  */
 function deleteFvrtLoc() {
-	
+
+
 	var params = {
 			mbrNo 		: myInfo.mbrNo,
 			fvrtLocNo 	: this.fvrtLocNo
@@ -270,24 +259,20 @@ function deleteFvrtLoc() {
 	$.getJSON( rootPath + "/location/deleteFavoritePlace.do"
 			, params
 			, function(result) {
-				if(result.status == "success") {
-					console.log(result.data);
-					console.log(result);
-					
-					myInfo.fvrtLocList = result.data;
-					
-					if(myInfo.dbUpdateStatus == false){
-						myInfo.dbUpdateStatus = true;
-					}
-					setSessionItem("myInfo",myInfo);
-					
-					$("#popupFvrtLoc").popup("close");
-					fvrtLocLists();
-				} else {
-					/*Toast.shortshow("실행중 오류발생!");*/
-					console.log(result.data);
-				}
-			});
+		if(result.status == "success") {
+			console.log(result.data);
+			console.log(result);
+
+			//서버디비 값을 삭제 했다면 로컬디비에 에서도 삭제작업.
+
+			deleteFvrtLocTable(params.mbrNo,params.fvrtLocNo);
+			$("#popupFvrtLoc").popup("close");
+			fvrtLocLists();
+		} else {
+			/*Toast.shortshow("실행중 오류발생!");*/
+			console.log(result.data);
+		}
+	});
 }
 /**
  * 내용:거리반경 정보 db update 및 localStorage 동기화
@@ -304,18 +289,18 @@ function addRange(){
 			},
 			function(result) {
 				if(result.status == "success") {
-					
+
 					myInfo.startRange = result.data.startRange;
 					myInfo.endRange = result.data.endRange;
-					
+
 //					setSessionItem("myInfo",myInfo);
-					
+
 					/*Toast.shortshow("반경설정이 변경되었습니다.");*/
 					console.log("변경된 검색지 반경"+myInfo.startRange+"=========");
 					console.log("변경된 검색지 반경"+myInfo.endRange+"=========");
-					
+
 					setSessionItem("myInfo", myInfo);
-					
+
 					changeHref("../settings/settings.html");
 					/*location.href = "../settings/settings.html";*/
 				} else {
@@ -324,7 +309,7 @@ function addRange(){
 				}
 			},
 	"json");
-	
+
 	/*$.getJSON(rootPath + "/setting/getRange.do", function(result){
 		if(result.status == "success") {
 		var setting = result.data;
@@ -341,24 +326,24 @@ function selected(obj) {
 }
 /* 라디오버튼 벨류값 가져오기 */
 function getRadioValue(radioObj){
-	 if(radioObj != null){
-	  for(var i=0; i<radioObj.length; i++){
-	   if(radioObj[i].checked){
-	    return radioObj[i].value;
-//	    alert(radioObj[radioObj.checkedIndex].value);
-	   }
-	  }
-	 }
-	 return null;
+	if(radioObj != null){
+		for(var i=0; i<radioObj.length; i++){
+			if(radioObj[i].checked){
+				return radioObj[i].value;
+//				alert(radioObj[radioObj.checkedIndex].value);
+			}
+		}
 	}
+	return null;
+}
 /*즐겨찾기 우선순위 변경*/
 $(document).bind('pageinit', function() {
-    $( "#sortable" ).sortable();
-    $( "#sortable" ).disableSelection();
-    $( "#sortable" ).bind( "sortstop", function(event, ui) {
-    /*$('#sortable').listview('refresh');*/
-    });
-  });
+	$( "#sortable" ).sortable();
+	$( "#sortable" ).disableSelection();
+	$( "#sortable" ).bind( "sortstop", function(event, ui) {
+		/*$('#sortable').listview('refresh');*/
+	});
+});
 /*웹에서는 아래것을 사용해야 drag and drop이 가능*/
 /*$(function() {
     $( "#sortable" ).sortable();
@@ -369,7 +354,7 @@ $(document).bind('pageinit', function() {
 /**
  * 내  용:서버디비 즐겨찾기 목록 가져오기.
  * 작성자 : 김태경
- */
+ *//*
 function fvrtLocLists(){
 	var params = {
 			mbrNo : myInfo.mbrNo
@@ -383,7 +368,7 @@ function fvrtLocLists(){
 					$("#sortable li").remove();
 					$('#fvrtLocNo').find('span').show();
 					for(var i=0; i<FvrtLoc.length; i++){
-		
+
 						     $("<li>")
 						     	.attr("data-theme", "f")
 						     	.attr("class","fvrtLocNo")
@@ -392,7 +377,7 @@ function fvrtLocLists(){
 						     	.attr("data-no",i)
 						     	.attr("onClick",'that.setFvrtLocNo('+FvrtLoc[i].fvrtLocNo+')')
 						     	.append($("<a>")
-						     					/*.css("text-decoration","none")*/
+						     					.css("text-decoration","none")
 										     	.attr("data-icon", "delete")
 										     	.attr("data-rel","popup")
 												.attr("href","#popupFvrtLoc")
@@ -406,9 +391,9 @@ function fvrtLocLists(){
 					Toast.shortshow("실행중 오류발생!");
 					console.log(getFavoritePlaces);
 				}
-		
+
 			},"json");
-};
+};*/
 
 
 
@@ -416,29 +401,46 @@ function fvrtLocLists(){
  * 내  용:로컬디비에서 즐겨찾기 목록 가져오기.
  * 작성자 : 김태경
  */
-/*var FvrtLoc = myInfo.fvrtLocList;
-var ol = $("#sortable");
-$("#sortable li").remove();
-$('#fvrtLocNo').find('span').show();
-for(var i=0; i<FvrtLoc.length; i++){
 
-	     $("<li>")
-	     	.attr("data-theme", "f")
-	     	.attr("id","fvrtLocNo")
-	     	.attr("fvrtLocNo", FvrtLoc[i].fvrtLocNo)
-	     	.attr("data-rank", FvrtLoc[i].fvrtLocRank)
-	     	.append($("<a>")
-	     					.css("text-decoration","none")
-					     	.attr("data-icon", "delete")
-					     	.attr("data-rel","popup")
+function fvrtLocLists(){
+
+	selectMyFvrtLocList(
+			myInfo.mbrNo,
+			// Callback
+			function( favoriteLocationList ) {
+
+				var ol = $("#sortable");
+				$("#sortable li").remove();
+				$('#fvrtLocNo').find('span').show();
+				for(var i=0; i<favoriteLocationList.length; i++){
+
+					$("<li>")
+					.attr("data-theme", "f")
+					.attr("class","fvrtLocNo")
+					.attr("fvrtLocNo", favoriteLocationList[i].fvrtLocNo)
+					.attr("data-rank", favoriteLocationList[i].fvrtLocRank)
+					.attr("data-no",i)
+					.attr("onClick",'that.setFvrtLocNo('+favoriteLocationList[i].fvrtLocNo+')')
+					.append($("<a>")
+							.css("text-decoration","none")
+							.attr("data-icon", "delete")
+							.attr("data-rel","popup")
 							.attr("href","#popupFvrtLoc")
-					     	.append($("<div>")
-					     	.text(FvrtLoc[i].fvrtLocName))
-	     	)
-	        .appendTo(ol);
-}*/
+							.attr("class","test1")
+							.append($("<div>")
+									.text(favoriteLocationList[i].fvrtLocName))
+					)
+					.appendTo(ol);
+				};
+			});
 
-/*즐겨찾기 우선순위 변경 저장클릭시 이동*/
+}
+
+
+/**
+ * 내용:즐겨찾기 우선순위 변경후 저장시 호출
+ * 작성자 : 김태경
+ */
 function fvrtLocUpdate(){
 	var fvrtArr = [];
 	for(var index = 0; index < $("#sortable>li").size(); index++ ) {
@@ -472,22 +474,29 @@ function rankUpdate() {
 		dataType: "json",
 		contentType: "application/json",
 		success: function(result) {
-			console.log(fvrtArr);
+			
 			if(result.status == "success") {
-    			console.log(result.data);
-    			
-    			//여기서 동기화 시켜주면 fvrtLocLists()는 로컬 디비에서 업데이트 된 데이터를 불러온다.
-    			myInfo.fvrtLocList = result.data;
-    			
-    			if(myInfo.dbUpdateStatus == false){
-    				myInfo.dbUpdateStatus = true;
-    			}
-    			setSessionItem("myInfo",myInfo);
-    			
-    			fvrtLocLists();
-    			/*Toast.shortshow("우선순위가 변경되었습니다.");*/
-    			$("#sortable").listview('refresh');
-            	location.href = "../settings/settings.html";
+				
+
+				//여기서 동기화 시켜주면 fvrtLocLists()는 로컬 디비에서 업데이트 된 데이터를 불러온다.
+				var fvrtLocList = result.data;
+				console.log(fvrtLocList);
+				for(var i in fvrtLocList){
+					console.log("위치번호:"+fvrtLocList[i].fvrtLocNo+"우선순위:"+fvrtLocList[i].fvrtLocRank);
+				}
+				executeQuery(
+						// Transaction Execute
+						function( transaction ) {
+							deleteAllFvrtLocTable(transaction);
+							insertFvrtLocTable( transaction , fvrtLocList );
+						},
+						// Success Callback
+						function() {
+							console.log("aaaa");
+							//Toast.shortshow("우선순위가 변경되었습니다.");
+							//$("#sortable").listview('refresh');
+							location.href = "../settings/settings.html";
+						});
 			} else {
 				/*Toast.shortshow("실행중 오류발생!");*/
 			}
@@ -513,6 +522,7 @@ var touchBackBtnCallbackFunc = function() {
  * 작업자:김태경
  */
 var setFvrtLocNo = function(fvrtLocNo){
-	console.log(fvrtLocNo+"===================================");
+	console.log(myInfo.mbrNo+"======================================");
+	console.log(fvrtLocNo+"=======================================");
 	this.fvrtLocNo = fvrtLocNo;
 };
