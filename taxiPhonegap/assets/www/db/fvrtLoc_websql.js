@@ -99,14 +99,11 @@ var updateFvrtLocRank = function( transaction , fvrtLocList ) {
 	console.log("updateFvrtLocRank(fvrtLocList)");
 	
 	var sql = 
-		"UPDATE FVRT_LOC" +
-		"SET fvrtLocRank =?" + 
-		"WHERE fvrtLocNo =?;";
+		" UPDATE FVRT_LOC" +
+		" SET fvrtLocRank =?" + 
+		" WHERE fvrtLocNo =?;";
 	
 	for(var i in fvrtLocList){
-		console.log(fvrtLocList[i].fvrtLocRank+"====================================");
-		console.log(fvrtLocList[i].fvrtLocNo+"=====================================");
-		
 		transaction.executeSql(
 				sql, 
 				// Parameter
@@ -122,8 +119,6 @@ var updateFvrtLocRank = function( transaction , fvrtLocList ) {
 				function () {
 					console.log("updateFvrtLocTable  fail");
 				});
-
-
 	}
 
 };

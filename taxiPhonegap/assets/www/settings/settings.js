@@ -15,6 +15,7 @@ $(document).ready(function() {
 
 
 	$("#seach").click(function() {
+		myInfo = getLocalItem("myInfo");
 		startRangeChk();
 		endRangeChk();
 		$("#startRange").find("input[type='radio']").bind("change", function(){
@@ -22,7 +23,7 @@ $(document).ready(function() {
 	});
 
 
-	$(".rangeSave").click(function() {
+	$("#rangeSave").click(function() {
 		addRange();
 	});
 
@@ -62,10 +63,11 @@ $(document).ready(function() {
 	 * 내용:회원탈퇴부분
 	 * 작성자:김태경
 	 */
-	$("#btnLeave").click(function(){
+	$("#divExit").click(function(){
+		console.log("회원탈퇴");
 		leaveMember();
 	});
-	$("#btnCancel").click(function(){
+	$("#divCancel").click(function(){
 		console.log("close");
 		$("#popupLeaveMember").popup("close");
 	});
@@ -88,7 +90,7 @@ $(document).ready(function() {
 	$("#btnFvrtLocUpdate").click(function(){
 		fvrtLocUpdate();
 	});
-	$(".save").click(function(){
+	$("#save").click(function(){
 		rankUpdate();
 	});
 
@@ -144,8 +146,10 @@ function onDeviceReady() {
 
 function startRangeChk() {
 
-	myInfo = getSessionItem("myInfo");
-
+//	myInfo = getSessionItem("myInfo");
+	
+	
+	
 	if(myInfo.startRange == "500"){
 		$("#radio-choice-h-2a").prop("checked", true);
 	}else if(myInfo.startRange =="1000"){
@@ -164,7 +168,9 @@ function startRangeChk() {
  * 작성자:김태경
  */
 function endRangeChk() {
-
+	
+	
+	
 	if(myInfo.endRange == "500"){
 		$("#radio-choice-h-3a").prop("checked", true);
 	}else if(myInfo.endRange =="1000"){
@@ -221,22 +227,34 @@ function frndRefresh() {
 
 
 /**
- * 내용:해당 localStorage 객체 해당 하는 모든 db데이터삭제후 localStorage 삭제.
+ * 내용: 서버디비 회원정보 삭제 로컬 스토리지 세션 스토리지 로컬 디비 삭제 auth.html 이동 재가입 화면
  * 작성자:김태경
  */
 function leaveMember() {
-
+	console.log(myInfo.mbrNo+"번회원===========");
+	var param = {
+			mbrNo : myInfo.mbrNo
+	};
 	$.post(rootPath + "/member/leaveMember.do",
-			myInfo,
+			param,
 			function(result) {
-		if(result.status == "success") {
-
-			removeSessionItem("myInfo");
-			/*Toast.shortshow("탈퇴가 성공적으로 되었습니다.");*/
-			alert("회원탈퇴 성공");
+				if(result.status == "success") {
+					clearSession();
+					clearLocal();
+					
+					executeQuery(
+					// Transaction Execute
+					function( transaction ) {
+						dropBlackTable(transaction);
+						dropFrndTable(transaction);
+						dropFvrtLocTable(transaction);
+						dropKeywordTable(transaction);
+						dropRcntLocTable(transaction);
+					});
+			//Toast.shortshow("탈퇴가 성공적으로 되었습니다.");
+			//alert("회원탈퇴 성공");
 			changeHref("../auth/auth.html");
 			console.log("처리됨");
-//			facebookLogout();	//이 부분은 아직 나중에 처리 하고.
 		} else {
 			/*Toast.shortshow("실행중 오류발생!");*/
 
@@ -292,17 +310,9 @@ function addRange(){
 
 					myInfo.startRange = result.data.startRange;
 					myInfo.endRange = result.data.endRange;
-
-//					setSessionItem("myInfo",myInfo);
-
 					/*Toast.shortshow("반경설정이 변경되었습니다.");*/
-					console.log("변경된 검색지 반경"+myInfo.startRange+"=========");
-					console.log("변경된 검색지 반경"+myInfo.endRange+"=========");
-
-					setSessionItem("myInfo", myInfo);
-
+					setLocalItem("myInfo", myInfo);
 					changeHref("../settings/settings.html");
-					/*location.href = "../settings/settings.html";*/
 				} else {
 					/*Toast.shortshow("실행중 오류발생!");*/
 					console.log(result.data);
@@ -487,12 +497,10 @@ function rankUpdate() {
 				executeQuery(
 						// Transaction Execute
 						function( transaction ) {
-							deleteAllFvrtLocTable(transaction);
-							insertFvrtLocTable( transaction , fvrtLocList );
+							updateFvrtLocRank(transaction, fvrtLocList);
 						},
 						// Success Callback
 						function() {
-							console.log("aaaa");
 							//Toast.shortshow("우선순위가 변경되었습니다.");
 							//$("#sortable").listview('refresh');
 							location.href = "../settings/settings.html";
