@@ -16,6 +16,9 @@ var directionMarkers;
 
 var myScroll;
 
+var roomList = [];
+var page = 0;
+
 var contentWidth;
 var contentHeight;
 
@@ -438,48 +441,63 @@ var initStartTime = function() {
 	$('#inputTime').mobiscroll("setValue", [hour, minute, ampm]);
 };
 
+
 /**
- * 설  명: 방목록 iScroll 로딩
+ * 설  명: 방 목록 iScroll 로딩 될 때 처리 - 방 목록 더 가져오기, 경로 위치 지정
  * 작성자: 김상헌
  */
-function loaded() {
-	console.log("loadRoomScroll()");
+var loadedMyScroll = function() {
+	console.log("loadedMyScroll()");
 	myScroll = new iScroll('wrapper', {
-		snap: "li",
-		momentum: false,
-		hScrollbar: false,
-		onRefresh: function () {
-			console.log("onRefresh...");
-		},
-		onScrollMove: function () {
-		},
-		onScrollEnd: function () {
-			console.log("onScrollEnd...");
-		},
-		onTouchEnd: function () {
+		snap 			: "li",
+		momentum 		: false,
+		hScrollbar 		: false,
+		onRefresh 		: function() { console.log("onRefresh..."); 		},
+		onScrollMove 	: function() { console.log("onScrollMove..."); 	},
+		onScrollEnd 	: function() { console.log("onScrollEnd..."); 	},
+		onTouchEnd 		: function() {
 			console.log("onTouchEnd...");
+			
+			///////////////////////////////
+			if ( page < 5 && this.maxScrollX > this.x ) { 
+                searchRooms( myInfo.mbrNo, ++page );
+                  
+            } else { 
+                var currPageX = this.currPageX; 
+                  
+//                hideMarkers(markers); 
+//                markers[currPageX].setZIndex(++zIdx); 
+//                markers[currPageX].getIcon().url = selectedMarkerImg; 
+//                showMarkers(markers); 
+                
+    			var roomLi = $( $("#ulRoomList li").get(myScroll.currPageX) );
 
-			var roomLi = $( $("#ulRoomList li").get(myScroll.currPageX) );
+    			initRoute();
 
-			initRoute();
+    			searchRoute(
+    					parseFloat( roomLi.data("startX") ),
+    					parseFloat( roomLi.data("startY") ),
+    					parseFloat( roomLi.data("endX") ),
+    					parseFloat( roomLi.data("endY") ),
+    					"directionsService_callback",
+    					null );
+  
+//                map.moveTo(markers[currPageX].position, 10); 
+            } 
+			////////////////////////////////
+			
+			
 
-			searchRoute(
-					parseFloat( roomLi.data("startX") ),
-					parseFloat( roomLi.data("startY") ),
-					parseFloat( roomLi.data("endX") ),
-					parseFloat( roomLi.data("endY") ),
-					"directionsService_callback",
-					null );
+
 
 		}
 	});
-	
 
-}
+};
 
 document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 
-document.addEventListener('DOMContentLoaded', loaded, false);
+document.addEventListener('DOMContentLoaded', loadedMyScroll, false);
 
 /**
  * 설  명: 초기화
@@ -633,7 +651,7 @@ var checkEndLocation = function() {
 						locationSession.endName,
 						locationSession.endPrefix );
 
-		searchRooms();
+		searchRooms( myInfo.mbrNo, /*page*/ 0 );
 
 	} else {
 		// 최근 목적지 조회 & 목적지로 설정
@@ -772,13 +790,15 @@ var searchLocation = function( target ) {
  * 설  명: 방 목록 조회
  * 작성자: 김상헌
  */
-var searchRooms = function() {
-	console.log("searchRooms()");
+var searchRooms = function( mbrNo, page ) {
+	console.log("searchRooms(mbrNo, page)");
+//	console.log(mbrNo, page);
 
 	var locationSession = getSessionItem("locationSession");
 
 	var params = {
-		mbrNo		: myInfo.mbrNo,
+		mbrNo		: mbrNo,
+		page 		: page,
 		startLat 	: locationSession.startY,
 		startLng 	: locationSession.startX,
 		startRange 	: myInfo.startRange,
@@ -794,7 +814,6 @@ var searchRooms = function() {
 					initRoute();
 					
 					var searchRoomList 	= result.data;
-
 					var roomPathList 	= null;
 					var roomMbrList 	= null;
 					var startInfo 		= null;
@@ -803,9 +822,9 @@ var searchRooms = function() {
 					var startTime 		= null;
 					var isMyRoom 		= "false";
 
-					var roomList 		= [];
+					var realignRoomList 		= [];
 
-					// 각 방들의 정보가 세팅된 방리스트 만듬
+					// 각 방들의 정보 출력이 쉽도록 값들의 배치 변경
 					for( var i = 0; i < searchRoomList.length; i++ ) {
 						roomMbrList = searchRoomList[i].roomMbrList;
 						isMyRoom 	= isIRoomMember( roomMbrList, myInfo.mbrNo );
@@ -833,8 +852,8 @@ var searchRooms = function() {
 						startTime = new Date(searchRoomList[i].roomStartTime);
 						startTime = startTime.toTimeString().substr(0, 5);
 						
- 
-						roomList[i] = {
+						
+						realignRoomList[i] = {
 							roomNo 		: searchRoomList[i].roomNo,
 							startTime 	: startTime,
 							roomDistance: searchRoomList[i].roomDistance,
@@ -850,6 +869,22 @@ var searchRooms = function() {
 						};
 
 					}
+					
+					/////////////////////////////////
+					console.log("------------------------------");
+					console.log(searchRoomList);
+					console.log(realignRoomList);
+					console.log(roomList);
+					// 기존의 방리스트에 조회해온 리스트 추가
+                    if ( realignRoomList && realignRoomList.length > 0 ) { 
+                        var roomListLen = roomList.length; 
+                        for( var i = 0 ; i < realignRoomList.length; i++ ) { 
+                        	roomList[roomListLen + i] = realignRoomList[i]; 
+                        } 
+                    }
+                    console.log(roomList);
+                    console.log("------------------------------");
+					////////////////////////////////////				
 
 					// 내방 여부에 따른 화면 세팅
 					if ( isRoomMbr() ) { 
@@ -904,7 +939,7 @@ var createRoomList = function( roomList, isRoomMbr ) {
 //	console.log( roomList, isRoomMbr );
 
 	if ( !myScroll ) {
-		loaded();
+		loadedMyScroll();
 	}
 
 	$("#ulRoomList").children().remove();
@@ -1096,6 +1131,12 @@ var createRoomList = function( roomList, isRoomMbr ) {
 	if ( roomList && roomList.length > 1 ) {
 		myScroll.refresh();
 		myScroll.enable();
+		
+		// 페이지 마지막이면 가져온 후 자동으로 다음페이지 이동 처리
+        var currPageX = myScroll.currPageX; 
+        if ( currPageX != 0 ) { 
+            myScroll.scrollToPage( ++currPageX, 1, 1000 ); 
+        }
 
 	} else {
 		myScroll.disable();
