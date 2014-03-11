@@ -79,21 +79,23 @@ var onDeviceReady = function() {
 	document.addEventListener("backbutton", touchBackBtnCallbackFunc, false);	
 };
 
-function loaded() {
-    console.log("loaded()"); 
-    myScroll = new iScroll('wrapper', { 
-        snap: "li", 
-        momentum: false,             
-        hScrollbar: false, 
-        onRefresh: function () { 
-        }, 
-        onScrollMove: function () { 
-        }, 
-        onScrollEnd: function () { 
-        },  
-        onTouchEnd: function () { 
-//          console.log("onTouchEnd..."); 
-            if ( page < 5 && this.maxScrollX > this.x ) { 
+/**
+ * 설  명: 위치 목록 iScroll 로딩 될 때 처리 - 위치 목록 더 가져오기, 마커위치 지정
+ * 작성자: 김상헌
+ */
+var loadedMyScroll = function() {
+    console.log("loadedMyScroll()"); 
+    myScroll = new iScroll('wrapper', {
+        snap 			: "li", 
+        momentum 		: false,             
+        hScrollbar 		: false, 
+        onRefresh 		: function() { console.log("onRefresh..."); 		},
+		onScrollMove 	: function() { console.log("onScrollMove..."); 	},
+		onScrollEnd 	: function() { console.log("onScrollEnd..."); 	},
+		onTouchEnd 		: function() {
+			console.log("onTouchEnd...");
+			
+			if ( page < 5 && this.maxScrollX > this.x ) { 
                 searchLocation(query, ++page); 
                   
             } else { 
@@ -104,15 +106,15 @@ function loaded() {
                 markers[currPageX].getIcon().url = selectedMarkerImg; 
                 showMarkers(markers); 
   
-                map.moveTo(markers[currPageX].position, 10); 
+                map.moveTo(markers[currPageX].position, 10);
             } 
         } 
     }); 
-}
+};
   
 document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
   
-document.addEventListener('DOMContentLoaded', loaded, false); 
+document.addEventListener('DOMContentLoaded', loadedMyScroll, false); 
   
 document.addEventListener("deviceready", function() {
 	document.addEventListener("backbutton", yourCallbackFunction, false);	
@@ -130,18 +132,23 @@ var searchAgain = function( target ) {
         changeHref( "location.html", { query : query }); 
     } 
 }; 
-  
+
+
+/**
+ * 설  명: 위치정보 olleh API에서 조회하기
+ * 작성자: 김상헌
+ */
 var searchLocation = function(query, page) { 
     console.log("searchLocation(query, page)"); 
 //    console.log(query, page);
     
     var params = { 
-            query : encodeURI(query), 
-            places : 8, 
-            addrs : 8, 
-            sr : "RANK",   //DIS:거리순, RANK:정확도순, MATCH:일치 
-            p : page, 
-            timestamp : 1317949634794 
+            query 		: encodeURI(query), 
+            places 		: 8, 
+            addrs 		: 8, 
+            sr 			: "RANK",   //DIS:거리순, RANK:정확도순, MATCH:일치 
+            p 			: page, 
+            timestamp 	: 1317949634794 
         }; 
       
     $.getJSON( rootPath + "/map/ollehMapApi.do",  
@@ -150,7 +157,6 @@ var searchLocation = function(query, page) {
                 params : JSON.stringify( params ) 
             },  
             function(result) {
-//            	console.log("======success :: " + JSON.stringify(result));
                 if ( result.status == "success" ) {
                     var resultData =  JSON.parse(result.data); 
                     var tmpLocations = [];           
@@ -166,18 +172,23 @@ var searchLocation = function(query, page) {
                         for( var i = 0 ; i < tmpMarkers.length; i++ ) { 
                             markers[markerLen + i] = tmpMarkers[i]; 
                         } 
-                    } 
+                    }
                       
                     createLocationList(locations, page); 
                 } 
             }); 
 }; 
-  
+
+
+/**
+ * 설  명: 검색된 위치 화면에 만들기
+ * 작성자: 김상헌
+ */
 var createLocationList = function(locations, page) { 
     console.log("createLocationList()"); 
       
     if ( !myScroll ) { 
-        loaded(); 
+        loadedMyScroll(); 
     } 
       
     $("#ulLocationList").children().remove(); 
@@ -263,12 +274,13 @@ var createLocationList = function(locations, page) {
         } 
           
         myScroll.refresh(); 
-          
+        
+        // 페이지 마지막이면 가져온 후 자동으로 다음페이지 이동 처리
         var currPageX = myScroll.currPageX; 
-        if ( currPageX != 0) { 
-            myScroll.scrollToPage( ++currPageX, 1, 1000); 
-        } 
-          
+        if ( currPageX != 0 ) { 
+            myScroll.scrollToPage( ++currPageX, 1, 1000 ); 
+        }
+        
         if ( currPageX % 8 == 0 ) { 
             markers[currPageX].setZIndex(++zIdx); 
             hideMarkers(markers); 
@@ -429,11 +441,11 @@ var loadMap = function (coord, zoom) {
     console.log("loadMap(coord, zoom)"); 
       
     var mapOptions = {       
-        center : coord, 
-        zoom : zoom, 
-        mapTypeId : olleh.maps.MapTypeId.BASEMAP, 
-        mapTypeControl: false, 
-        zIndex: 0 
+        center 			: coord, 
+        zoom 			: zoom, 
+        mapTypeId 		: olleh.maps.MapTypeId.BASEMAP, 
+        mapTypeControl 	: false, 
+        zIndex 			: 0 
     };  
       
     map = new olleh.maps.Map(document.getElementById("canvas_map"), mapOptions); 
@@ -444,16 +456,14 @@ var setMarkers = function(locations) {
     var tmpMarkers = []; 
     for (var i in locations) { 
         tmpMarkers[i] = new olleh.maps.Marker({ 
-                position : new olleh.maps.Coord(locations[i].X, locations[i].Y), 
-                map : map,   
-                icon : new olleh.maps.MarkerImage( 
-                        defaultMarkerImg,  
-                        new olleh.maps.Size(24, 45), 
-                        new olleh.maps.Pixel(0, 0), 
-                        new olleh.maps.Pixel(12, 40) 
-                ), 
-                title : locations[i].NAME, 
-        }); 
+	                position 	: new olleh.maps.Coord(locations[i].X, locations[i].Y), 
+	                map 		: map,   
+	                icon 		: new olleh.maps.MarkerImage ( 	defaultMarkerImg,  
+										                        new olleh.maps.Size(24, 45), 
+										                        new olleh.maps.Pixel(0, 0), 
+										                        new olleh.maps.Pixel(12, 40) ), 
+	                title 		: locations[i].NAME,
+        		}); 
         tmpMarkers[i].setZIndex(0); 
     } 
     return tmpMarkers; 
