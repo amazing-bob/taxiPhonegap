@@ -44,12 +44,17 @@
     margin-top: -9px;
 }
 
-#seach{
+.myInfoManagferDiv {
     margin-top: -1px;
     padding-left: 0px;
     padding-right: 0px;
-
+ 	margin-top: 0px;
+    margin-bottom: 0px;
 }
+
+
+
+
 #btnLogout{
     padding-top: 18px;
     padding-bottom: 18px;
@@ -171,7 +176,7 @@ margin-top: -10px;
 #frndUpdateDate{
 float: left;
 position: absolute;
-margin-left: 15px;
+margin-left: 23%;
 }
 
 select {font-size:2em}
@@ -257,12 +262,16 @@ ol.ui-listview .ui-link-inherit:before, ol.ui-listview .ui-li-static:before, .ui
 .ui-btn-inner{
     height: 51;
 }
-#bb{
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
+
 #out{
-    border: 0px;
+    border-top: 5px;
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    border-top: 0.1em solid #eee;
+}
+#myInfoManager{
+	border-top: 0.1em solid #eee;
 }
 #logouts{
     border-top: 0px;
@@ -287,17 +296,17 @@ ol.ui-listview .ui-link-inherit:before, ol.ui-listview .ui-li-static:before, .ui
     table-layout: fixed;
 }
 #btnLeaveMember{
-    padding-top: 18px;
-    padding-bottom: 18px;
+   /*  padding-top: 18px;
+    padding-bottom: 18px; */
 }
 #header{
-    font-family: 'Nanum Gothic'
+    font-family: 'Nanum Gothic';
     height: 40px;
     text-align: center;
 }
 
 #headerSet{
-    font-family: 'Nanum Gothic'
+    font-family: 'Nanum Gothic';
     font-size: large;
     font-weight: bolder;
 
@@ -340,7 +349,9 @@ ol.ui-listview .ui-link-inherit:before, ol.ui-listview .ui-li-static:before, .ui
 a{
    text-decoration: none !important;
 }
-
+/*
+저장버튼 기본 css
+*/
 a#save {
     cursor: pointer;
     position: absolute;
@@ -564,6 +575,16 @@ a#btnLeave:hover { background: #c6ecf8;  box-shadow: 0px 1px 5px #c6ecf8; z-inde
     height: 40px;
 }
 
+#imgMbrPhoto{
+	width: 15%;
+	height: auto; 
+	box-shadow: 0px 1px 10px #ccc; 
+	border-radius: 200px 200px 200px 200px; 
+	-moz-border-radius: 200px 200px 200px 200px; 
+	-webkit-border-radius: 200px 200px 200px 200px; 
+	-khtml-border-radius: 200px 200px 200px 200px; 
+	margin: 0; 
+}
 
 #outText{
     font-family: 'Nanum Gothic';
@@ -588,4 +609,19 @@ a#btnLeave:hover { background: #c6ecf8;  box-shadow: 0px 1px 5px #c6ecf8; z-inde
     font-size: inherit;
     color: black;
 }
-
+#myInfoManager{
+	margin-top: 10%;
+	/* border-top: 0.15em solid #eee; */
+}
+#accountInfo{
+	width:100%;
+	padding:0.7em 0.7em;
+}
+#account{
+	position:absolute;
+	top:30%;
+	left:17%;
+	text-align:center;
+	width: 77%;
+	font-size: xx-large;
+}
