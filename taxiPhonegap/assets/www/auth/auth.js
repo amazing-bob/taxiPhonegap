@@ -9,6 +9,9 @@ var contentHeight;
 var keyWordList = new Array();
 var keywordNo;
 
+var phoneNo;
+
+
 $(document).ready(function() {
 	console.log("ready()");
 	
@@ -38,7 +41,7 @@ $(document).ready(function() {
 //		});
 		
 		// 웹 버전일 경우만 주석 풀어야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//		isSignUp( getLocalItem("myInfo") );
+//		isSignUp( getLocalItem("myInfo"), /*phoneNo*/ null, /*uuid*/ null );
 //		isGetContactsComplet = true;
 		//////////////////////////////////////////////////////////////////////////////////
 		
@@ -131,34 +134,33 @@ var registerEvent = function() {
  */
 function onDeviceReady() {
 	console.log("onDeviceReady()");
-
-    setPhoneNo();
-    
+	
+    getsetPhoneNo();
     getContacts();
-    
-    isSignUp( getLocalItem("myInfo") );
+    isSignUp( getLocalItem("myInfo"), phoneNo, device.uuid );
     
 }
+
 
 /**
  *  설   명 : 휴대폰 전화번호를 자동으로 txtPhone 에 추가.
  *  작성자 : 장종혁
  *  수정내용 : 폰 번호를 +8210293023  이런 형식으로 가져올 경우 자동기입 안됨.
  */
-var setPhoneNo = function() {
-	console.log("setPhoneNo()");
+var getsetPhoneNo = function() {
+	console.log("getsetPhoneNo()");
 	
     PhoneNumber.getPhoneNo(function(result) {
 
-    	var number = result.phoneNo;
+    	phoneNo = result.phoneNo;
 		
-		if(number.substring(0,3)=="010"){
+		if(phoneNo.substring(0,3)=="010"){
 			
 		}else{
-			number = "0"+ number.substring(3);
+			phoneNo = "0"+ phoneNo.substring(3);
 		}
 		
-		$("#txtPhone").val(number);
+		$("#txtPhone").val(phoneNo);
 		$('#spnPhoneStatus').text('Valid');
 		$('#spnPhoneStatus').css('color', 'green');
 		$("#btnPhoneNo").removeAttr("disabled").button("refresh");
@@ -185,7 +187,7 @@ var getContacts = function() {
 
 
 /**
- * 설    명 : 주소록 가져온 정보를 추출하여 contactsList에 저장 후 임시로 세션 스토리지에 저장
+ * 설  명 : 주소록 가져온 정보를 추출하여 contactsList에 저장 후 임시로 세션 스토리지에 저장
  * 작성자 : 장종혁
  * P     S  : 친구의 휴대폰 정보는 Base64 md5 형식으로 저장됨. 
  */
@@ -247,15 +249,27 @@ function extractionContactData(contacts) {
  * 설  명: Taix 어플 회원가입 여부
  * 작성자: 김상헌
  */
-var isSignUp = function( myInfo ) {
-	console.log("isSignUp(myInfo)");
-//	console.log(myInfo);
-
-	if ( myInfo && myInfo.mbrNo ) {
-
-		$.getJSON( rootPath + "/auth/hasMember.do"
-				, { mbrNo: myInfo.mbrNo }
-				, function(result) {
+var isSignUp = function( myInfo, phoneNo, uuid ) {
+	console.log("isSignUp(myInfo, phoneNo, uuid)");
+//	console.log(myInfo, phoneNo, uuid);
+	
+	var mbrNo = 0;
+	
+	if ( myInfo && myInfo.mbrNo > 0 ) {
+		mbrNo = myInfo.mbrNo;
+	}
+	
+	if ( (mbrNo && mbrNo > 0) 
+			|| (phoneNo && uuid && phoneNo > 0 && uuid != "") ) {
+		$.getJSON( rootPath + "/auth/hasMember.do",
+				// Param
+				{
+					mbrNo 		: mbrNo,
+					mbrPhoneNo 	: phoneNo,
+					mbrUuid 	: uuid
+				},
+				// Success
+				function(result) {
 					if(result.status == "success") {
 						myInfo = result.data.myInfo;
 						
@@ -280,7 +294,6 @@ var isSignUp = function( myInfo ) {
 							
 						} else {
 							clearLocalData();
-		
 							// 회원가입 화면 이동 
 							$.mobile.changePage("#divPhonePage");
 						}
@@ -292,7 +305,6 @@ var isSignUp = function( myInfo ) {
 
 	} else {
 		clearLocalData();
-		
 		// 회원가입 화면 이동
 		$.mobile.changePage("#divPhonePage");
 	}
@@ -346,7 +358,7 @@ var clickSignupBtn = function(){
 	var mbrName = $("#txtName").val();
 
 	if ( phoneNo && mbrName ) {
-		signUp( phoneNo, mbrName , keywordNo);
+		signUp( phoneNo, device.uuid, mbrName , keywordNo);
 
 	} else {
 		console.log("clickSignupBtn 예외발생");
@@ -362,9 +374,9 @@ var clickSignupBtn = function(){
  * 
  * 추가 : 2014-02-25 장종혁 : WebDB에 myInfo값 추가를 위해 서버에서 받은 mbrNo를 받아서 저장.
  */
-var signUp = function( phoneNo, mbrName, keywordNo ) {
-	console.log("signUp(phoneNo, mbrName, keywordNo)");
-//	console.log(phoneNo, mbrName, keywordNo);
+var signUp = function( phoneNo, uuid, mbrName, keywordNo ) {
+	console.log("signUp(phoneNo, uuid, mbrName, keywordNo)");
+//	console.log(phoneNo, uuid, mbrName, keywordNo);
 
 	showLoadingImg();
 	
@@ -376,9 +388,11 @@ var signUp = function( phoneNo, mbrName, keywordNo ) {
 			var params = {
 					mbrName 	: mbrName,
 					mbrPhoneNo 	: phoneNo,
+					mbrUuid 	: uuid,
 					keywordNo	: keywordNo,
 					frndList 	: getSessionItem("frndData")
 			};
+			
 			$.ajax( rootPath + "/auth/signUp.do", {
 				type: "POST",
 				data: JSON.stringify( params ),

@@ -45,60 +45,94 @@
 		<!-- content -->
 		<div data-role="content" id="content" data-theme="f">
 			<div>
-				<ul id="list" data-role="listview"
-					data-corners="false">
-					<li data-role="list-divider" data-theme="f" id="myInfo">친구목록 갱신</li>
+				<ul id="list" data-role="listview" data-corners="false">
+					<li id="accountInfo">
+						<div id="imgMbrPhotoDiv">
+							<a href="popupImageView">
+							<img id="imgMbrPhoto" src="">
+							</a>
+							<a id="account">
+							</a>
+						</div>
+						
+					</li>
+				
+					<!-- <li data-role="list-divider" data-theme="f" id="myInfo">친구목록
+						갱신</li> -->
 
 					<!-- 친구정보갱신 -->
-						<li id="friend">
+					<li id="friend">
 						<div>
-						<span id="frndUpdateDateSpan">최종 추가 시간</span>
-						<span id="frndUpdateDate"></span>
-						   <a id="btnRefresh" data-enhance="false">
-						     	<img class="btnRefresh" src="../images/common/btn_refresh.png">
-						  	</a>
-						</div></li>
+							<span id="frndUpdateDateSpan">연락처 갱신</span> 
+							<span id="frndUpdateDate" class="show-page-loading-msg"></span> 
+							<a id="btnRefresh" data-enhance="false"> 
+								<img class="btnRefresh" src="../images/common/btn_refresh.png">
+							</a>
+						</div>
+					</li>
 
-					<li id="logouts" data-theme="f">
+					<!-- <li id="logouts" data-theme="f">
 						<a href="#popupLogout" id="btnLogout" data-rel="popup"
-							data-position-to="window" data-inline="false">로그아웃</a></li>
-					<li id="out" data-theme="f">
+							data-position-to="window" data-inline="false">로그아웃</a></li> -->
+					<!-- <li id="out" data-theme="f">
 						<a href="#popupLeaveMember" id="btnLeaveMember" data-rel="popup"
-							data-position-to="window" data-inline="false">회원탈퇴</a></li>
+							data-position-to="window" data-inline="false">회원탈퇴</a></li> -->
+				</ul>
+			</div>
+			<div id="popupImageView" data-role="popup" data-theme="none"
+				data-dismissible="true" data-inset="true" data-overlay-theme="a"
+				data-corners="false">
+				<ul id="imageViewUl" data-role="listview" data-inset="true"
+					data-theme="d" data-corners="false">
+					<li id="imageViewLi" data-role="list-divider"
+						data-theme="f">사진 선택</li>
+					
+					
+				</ul>
+			</div>
+			<!-- 회원탈퇴 확인 팝업 -->
+			<div id="popupLeaveMember" data-role="popup" data-theme="none"
+				data-dismissible="true" data-inset="true" data-overlay-theme="a"
+				data-corners="false">
+				<ul id="exitUi" data-role="listview" data-inset="true"
+					data-theme="d" data-corners="false">
+					<li id="exitHeader" class="title_li" data-role="list-divider"
+						data-theme="f">회원탈퇴</li>
+					<li id="outText">
+						<div>
+							<span id="textTaxi">TAXI 같이타자</span>
+						</div>
+						<div>
+							<span id="outTextSpan">를 이용해 주셔서 감사합니다.</span>
+						</div>
+						<div>
+							<span id="outTextSpan">탈퇴시 회원님의 모든 개인정보는 삭제됩니다. </span>
+						</div>
+						<div>
+							<span id="outTextSpan">탈퇴하시겠습니까?</span>
+						</div>
+					</li>
+					<li id="outLi">
+						<div id="divCancel">
+							<a class="btnLogoutCancel" data-theme="none" data-rel="back"
+								href="#" data-corners="false"> <span id="spanOutCancel">취소</span>
+							</a>
+						</div>
+						<div id="divExit">
+							<a id="btnLeave" href="#" data-theme="none" data-corners="false">
+								<span id="spanExit">탈퇴하기</span>
+							</a>
+						</div>
+					</li>
 				</ul>
 			</div>
 
-			<!-- 회원탈퇴 확인 팝업 -->
-		<div id="popupLeaveMember" data-role="popup" data-theme="none" data-dismissible="true"
-			data-inset="true" data-overlay-theme="a" data-corners="false">
-		<ul id="exitUi" data-role="listview" data-inset="true"  data-theme="d"  data-corners="false">
-			<li id="exitHeader" class="title_li"  data-role="list-divider" data-theme="f">회원탈퇴</li>
-			<li id="outText">
-				<div><span id="textTaxi">TAXI 같이타자</span></div>
-				<div><span id="outTextSpan">를 이용해 주셔서 감사합니다.</span></div>
-				<div><span id="outTextSpan">탈퇴시 회원님의 모든 개인정보는 삭제됩니다.   </span></div>
-				<div><span id="outTextSpan">탈퇴하시겠습니까?</span></div>
-			</li>
-			<li id="outLi">
-				<div id="divCancel">
-					<a class="btnLogoutCancel" data-theme="none" data-rel="back" href="#" data-corners="false">
-						<span id="spanOutCancel">취소</span>
-					</a>
-				</div>
-				<div id="divExit">
-                	<a id="btnLeave" href="#" data-theme="none" data-corners="false">
-                		<span id="spanExit">탈퇴하기</span>
-                	</a>
-				</div>
-			</li>
-		</ul>
-		</div>
-
 
 			<!-- 로그인아웃 확인 팝업 -->
-		</div><!-- //content -->
+		</div>
+		<!-- //content -->
 
-		<div id="popupLogout" data-role="popup" data-theme="none" data-dismissible="true"
+		<!-- 		<div id="popupLogout" data-role="popup" data-theme="none" data-dismissible="true"
 			data-inset="true" data-overlay-theme="a" data-corners="false">
 		<ul id="exitUi" data-role="listview" data-inset="true"  data-theme="d"  data-corners="false">
 			<li id="exitHeader" class="title_li"  data-role="list-divider" data-theme="f">로그아웃</li>
@@ -118,61 +152,91 @@
 				</div>
 			</li>
 		</ul>
-		</div>
+		</div> -->
 
 		<!-- 즐겨찾기 목록 불러오기 및 삭제,수정  -->
-		    <div>
-				<ul id="list" data-role="listview"
-					data-corners="false">
-					<li data-role="list-divider" data-theme="f" id=myInfo></li>
-					</ul>
-					</div>
-			<div id="myInfoManager">
+		<!-- <div>
+			<ul id="list" data-role="listview" data-corners="false">
+				<li data-role="list-divider" data-theme="f" id=myInfo></li>
+			</ul>
+		</div> -->
+		<div id="myInfoManager">
 			<!-- 즐겨찾기 우선순위 변경 -->
 			<div data-theme="f" data-content-theme="f" data-corners="false"
 				id="btnChange">
-				<a href="#pageFvrtSetting" id="btnList2" data-corners="false" data-role="button">즐겨찾기 우선순위 변경 및 삭제</a>
+				<a class="myInfoManagferDiv" href="#pageFvrtSetting" id="btnList2"
+					data-corners="false" data-role="button">즐겨찾기 우선순위 변경 및 삭제</a>
 			</div>
 			<!--  검색지반경설정 type 1 -->
-				<div id="seach" data-theme="f" data-content-theme="f" data-corners="false">
-				<a href="#pageRangeSetting" data-corners="false" data-role="button" id="bb">검색지 반경 설정</a>
-				</div>
+			<div id="seach" data-theme="f" data-content-theme="f"
+				data-corners="false">
+				<a class="myInfoManagferDiv" href="#pageRangeSetting"
+					data-corners="false" data-role="button">검색지 반경</a>
 			</div>
-		</div><!-- //page -->
-		<!-- 페이지전환되는것 -->
+
+			<div id="black" data-theme="f" data-content-theme="f"
+				data-corners="false">
+				<a class="myInfoManagferDiv" href="#pageBlakcListSetting"
+					data-corners="false" data-role="button">블랙리스트</a>
+			</div>
+
+			<div id="safe" data-theme="f" data-content-theme="f"
+				data-corners="false">
+				<a class="myInfoManagferDiv" href="#pageSafeServiceSetting"
+					data-corners="false" data-role="button">안심 서비스</a>
+			</div>
+			
+			<div id="out" data-theme="f" data-content-theme="f"
+				data-corners="false">
+				<a class="myInfoManagferDiv" href="#popupLeaveMember"
+					id="btnLeaveMember" data-corners="false" data-role="button" data-rel="popup" data-position-to="window"
+					data-inline="false">회원탈퇴</a>
+			</div>
+
+		</div>
+		
+		
+
+
+	</div>
+	<!-- //page -->
+	<!-- 페이지전환되는것 -->
+
+
+
+
 	<div data-role="page" id="pageFvrtSetting">
 		<div id="pages" data-role="header" data-theme="f">
 			<h1 id="page1">즐겨찾기 우선순위 변경 및 삭제</h1>
 		</div>
 
 		<div data-role="content" class="contents" data-theme="f"
-		data-content-theme="f" data-corners="false">
+			data-content-theme="f" data-corners="false">
 
-			<ol id="sortable" data-icon="false" data-role="listview" data-theme="f"
-				data-inset="false" data-corners="false" class="list">
-                                    </ol>
-			</div>
-			<div>
-			 <a id="save" class="save" data-enhance="false">
-	   			<span>저장</span>
-			 </a>
-			</div>
-			<div id="popupDeleteLoc" data-role="popup" data-corners="false">
-	    </div>
+			<ol id="sortable" data-icon="false" data-role="listview"
+				data-theme="f" data-inset="false" data-corners="false" class="list">
+			</ol>
+		</div>
+		<div>
+			<a id="save" class="save" data-enhance="false"> <span>저장</span>
+			</a>
+		</div>
+		<div id="popupDeleteLoc" data-role="popup" data-corners="false">
+		</div>
 
-	<!-- 등록지 삭제 팝업 -->
-	<div id="popupFvrtLoc" data-role="popup" data-corners="false">
-		<div data-role="header" data-theme="f" class="ui-corner-top">
-			<h1>등록지 삭제</h1>
+		<!-- 등록지 삭제 팝업 -->
+		<div id="popupFvrtLoc" data-role="popup" data-corners="false">
+			<div data-role="header" data-theme="f" class="ui-corner-top">
+				<h1>등록지 삭제</h1>
+			</div>
+			<div data-role="content" class="ui-corner-bottom ui-content">
+				<p>등록된 목적지를 삭제하시겠습니까?</p>
+				<a href="#" id="btnDeleteLocCancel" data-role="button"
+					data-inline="true" data-corners="false" data-mini="true">취소</a> <a
+					href="#" id="btnDeleteLoc" data-role="button" data-inline="true"
+					data-transition="flow" data-corners="false" data-mini="true">삭제</a>
+			</div>
 		</div>
-	<div data-role="content" class="ui-corner-bottom ui-content">
-		<p>등록된 목적지를 삭제하시겠습니까?</p>
-			<a href="#" id="btnDeleteLocCancel" data-role="button"
-				data-inline="true" data-corners="false" data-mini="true">취소</a> <a
-				href="#" id="btnDeleteLoc" data-role="button" data-inline="true"
-				data-transition="flow" data-corners="false" data-mini="true">삭제</a>
-		</div>
-	</div>
 	</div>
 	<!-- 검색지 반경설정 -->
 	<div data-role="page" id="pageRangeSetting">
@@ -189,19 +253,19 @@
 					data-theme="f">
 					<legend>출발지검색반경</legend>
 					<div id="startRange1">
-					<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a"
-						value="500"> <label for="radio-choice-h-2a">0.5km</label>
-					<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b"
-						value="1000"> <label for="radio-choice-h-2b">1km</label>
-					<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2c"
-						value="2000"> <label for="radio-choice-h-2c">2km</label>
-					<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2d"
-						value="3000"> <label for="radio-choice-h-2d">3km</label>
-				</div>
+						<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a"
+							value="500"> <label for="radio-choice-h-2a">0.5km</label>
+						<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b"
+							value="1000"> <label for="radio-choice-h-2b">1km</label>
+						<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2c"
+							value="2000"> <label for="radio-choice-h-2c">2km</label>
+						<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2d"
+							value="3000"> <label for="radio-choice-h-2d">3km</label>
+					</div>
 				</fieldset>
 			</form>
-			</div>
-			<div id="seach" data-theme="f" data-role="content" data-icon="list"
+		</div>
+		<div id="seach" data-theme="f" data-role="content" data-icon="list"
 			data-iconpos="right" data-content-theme="f" data-corners="false">
 			<form id="updateRange1" method="post" name="updateRange" action=""
 				data-role="listview" data-inset="true">
@@ -211,23 +275,37 @@
 					data-theme="f">
 					<legend>도착지검색반경</legend>
 					<div id="startRange2">
-					<input type="radio" name="radio-choice-h-2" id="radio-choice-h-3a"
-						value="500"> <label for="radio-choice-h-3a">0.5km</label>
-					<input type="radio" name="radio-choice-h-2" id="radio-choice-h-3b"
-						value="1000"> <label for="radio-choice-h-3b">1km</label>
-					<input type="radio" name="radio-choice-h-2" id="radio-choice-h-3c"
-						value="2000"> <label for="radio-choice-h-3c">2km</label>
-					<input type="radio" name="radio-choice-h-2" id="radio-choice-h-3d"
-						value="3000"> <label for="radio-choice-h-3d">3km</label>
-				</div>
+						<input type="radio" name="radio-choice-h-2" id="radio-choice-h-3a"
+							value="500"> <label for="radio-choice-h-3a">0.5km</label>
+						<input type="radio" name="radio-choice-h-2" id="radio-choice-h-3b"
+							value="1000"> <label for="radio-choice-h-3b">1km</label>
+						<input type="radio" name="radio-choice-h-2" id="radio-choice-h-3c"
+							value="2000"> <label for="radio-choice-h-3c">2km</label>
+						<input type="radio" name="radio-choice-h-2" id="radio-choice-h-3d"
+							value="3000"> <label for="radio-choice-h-3d">3km</label>
+					</div>
 				</fieldset>
 			</form>
-			</div>
-			<div>
-			 <a id="rangeSave" class="rangeSave" data-enhance="false">
-	   			<span>저장</span>
-			 </a>
-			</div>
+		</div>
+		<div>
+			<a id="rangeSave" class="rangeSave" data-enhance="false"> <span>저장</span>
+			</a>
+		</div>
 	</div>
+
+	<!-- 블랙리스트 설정 페이지 -->
+	<div data-role="page" id="pageBlakcListSetting">
+		<div data-role="header" data-theme="f">
+			<h1 id="page2">블랙리스트 설정</h1>
+		</div>
+	</div>
+
+	<!--  안심서비스 설정 페이지 -->
+	<div data-role="page" id="pageSafeServiceSetting">
+		<div data-role="header" data-theme="f">
+			<h1 id="page2">안심서비스 설정</h1>
+		</div>
+	</div>
+
 </body>
 </html>

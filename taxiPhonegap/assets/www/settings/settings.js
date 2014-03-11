@@ -13,7 +13,22 @@ $(document).ready(function() {
 
 	document.addEventListener("deviceready", onDeviceReady, false);
 
+	registerEvent();
+	
 
+});
+/**
+ * 내용:setting 이벤트 등록
+ * 작성자: 김태경
+ */
+var registerEvent = function(){
+	
+	console.log(myInfo.mbrPhotoUrl);
+	
+	checkAccount();
+	
+	/*$("#imgMbrPhoto").attr( "onClick" , "imageClick()");*/
+	
 	$("#seach").click(function() {
 		myInfo = getLocalItem("myInfo");
 		startRangeChk();
@@ -54,15 +69,10 @@ $(document).ready(function() {
 		$(".btnRefresh").css("margin-left","3.5px");
 		$(".btnRefresh").css("margin-top","-6px");
 		$(".btnRefresh").css("border-radius","40px");
-		frndRefresh();
+		
+		that.getFrndList();
 	});
 
-
-
-	/**
-	 * 내용:회원탈퇴부분
-	 * 작성자:김태경
-	 */
 	$("#divExit").click(function(){
 		console.log("회원탈퇴");
 		leaveMember();
@@ -106,20 +116,19 @@ $(document).ready(function() {
 		$(".contents").toggle("slide");
 	});
 	$.mobile.loadPage( "settings.html", { showLoadMsg: false } );
-
-});//ready()
-
-/*친구목록갱신 버튼*/
-$( document ).on( "click", ".show-page-loading-msg", function() {
-	$.mobile.loading( "show", {
-		text: "친구목록 갱신중...",
-		textVisible: textVisible,
-		theme: theme,
-		textonly: textonly,
-		html: html
+	
+	/*친구목록갱신 버튼*/
+	$( document ).on( "click", ".show-page-loading-msg", function() {
+		$.mobile.loading( "show", {
+			text: "친구목록 갱신중...",
+			textVisible: textVisible,
+			theme: theme,
+			textonly: textonly,
+			html: html
+		});
 	});
-});
-
+	
+};
 /**
  * deviceready 이벤트
  */
@@ -129,13 +138,13 @@ function onDeviceReady() {
 	push.initialise();
 
 	document.addEventListener("backbutton", touchBackBtnCallbackFunc, false);
-
-	try {
+//버그 - 화면 에 {} 출력되는 버그
+/*	try {
 		getLoginStatus();
 
 	} catch (e) {
 		Toast.shortshow(e);
-	}
+	}*/
 }
 
 
@@ -182,32 +191,58 @@ function endRangeChk() {
 	}
 }
 
-
-function frndRefresh() {
+/**
+ * 내용:연락처 가져와서 세션에 저장
+ * 작성자:김태경
+ */
+var getFrndList = function(){
 	console.log("frndRefresh()");
-	getFacebookMyInfo(function(myInfo) {
-		console.log(myInfo);
-		$.ajax(rootPath + "/member/frndRefresh.do", {
-			type: "POST",
-			data: JSON.stringify( myInfo ),
-			dataType: "json",
-			contentType: "application/json",
-			success: function(result) {
-				if(result.status == "success") {
-					Toast.shortshow("친구목록이 갱신 되었습니다.");
-//					location.href = "../setting/settings.html";
-					$(".btnRefresh").attr("src", "../images/common/btn_refresh.png");
-					$(".btnRefresh").attr("style", "width:40px");
-					$(".btnRefresh").attr("style", "height:40px");
-					$(".btnRefresh").attr("style", "margin-top:-10px");
-
+	//임시 세션에서 친구 리스트 삭제
+	removeSessionItem("frndData");
+	//frndData 새로운 친구 리스트 임시 세션에 저장.
+	getContacts();
+};
+/**
+ * 내용: 휴대폰연락쳐를 서버에 업데이트 로컬디비 동기화.
+ * 작성자: 김태경
+ */
+var updateFrndList = function(){
+	var param = {
+			
+			frndList : getSessionItem("frndList")
+	};
+	
+	$.ajax(rootPath + "/friend/frndRefresh.do",{
+		type : "POST",
+		data : JSON.stringify(param),
+		dataType : "json",
+		contentType : "application/json",
+		success : function(result){
+			if(result.status == "success") {
+				//Toast.shortshow("친구목록이 갱신 되었습니다.");
+//				location.href = "../setting/settings.html";
+				$(".btnRefresh").attr("src", "../images/common/btn_refresh.png");
+				$(".btnRefresh").attr("style", "width:40px");
+				$(".btnRefresh").attr("style", "height:40px");
+				$(".btnRefresh").attr("style", "margin-top:-10px");
+				
+				var a = result.data;
+				console.log(JSON.stringify(a));
+				executeQuery(
+				// Transaction Execute
+				function( transaction ) {
+					
+					deleteFrndData (	transaction, myInfo.mbrNo);	
+					insertFrndTable( 	transaction, result.data.frndList);
+					
+				},function(){
 					var d = new Date();
 //					var year = d. getFullYear().toString().substr(2, 2);
 					var year = d. getFullYear();
 					var month = d.getMonth();
 					var dates = d.getDate();
 					var time = d.toLocaleTimeString().slice(0, 5);
-					var ampm = null;
+//					var ampm = null;
 
 //					if(time.slice(0, 2) < 12){
 //					ampm = "오전";
@@ -215,16 +250,15 @@ function frndRefresh() {
 //					ampm = "오후";
 //					}
 					$("#frndUpdateDate").text(year + "." + month + "." + dates + " " + time);
-
-
-				} else {
-					Toast.shortshow("친구목록 갱신 실패");
-				}
+				});
+				
+			}else{
+				//Toast.shortshow("친구목록 갱신 실패");
 			}
-		});
+			
+		}
 	});
 };
-
 
 /**
  * 내용: 서버디비 회원정보 삭제 로컬 스토리지 세션 스토리지 로컬 디비 삭제 auth.html 이동 재가입 화면
@@ -310,26 +344,17 @@ function addRange(){
 
 					myInfo.startRange = result.data.startRange;
 					myInfo.endRange = result.data.endRange;
-					/*Toast.shortshow("반경설정이 변경되었습니다.");*/
+					//Toast.shortshow("반경설정이 변경되었습니다.");
 					setLocalItem("myInfo", myInfo);
 					changeHref("../settings/settings.html");
 				} else {
-					/*Toast.shortshow("실행중 오류발생!");*/
+					Toast.shortshow("실행중 오류발생!");
 					console.log(result.data);
 				}
 			},
 	"json");
 
-	/*$.getJSON(rootPath + "/setting/getRange.do", function(result){
-		if(result.status == "success") {
-		var setting = result.data;
-		$("#startRange1").val(setting.startRange);
-		$("#endRange1").val(setting.endRange);
-		}else{
-			Toast.shortshow("실행중 오류발생!");
-			console.log(result.data);
-		}
-	});*/
+
 }
 function selected(obj) {
 	// HTML로 부터 변경된 값 가져오는 함수
@@ -502,27 +527,45 @@ function rankUpdate() {
 						// Success Callback
 						function() {
 							//Toast.shortshow("우선순위가 변경되었습니다.");
-							//$("#sortable").listview('refresh');
+							/*$("#sortable").listview('refresh');*/
 							location.href = "../settings/settings.html";
 						});
 			} else {
-				/*Toast.shortshow("실행중 오류발생!");*/
+				//Toast.shortshow("실행중 오류발생!");
 			}
 		},
 	});
 };
 
 /**
- * 뒤로가기 버튼 처리
+ * 뒤로가기 버튼 처리(블랙리스트 안심서비스 페이지 추가 방참여인 경우 추가)
+ * 작성자: 김태경
  */
 var touchBackBtnCallbackFunc = function() {
 	console.log("touchBackBtnCallbackFunc()");
 
 	var pageId = $.mobile.activePage.attr('id');
-	if ( pageId && ( pageId == 'pageFvrtSetting' || pageId == 'pageRangeSetting' )) {
-		changeHref("../setting/settings.html");
+	console.log(pageId);
+	if ( pageId && (   pageId == 'pageFvrtSetting' 
+					|| pageId == 'pageRangeSetting' 
+					|| pageId == 'pageBlakcListSetting'
+					|| pageId == 'pageSafeServiceSetting')
+		) {
+		changeHref("../settings/settings.html");
 	} else {
-		changeHref("../home/home.html");
+		
+	//	history.back();
+	//	history.go(-1);
+		if ( isRoomMbr() ) {
+			var myRoom = getSessionItem("myRoom");
+			
+			if (  myRoom && myRoom.roomNo && myRoom.roomNo != 0) {
+				changeHref("../room/room.html", { roomNo : myRoom.roomNo });
+			}
+		}else{
+			changeHref("../home/home.html");
+		}
+		
 	}
 };
 /**
@@ -533,4 +576,87 @@ var setFvrtLocNo = function(fvrtLocNo){
 	console.log(myInfo.mbrNo+"======================================");
 	console.log(fvrtLocNo+"=======================================");
 	this.fvrtLocNo = fvrtLocNo;
+};
+
+/*var imageClick = function(){
+	alert("이미지 클릭됨");
+};*/
+/**
+ * 내 용:회원 가입 여부에 따른 로그인 텍스트 변경(TAXI 계정 or email)
+ * 작성자:김태경
+ */
+var checkAccount = function(){
+	console.log(myInfo.loginEmail);
+	if(myInfo.loginEmail){
+		$("#account").text(myInfo.loginEmail);
+		$("#imgMbrPhoto").attr( "src", myInfo.mbrPhotoUrl );
+	}else{
+		$("#account").text("TAXI 계정 로그인");
+		$("#imgMbrPhoto").attr( "src", myInfo.mbrPhotoUrl );
+	}
+};
+/**
+ * 내용:휴대폰에서 연락처 가져오기
+ * 작성자:장종혁
+ */
+var getContacts = function(){
+	
+	var options = new ContactFindOptions();
+    options.multiple  = true; 
+    var fields = ["displayName", "name","phoneNumbers"];
+    navigator.contacts.find(fields, extractionContactData, null, options);
+    
+};
+/**
+ * 내용:가져온 연락처 임시세션에 저장하기.
+ * 작성자:장종혁
+ */
+function extractionContactData(contacts) {
+	var contactsList = new Array();
+	var frndList = new Array();
+	
+    for (var i=0; i<contacts.length; i++) {
+
+        	if(contacts[i].phoneNumbers==null){
+        		
+        		contactsList[i] = {
+    					type : "notFound",
+    					name : 	contacts[i].displayName,
+    					value : "noHaveValue"
+    			};
+        		
+        	}else{
+        		
+	        		for (var j=0; j<contacts[i].phoneNumbers.length; j++) {
+
+	        			contactsList[i] = {
+	        					type : contacts[i].phoneNumbers[j].type,
+	        					name : 	contacts[i].displayName,
+	        					value : contacts[i].phoneNumbers[j].value
+	        			};
+	        		}
+        	}
+    }
+    
+    var num = 0;
+//    console.log(contactsList);
+    for(var i = 0; i<contactsList.length;i++){
+    	
+    //	console.log("정보 )    타입 : " + contactsList[i].type + "   | 이름 : " + contactsList[i].name + "   |번호 : " + contactsList[i].value+"\n");
+
+    	if( contactsList[i].value.substring(0,3)=="010"){
+    		
+    		frndList[num] = {
+    				frndName : contactsList[i].name ,
+    				frndPhoneNo : contactsList[i].value,
+    				mbrNo : myInfo.mbrNo
+    				//frndPhoneNo : b64_md5(contactsList[i].value)
+    		};
+    		
+    		num++;
+    		
+    	}
+    }
+    setSessionItem("frndList",frndList);
+    that.updateFrndList();
 };
