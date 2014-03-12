@@ -358,10 +358,14 @@ var clickSignupBtn = function(){
 	var mbrName = $("#txtName").val();
 
 	if ( phoneNo && mbrName ) {
+		var mbrPhotoNo = Math.floor((Math.random()*10)+1);
+		var mbrPhotoUrl = "../images/randomIconImage/TAXI_RANDOM_icon_"+mbrPhotoNo+".png";
+		
+		console.log(mbrPhotoUrl);
 		if (device) {
-			signUp( phoneNo, device.uuid, mbrName , keywordNo);
+			signUp( phoneNo, device.uuid, mbrName , keywordNo , mbrPhotoUrl);
 		} else {
-			signUp( phoneNo, null, mbrName , keywordNo);
+			signUp( phoneNo, null, mbrName , keywordNo , mbrPhotoUrl);
 		}
 		
 
@@ -379,7 +383,7 @@ var clickSignupBtn = function(){
  * 
  * 추가 : 2014-02-25 장종혁 : WebDB에 myInfo값 추가를 위해 서버에서 받은 mbrNo를 받아서 저장.
  */
-var signUp = function( phoneNo, uuid, mbrName, keywordNo ) {
+var signUp = function( phoneNo, uuid, mbrName, keywordNo, mbrPhotoUrl ) {
 	console.log("signUp(phoneNo, uuid, mbrName, keywordNo)");
 //	console.log(phoneNo, uuid, mbrName, keywordNo);
 
@@ -395,7 +399,8 @@ var signUp = function( phoneNo, uuid, mbrName, keywordNo ) {
 					mbrPhoneNo 	: phoneNo,
 					mbrUuid 	: uuid,
 					keywordNo	: keywordNo,
-					frndList 	: getSessionItem("frndData")
+					frndList 	: getSessionItem("frndData"),
+					mbrPhotoUrl : mbrPhotoUrl
 			};
 			
 			$.ajax( rootPath + "/auth/signUp.do", {
