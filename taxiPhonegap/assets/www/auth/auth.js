@@ -358,7 +358,12 @@ var clickSignupBtn = function(){
 	var mbrName = $("#txtName").val();
 
 	if ( phoneNo && mbrName ) {
-		signUp( phoneNo, device.uuid, mbrName , keywordNo);
+		if (device) {
+			signUp( phoneNo, device.uuid, mbrName , keywordNo);
+		} else {
+			signUp( phoneNo, null, mbrName , keywordNo);
+		}
+		
 
 	} else {
 		console.log("clickSignupBtn 예외발생");

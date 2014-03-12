@@ -1391,17 +1391,16 @@ var joinRoom = function(regId, roomNo) {
 		
 	} else {
     	var locationSession = getSessionItem("locationSession");
-    	
     	var params = {
-	    		roomNo 		: roomNo,
-	    		mbrNo		: myInfo.mbrNo,
+	    		roomNo 			: roomNo,
+	    		mbrNo			: myInfo.mbrNo,
 	            startLocName 	: locationSession.startName,
 	            startLocLng 	: locationSession.startX,
 	            startLocLat 	: locationSession.startY,
-				endLocName 	: locationSession.endName,
-				endLocLat 	: locationSession.endY,
-				endLocLng 	: locationSession.endX,
-				gcmRegId 	: regId
+				endLocName 		: locationSession.endName,
+				endLocLat 		: locationSession.endY,
+				endLocLng 		: locationSession.endX,
+				gcmRegId 		: regId
     	};
     	$.post( rootPath + "/room/joinRoom.do",
     			params,
