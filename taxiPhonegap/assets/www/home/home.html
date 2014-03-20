@@ -197,6 +197,32 @@ $(document).on("mobileinit", function() {
 			<li id="favoriteHeader" class="title_li"  data-role="list-divider" data-theme="c">자주가는 목적지</li>
 		</ul>
 	</div>
+	
+	
+	<!-- 같이타자 팝업 -->
+	<div id="joinRoom_popup" data-role="popup" data-theme="none"
+		data-dismissible="true" data-inset="true" data-overlay-theme="a"
+		data-corners="false">
+		<ul class="ulPopup" data-role="listview" data-inset="true" data-theme="d"
+			data-corners="false">
+			<li class="liPopupHeader title_li" data-role="list-divider"data-theme="c">같이타기</li>
+			<li class="liPopupContent">
+				<span class="popupContentSpan">현재 다른 방에 참여중 입니다.<br>기존 방을 나가시겠습니까?</span>
+			</li>
+			<li class="liBtnArea">
+				<div class="divCancelBtn">
+					<a class="aCancelBtn" data-theme="none" data-rel="back" href="#" data-corners="false">
+						<span class="spanCancelBtn">취소</span>
+					</a>
+				</div>
+				<div class="divOkBtn">
+					<a class="aOkBtn" href="#" data-theme="none" data-corners="false">
+						<span class="spanOkBtn">예</span>
+					</a>
+				</div>
+			</li>
+		</ul>
+	</div>	
 
 </div><!-- //page -->
 </body>

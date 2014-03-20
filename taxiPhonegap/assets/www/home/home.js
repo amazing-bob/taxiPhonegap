@@ -363,6 +363,35 @@ $(document).ready(function() {
 		}
 	});
 	
+		
+	// 참여하기 팝업 관련
+	$("#joinRoom_popup a.aCancelBtn").on("click", function(event) {
+		event.stopPropagation();
+		$("#joinRoom_popup").popup("close", {
+			transition : "pop"
+		});
+
+		return false;
+	});
+	$("#joinRoom_popup a.aOkBtn").on("click", function(event){
+		event.stopPropagation();
+		var outRoomNo = $("#joinRoom_popup").data("outRoomNo");
+		var joinRoomNo = $("#joinRoom_popup").data("joinRoomNo");
+		
+		outRoomToJoinRoom(myInfo.mbrNo, outRoomNo, joinRoomNo);
+
+		return false;
+	});
+	$("#joinRoom_popup").on("popupafterclose", function(event, ui) {
+		$(this).data("isOpen", false);
+	});
+	$("#joinRoom_popup").on("popupafteropen", function(event, ui) {
+		$(this).data("isOpen", true);
+	});
+	
+	
+	
+	
 }); //ready()
 
 
@@ -870,11 +899,6 @@ var searchRooms = function( mbrNo, page ) {
 
 					}
 					
-					/////////////////////////////////
-					console.log("------------------------------");
-					console.log(searchRoomList);
-					console.log(realignRoomList);
-					console.log(roomList);
 					// 기존의 방리스트에 조회해온 리스트 추가
                     if ( realignRoomList && realignRoomList.length > 0 ) { 
                         var roomListLen = roomList.length; 
@@ -882,9 +906,6 @@ var searchRooms = function( mbrNo, page ) {
                         	roomList[roomListLen + i] = realignRoomList[i]; 
                         } 
                     }
-                    console.log(roomList);
-                    console.log("------------------------------");
-					////////////////////////////////////				
 
 					// 내방 여부에 따른 화면 세팅
 					if ( isRoomMbr() ) { 
@@ -945,7 +966,7 @@ var createRoomList = function( roomList, isRoomMbr ) {
 	$("#ulRoomList").children().remove();
 	$("#scroller").css("width", 0+"px");
 
-	if (roomList && roomList.length > 0) { 
+	if (roomList && roomList.length > 0) { // 검색된 방이 있는 경우
 		var roomMbrList = null;
 		var divRoomMbrThumb = null;
 
@@ -1077,10 +1098,22 @@ var createRoomList = function( roomList, isRoomMbr ) {
 										.on("click", function(event) {
 											event.stopPropagation();
 											
-											var roomNo = $(this).parents("li").data("roomNo");
+											var joinRoomNo = $(this).parents("li").data("roomNo");
 											
-											push.initialise("joinRoom", roomNo);
-//											joinRoom('111111111111111111111111111', roomNo); //////////////////////////////////////////// Web용 임시
+											if ( isRoomMbr ) {
+												var outRoomNo = getSessionItem("myRoom").roomNo;
+												
+												$("#joinRoom_popup").data("outRoomNo", outRoomNo);
+												$("#joinRoom_popup").data("joinRoomNo", joinRoomNo);
+												
+												$("#joinRoom_popup").popup("open", {
+													transition : "pop"
+												});
+												
+											} else {
+												push.initialise("joinRoom", joinRoomNo);
+//												joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시	
+											}
 											
 											return false;
 										}) ) )
@@ -1116,8 +1149,7 @@ var createRoomList = function( roomList, isRoomMbr ) {
 				null );
 		
 		$("#btnAddViewRoom").css("visibility","visible");
-		
-	} else { // 방이 있는 경우
+	} else { // 검색된 방이 없는 경우
 		var btnText = "방 만들기";
 		if ( isRoomMbr ) {
 			btnText  = "내방가기";
@@ -1421,9 +1453,9 @@ var showAddRoomTimePicker = function() {
  * 설  명: 방 참여하기
  * 작성자: 김상헌
  */
-var joinRoom = function(regId, roomNo) {
-	console.log("joinRoom(regId, roomNo)");
-//	console.log(regId, roomNo);
+var joinRoom = function(regId, joinRoomNo) {
+	console.log("joinRoom(regId, joinRoomNo");
+//	console.log(regId, joinRoomNo);
 
 	if ( isRoomMbr() ) {
 		Toast.shortshow("이미 방에 참여 중입니다.");
@@ -1431,7 +1463,7 @@ var joinRoom = function(regId, roomNo) {
 	} else {
     	var locationSession = getSessionItem("locationSession");
     	var params = {
-	    		roomNo 			: roomNo,
+	    		roomNo 			: joinRoomNo,
 	    		mbrNo			: myInfo.mbrNo,
 	            startLocName 	: locationSession.startName,
 	            startLocLng 	: locationSession.startX,
@@ -1455,7 +1487,7 @@ var joinRoom = function(regId, roomNo) {
 								},
 								// Success Callback
 								function() {
-									changeHref("../room/room.html", { roomNo : roomNo });
+									changeHref("../room/room.html", { roomNo : joinRoomNo });
 								});
 
 					} else {
@@ -1464,6 +1496,41 @@ var joinRoom = function(regId, roomNo) {
 					}
 				}, "json");
 	}
+};
+
+/**
+ * 설  명: 기존 방을 나가고 새로운 방에 참여하기
+ * 작성자: 김상헌
+ */
+var outRoomToJoinRoom = function(mbrNo, outRoomNo, joinRoomNo) {
+	console.log("outRoomToJoinRoom(mbrNo, outRoomNo, joinRoomNo");
+	console.log(mbrNo, outRoomNo, joinRoomNo);
+	
+		$.getJSON( 
+				// URL
+				rootPath + "/room/outRoom.do",
+				// Params
+				{
+					mbrNo 	: mbrNo,
+					roomNo 	: outRoomNo
+				},
+				// Success
+				function( result ) {
+					if(result.status == "success") {
+						// myRoom SessionStorage에 방 정보 제거
+						removeSessionItem("myRoom");
+		
+						push.initialise("joinRoom", joinRoomNo);
+//						joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시
+		
+					} else {
+						alert("실행중 오류발생!"); 
+						console.log(result.data);
+					}
+				});
+	
+
+	
 };
 
 
@@ -1729,6 +1796,7 @@ function slideMenuPanel() {
 	return false;
 	
 }
+
 
 /**
  *   설   명  :  관계도 선 그리기

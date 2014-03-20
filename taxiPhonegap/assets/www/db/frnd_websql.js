@@ -165,6 +165,8 @@ var selectFrndAllList = function( transaction, mbrNo ) {
 		
 };
 
+
+
 /** *    설   명 : 관계도 친구 정보 검사
  *    작성자 : 장종혁
  *    // 배열을 넣어서 

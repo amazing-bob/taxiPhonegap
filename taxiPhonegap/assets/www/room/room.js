@@ -468,6 +468,7 @@ var setViewRoomInfo = function( roomInfo ) {
  * 설  명: 헤더 슬라이드 만들기 (수정 : 클릭 시 닫기)
  * 작성자: 김상헌 (수정자 : 장종혁)
  * 
+ * 
  */
 var createHeaderSlide = function(roomInfo) {
 	console.log("ceateHearSlide(roomInfo)");
@@ -534,10 +535,10 @@ var createHeaderSlide = function(roomInfo) {
 	showRelationInfo(roomInfo);
 };
 
+
 /**
- * 설  명: 관계도 생성하여 보여주기
+ * 설  명: 관계도 보여주기
  * 작성자: 장종혁
- *   - 얼굴 좌표값을 저장하여 faceCoordinate에 넣어 보내준다.
  */
 var showRelationInfo = function(roomInfo) {
 	console.log("showRelationInfo(roomInfo)");
@@ -580,7 +581,6 @@ var showRelationInfo = function(roomInfo) {
 	var relData = makeRelationInfo(roomInfo, faceCoordinate);
 
 };
-
 
 /**
  * 설  명: 사이드 메뉴패널 만들기
@@ -675,7 +675,6 @@ var getAndSetFeedList = function(roomNo){
 			, params
 			, function(result) {
 		if(result.status == "success") {
-
 			var feedList = result.data;
 			var mbrNo = myInfo.mbrNo;
 			var ul = $(".listViewUl");
@@ -912,7 +911,7 @@ var strRefresh = function() {
 
 		map.moveTo(realCoord);
 		// Zoom Level은 일단 제외
-		console.log(realCoord);
+		//console.log(realCoord);
 	});
 
 
