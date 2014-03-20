@@ -805,3 +805,145 @@ a#btnColorSign:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shado
 	margin-left: 88%;
 	margin-top: 10px;
 }
+
+/*관계도*/
+#relationMap{
+	height: 270px;
+	width: 99%;
+	position:relative;
+	top:30px;
+}
+
+#relMbr0{
+		position: absolute;
+		top : 10px;
+		left: 18%;
+		width: 70px;
+		height: 70px;
+		border-radius:50px;
+		filter:alpha(opcity=30);
+		background-repeat: no-repeat;
+		background-size:cover;
+		z-index: 8500;
+}
+
+#relMbr1{
+		position: absolute;
+		top : 10px;
+		right: 18%;
+		width: 70px;
+		height: 70px;
+		border-radius:50px;
+		filter:alpha(opcity=30);
+		background-repeat: no-repeat;
+		background-size:cover;
+		z-index: 8500;
+}
+
+#relMbr2{
+		position: absolute;
+		top : 150px;
+		left: 18%;
+		width: 70px;
+		height: 70px;
+		border-radius:50px;
+		filter:alpha(opcity=30);
+		background-repeat: no-repeat;
+		background-size:cover;
+		z-index: 8500;
+}
+
+#relMbr3{
+		position: absolute;
+		top : 150px;
+		right: 18%;
+		width: 70px;
+		height: 70px;
+		border-radius:50px;
+		filter:alpha(opcity=30);
+		background-repeat: no-repeat;
+		background-size:cover;
+		z-index: 8500;
+}
+
+#relMbr0Name{
+	position: absolute;
+	top:-20px;
+	left: 10px;
+	font-size: 1.2em;
+}
+
+#relMbr1Name{
+	position: absolute;
+	top:-20px;
+	left: 10px;
+	font-size: 1.2em;
+}
+
+#relMbr2Name{
+	position: absolute;
+	top:75px;
+	left: 10px;
+	font-size: 1.2em;
+}
+
+#relMbr3Name{
+	position: absolute;
+	top:75px;
+	left: 10px;
+	font-size: 1.2em;
+}
+
+.relLineIndex{
+	z-index: 8450;
+	stroke-width:5;
+}
+
+.ftx01{
+	
+	
+}
+
+
+.ftx02{
+	
+	
+}
+
+
+.ftx03{
+	
+	
+}
+
+
+.cftx03{
+	fill : red;
+	stroke : red;
+	
+}
+
+
+.ftx12{
+	
+	
+}
+
+.cftx12{
+	fill : red;
+	stroke : red;
+	
+	
+}
+
+.ftx13{
+	
+	
+}
+
+.ftx23{
+	
+	
+}
+
+

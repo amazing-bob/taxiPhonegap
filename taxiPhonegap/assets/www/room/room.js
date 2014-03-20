@@ -465,8 +465,9 @@ var setViewRoomInfo = function( roomInfo ) {
 
 
 /**
- * 설  명: 헤더 슬라이드 만들기
- * 작성자: 김상헌
+ * 설  명: 헤더 슬라이드 만들기 (수정 : 클릭 시 닫기)
+ * 작성자: 김상헌 (수정자 : 장종혁)
+ * 
  */
 var createHeaderSlide = function(roomInfo) {
 	console.log("ceateHearSlide(roomInfo)");
@@ -489,40 +490,21 @@ var createHeaderSlide = function(roomInfo) {
 							.attr("id", "headerVar")
 							.addClass("headerVar") ) 
 				)
+				.css("position","absolute")
+				.css("bottom","-10px")
+				.css("width","100%")
+				.click(function(event) {
+					closePanel(event);
+				})
 	.appendTo(divRoomList);
 	
 	// 관계도 
-	$("#divCanvas").remove();
-	
-	$("<div>")
-			.attr("id", "divCanvas")
-			.append(
-					$("<canvas>")
-					.addClass("canvas")
-					.attr("id", "myCanvas_" + idx))
-					.prependTo(divRoomList);
-
-	var roomMbrList =  roomInfo.roomMbrList;
-	console.log(roomMbrList);
-
-	for(var i in  roomMbrList){
-		$("#divCanvas").append( 
-				$("<div>")
-						.attr("style", "z-index:1000")
-						.addClass( "roomMbrHiddenBtnArea_" + i )
-						.data("roomMbrName"	, roomMbrList[i].mbrName)
-						.data("roomMbrNo"	, roomMbrList[i].mbrNo)
-						.click(function() {
-							showRegBlacklsitPopup(this);
-						})
-			);
-	}
 	$("#divMapWrap")
 			.append( $("<div>").attr("id", "divTouch") );
 
 	if ( contentWidth < 340 || contentHeight < 580 ) {
 
-		$("#divRoomList").css("top", "-277px" );
+		$("#divRoomList").css("top", "-297px" );
 
 		$("#roomFare").css("font-size", "78%");
 		$("#roomStartTime").css("font-size", "200%");
@@ -549,26 +531,53 @@ var createHeaderSlide = function(roomInfo) {
 		.attr("style", "width:22%");
 	}
 	
-	showRelationInfo(roomInfo, idx);
+	showRelationInfo(roomInfo);
 };
 
-
 /**
- * 설  명: 관계도 보여주기
- * 작성자: 김상헌
+ * 설  명: 관계도 생성하여 보여주기
+ * 작성자: 장종혁
+ *   - 얼굴 좌표값을 저장하여 faceCoordinate에 넣어 보내준다.
  */
-var showRelationInfo = function(roomInfo, idx) {
-	console.log("showRelationInfo(roomInfo, idx)");
-//	console.log(roomInfo, idx);
+var showRelationInfo = function(roomInfo) {
+	console.log("showRelationInfo(roomInfo)");
 
-	var canvas = document.getElementById("myCanvas_" + idx);
-
-	if ( contentWidth < 340 || contentHeight < 580 ) {
-		drawRelationCanvas(roomInfo, canvas, 1);
-
-	} else {
-		drawRelationCanvas(roomInfo, canvas, 2);
+	var faceCoordinate = new Array();
+	console.log(roomInfo);
+	for(var i=0; i<$(".relFace").length; i++){
+	
+		
+		// 위치값 보정
+		var w;
+		var h;
+		
+		if(i==0){
+			w=35;
+			h=35;
+		}else if(i==1){
+			w=35;
+			h=35;
+		}else if(i==2){
+			w=35;
+			h=35;
+		}else if(i==3){
+			w=35;
+			h=35;
+		}
+		
+		console.log(i)
+		console.log($(".relFace")[i].offsetTop)
+		
+		faceCoordinate[i] = {
+				height : $(".relFace")[i].clientHeight,
+				width : $(".relFace")[i].clientWidth,
+				offsetHeight : $(".relFace")[i].offsetTop+h,
+				offsetLeft : $(".relFace")[i].offsetLeft+w
+		};
+		
 	}
+	
+	var relData = makeRelationInfo(roomInfo, faceCoordinate);
 
 };
 
@@ -848,10 +857,16 @@ function openPanel(event){
 	$("#divTouch").attr("style", "visibility:visible");
 	$("#roomSubHeader").attr("data-flag", "open");
 	$(".divHeaderLine").attr("data-flag", "open");
-	$("#divRoomList").attr("data-flag", "open").
-	transition({y: ''+ ($("#divRoomList").height() - 11) +'px'}, 300, 'linear');
+	if($(window).height()< 340 ||$(window).height()<580){
+		$("#divRoomList").attr("data-flag", "open").
+		transition({y: ''+ ($("#divRoomList").height()-25) +'px'}, 200, 'linear');
+	}else{
+		$("#divRoomList").attr("data-flag", "open").
+		transition({y: ''+ ($("#divRoomList").height()+20) +'px'}, 200, 'linear');
+	}
 	$("#headerVar").attr("src", "../images/common/upheadervar.png");
-
+	
+	
 }
 
 function closePanel(event){

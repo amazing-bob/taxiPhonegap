@@ -164,3 +164,59 @@ var selectFrndAllList = function( transaction, mbrNo ) {
 			});
 		
 };
+
+/** *    설   명 : 관계도 친구 정보 검사
+ *    작성자 : 장종혁
+ *    // 배열을 넣어서 
+ */
+var serchFrndTable = function(frndPhoneNumberList, callback){
+	
+	var data = new Array();
+	setSessionItem("relFrndFrnd", data);
+	
+	
+	console.log("serchFrndTable(frndPhoneNumberList, callback)");
+	
+	var sql = "SELECT * FROM FRND WHERE frndPhoneNo = ?";
+	
+		
+	for(var  i = 0; i < frndPhoneNumberList.length; i++){
+		var relPhone = frndPhoneNumberList[i].relFrndPhone;
+		
+		taxidb.transaction(	function(transaction,data) {
+		    transaction.executeSql(
+				// SQL
+				sql, 
+				// Parameter
+				[relPhone],
+		 		// Success
+				function (transaction, results) {
+					console.log("serchFrndTable  success");
+
+					var len = results.rows.length;
+					var data = new Array();
+					
+					console.log(len);
+
+					data = getSessionItem("relFrndFrnd");
+
+					if(len==0){
+						data[data.length]="?";
+					}else{
+						data[data.length]= results.rows.item(0);
+					}
+			        
+					setSessionItem("relFrndFrnd", data);
+					
+					
+			        callback(data);
+			        
+			    },
+				// Fail
+				function () {
+					console.log("insertFrndTable  fail");
+				});
+		});
+	}
+	
+};

@@ -952,6 +952,8 @@ var createRoomList = function( roomList, isRoomMbr ) {
 		for ( var i in roomList ) {
 			roomMbrList =  roomList[i].roomMbrList;
 
+			console.log(roomList[i])
+			
 			divRoomMbrThumb = $("<div>")
 									.addClass("divRoomMbrThumbs");
 			for ( var j in roomMbrList ) {
@@ -1023,11 +1025,44 @@ var createRoomList = function( roomList, isRoomMbr ) {
 															.text(roomList[i].roomPathList[1].pathName) ) )
 									.append(
 											$("<div>")
-												.addClass("divCanvas")
+												.addClass("relMapPaper")
+												.attr("id","relationMap")
 												.append(
-														$("<canvas>")
-															.addClass("canvas")
-															.attr("id", "myCanvas_" + i) ) ) ) )
+														$("<div>")
+															.addClass("relFace0")
+															.attr("id", "relMbr0")
+															.append(
+																	$("<span>")
+																	.attr("class","relMbr0Name")
+															))
+												.append(
+														$("<div>")
+															.addClass("relFace1")
+															.attr("id", "relMbr1")
+															.append(
+																	$("<span>")
+																	.attr("class","relMbr1Name")
+															))
+												.append(
+														$("<div>")
+															.addClass("relFace2")
+															.attr("id", "relMbr2")
+															.append(
+																	$("<span>")
+																	.attr("class","relMbr2Name")
+															))
+												.append(
+														$("<div>")
+															.addClass("relFace3")
+															.attr("id", "relMbr3")
+															.append(
+																	$("<span>")
+																	.attr("class","relMbr3Name")
+															))
+												.append(
+														$("<div id='relLine"+i+"'   style='position:absolute; width:100%; height:100%;'>")
+												)
+									) ) )
 				.append(
 						$("<div>")
 							.addClass("divBtnArea")
@@ -1051,6 +1086,10 @@ var createRoomList = function( roomList, isRoomMbr ) {
 										}) ) )
 				.appendTo( $("#ulRoomList") );
 
+			//방관계도 그리기
+			relLineUp(roomMbrList,i)
+			
+			
 			$("#scroller").css("width", parseInt($("#scroller").css("width")) + contentWidth + "px");
 
 			showRelationInfo(roomList[i], i);
@@ -1631,10 +1670,10 @@ var showRelationInfo = function(roomInfo, idx) {
 	var canvas = document.getElementById("myCanvas_" + idx);
 
 	if ( contentWidth < 340 || contentHeight < 580 ) {
-		drawRelationCanvas(roomInfo, canvas, 1);
+//		drawRelationCanvas(roomInfo, canvas, 1);
 
 	} else {
-		drawRelationCanvas(roomInfo, canvas, 2);
+//		drawRelationCanvas(roomInfo, canvas, 2);
 
 	}
 
@@ -1690,3 +1729,53 @@ function slideMenuPanel() {
 	return false;
 	
 }
+
+/**
+ *   설   명  :  관계도 선 그리기
+ *   작성자 : 장종혁
+ */
+var relLineUp = function(roomMbrData,roomCnt){
+	
+	console.log("relLineUp!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+	console.log(roomMbrData)
+	
+	console.log($(".relMapPaper")[0].children[0]);
+	
+	var faceCoordinate = new Array();
+	
+		// 위치값 보정
+		var w=35;
+		var h=35;
+		
+		faceCoordinate[0] = {
+				height : $(".relMapPaper")[0].children[0].clientHeight,
+				width : $(".relMapPaper")[0].children[0].clientWidth,
+				offsetHeight : $(".relMapPaper")[0].children[0].offsetTop+h,
+				offsetLeft : $(".relMapPaper")[0].children[0].offsetLeft+w
+		};
+		
+		faceCoordinate[1] = {
+				height : $(".relMapPaper")[0].children[1].clientHeight,
+				width : $(".relMapPaper")[0].children[1].clientWidth,
+				offsetHeight : $(".relMapPaper")[0].children[1].offsetTop+h,
+				offsetLeft : $(".relMapPaper")[0].children[1].offsetLeft+w
+		};
+		
+		faceCoordinate[2] = {
+				height : $(".relMapPaper")[0].children[2].clientHeight,
+				width : $(".relMapPaper")[0].children[2].clientWidth,
+				offsetHeight : $(".relMapPaper")[0].children[2].offsetTop+h,
+				offsetLeft : $(".relMapPaper")[0].children[2].offsetLeft+w
+		};
+		
+		faceCoordinate[3] = {
+				height : $(".relMapPaper")[0].children[3].clientHeight,
+				width : $(".relMapPaper")[0].children[3].clientWidth,
+				offsetHeight : $(".relMapPaper")[0].children[3].offsetTop+h,
+				offsetLeft : $(".relMapPaper")[0].children[3].offsetLeft+w
+		};
+		
+	makeReletionHomeHtml(roomMbrData,faceCoordinate,roomCnt)
+}
+
+

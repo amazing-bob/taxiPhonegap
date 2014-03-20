@@ -580,3 +580,151 @@ border-top-width: 0px;
 .ui-btn-up-d {
 border: 0.5px solid silver;
 }
+
+/*관계도*/
+#relationMap{
+	height: 270px;
+	width: 99%;
+	position:relative;
+	top:30px;
+}
+
+#relMbr0{
+		position: absolute;
+		top : 10px;
+		left: 15%;
+		width: 70px;
+		height: 70px;
+		border-radius:50px;
+		filter:alpha(opcity=30);
+		background-repeat: no-repeat;
+		background-size:cover;
+		z-index: 8500;
+}
+
+#relMbr1{
+		position: absolute;
+		top : 10px;
+		right: 15%;
+		width: 70px;
+		height: 70px;
+		border-radius:50px;
+		filter:alpha(opcity=30);
+		background-repeat: no-repeat;
+		background-size:cover;
+		z-index: 8500;
+}
+
+#relMbr2{
+		position: absolute;
+		top : 150px;
+		left: 15%;
+		width: 70px;
+		height: 70px;
+		border-radius:50px;
+		filter:alpha(opcity=30);
+		background-repeat: no-repeat;
+		background-size:cover;
+		z-index: 8500;
+}
+
+#relMbr3{
+		position: absolute;
+		top : 150px;
+		right: 15%;
+		width: 70px;
+		height: 70px;
+		border-radius:50px;
+		filter:alpha(opcity=30);
+		background-repeat: no-repeat;
+		background-size:cover;
+		z-index: 8500;
+}
+
+.relMbr0Name{
+	position: absolute;
+	top:-20px;
+	left: 0px;
+	font-size: 15px;
+	width : inherit;
+	text-shadow: -1px 0 black, 0 0px black, 0px 0 black, 0 0px black;
+}
+
+.relMbr1Name{
+	position: absolute;
+	top:-20px;
+	left: 0px;
+	font-size: 15px;
+	width : inherit;
+	text-shadow: -1px 0 black, 0 0px black, 0px 0 black, 0 0px black;
+}
+
+.relMbr2Name{
+	position: absolute;
+	top:75px;
+	left: 0px;
+	font-size: 15px;
+	width : inherit;
+	text-shadow: -1px 0 black, 0 0px black, 0px 0 black, 0 0px black;
+}
+
+.relMbr3Name{
+	position: absolute;
+	top:75px;
+	left: 0px;
+	font-size: 15px;
+	width : inherit;
+	text-shadow: -1px 0 black, 0 0px black, 0px 0 black, 0 0px black;
+}
+
+.relLineIndex{
+	z-index: 8450;
+	stroke-width:5;
+}
+
+.ftx01{
+	
+	
+}
+
+
+.ftx02{
+	
+	
+}
+
+
+.ftx03{
+	
+	
+}
+
+
+.cftx03{
+	fill : red;
+	stroke : red;
+	
+}
+
+
+.ftx12{
+	
+	
+}
+
+.cftx12{
+	fill : red;
+	stroke : red;
+	
+	
+}
+
+.ftx13{
+	
+	
+}
+
+.ftx23{
+	
+	
+}

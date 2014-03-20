@@ -34,6 +34,9 @@
 <script src="../cordova.js"></script>
 <script src="../lib/PushNotification.js"></script>
 
+<!-- raphael - LineMaker -->
+<script src="../lib/raphael.js"></script>
+
 <!-- Added -->
 <script src="../db/common_websql.js"></script>
 <script src="../db/black_websql.js"></script>
@@ -96,7 +99,26 @@
 					</a>
 				</div>
 				<div id="divRoomList" data-theme="none" data-tap-toggle="false"
-					data-flag="close"></div>
+						data-flag="close"  style="height: 300px;">
+						
+						<div id="relationMap" >
+						
+      					  <div id="holder"></div>
+						
+							<div id="relMbr0"  class = "relFace" ><span id="relMbr0Name" ></span></div>
+				
+							<div id="relMbr1"  class = "relFace"  ><span id="relMbr1Name" ></span></div>
+							
+							<div id="relMbr2" class = "relFace"  ><span id="relMbr2Name" ></span></div>
+				
+							<div id="relMbr3"  class = "relFace"  ><span id="relMbr3Name" ></span></div>
+							
+							<!-- 관계선 -->
+							<div id="relLine"   style="position:absolute; width:100%; height:100%;"></div>
+							  	               			 
+						</div>
+						
+				  </div>
 			</div>
 
 			<div id="commentList">
