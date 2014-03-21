@@ -205,7 +205,6 @@ var selectMyFvrtLocList = function(mbrNo, callback){
 			" where 	1 = 1 " +
 			" and 		mbrNo = ? " +
 			" order by  fvrtLocRank";
-		console.log(sql);
 		transaction.executeSql(
 				sql,
 				// Parameter

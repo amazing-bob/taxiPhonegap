@@ -198,8 +198,6 @@ var serchFrndTable = function(frndPhoneNumberList, callback){
 					var len = results.rows.length;
 					var data = new Array();
 					
-					console.log(len);
-
 					data = getSessionItem("relFrndFrnd");
 
 					if(len==0){

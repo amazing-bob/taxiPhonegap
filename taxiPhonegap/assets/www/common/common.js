@@ -4,6 +4,9 @@ console.log("commonjs...");
 //var rootPath = "http://localhost:9999/taxi";		//로컬
 var rootPath = "http://192.168.0.46:9999/taxi";		//상헌
 
+var contentWidth;
+var contentHeight;
+
 var myInfo;
 
 var roomColorArr = ['red','blue','yellow'];
@@ -615,6 +618,61 @@ var push = {
 };
 
 
+/**
+ * 설  명: 밤투명 검은 배경 보이고 안보이게 하기
+ * 작성자: 김상헌
+ */
+var showhideBlackBackground = function(visibleCommand) {
+	console.log("showhideBlackBackground(visibleCommand)");
+//	console.log(visibleCommand);
+	
+	if ( $(".divBlackBackground")[0] ) {
+		if ( visibleCommand == "show" ) {
+			$(".divBlackBackground").show();
+			
+		} else {
+			$(".divBlackBackground").hide();
+			
+		}
+	} else {
+		var divBackgound = $("<div>")
+	    		.addClass("divBlackBackground")
+			    .css("width"		, (contentWidth + 2) + "px")
+			    .css("height"		, contentHeight + "px")
+			    .css("background"	, "black")
+			    .css("z-index"		, "1099")
+			    .css("left"			, "-1px")
+			    .css("top"			, "0")
+			    .css("position"		, "absolute")
+			    .css("opacity"		, "0.5")
+			    .css("visibility"	, "visible")
+			    .on({
+//					touchend:function(){
+					click: function(){
+						$(".ui-popup").popup("close");
+				    	$("#leftPanel").panel("close");
+				    	showhideBlackBackground("hide");
+					},
+					swipeleft: function() {
+						$("#leftPanel").panel("close");
+						showhideBlackBackground("hide");
+					}
+				});
+		$("div[data-role=page]").append( divBackgound );
+		/*////////////////////////////////////////////
+		// 팝업 띄울때 검은색 반투명 배경 편법으로 방화면에도 적용시키는 방법.
+		// But. 팝없이 뜬상태에서 클릭을 두번해야지 검은 배경이 없어지는 현상이 생겨서 적용 안함.
+		// Jquerymobile 새로운 버전으로 업데이트 하면 이런 현상은 data-overlay-theme="a" 속성 추가하면 해결됨.
+		// 그렇지만 버전을 업데이트 하면 UI가 전반적으로 깨지기 때문에 추후에 시간이 나면 업데이트 하는 것으로 함.
+		
+		if ( $("header[data-role=header]")[0] ) {
+			$("header[data-role=header]").append( divBackgound );
+		} else {
+			$("section[data-role=content]").append( divBackgound );
+		}
+		////////////////////////////////////////////*/
+	}
+};
 
 
 

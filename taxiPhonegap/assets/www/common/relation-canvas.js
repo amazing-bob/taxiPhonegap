@@ -24,8 +24,8 @@ var makeRelationInfo = function(roomInfo,faceCoordinate){
  *   작성자 : 장종혁
  */
 var makeReletionHomeHtml = function(roomMbrData,faceCoordinate,roomCnt){
-
-	console.log("makeReletionHomeHtml");
+	console.log("makeReletionHomeHtml(roomMbrData,faceCoordinate,roomCnt)");
+//	console.log(roomMbrData,faceCoordinate,roomCnt);
 	
 	drawHomeRelFace(roomMbrData, roomCnt);
 	
@@ -374,10 +374,7 @@ var drawHomeRelFace = function(roomMbrData, roomCnt){
 		
 	}
 	
-	console.log
-	console.log($(".relMbr"+0+"Name")[0])
-	
-	$(".relMbr"+0+"Name")[0].innerHtml="dd"
+	$(".relMbr"+0+"Name")[0].innerHtml="dd";
 	
 	//얼굴 및 이름 넣기
 	for(var i = 0; i <roomMbrData.length;i++){
@@ -493,7 +490,6 @@ var drawHomeRelLine = function(roomMbrData, faceCoordinate,paper){
 					var frndOfFrndNamedata = new Array();
 					frndOfFrndNamedata = getSessionItem("relFrndFrnd");
 					
-					console.log(faceCoordinate);
 					for(var i=0;i<frndFrndSerchData.length;i++){
 						var s = frndFrndSerchData[i].relS;
 						var e = frndFrndSerchData[i].relE;

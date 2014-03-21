@@ -19,8 +19,6 @@ var myScroll;
 var roomList = [];
 var page = 0;
 
-var contentWidth;
-var contentHeight;
 
 $(document).ready(function() {
 	initAjaxLoading();
@@ -29,7 +27,7 @@ $(document).ready(function() {
 	
 	document.addEventListener("menubutton", slideMenuPanel, false);
 
-	contentWidth = $("#contentHome").outerWidth();
+	contentWidth = $("body > .ui-page").outerWidth();
 	contentHeight = $(window).height();
 	$("#contentHome").height(contentHeight+"px");
 
@@ -66,7 +64,7 @@ $(document).ready(function() {
 
 	 $("#btnFavoriteLoc").click(function(){
 		favoriteList();
-		backgroundBlack();
+		showhideBlackBackground("show");
 		return false;
 	 });
 	 $("#favorite_Header").click(function(){
@@ -318,24 +316,14 @@ $(document).ready(function() {
     	$('#divMemFour').css('background','white');
     	$('#roomMbrNumLimit').attr("data-val","4");
     });
-    $("<div>")
-	    .attr("id", "blackImage")
-	    .css("width",(contentWidth + 2) + "px")
-	    .css("height",contentHeight + "px")
-	    .css("background","black")
-	    .css("z-index","1099")
-	    .css("left","-1px")
-	    .css("top","0")
-	    .css("position","absolute")
-	    .css("opacity","0.5")
-	    .css("visibility","hidden")
-	    .appendTo($("#contentHome"));
+    
+    
     $("#divAddRoomCondition_popup").on( "popupafterclose", function( event, ui ) {
-    	$("#blackImage").css("visibility","hidden");
+    	showhideBlackBackground("hide");
     } );
     
     $("#divFavoriteLoc_popup").on( "popupafterclose", function( event, ui ) {
-    	$("#blackImage").css("visibility","hidden");
+    	showhideBlackBackground("hide");
     } );
 	$("#leftPanel ul li a:link").css("width", ((contentWidth / 2) -10) + "px");
 	$("#leftPanel ul li a:visited").css("width", ((contentWidth / 2) - 10) + "px");
@@ -343,25 +331,13 @@ $(document).ready(function() {
 
 	$("#btnShowMenu").click(function() {
 		$("#leftPanel").panel("open");
-		backgroundBlack();
+		showhideBlackBackground("show");
 		return false;
 	});
 	
 	$( "#leftPanel" ).on( "panelbeforeclose", function() {
-		$("#blackImage").css("visibility","hidden");
+		showhideBlackBackground("hide");
 	} );
-	
-	$("#blackImage").on({
-		touchend:function(){
-//		click:function(){
-	    	$("#leftPanel").panel("close");
-	    	$("#blackImage").css("visibility","hidden");
-		},
-		swipeleft: function() {
-			$("#leftPanel").panel("close");
-	    	$("#blackImage").css("visibility","hidden");
-		}
-	});
 	
 		
 	// 참여하기 팝업 관련
@@ -384,9 +360,11 @@ $(document).ready(function() {
 	});
 	$("#joinRoom_popup").on("popupafterclose", function(event, ui) {
 		$(this).data("isOpen", false);
+		showhideBlackBackground("hide");
 	});
 	$("#joinRoom_popup").on("popupafteropen", function(event, ui) {
 		$(this).data("isOpen", true);
+		showhideBlackBackground("show");
 	});
 	
 	
@@ -691,7 +669,6 @@ var checkEndLocation = function() {
 		$.getJSON( rootPath + "/location/getRecentDestination.do", param, function(result) {
 			if (result.status === "success") {
 				var recentDestinationList = result.data;
-				console.log(recentDestinationList);
 				if ( recentDestinationList.length > 0 ) {
 					setEndLocationSession(
 							recentDestinationList[0].rcntLocLng,
@@ -973,8 +950,6 @@ var createRoomList = function( roomList, isRoomMbr ) {
 		for ( var i in roomList ) {
 			roomMbrList =  roomList[i].roomMbrList;
 
-			console.log(roomList[i]);
-			
 			divRoomMbrThumb = $("<div>")
 									.addClass("divRoomMbrThumbs");
 			for ( var j in roomMbrList ) {
@@ -1106,13 +1081,15 @@ var createRoomList = function( roomList, isRoomMbr ) {
 												$("#joinRoom_popup").data("outRoomNo", outRoomNo);
 												$("#joinRoom_popup").data("joinRoomNo", joinRoomNo);
 												
+												showhideBlackBackground("show");
+												
 												$("#joinRoom_popup").popup("open", {
 													transition : "pop"
 												});
 												
 											} else {
 												push.initialise("joinRoom", joinRoomNo);
-												//joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시	
+//												joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시	
 											}
 											
 											return false;
@@ -1442,7 +1419,7 @@ var showAddRoomTimePicker = function() {
     	dateTime.setMinutes( dateTime.getMinutes() + 10 );
 //    	$("#setTimeBox").datebox("setTheDate", dateTime);
 		$("#divAddRoomCondition_popup").popup("open", { transition  : "pop" });
-		backgroundBlack();
+		showhideBlackBackground("show");
 		$("#setTimeBox").parent().css("display","none");
 	}
 	
@@ -1521,7 +1498,7 @@ var outRoomToJoinRoom = function(mbrNo, outRoomNo, joinRoomNo) {
 						removeSessionItem("myRoom");
 		
 						push.initialise("joinRoom", joinRoomNo);
-						//joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시
+//						joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시
 		
 					} else {
 						alert("실행중 오류발생!"); 
@@ -1554,9 +1531,9 @@ var favoriteList = function() {
 	            for (var i in favoriteLocationList) {
 	                $("<li>")
 	                    .addClass("favoriteList")
-	                    .attr("data-theme" 	,"d")
+	                    .attr("data-theme" 	, "d")
 	                    .attr("data-icon" 	, "false")
-	                    .attr("data-rel","popup")
+	                    .attr("data-rel" 	, "popup")
 	                    .data("endX" 		, favoriteLocationList[i].fvrtLocLng)
 	                    .data("endY" 		, favoriteLocationList[i].fvrtLocLat)
 	                    .data("locName" 	, favoriteLocationList[i].fvrtLocName)
@@ -1574,7 +1551,6 @@ var favoriteList = function() {
 	                    	}
 	                    	
 	                    	var textNo = $(this).data("locNo");
-	                    	console.log("========"+textNo+"=======");
 	                    	$("#"+textNo).css("width","50%");
 	                    	var textNo = $(this).data("locNo");
 	                    	var text = $("#favoriteLink"+textNo).text();
@@ -1686,84 +1662,6 @@ var favoriteList = function() {
 	    			transition : "pop"
 	    		});
     		});
-//    $.getJSON(
-//    		// URL
-//    		rootPath + "/location/getFavoriteList.do",
-//    		// Parameter
-//    		{ mbrNo : myInfo.mbrNo },
-//    		// Success
-//    		function(result) {
-//		        if(result.status == "success") {
-//		            var fvrtLoc = result.data;
-//		            var ul = $("#favoriteUl");
-//		
-//		            $("#favoriteUl #favoriteList").remove();
-//		            for (var i in fvrtLoc) {
-//		                $("<li>")
-//		                    .attr("id", "favoriteList")
-//		                    .attr("data-theme","d")
-//		                    .attr("data-icon", "false")
-//		                    .data("endX", fvrtLoc[i].fvrtLocLng)
-//		                    .data("endY", fvrtLoc[i].fvrtLocLat)
-//		                    .data("locName", fvrtLoc[i].fvrtLocName)
-////		                    .on("touchend", function(event) {
-//		                    .click( function(event){
-//		                    	setEndLocationSession(
-//		                     			$(this).data("endX"),
-//		                     			$(this).data("endY"),
-//		                     			$(this).data("locName"),
-//		                    			"",
-//		                    			function () {
-//		                		    		checkEndLocation();
-//		                		    		map.moveTo( new olleh.maps.Coord($(this).data("endX"), $(this).data("endY")) );
-//		                                    $("#divFavoriteLoc_popup").popup("close");
-//		                		    	});
-//		                     	return false;
-//		                    })
-//		                    .append(
-//		                    		$("<a>")
-//		                            	.attr("id", "favoriteLink")
-//		                                .attr("href","#")
-//		                                .text( fvrtLoc[i].fvrtLocName)
-//		                                .append(
-//		                                		$("<img>")
-//		                                			.addClass("ui-li-icon ui-corner-none")
-//			                                        .attr("src", "../images/common/star-th.png")
-//		                                )
-//		                    )
-//		                    .appendTo(ul);
-//		                $("#favoriteUl").listview("refresh");
-//		            }
-//		
-//		            $("#divFavoriteLoc_popup").popup("open", {
-//		    			transition : "pop"
-//		    		});
-//		        } else {
-//			        // 즐겨찾기 없을경우 + 버튼 추가
-//		
-//		        }
-//		    });
-};
-
-
-/**
- * 설  명: 관계도 그리기
- * 작성자: 김상헌
- */
-var showRelationInfo = function(roomInfo, idx) {
-	console.log("showRelationInfo(roomInfo, idx)");
-//	console.log(roomInfo, idx);
-
-	var canvas = document.getElementById("myCanvas_" + idx);
-
-	if ( contentWidth < 340 || contentHeight < 580 ) {
-//		drawRelationCanvas(roomInfo, canvas, 1);
-
-	} else {
-//		drawRelationCanvas(roomInfo, canvas, 2);
-
-	}
-
 };
 
 
@@ -1771,8 +1669,6 @@ var showRelationInfo = function(roomInfo, idx) {
  * 설  명: 뒤로가기 버튼 처리
  * 작성자: 김상헌
  */
-
-
 var FINSH_INTERVAL_TIME = 2000;
 var backPressedTime = 0;
 
@@ -1781,7 +1677,7 @@ var touchBackBtnCallbackFunc = function() {
 	
 	var tempTime = new Date().getTime();
 	var intervalTime = tempTime - backPressedTime;
-	if ( $("#blackImage").css("visibility") == "hidden") {
+	if ( $(".divBlackBackground").css("visibility") == "hidden") {
 		if ( 0 <= intervalTime && FINSH_INTERVAL_TIME >= intervalTime ) {
 			navigator.app.exitApp();
 		} else {
@@ -1792,27 +1688,18 @@ var touchBackBtnCallbackFunc = function() {
 		$("#leftPanel").panel("close");
 		$("#divFavoriteLoc_popup").popup("close");
 		$("#divAddRoomCondition_popup").popup("close");
+		$("#joinRoom_popup").popup("close");
 	}
 };
 
-
-/**
- * 설  명: background black 처리
- * 작성자: 김상헌
- */
-
-var backgroundBlack = function() {
-	$("#blackImage").css("visibility","visible");
-};
 
 /**
  *설   명 : 메뉴버튼 눌렀을 때 메뉴 나오기 
  *작성자 : 장종혁
  */
 function slideMenuPanel() {
-
+	showhideBlackBackground("show");
 	$("#leftPanel").panel("open");
-	backgroundBlack();
 	return false;
 	
 }
@@ -1822,12 +1709,9 @@ function slideMenuPanel() {
  *   설   명  :  관계도 선 그리기
  *   작성자 : 장종혁
  */
-var relLineUp = function(roomMbrData,roomCnt){
-	
-	console.log("relLineUp!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-	console.log(roomMbrData);
-	
-	console.log($(".relMapPaper")[0].children[0]);
+var relLineUp = function(roomMbrData, roomCnt){
+	console.log("relLineUp(roomMbrData, roomCnt)");
+//	console.log(roomMbrData, roomCnt);
 	
 	var faceCoordinate = new Array();
 	

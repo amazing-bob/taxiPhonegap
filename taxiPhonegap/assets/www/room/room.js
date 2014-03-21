@@ -14,8 +14,6 @@ var directionsRenderer;
 var directionMarkers;
 var startTime;
 var memberCount;
-var contentWidth;
-var contentHeight;
 
 var thisRoomColor;
 
@@ -88,16 +86,16 @@ var registerEvent = function() {
 			"#popupExit_popup-screen, #popupExit"
 		});
 
-		$("#roomPage").on("click", "#roomSubHeader",function(event){
-			console.log("click" + event);
-			if(event.type == "click" && $("#roomSubHeader").attr("data-flag") == "close"){
-				openPanel(event);
-			} else if(event.type == "click" && ($("#divRoomList").attr("data-flag") == "open")){
-				closePanel(event);
-			}
-
-			return false;
-		});
+//		$("#roomPage").on("click", "#roomSubHeader",function(event){
+//			console.log("click" + event);
+//			if(event.type == "click" && $("#roomSubHeader").attr("data-flag") == "close"){
+//				openPanel(event);
+//			} else if(event.type == "click" && ($("#divRoomList").attr("data-flag") == "open")){
+//				closePanel(event);
+//			}
+//
+//			return false;
+//		});
 
 	});
 
@@ -111,12 +109,12 @@ var registerEvent = function() {
 	// 사이드 패널 관련
 	$("#btnShowMenu").click(function() {
 		$("#leftPanel").panel("open");
-		backgroundBlack();
+		showhideBlackBackground("show");
 		return false;
 	});
 	
 	$( "#leftPanel" ).on( "panelbeforeclose", function() {
-		$("#blackImage").css("visibility","hidden");
+		showhideBlackBackground("hide");
 	} );
 	$(document).on('keypress', '#reply', function(evt){
 
@@ -144,28 +142,21 @@ var registerEvent = function() {
 	});
 
 	// 방 나가기 관련
-	$(document).on("click", "#exitRoom",function(){
+	$("#btnExitRoom").click( function(){
+		event.stopPropagation();
+		showhideBlackBackground("show");
+		
 		$("#popupExit_popup").popup("open", {
 			transition : "pop"
 		});
 
 		return false;
 	});
-
-	$(document).on("click", "#cancleExit", function(event){
+	$("#popupExit_popup a.aOkBtn").click( function(event){
 		event.stopPropagation();
-		$("#popupExit_popup").popup("close", {
-			transition : "pop"
-		});
-
-		return false;
-	});
-	$("#outRoom").on("click", function(event){
-
-		event.stopPropagation();
-
+		
 		var mbrNo = myInfo.mbrNo;
-		var roomNo = $("#roomNo").attr("data-roomNo");
+		var roomNo = getSessionItem("myRoom").roomNo;
 		outRoom(mbrNo, roomNo);
 
 		return false;
@@ -179,7 +170,7 @@ var registerEvent = function() {
 	
 
 	// 블랙리스트 관련
-	$("#btnRegisterBlacklist").on("click", function(event){
+	$("#blacklistRegister_popup a.aOkBtn").click( function(event){
 		event.stopPropagation();
 		
 		var blackMbrNo = $("#spanBlackText").data("blackMbrNo");
@@ -196,14 +187,14 @@ var registerEvent = function() {
 
 
 	// 색전환 관련
-	$(document).on("click", "#colorSign",function(){
+	$("#colorSign").click( function(){
 		var screenWidth = $(document).width();
 		var screenHeight = $(document).height(); 
 		$('#roomColor').css({'width':screenWidth,'height':screenHeight, 'background-color':thisRoomColor});
 		$('#roomColor').fadeIn(0);      
 		$('#roomColor').fadeTo("speed",1.0);
 	});
-	$(document).on("click", "#colorClear",function(){
+	$("#colorClear").click( function(){
 		$('#roomColor').css('display',"none");
 	});
 
@@ -329,29 +320,18 @@ var searchRoute = function ( startX, startY, endX, endY, callbackFunc, waypoints
 var directionsService_callback = function (data) {
 	console.log("directionsService_callback()");
 	var DirectionsResult  = directionsService.parseRoute(data);
-	console.log(DirectionsResult);
-
-//	var startRoute = DirectionsResult.result.routes[0].point;
-//	console.log(startRoute);
+//	console.log(DirectionsResult);
 
 	var date = parseInt(startTime);
 
 	if(	date >= 00 && date < 04){
-
-		console.log("할증");
-
 		var distanceFare =
 			(DirectionsResult.result.total_distance.value / 142) * 120;
-
-//		var durationFare =
-//		Math.round(((
-//		(Math.round(DirectionsResult.result.total_duration.value) * 60) - 540) / 35) * 100);
 
 		var totalFare = Math.round(distanceFare + 3600);
 		totalFare = totalFare.toString().substr(
 				0, totalFare.toString().length -2).concat("00");
 
-		console.log(totalFare);
 		distance = DirectionsResult.result.total_distance.value  / 10.0;
 		distance = Math.round(distance) / 100;
 
@@ -365,7 +345,7 @@ var directionsService_callback = function (data) {
 		var roomFare = ((totalFare / memberCount) / 100);
 		var myFare = roomFare.toString().substr(
 				0, totalFare.toString().length -2).concat("00").replace(".", "");
-		console.log(myFare);
+
 		$("#myFare").text( myFare + "원");
 
 	} else {
@@ -375,10 +355,6 @@ var directionsService_callback = function (data) {
 
 		var distanceFare =
 			(DirectionsResult.result.total_distance.value / 142) * 100;
-
-//		var durationFare =
-//		Math.round(((
-//		(Math.round(DirectionsResult.result.total_duration.value) * 60) - 540) / 35) * 100) / 2;
 
 		var totalFare = Math.round(distanceFare + 3000);
 		totalFare = totalFare.toString().substr(
@@ -460,7 +436,6 @@ var setViewRoomInfo = function( roomInfo ) {
 	$("#roomStartTime").text( hour +":"+ minute );
 	$("#imgMbrPhoto").attr( "src", myInfo.mbrPhotoUrl );
 	$("#mbrName").text( myInfo.mbrName );
-	$("#roomNo").attr("data-roomNo", roomInfo.roomNo);
 };
 
 
@@ -542,12 +517,11 @@ var createHeaderSlide = function(roomInfo) {
  */
 var showRelationInfo = function(roomInfo) {
 	console.log("showRelationInfo(roomInfo)");
+//	console.log(roomInfo);
 
 	var faceCoordinate = new Array();
-	console.log(roomInfo);
 	for(var i=0; i<$(".relFace").length; i++){
 	
-		
 		// 위치값 보정
 		var w;
 		var h;
@@ -565,9 +539,6 @@ var showRelationInfo = function(roomInfo) {
 			w=35;
 			h=35;
 		}
-		
-		console.log(i)
-		console.log($(".relFace")[i].offsetTop)
 		
 		faceCoordinate[i] = {
 				height : $(".relFace")[i].clientHeight,
@@ -589,19 +560,6 @@ var showRelationInfo = function(roomInfo) {
 var createMenuPanel = function() {
 	console.log("createMenuPanel()");
 	
-	$("<div>")
-		.attr("id", "blackImage")
-		.css("width",(contentWidth + 2) + "px")
-		.css("height",contentHeight + "px")
-		.css("background","black")
-		.css("z-index","9998")
-		.css("left","-1px")
-		.css("top","0")
-		.css("position","absolute")
-		.css("opacity","0.5")
-		.css("visibility","hidden")
-	.appendTo($("body"));
-	
 	$("#btnSettings").click(function(event) {
 	//event.stopPropagation();
 	changeHref("../settings/settings.html");
@@ -618,18 +576,6 @@ var createMenuPanel = function() {
 	$("#leftPanel ul li a:visited").css("width", ((contentWidth / 2) - 10) + "px");
 	$(".ui-panel").css("width", (contentWidth / 2) + "px");
 	
-	
-	$("#blackImage").on({
-	//touchend:function(){
-		click:function(){
-		$("#leftPanel").panel("close");
-		$("#blackImage").css("visibility","hidden");
-	},
-	swipeleft: function() {
-		$("#leftPanel").panel("close");
-		$("#blackImage").css("visibility","hidden");
-	}
-	});
 };
 
 
@@ -716,7 +662,7 @@ var getAndSetFeedList = function(roomNo){
 							.appendTo(ul);
 				}
 			} // 반복문 end
-			$('ul').listview('refresh');
+			ul.listview('refresh');
 
 			contentHeight = $(window).height();
 			var currentWarpperHeight = $("#wrapper").css("height");
@@ -962,21 +908,12 @@ var touchBackBtnCallbackFunc = function() {
 
 
 /**
- * 설  명: background black 처리
- * 작성자: 김상헌
- */
-var backgroundBlack = function() {
-	$("#blackImage").css("visibility","visible");
-};
-
-
-/**
  *설   명 : 메뉴버튼 눌렀을 때 메뉴 나오기 
  *작성자 : 장종혁
  */
 function slideMenuPanel() {
 	$("#leftPanel").panel("open");
-	backgroundBlack();
+	showhideBlackBackground("show");
 	return false;
 
 }

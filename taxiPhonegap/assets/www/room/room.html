@@ -54,13 +54,8 @@
 	<div id="roomPage" data-role="page" data-theme="none"
 		data-iscroll="enable">
 
-		
-		<!-- room color sign -->
-		<div id="roomColor">
-			<img id="colorClear" src="../images/common/cancle-icon.png">
-		</div>
 		<!-- Header  -->
-		<section id="roomSubHeader" data-flag="close" data-theme="none"
+		<header id="roomSubHeader" data-flag="close" data-theme="none"
 			data-role="header" data-position="fixed" data-tap-toggle="false">
 			<ul id="roomHeaderUl" data-theme="none" data-role="listview"
 				data-inset="true" data-corners="false">
@@ -70,58 +65,43 @@
 					<span id="totalFareName"></span> <span id="myFare"></span> <span
 					id="roomFare"></span> <span hidden="ture" id="roomNo"></span></li>
 			</ul>
-		</section>
-		<!-- 왼쪽패널 -->
-		<div data-role="panel" id="leftPanel" data-display="overlay"
-			data-position="left" data-theme="none">
-			<ul>
-				<li><a href="#btnSettings" id="btnSettings" class="contentLink">설정
-				</a></li>
-				<li><a href="#home" id="btnComment" class="contentLink">의견보내기</a></li>
-			</ul>
-		</div>
-
-
+		</header>
+		
 		<!-- content -->
 		<section id="contentHome" data-role="content" data-theme="none">
-				<div id="divMapWrap">
-				<a href="#" id="btnExitRoom" data-rel="popup"> <img
-					id="exitRoom" src="../images/common/button/out_room.png">
+			<div id="divMapWrap">
+				<!-- 나가기 버튼 -->
+				<a id="btnExitRoom" data-rel="popup">
+					<img src="../images/common/button/out_room.png">
 				</a>
 				<!-- sign button -->
 				<a id="btnColorSign" data-rel="popup"> <img id="colorSign"
 					src="../images/common/star-hi.png">
 				</a> <span id="roomDistance"></span>
+				<!-- Map -->
 				<div id="canvas_map">
 					<!-- 왼쪽패널 버튼 -->
 					<a id="btnShowMenu" data-enhance="false"> <img
 						src="../images/common/menu.png">
 					</a>
 				</div>
-					<div id="divRoomList" data-theme="none" data-tap-toggle="false"
-						data-flag="close"  style="height: 300px;">
-						
-						<div id="relationMap" >
-						
-      					  <div id="holder"></div>
-						
+				
+				<!-- 관계도 슬라이드 -->
+				<div id="divRoomList" data-theme="none" data-tap-toggle="false"
+					data-flag="close"  style="height: 300px;">
+					<div id="relationMap" >
+						<div id="holder"></div>
 							<div id="relMbr0"  class = "relFace" ><span id="relMbr0Name" ></span></div>
-				
 							<div id="relMbr1"  class = "relFace"  ><span id="relMbr1Name" ></span></div>
-							
 							<div id="relMbr2" class = "relFace"  ><span id="relMbr2Name" ></span></div>
-				
 							<div id="relMbr3"  class = "relFace"  ><span id="relMbr3Name" ></span></div>
-							
 							<!-- 관계선 -->
 							<div id="relLine"   style="position:absolute; width:100%; height:100%;"></div>
-							  	               			 
 						</div>
-						
-				  </div>
+					</div>
 			</div>
 
-
+			<!-- 피드 -->
 			<div id="commentList">
 				<section>
 					<ul data-role="listview" data-theme="c" data-inset="true"
@@ -139,57 +119,74 @@
 				</section>
 			</div>
 		</section>
+		
+		
+		<!-- room color sign -->
+		<div id="roomColor">
+			<img id="colorClear" src="../images/common/cancle-icon.png">
+		</div>
 
+
+		<!-- 왼쪽패널 -->
+		<div data-role="panel" id="leftPanel" data-display="overlay"
+			data-position="left" data-theme="none">
+			<ul>
+				<li><a href="#btnSettings" id="btnSettings" class="contentLink">설정
+				</a></li>
+				<li><a href="#home" id="btnComment" class="contentLink">의견보내기</a></li>
+			</ul>
+		</div>
+		
 
 		<!-- 나가기 팝업 -->
 		<div id="popupExit_popup" data-role="popup" data-theme="none"
-			data-dismissible="true" data-inset="true" data-overlay-theme="a"
+			data-dismissible="true" data-inset="true" data-overlay-theme="none"
 			data-corners="false">
-			<ul id="exitUi" data-role="listview" data-inset="true" data-theme="d"
+			<ul class="ulPopup" data-role="listview" data-inset="true" data-theme="d"
 				data-corners="false">
-				<li class="exitHeader title_li" data-role="list-divider"
-					data-theme="c">방 나가기</li>
-				<li class="outText"><span class="outTextSpan">정말 방에서
-						나가시겠습니까?</span></li>
+				<li class="liPopupHeader title_li" data-role="list-divider"data-theme="c">방나가기</li>
+				<li class="liPopupContent">
+					<span class="spanPopupContent">정말 방에서 나가시겠습니까?</span></li>
 				<li class="liBtnArea">
-					<div class="divCancel">
-						<a class="cancelExit" data-theme="none" data-rel="back" href="#"
-							data-corners="false"> <span class="spanCancel">취소</span>
+					<div class="divCancelBtn">
+						<a class="aCancelBtn" data-theme="none" data-rel="back" href="#" data-corners="false">
+							<span class="spanCancelBtn">취소</span>
 						</a>
 					</div>
-					<div id="divExit">
-						<a id="outRoom" href="#" data-theme="none" data-corners="false">
-							<span id="spanExit">나가기</span>
+					<div class="divOkBtn">
+						<a class="aOkBtn" href="#" data-theme="none" data-corners="false">
+							<span class="spanOkBtn">나가기</span>
 						</a>
 					</div>
 				</li>
 			</ul>
-		</div>
+		</div>	
+
 
 		<!-- 블랙리스트 등록 팝업 -->
 		<div id="blacklistRegister_popup" data-role="popup" data-theme="none"
-			data-dismissible="true" data-inset="true" data-overlay-theme="a"
+			data-dismissible="true" data-inset="true" data-overlay-theme="none"
 			data-corners="false">
-			<ul id="exitUi" data-role="listview" data-inset="true" data-theme="d"
+			<ul class="ulPopup" data-role="listview" data-inset="true" data-theme="d"
 				data-corners="false">
-				<li class="exitHeader title_li" data-role="list-divider"
-					data-theme="c">블랙리스트 등록</li>
-				<li class="outText"><span id="spanBlackText"></span> <span
-					class="outTextSpan">님을 블랙리스트로 등록 하시겠습니까?</span></li>
+				<li class="liPopupHeader title_li" data-role="list-divider"data-theme="c">블랙리스트 등록</li>
+				<li class="liPopupContent">
+					<span id="spanBlackText"></span>
+					<span class="spanPopupContent">님을 블랙리스트로 등록 하시겠습니까?</span></li>
 				<li class="liBtnArea">
-					<div class="divCancel">
-						<a class="cancelExit" data-theme="none" data-rel="back" href="#"
-							data-corners="false"> <span class="spanCancel">취소</span>
+					<div class="divCancelBtn">
+						<a class="aCancelBtn" data-theme="none" data-rel="back" href="#" data-corners="false">
+							<span class="spanCancelBtn">취소</span>
 						</a>
 					</div>
-					<div id="divRegisterBlacklist">
-						<a id="btnRegisterBlacklist" href="#" data-theme="none" data-corners="false">
-							<span id="spanCall">등록하기</span>
+					<div class="divOkBtn">
+						<a class="aOkBtn" href="#" data-theme="none" data-corners="false">
+							<span class="spanOkBtn">등록</span>
 						</a>
 					</div>
 				</li>
 			</ul>
-		</div>
+		</div>	
 		
 	</div>
 	<!-- end page -->

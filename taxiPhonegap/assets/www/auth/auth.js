@@ -362,11 +362,11 @@ var clickSignupBtn = function(){
 		var mbrPhotoUrl = "../images/randomIconImage/TAXI_RANDOM_icon_"+mbrPhotoNo+".png";
 		
 		console.log(mbrPhotoUrl);
-		if (device) {
-			signUp( phoneNo, device.uuid, mbrName , keywordNo , mbrPhotoUrl);
-		} else {
+//		if (device) {
+//			signUp( phoneNo, device.uuid, mbrName , keywordNo , mbrPhotoUrl);
+//		} else {
 			signUp( phoneNo, null, mbrName , keywordNo , mbrPhotoUrl);
-		}
+//		}
 		
 
 	} else {
