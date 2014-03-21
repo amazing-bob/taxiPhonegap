@@ -603,7 +603,7 @@ div#divRegisterBlacklist{
 #favoriteUl{
 	height: auto;
 }
-#favoriteList{
+.favoriteList{
     height: 40px;
 	overflow: hidden;
 }
