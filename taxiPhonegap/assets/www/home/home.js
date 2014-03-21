@@ -1102,8 +1102,6 @@ var createRoomList = function( roomList, isRoomMbr ) {
 			
 			$("#scroller").css("width", parseInt($("#scroller").css("width")) + contentWidth + "px");
 
-			showRelationInfo(roomList[i], i);
-
 		}
 
 		$(".startLocName").width( ($(".divRoomPathInfo").outerWidth() - 70 ) + "px");
