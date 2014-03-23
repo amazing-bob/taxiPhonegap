@@ -86,16 +86,21 @@ var registerEvent = function() {
 			"#popupExit_popup-screen, #popupExit"
 		});
 
-//		$("#roomPage").on("click", "#roomSubHeader",function(event){
-//			console.log("click" + event);
-//			if(event.type == "click" && $("#roomSubHeader").attr("data-flag") == "close"){
-//				openPanel(event);
-//			} else if(event.type == "click" && ($("#divRoomList").attr("data-flag") == "open")){
-//				closePanel(event);
-//			}
-//
-//			return false;
-//		});
+		/**
+		 *    설   명 : 방 슬라이드 스와이프 설정 (열기)
+		 *    작성자 : 장종혁 
+		 */
+		$("#roomSubHeader").on('swipedown', function(event) {
+				openPanel(event);
+		});
+		/**
+		 *    설   명 : 방 슬라이드 스와이프 설정 (닫기)
+		 *    작성자 : 장종혁 
+		 */
+		$("#divRoomList").on('swipeup', function(event) {
+			closePanel(event);
+		});
+		
 
 	});
 
