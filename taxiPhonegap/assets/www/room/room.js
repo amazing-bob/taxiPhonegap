@@ -654,7 +654,7 @@ var getAndSetFeedList = function(roomNo){
 									.attr("data-feedNo", feedList[i].feedNo)
 									.attr("data-mbrNo", feedList[i].mbrNo)
 									.append(
-											$("<img>").attr("src", "../images/common/button/deletefeedx.png")
+											$("<img>").attr("src", "../images/common/button/deletefeedx2.png")
 											.addClass("deleteFeed"))
 							) )
 							.appendTo(ul);
