@@ -382,14 +382,6 @@ a.btnDelete {
     float: right; 
     width: 25px;
     height: 25px; 
-    margin-bottom: -1.5px;
-    border-top: 0.1em solid #eee;
-	border-right: 0.1em solid #eee;
-	border-bottom: 0.1em solid #eee;
-	border-left: 0.1em solid #eee;
-	background: white;
-	box-shadow: 0px 1px 5px #dadada;
-	border-radius: 50px;
 }
 a.btnDelete:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; }
   
@@ -407,8 +399,8 @@ a.btnDelete:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 
     background: #fafbfd;
 } 
 .deleteFeed{ 
-    width: 30px; 
-    height: 30px; 
+    width: 25px; 
+    height: 25px; 
 	-webkit-transition: all 0,1s ease; 
 	-moz-transition: all 0,1s ease; 
 	-o-transition: all 0,1s ease; 
