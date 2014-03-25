@@ -111,7 +111,8 @@ var registerEvent = function(){
 	});
 
 	$("#btnProfile").click(function(){
-		$(".profilePicture").css("background-image",myInfo.mbrPhotoUrl)
+		$("#profilePicture").css('display','block')
+		.css('background-image', 'url(' + myInfo.mbrPhotoUrl + ')');
 		$("#profileName").text("이름 : "+myInfo.mbrName);
 		$("#profilePhoneNo").text("휴대폰 번호 : "+myInfo.mbrPhoneNo);
 	});
@@ -665,110 +666,87 @@ var getUpdateTime = function(){
 //사진을 전송한다.
 
 function onPhotoURISuccess(imageURI) {
-
-	$("#popupProfile").popup( "close" );
 	
 	var UploadUrl = rootPath + "/setting/uploadUserPhoto.do"
 	
-	alert("준비~!")
-
 	var options = new FileUploadOptions();
+
+	options.headers = {	Connection: "close"}
+	options.chunkedMode = false;
+
 	options.fileKey = "file";
 	options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
 	options.mimeType = "text/plain";
-
-	var params = {};
-	params.value1 = "test";
-	params.value2 = "param";
+	
+	var params = {
+			mbrNo 		: myInfo.mbrNo,
+			rootPath    : rootPath
+	};
 
 	options.params = params;
 
-	var ft = new FileTransfer();
-	ft.upload(imageURI, encodeURI(UploadUrl), win, fail, options);
-	
-	
-	alert("땅~!")
-
-	
-//	saveProfilePicture(imageURI);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	$("#profilePicture").css('display','block')
-						.css('background-image', 'url(' + imageURI + ')');
+		var ft = new FileTransfer();
+		ft.upload(imageURI, encodeURI(UploadUrl),function(r){ profileImgUploadSuccess(r);}, fail, options);
 }
 
 
-//!! Assumes variable fileURI contains a valid URI to a text file on the device
+/**
+ *   설  명 : 업로드 성공 시 프로필 사진 바꾸기
+ *   작성자 : 장종혁
+ */
+var profileImgUploadSuccess = function(r) {
+			
+	var result=   JSON.parse(r.response);
+	
+	if(result.status=="success"){
+		var newMyInfoData = myInfo;
+		var imageURI = result.data;
+		
+		newMyInfoData.mbrPhotoUrl = imageURI;
+		
+		getLocalItem("myInfo",newMyInfoData);
 
-var win = function (r) {
-    console.log("Code = " + r.responseCode);
-    console.log("Response = " + r.response);
-    console.log("Sent = " + r.bytesSent);
+			$("#profilePicture").css('display','block')
+				.css('background-image', 'url(' + imageURI + ')');
+	}else{
+			alert("접속이 원할하지 않습니다.\n 잠시 후 다시 시도해 주시기 바랍니다.");
+	}
 }
 
 var fail = function (error) {
-    alert("An error has occurred: Code = " + error.code);
-    console.log("upload error source " + error.source);
-    console.log("upload error target " + error.target);
+	if(error.code==1){
+		alert("ErrorCode:1\n선택된 파일을 찾을 수 없습니다.\n 다시 시도해 주시기 바랍니다.");
+	}else if(error.code==2){
+		alert("ErrorCode:2\n주소가 유효하지 않습니다. \n 관리자에게 문의 해주시기 바랍니다.");
+	}else if(error.code==3){
+		alert("ErrorCode:3\n서버와의 접속이 원활하지 않습니다.\n 잠시 후 다시 시도해 주시기 바랍니다.");
+	}else if(error.code==4){
+		alert("ErrorCode:4\n파일 읽기가 중지 되었습니다.");
+	}
 }
-
-
-//사진전송에 성공하면
-//
-//function onPhotoSuccess(r) {
-//    //alert("Code = " + r.responseCode);
-//    //alert("Response = " + r.response);
-//    //alert("Sent = " + r.bytesSent);
-//    navigator.notification.alert(
-//        '사진을 전송하였습니다.!',  // message
-//        '',                         // callback
-//        '전송완료',                 // title
-//        '확인'                      // buttonName
-//    );
-//}
-//
-////사진전송에 실패하면
-//function onPhotofail(error) {
-//    //alert('실패 : ' + error);
-//    navigator.notification.alert(
-//        '사진을 전송할 수 없습니다!',
-//        '',
-//        '전송실패',
-//        '확인'
-//    );
-//}
 
 //사진전송을 위해 라이브러리에서 사진을 가져온다.
 function getPhoto(source) {
+	$("#popupProfile").popup( "close" );
 	//alert("library" + source);
-    navigator.camera.getPicture(onPhotoURISuccess, getPhotofail, {
+    navigator.camera.getPicture(onPhotoURISuccess, getPhotofail(source), {
         quality: 100,
         destinationType: destinationType.FILE_URI,
         sourceType: source
     });
 }
 
-//라이브러리에서 사진가져오기 실패하면
-function getPhotofail(message) {
-    //alert('실패 : ' + message);
-    navigator.notification.alert(
-        '라이브러리에 사진이 없습니다!',
-        '',
-        '사진없음',
-        '확인'
-    );
-
+//라이브러리에서 사진가져오기 실패하면 - 다시 시도.
+function getPhotofail(source) {
+	
+	console.log(source);
+	
+	//getPhoto(source);
 }
 
 //사진찍기
 function capturePhoto() {
+	$("#popupProfile").popup( "close" );
     navigator.camera.getPicture(onPhotoURISuccess, capturePhotofail, {   
     	quality: 100,
         destinationType: destinationType.FILE_URI });
@@ -788,10 +766,3 @@ function capturePhotofail(message) {
 function onFail(message) {
   alert('Failed because: ' + message);
 }
-
-function saveProfilePicture(imageURI) {
-
-
-	
-};
-
