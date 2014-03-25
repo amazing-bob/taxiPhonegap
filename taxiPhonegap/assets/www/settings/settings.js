@@ -704,7 +704,7 @@ var profileImgUploadSuccess = function(r) {
 		
 		newMyInfoData.mbrPhotoUrl = imageURI;
 		
-		getLocalItem("myInfo",newMyInfoData);
+		setLocalItem("myInfo",newMyInfoData);
 
 			$("#profilePicture").css('display','block')
 				.css('background-image', 'url(' + imageURI + ')');

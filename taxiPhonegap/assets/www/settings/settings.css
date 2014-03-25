@@ -574,8 +574,8 @@ a#btnLeave:hover { background: #c6ecf8;  box-shadow: 0px 1px 5px #c6ecf8; z-inde
 }
 
 #imgMbrPhoto{
-	width: 15%;
-	height: auto; 
+	width: 75px;
+	height: 75px; 
 	box-shadow: 0px 1px 10px #ccc; 
 	border-radius: 200px 200px 200px 200px; 
 	-moz-border-radius: 200px 200px 200px 200px; 
