@@ -2,8 +2,9 @@ console.log("settings...");
 
 var that = this;
 var myInfo;
-
 var fvrtLocNo;
+var pictureSource;   // picture source
+var destinationType; // sets the format of returned value
 
 $(document).ready(function() {
 
@@ -102,6 +103,27 @@ var registerEvent = function(){
 	$("#btnChange").click(function () {
 		$(".contents").toggle("slide");
 	});
+
+	$(".profilePicture").click(function(){
+		$("#popupProfile").popup();
+		$("#popupProfile").css("visibility","visible");
+		$("#popupProfile").popup("open", { transition  : "pop" });
+	});
+
+	$("#btnProfile").click(function(){
+		$(".profilePicture").css("background-image",myInfo.mbrPhotoUrl)
+		$("#profileName").text("이름 : "+myInfo.mbrName);
+		$("#profilePhoneNo").text("휴대폰 번호 : "+myInfo.mbrPhoneNo);
+	});
+
+	$("#profileGallery").click(function(){
+		getPhoto(pictureSource.PHOTOLIBRARY);
+	});
+
+	$("#profileCamera").click(function(){
+		capturePhoto();
+	});
+	
 	$.mobile.loadPage( "settings.html", { showLoadMsg: false } );
 	
 	/*친구목록갱신 버튼*/
@@ -128,8 +150,10 @@ function onDeviceReady() {
 
 	document.addEventListener("backbutton", touchBackBtnCallbackFunc, false);
 
-}
+	  pictureSource=navigator.camera.PictureSourceType;
 
+	  destinationType=navigator.camera.DestinationType;
+}
 
 /**
  * 내용:출발지 거리 반경 정보 localStorage 에서 얻어서 화면에 checked 로 그리기
@@ -633,3 +657,141 @@ var getUpdateTime = function(){
 	
 	return text;	
 }
+
+/**
+ * 내용: profile 사진 수정
+ * 작성자: 이 용 준
+ */
+//사진을 전송한다.
+
+function onPhotoURISuccess(imageURI) {
+
+	$("#popupProfile").popup( "close" );
+	
+	var UploadUrl = rootPath + "/setting/uploadUserPhoto.do"
+	
+	alert("준비~!")
+
+	var options = new FileUploadOptions();
+	options.fileKey = "file";
+	options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+	options.mimeType = "text/plain";
+
+	var params = {};
+	params.value1 = "test";
+	params.value2 = "param";
+
+	options.params = params;
+
+	var ft = new FileTransfer();
+	ft.upload(imageURI, encodeURI(UploadUrl), win, fail, options);
+	
+	
+	alert("땅~!")
+
+	
+//	saveProfilePicture(imageURI);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	$("#profilePicture").css('display','block')
+						.css('background-image', 'url(' + imageURI + ')');
+}
+
+
+//!! Assumes variable fileURI contains a valid URI to a text file on the device
+
+var win = function (r) {
+    console.log("Code = " + r.responseCode);
+    console.log("Response = " + r.response);
+    console.log("Sent = " + r.bytesSent);
+}
+
+var fail = function (error) {
+    alert("An error has occurred: Code = " + error.code);
+    console.log("upload error source " + error.source);
+    console.log("upload error target " + error.target);
+}
+
+
+//사진전송에 성공하면
+//
+//function onPhotoSuccess(r) {
+//    //alert("Code = " + r.responseCode);
+//    //alert("Response = " + r.response);
+//    //alert("Sent = " + r.bytesSent);
+//    navigator.notification.alert(
+//        '사진을 전송하였습니다.!',  // message
+//        '',                         // callback
+//        '전송완료',                 // title
+//        '확인'                      // buttonName
+//    );
+//}
+//
+////사진전송에 실패하면
+//function onPhotofail(error) {
+//    //alert('실패 : ' + error);
+//    navigator.notification.alert(
+//        '사진을 전송할 수 없습니다!',
+//        '',
+//        '전송실패',
+//        '확인'
+//    );
+//}
+
+//사진전송을 위해 라이브러리에서 사진을 가져온다.
+function getPhoto(source) {
+	//alert("library" + source);
+    navigator.camera.getPicture(onPhotoURISuccess, getPhotofail, {
+        quality: 100,
+        destinationType: destinationType.FILE_URI,
+        sourceType: source
+    });
+}
+
+//라이브러리에서 사진가져오기 실패하면
+function getPhotofail(message) {
+    //alert('실패 : ' + message);
+    navigator.notification.alert(
+        '라이브러리에 사진이 없습니다!',
+        '',
+        '사진없음',
+        '확인'
+    );
+
+}
+
+//사진찍기
+function capturePhoto() {
+    navigator.camera.getPicture(onPhotoURISuccess, capturePhotofail, {   
+    	quality: 100,
+        destinationType: destinationType.FILE_URI });
+}
+
+//사진 저장이 실패하면
+function capturePhotofail(message) {
+    //alert('실패 : ' + message);
+    navigator.notification.alert(
+        '사진을 저장할 수 없습니다!',
+        '',
+        '저장실패',
+        '확인'
+    );
+}
+
+function onFail(message) {
+  alert('Failed because: ' + message);
+}
+
+function saveProfilePicture(imageURI) {
+
+
+	
+};
+
