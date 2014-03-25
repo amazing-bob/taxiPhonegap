@@ -6,7 +6,8 @@ $(document).ready(function() {
 	
 	initAjaxLoading();
 	
-
+	document.addEventListener("deviceready", onDeviceReady, false);
+	
 	$("#btnCommentSend").click(function(){
 		commentSend();
 	});
@@ -17,15 +18,6 @@ $(document).ready(function() {
 });//ready()
 
 
-/**
- * 뒤로가기 버튼 처리
- */
-var touchBackBtnCallbackFunc = function() {
-	console.log("touchBackBtnCallbackFunc()");
-
-	changeHref("../home/home.html");
-
-};
 
 function commentSend(){
 	Toast.shortshow("의견을 접수중입니다. 잠시만 기다려주세요.");
@@ -45,4 +37,33 @@ function commentSend(){
 				};
 			},
 			"json");
+}
+
+/**
+ * 뒤로가기 버튼 처리
+ * 작상자:김태경
+ */
+function onDeviceReady() {
+	console.log("onDeviceReady()");
+
+	push.initialise();
+
+	document.addEventListener("backbutton", touchBackBtnCallbackFunc, false);
+}
+
+
+function touchBackBtnCallbackFunc(){
+	
+		
+	if ( isRoomMbr() ) {
+		var myRoom = getSessionItem("myRoom");
+		
+		if (  myRoom && myRoom.roomNo && myRoom.roomNo != 0) {
+				changeHref("../room/room.html", { roomNo : myRoom.roomNo });
+		}
+	}else{
+		changeHref("../home/home.html");
+	}
+		
+	
 }

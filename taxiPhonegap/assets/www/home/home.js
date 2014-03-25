@@ -1562,12 +1562,12 @@ var favoriteList = function() {
 	                      	 
 	                    	$(".fvlx"+$(this).data("locNo")).append(
                              		$("<a>")
-                            		.addClass("ui-btn ui-icon-arrow-r ui-btn-icon-left ui-corner-all ui-shadow ui-btn-inline fvrbtn")
+                            		.addClass("ui-btn ui-icon-arrow-r ui-btn-icon-left ui-corner-all ui-shadow ui-btn-inline fvrbtn startEndBtn")
                             		.css("position","absolute")
                             		.css("right","1%")
                             		.css("border","0.5px dotted  gray")
                             		.css("bottom","11%")
-                            		.text("목적지")
+                            		.text("도착")
                             		.click( function(event){
                             			
                             			setEndLocationSession(
@@ -1587,12 +1587,12 @@ var favoriteList = function() {
                             )
                             .append(
                             		$("<a>")
-                            		.addClass("ui-btn ui-icon-arrow-r ui-btn-icon-left ui-corner-all ui-shadow ui-btn-inline fvrbtn")
+                            		.addClass("ui-btn ui-icon-arrow-r ui-btn-icon-left ui-corner-all ui-shadow ui-btn-inline fvrbtn startEndBtn")
                             		.css("position","absolute")
                             		.css("right","17%")
                             		.css("bottom","10%")
-                            		.css("border","0.5px dotted  gray")
-                            		.text("출발지")
+                            		//.css("border","0.5px dotted  gray")
+                            		.text("출발")
                             		.click(function(event) {
                             			
                             			setStartLocationSession(

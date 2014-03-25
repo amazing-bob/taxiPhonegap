@@ -489,5 +489,13 @@ var showMarkers = function(markers) {
  */
 var touchBackBtnCallbackFunc = function() {
 	console.log("touchBackBtnCallbackFunc()");
-	changeHref("../home/home.html");
+	if ( isRoomMbr() ) {
+		var myRoom = getSessionItem("myRoom");
+		
+		if (  myRoom && myRoom.roomNo && myRoom.roomNo != 0) {
+				changeHref("../room/room.html", { roomNo : myRoom.roomNo });
+		}
+	}else{
+		changeHref("../home/home.html");
+	}
 };

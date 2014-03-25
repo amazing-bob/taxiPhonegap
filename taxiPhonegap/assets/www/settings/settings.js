@@ -8,11 +8,9 @@ var fvrtLocNo;
 $(document).ready(function() {
 
 	myInfo = getLocalItem("myInfo");
-
+	getUpdatedTime();
 	initAjaxLoading();
-
 	document.addEventListener("deviceready", onDeviceReady, false);
-
 	registerEvent();
 	
 
@@ -27,8 +25,6 @@ var registerEvent = function(){
 	
 	checkAccount();
 	
-	/*$("#imgMbrPhoto").attr( "onClick" , "imageClick()");*/
-	
 	$("#seach").click(function() {
 		myInfo = getLocalItem("myInfo");
 		startRangeChk();
@@ -37,22 +33,11 @@ var registerEvent = function(){
 		});
 	});
 
-
+//	
+	
 	$("#rangeSave").click(function() {
 		addRange();
 	});
-
-
-	/*$.getJSON( rootPath + "/setting/getRange.do", function(result){
-		if(result.status == "success") {
-			var setting = result.data;
-			$("#startRange1").val(setting.startRange);
-			$("#endRange1").val(setting.endRange);
-		}else{
-			Toast.shortshow("실행중 오류발생!");
-			console.log(result.data);
-		}
-	});*/
 
 	$("#btnLogoutAccept").click(function(){
 		logout();
@@ -62,6 +47,8 @@ var registerEvent = function(){
 	});
 
 	$("#btnRefresh").click(function() {
+		
+		$("#frndUpdateDate").text("갱신중...");
 		$(".btnRefresh").attr("src", "../images/common/loading-update.gif");
 		$("#btnRefresh").css("background","white");
 		$(".btnRefresh").css("width","35px");
@@ -69,7 +56,7 @@ var registerEvent = function(){
 		$(".btnRefresh").css("margin-left","3.5px");
 		$(".btnRefresh").css("margin-top","-6px");
 		$(".btnRefresh").css("border-radius","40px");
-		
+	
 		that.getFrndList();
 	});
 
@@ -118,7 +105,9 @@ var registerEvent = function(){
 	$.mobile.loadPage( "settings.html", { showLoadMsg: false } );
 	
 	/*친구목록갱신 버튼*/
-	$( document ).on( "click", ".show-page-loading-msg", function() {
+/*	$("#btnRefresh").on( "click", ".show-page-loading-msg", function() {
+		
+		console.log("==================================");
 		$.mobile.loading( "show", {
 			text: "친구목록 갱신중...",
 			textVisible: textVisible,
@@ -126,7 +115,7 @@ var registerEvent = function(){
 			textonly: textonly,
 			html: html
 		});
-	});
+	});*/
 	
 };
 /**
@@ -138,13 +127,7 @@ function onDeviceReady() {
 	push.initialise();
 
 	document.addEventListener("backbutton", touchBackBtnCallbackFunc, false);
-//버그 - 화면 에 {} 출력되는 버그
-/*	try {
-		getLoginStatus();
 
-	} catch (e) {
-		Toast.shortshow(e);
-	}*/
 }
 
 
@@ -198,7 +181,7 @@ function endRangeChk() {
 var getFrndList = function(){
 	console.log("frndRefresh()");
 	//임시 세션에서 친구 리스트 삭제
-	removeSessionItem("frndData");
+//	removeSessionItem("frndData");
 	//frndData 새로운 친구 리스트 임시 세션에 저장.
 	getContacts();
 };
@@ -219,13 +202,13 @@ var updateFrndList = function(){
 		contentType : "application/json",
 		success : function(result){
 			if(result.status == "success") {
-				//Toast.shortshow("친구목록이 갱신 되었습니다.");
+
 //				location.href = "../setting/settings.html";
 				$(".btnRefresh").attr("src", "../images/common/btn_refresh.png");
 				$(".btnRefresh").attr("style", "width:40px");
 				$(".btnRefresh").attr("style", "height:40px");
 				$(".btnRefresh").attr("style", "margin-top:-10px");
-				
+				Toast.shortshow("친구목록이 갱신 되었습니다.");
 				var a = result.data;
 				console.log(JSON.stringify(a));
 				executeQuery(
@@ -236,24 +219,19 @@ var updateFrndList = function(){
 					insertFrndTable( 	transaction, result.data.frndList);
 					
 				},function(){
+					
+					//현재 날짜 정보를 가져옴
 					var d = new Date();
-//					var year = d. getFullYear().toString().substr(2, 2);
-					var year = d. getFullYear();
-					var month = d.getMonth();
-					var dates = d.getDate();
-					var time = d.toLocaleTimeString().slice(0, 5);
-//					var ampm = null;
-
-//					if(time.slice(0, 2) < 12){
-//					ampm = "오전";
-//					} else {
-//					ampm = "오후";
-//					}
-					$("#frndUpdateDate").text(year + "." + month + "." + dates + " " + time);
+					
+					setLocalItem("updatedTime",d);
+					
+					var text = getUpdateTime();
+					$("#frndUpdateDate").text(text);
+					
 				});
 				
 			}else{
-				//Toast.shortshow("친구목록 갱신 실패");
+				Toast.shortshow("친구목록 갱신 실패");
 			}
 			
 		}
@@ -379,58 +357,6 @@ $(document).bind('pageinit', function() {
 		/*$('#sortable').listview('refresh');*/
 	});
 });
-/*웹에서는 아래것을 사용해야 drag and drop이 가능*/
-/*$(function() {
-    $( "#sortable" ).sortable();
-    $( "#sortable" ).disableSelection();
-    $( "#sortable" ).listview('refresh');
-  });*/
-
-/**
- * 내  용:서버디비 즐겨찾기 목록 가져오기.
- * 작성자 : 김태경
- *//*
-function fvrtLocLists(){
-	var params = {
-			mbrNo : myInfo.mbrNo
-	};
-	$.getJSON(rootPath + "/location/getFavoriteList.do"
-			, params
-			, function(result) {
-				if(result.status == "success") {
-					var FvrtLoc = result.data;
-					var ol = $("#sortable");
-					$("#sortable li").remove();
-					$('#fvrtLocNo').find('span').show();
-					for(var i=0; i<FvrtLoc.length; i++){
-
-						     $("<li>")
-						     	.attr("data-theme", "f")
-						     	.attr("class","fvrtLocNo")
-						     	.attr("fvrtLocNo", FvrtLoc[i].fvrtLocNo)
-						     	.attr("data-rank", FvrtLoc[i].fvrtLocRank)
-						     	.attr("data-no",i)
-						     	.attr("onClick",'that.setFvrtLocNo('+FvrtLoc[i].fvrtLocNo+')')
-						     	.append($("<a>")
-						     					.css("text-decoration","none")
-										     	.attr("data-icon", "delete")
-										     	.attr("data-rel","popup")
-												.attr("href","#popupFvrtLoc")
-												.attr("class","test1")
-										     	.append($("<div>")
-										     	.text(FvrtLoc[i].fvrtLocName))
-						     	)
-						        .appendTo(ol);
-					}
-				}else {
-					Toast.shortshow("실행중 오류발생!");
-					console.log(getFavoritePlaces);
-				}
-
-			},"json");
-};*/
-
-
 
 /**
  * 내  용:로컬디비에서 즐겨찾기 목록 가져오기.
@@ -513,7 +439,6 @@ function rankUpdate() {
 			if(result.status == "success") {
 				
 
-				//여기서 동기화 시켜주면 fvrtLocLists()는 로컬 디비에서 업데이트 된 데이터를 불러온다.
 				var fvrtLocList = result.data;
 				console.log(fvrtLocList);
 				for(var i in fvrtLocList){
@@ -578,9 +503,6 @@ var setFvrtLocNo = function(fvrtLocNo){
 	this.fvrtLocNo = fvrtLocNo;
 };
 
-/*var imageClick = function(){
-	alert("이미지 클릭됨");
-};*/
 /**
  * 내 용:회원 가입 여부에 따른 로그인 텍스트 변경(TAXI 계정 or email)
  * 작성자:김태경
@@ -639,11 +561,8 @@ function extractionContactData(contacts) {
     }
     
     var num = 0;
-//    console.log(contactsList);
     for(var i = 0; i<contactsList.length;i++){
     	
-    //	console.log("정보 )    타입 : " + contactsList[i].type + "   | 이름 : " + contactsList[i].name + "   |번호 : " + contactsList[i].value+"\n");
-
     	if( contactsList[i].value.substring(0,3)=="010"){
     		
     		frndList[num] = {
@@ -660,3 +579,57 @@ function extractionContactData(contacts) {
     setSessionItem("frndList",frndList);
     that.updateFrndList();
 };
+/**
+ * 내용: 최근갱신 시간 가져오기. 처음호출 시
+ * 작성자:김태경
+ */
+var getUpdatedTime = function(){
+	
+	if(getLocalItem("updatedTime") == null){
+		
+		$("#frndUpdateDate").text("");
+		
+	}else{
+		
+		$("#frndUpdateDate").text(getUpdateTime());
+		
+	}
+	
+}
+/**
+ * 내용: 최근 갱신 시간 가져오기.업데이트 후
+ * 작성자 : 김태경
+ */
+var getUpdateTime = function(){
+    
+	var text = "";
+	
+	var t1 = new Date();
+	var t2 = new Date(getLocalItem("updatedTime"))
+	var t3 = t1-t2;
+	var getDiffTimeMinute  = Math.floor((t3/(1000*60)));
+	
+	console.log("지나간 시간"+getDiffTimeMinute+"분");
+	
+	
+	if(getDiffTimeMinute < 60){
+		
+		text = getDiffTimeMinute+"분전"
+		
+	}else if( getDiffTimeMinute >= 60 ){
+		
+		text = parseInt( getDiffTimeMinute / 60) +"시간전";
+		
+	}else if( getDiffTimeMinute >= 1440 ){
+		
+		text = parseInt( getDiffTimeMinute / 1440) +"일전";
+		
+	}else if( getDiffTimeMinute >= 525600 ){
+		
+		text = parseInt( getDiffTimeMinute / 525600) +"년전";
+		
+	}
+	
+	
+	return text;	
+}
