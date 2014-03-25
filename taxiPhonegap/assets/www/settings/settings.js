@@ -731,6 +731,9 @@ function getPhoto(source) {
 	//alert("library" + source);
     navigator.camera.getPicture(onPhotoURISuccess, getPhotofail(source), {
         quality: 100,
+        targetWidth: 280,
+        targetHeight: 280,
+    	encodingType: Camera.EncodingType.PNG,
         destinationType: destinationType.FILE_URI,
         sourceType: source
     });
@@ -749,6 +752,9 @@ function capturePhoto() {
 	$("#popupProfile").popup( "close" );
     navigator.camera.getPicture(onPhotoURISuccess, capturePhotofail, {   
     	quality: 100,
+    	targetWidth: 280,
+    	 targetHeight: 280,
+    	encodingType: Camera.EncodingType.PNG,
         destinationType: destinationType.FILE_URI });
 }
 
