@@ -34,11 +34,28 @@ var registerEvent = function(){
 		});
 	});
 
-//	
 	
 	$("#rangeSave").click(function() {
+		
+		
 		addRange();
+		
 	});
+	
+	$(".save").hover(
+			function(){
+				$(this).css("background","#c6ecf8")
+					   .css("border","1px solid #c6ecf8")
+					   .css("z-index","999");
+//				$(this).style.boxShadow = "0px 1px 5px #c6ecf8";
+			},
+			function(){
+				$(this).css("background","#fafbfd")
+					   .css("border","0.1em solid #eee")
+					   .css("z-index","999");
+//				$(this).style.boxShadow = "0px 1px 5px #dadada";
+			});
+	
 
 	$("#btnLogoutAccept").click(function(){
 		logout();
@@ -74,6 +91,7 @@ var registerEvent = function(){
 	});
 
 	$("#btnChange").click(function(){
+		
 		fvrtLocLists();
 	});
 
@@ -88,10 +106,18 @@ var registerEvent = function(){
 	$("#btnFvrtLocUpdate").click(function(){
 		fvrtLocUpdate();
 	});
+	
+	
+	
 	$("#save").click(function(){
 		rankUpdate();
 	});
 
+	
+	
+	
+	
+	
 	$(".content").hide();
 	$("#btnList").show();
 	$("#btnList").click(function () {
@@ -350,6 +376,7 @@ function addRange(){
 					//Toast.shortshow("반경설정이 변경되었습니다.");
 					setLocalItem("myInfo", myInfo);
 					changeHref("../settings/settings.html");
+					
 				} else {
 					Toast.shortshow("실행중 오류발생!");
 					console.log(result.data);
@@ -479,6 +506,7 @@ function rankUpdate() {
 							//Toast.shortshow("우선순위가 변경되었습니다.");
 							/*$("#sortable").listview('refresh');*/
 							location.href = "../settings/settings.html";
+							
 						});
 			} else {
 				//Toast.shortshow("실행중 오류발생!");
@@ -499,7 +527,8 @@ var touchBackBtnCallbackFunc = function() {
 	if ( pageId && (   pageId == 'pageFvrtSetting' 
 					|| pageId == 'pageRangeSetting' 
 					|| pageId == 'pageBlakcListSetting'
-					|| pageId == 'pageSafeServiceSetting')
+					|| pageId == 'pageSafeServiceSetting'
+					|| pageId == 'pageProfileSetting')
 		) {
 		changeHref("../settings/settings.html");
 	} else {
