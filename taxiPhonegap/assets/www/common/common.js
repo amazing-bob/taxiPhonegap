@@ -3,8 +3,8 @@ console.log("commonjs...");
 //var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
 //var rootPath = "http://localhost:9999/taxi";		//로컬
 //var rootPath = "http://192.168.0.46:9999/taxi";	//상헌
-//var rootPath = "http://192.168.1.3:9999/taxi";		//종혁
-var rootPath = "http://192.168.0.4:9999/taxi";	//태경
+var rootPath = "http://192.168.43.65:9999/taxi";		//종혁
+//var rootPath = "http://192.168.10.59:9999/taxi";	//태경
 var contentWidth;
 var contentHeight;
 
@@ -518,24 +518,35 @@ var push = {
     errorHandler: function(error) {
         console.log("push.errorHandler(error)");
 //        console.log(error);
-    },
+    }, 
 
     // onnotificationGCM callback
     onNotificationGCM: function(e) {
     	console.log("push.onNotificationGCM(e)");
-    	console.log(JSON.stringify(e));
+    	//console.log(JSON.stringify(e));
+    	//console.log(e.event )
     	
+    	
+    	setSessionItem("pushThis",this);
+    	setSessionItem("pushRoomNo",this.roomNo);
+    	setSessionItem("pushEvent",e);
+    	
+    	setTimeout(function(){
+    	
+       var e = getSessionItem("pushEvent");
+       var that = getSessionItem("pushThis");
+     
         switch( e.event ) {
             case 'registered': {
             	console.log("push.onNotificationGCM() registered...");
             	
         		var regId = e.regid;
         		
-	            if ( this.registerAction && this.registerAction == "joinRoom" 
-	            		&& regId.length > 0 && this.roomNo != undefined ) {
-	            	joinRoom(regId, this.roomNo);
+	            if ( that.registerAction && that.registerAction == "joinRoom" 
+	            		&& regId.length > 0 && that.roomNo != undefined ) {
+	            	joinRoom(regId, getSessionItem("pushRoomNo"));
 		                
-	            } else if ( this.registerAction && this.registerAction == "addRoom" 
+	            } else if ( that.registerAction && that.registerAction == "addRoom" 
 	            		&& regId.length > 0 ) {
 	            	addRoom(regId);
 		            	
@@ -555,21 +566,23 @@ var push = {
             			console.log("push.onNotificationGCM() message.FeedRunnable...");
             			
             			if ( getCurrentHtmlPath() == "room/room.html") {
-            				getFeedList( e.payload.roomNo )
+            				getAndSetFeedList( e.payload.roomNo );
             			}
             			
             			if (e.payload.feedAction && e.payload.feedAction == "addFeed") {
 	            			notification.vibrate(500);
 		            		notification.beep(1);
-		            		
-//		            		Toast.shortshow(e.message);
             			}
 	            		
+            			if (e.payload.feedAction && e.payload.feedAction == "deleteFeed") {
+            				notification.vibrate(1);
+            			}
+            			
             		} else if ( e.payload && e.payload.className == "RoomRunnable" ) { // 방 푸쉬
             			console.log("push.onNotificationGCM() message.RoomRunnable...");
             			
             			if ( getCurrentHtmlPath() == "room/room.html") {
-            				getRoomInfo( e.payload.roomNo ); 
+            				getAndSetRoomInfo( e.payload.roomNo ); 
             			}
             			
             			notification.vibrate(500);
@@ -607,7 +620,6 @@ var push = {
             case 'error': {
             	console.log("push.onNotificationGCM() message...");
 //            	console.log(e.msg);
-            	
     			break;
             }
             
@@ -615,7 +627,16 @@ var push = {
     			break;
             }
         }
+        
+       removeSessionItem("pushRoomNo");
+       removeSessionItem("pushEvent");
+       removeSessionItem("pushThis");
+        
+    	},400);
+    	
     }
+    
+    
 };
 
 

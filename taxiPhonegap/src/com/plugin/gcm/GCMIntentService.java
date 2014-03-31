@@ -79,7 +79,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 				
 				try {
 					
-					extras.putString("message", extras.getString("feedContent"));
+					String msg = "";
+					
+					msg = "["+extras.getString("mbrName") + "] : " + extras.getString("feedContent");
+					
+					extras.putString("message", msg);
 					
 					if ( foreground && extras.getString("message").length() > 0 ){
 						PushPlugin.sendExtras(extras);
