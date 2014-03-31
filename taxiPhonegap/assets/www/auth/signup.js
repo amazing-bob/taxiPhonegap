@@ -69,10 +69,10 @@ var registerEvents = function() {
 	console.log("registerEvents()");
 	
 	// 계정연동 화면 관련 이벤트
-	$("#loginEmail").on("keyup", function(event) {
+	$("#loginEmail").on("input", function() {
 		validLoginAccount();
 	});
-	$("#loginPassword").on("keyup", function(event) {
+	$("#loginPassword").on("input", function(event) {
 		checkLoginBtnActive();
 	});
 	
@@ -91,15 +91,15 @@ var registerEvents = function() {
 	
 	// 계정만들기 화면 관련 이벤트
 	// 유효성 체크
-	$("#signEmail").on("keyup", function(event) {
+	$("#signEmail").on("input", function(event) {
 		validSignupAccount();
 	});
 	
-	$("#signPassword").on("keyup", function(event){
+	$("#signPassword").on("input", function(event){
 		validPassword();
 	});
 	
-	$("#signPasswordConfirm").on("keyup", function(event){
+	$("#signPasswordConfirm").on("input", function(event){
 		comparePasswrodConfirm();
 	});
 	
