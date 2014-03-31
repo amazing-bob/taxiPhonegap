@@ -209,8 +209,8 @@ var createLocationList = function(locations, page) {
                                         .attr("src", "../images/common/favorite-non-icon.png") 
                                         .attr("href","#") 
                                         .attr("data-status","false") ) 
- //                          .click(function(event) {
-                            .on("touchend", function(event) {
+                           .click(function(event) {
+ //                           .on("touchend", function(event) {
                                 event.stopPropagation(); 
                                 var liIdx = $(this).attr("data-idx"); 
                                 addAndDelFavoriteLocation(liIdx, locations);

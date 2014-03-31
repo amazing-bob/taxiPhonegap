@@ -1,19 +1,16 @@
 console.log("settings...");
 
 var that = this;
-var myInfo;
 var fvrtLocNo;
 var pictureSource;   // picture source
 var destinationType; // sets the format of returned value
 
 $(document).ready(function() {
-
-	myInfo = getLocalItem("myInfo");
 	getUpdatedTime();
 	initAjaxLoading();
 	document.addEventListener("deviceready", onDeviceReady, false);
 	registerEvent();
-	
+	displayAccountInfoArea();
 
 });
 /**
@@ -24,8 +21,6 @@ var registerEvent = function(){
 	
 	console.log(myInfo.mbrPhotoUrl);
 	
-	checkAccount();
-	
 	$("#seach").click(function() {
 		myInfo = getLocalItem("myInfo");
 		startRangeChk();
@@ -33,13 +28,9 @@ var registerEvent = function(){
 		$("#startRange").find("input[type='radio']").bind("change", function(){
 		});
 	});
-
 	
 	$("#rangeSave").click(function() {
-		
-		
 		addRange();
-		
 	});
 	
 	$(".save").hover(
@@ -91,7 +82,6 @@ var registerEvent = function(){
 	});
 
 	$("#btnChange").click(function(){
-		
 		fvrtLocLists();
 	});
 
@@ -113,10 +103,6 @@ var registerEvent = function(){
 		rankUpdate();
 	});
 
-	
-	
-	
-	
 	
 	$(".content").hide();
 	$("#btnList").show();
@@ -153,20 +139,21 @@ var registerEvent = function(){
 	
 	$.mobile.loadPage( "settings.html", { showLoadMsg: false } );
 	
-	/*친구목록갱신 버튼*/
-/*	$("#btnRefresh").on( "click", ".show-page-loading-msg", function() {
+	//계정연동 버튼 회원연동화면으로 이동
+	$("#btnAccountLogin").click(function() {
 		
-		console.log("==================================");
-		$.mobile.loading( "show", {
-			text: "친구목록 갱신중...",
-			textVisible: textVisible,
-			theme: theme,
-			textonly: textonly,
-			html: html
-		});
-	});*/
+		if ( myInfo.accountNo && myInfo.accountNo != 0 ) { 
+			alert("이미 계정연동이 되었습니다.");
+//			Toast.shortshow("이미 계정연동이 되었습니다.");
+			
+		} else {
+			changeHref("../auth/signup.html");
+		}
+	});
 	
 };
+
+
 /**
  * deviceready 이벤트
  */
@@ -182,6 +169,28 @@ function onDeviceReady() {
 	  destinationType=navigator.camera.DestinationType;
 }
 
+
+/**
+ * 설  명: 계정정보영역 내용 보여기
+ * 작성자: 김상헌
+ */
+var displayAccountInfoArea = function() {
+	console.log("displayAccountInfoArea()");
+	
+	$("#imgMbrPhoto").attr( "src", myInfo.mbrPhotoUrl );
+	$("#spanMbrName").text(myInfo.mbrName);
+	$("#spanPhoneNo").text(myInfo.mbrPhoneNo);
+	
+	if ( myInfo.accountNo && myInfo.accountNo > 0 ) {
+		$("#btnAccountLogin").text(myInfo.accountEmail);
+		
+	} else {
+		$("#btnAccountLogin").text("TAXI 계정 연동");
+				
+	}
+};
+
+
 /**
  * 내용:출발지 거리 반경 정보 localStorage 에서 얻어서 화면에 checked 로 그리기
  * 작성자:김태경
@@ -189,10 +198,6 @@ function onDeviceReady() {
 
 function startRangeChk() {
 
-//	myInfo = getSessionItem("myInfo");
-	
-	
-	
 	if(myInfo.startRange == "500"){
 		$("#radio-choice-h-2a").prop("checked", true);
 	}else if(myInfo.startRange =="1000"){
@@ -211,8 +216,6 @@ function startRangeChk() {
  * 작성자:김태경
  */
 function endRangeChk() {
-	
-	
 	
 	if(myInfo.endRange == "500"){
 		$("#radio-choice-h-3a").prop("checked", true);
@@ -236,6 +239,8 @@ var getFrndList = function(){
 	//frndData 새로운 친구 리스트 임시 세션에 저장.
 	getContacts();
 };
+
+
 /**
  * 내용: 휴대폰연락쳐를 서버에 업데이트 로컬디비 동기화.
  * 작성자: 김태경
@@ -266,7 +271,7 @@ var updateFrndList = function(){
 				// Transaction Execute
 				function( transaction ) {
 					
-					deleteFrndData (	transaction, myInfo.mbrNo);	
+					deleteAllFrndTable (transaction);	
 					insertFrndTable( 	transaction, result.data.frndList);
 					
 				},function(){
@@ -288,6 +293,7 @@ var updateFrndList = function(){
 		}
 	});
 };
+
 
 /**
  * 내용: 서버디비 회원정보 삭제 로컬 스토리지 세션 스토리지 로컬 디비 삭제 auth.html 이동 재가입 화면
@@ -326,6 +332,7 @@ function leaveMember() {
 	"json");
 };
 
+
 /**
  * 내  용:즐겨찾기 서버디비 데이타 삭제 후 로컬디비 동기화.
  * 작성자:김태경
@@ -355,6 +362,8 @@ function deleteFvrtLoc() {
 		}
 	});
 }
+
+
 /**
  * 내용:거리반경 정보 db update 및 localStorage 동기화
  * 작성자:김태경
@@ -409,6 +418,7 @@ $(document).bind('pageinit', function() {
 		/*$('#sortable').listview('refresh');*/
 	});
 });
+
 
 /**
  * 내  용:로컬디비에서 즐겨찾기 목록 가져오기.
@@ -467,6 +477,7 @@ function fvrtLocUpdate(){
 	rankUpdate(fvrtArr);
 };
 
+
 /**
  * 내  용: 서버디비 우선순위 랭크값 변경 로컬디비에 동기화.
  * 작성자 : 김태경
@@ -515,6 +526,7 @@ function rankUpdate() {
 	});
 };
 
+
 /**
  * 뒤로가기 버튼 처리(블랙리스트 안심서비스 페이지 추가 방참여인 경우 추가)
  * 작성자: 김태경
@@ -547,30 +559,17 @@ var touchBackBtnCallbackFunc = function() {
 		
 	}
 };
+
+
 /**
  * 내 용: 삭제시 해당 위치 번호 얻어와서 초기화
  * 작업자:김태경
  */
 var setFvrtLocNo = function(fvrtLocNo){
-	console.log(myInfo.mbrNo+"======================================");
-	console.log(fvrtLocNo+"=======================================");
 	this.fvrtLocNo = fvrtLocNo;
 };
 
-/**
- * 내 용:회원 가입 여부에 따른 로그인 텍스트 변경(TAXI 계정 or email)
- * 작성자:김태경
- */
-var checkAccount = function(){
-	console.log(myInfo.loginEmail);
-	if(myInfo.loginEmail){
-		$("#account").text(myInfo.loginEmail);
-		$("#imgMbrPhoto").attr( "src", myInfo.mbrPhotoUrl );
-	}else{
-		$("#account").text("TAXI 계정 로그인");
-		$("#imgMbrPhoto").attr( "src", myInfo.mbrPhotoUrl );
-	}
-};
+
 /**
  * 내용:휴대폰에서 연락처 가져오기
  * 작성자:장종혁
@@ -583,6 +582,8 @@ var getContacts = function(){
     navigator.contacts.find(fields, extractionContactData, null, options);
     
 };
+
+
 /**
  * 내용:가져온 연락처 임시세션에 저장하기.
  * 작성자:장종혁
@@ -633,6 +634,8 @@ function extractionContactData(contacts) {
     setSessionItem("frndList",frndList);
     that.updateFrndList();
 };
+
+
 /**
  * 내용: 최근갱신 시간 가져오기. 처음호출 시
  * 작성자:김태경
@@ -649,7 +652,9 @@ var getUpdatedTime = function(){
 		
 	}
 	
-}
+};
+
+
 /**
  * 내용: 최근 갱신 시간 가져오기.업데이트 후
  * 작성자 : 김태경
@@ -686,14 +691,13 @@ var getUpdateTime = function(){
 	
 	
 	return text;	
-}
+};
+
 
 /**
- * 내용: profile 사진 수정
+ * 내용: profile 사진 수정 & 사진 서버로 전송
  * 작성자: 이 용 준
  */
-//사진을 전송한다.
-
 function onPhotoURISuccess(imageURI) {
 	
 	var UploadUrl = rootPath + "/setting/uploadUserPhoto.do"
@@ -740,7 +744,7 @@ var profileImgUploadSuccess = function(r) {
 	}else{
 			alert("접속이 원할하지 않습니다.\n 잠시 후 다시 시도해 주시기 바랍니다.");
 	}
-}
+};
 
 var fail = function (error) {
 	if(error.code==1){
@@ -752,7 +756,7 @@ var fail = function (error) {
 	}else if(error.code==4){
 		alert("ErrorCode:4\n파일 읽기가 중지 되었습니다.");
 	}
-}
+};
 
 //사진전송을 위해 라이브러리에서 사진을 가져온다.
 function getPhoto(source) {

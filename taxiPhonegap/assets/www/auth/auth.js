@@ -361,13 +361,11 @@ var clickSignupBtn = function(){
 		var mbrPhotoNo = Math.floor((Math.random()*10)+1);
 		var mbrPhotoUrl = "../images/randomIconImage/TAXI_RANDOM_icon_"+mbrPhotoNo+".png";
 		
-		console.log(mbrPhotoUrl);
-//		console.log("111111111111111111111111111111111");		
-//		if (device) {
+		if ( window['device'] != undefined ) {
 			signUp( phoneNo, device.uuid, mbrName , keywordNo , mbrPhotoUrl);
-//		} else {
-//			signUp( phoneNo, null, mbrName , keywordNo , mbrPhotoUrl);
-//		}
+		} else {
+			signUp( phoneNo, "uuid|" + phoneNo, mbrName , keywordNo , mbrPhotoUrl);
+		}
 		
 
 	} else {
@@ -416,6 +414,7 @@ var signUp = function( phoneNo, uuid, mbrName, keywordNo, mbrPhotoUrl ) {
 						if ( myInfo ) {
 							//로컬스토리지에 저장
 							setLocalItem("myInfo", myInfo);
+							
 							//주소록 친구 정보 base64 md5 형식으로 웹DB에 저장.
 							executeQuery(
 									// Transaction Execute

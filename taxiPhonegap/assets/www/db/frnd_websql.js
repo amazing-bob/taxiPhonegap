@@ -93,38 +93,63 @@ var insertFrndTable = function( transaction, frndList ) {
 	}
 			
 };
-
 /**
- * 내용 : 친구목록 전체삭제
- * 작성자 : 김태경
+ *   설  명 : 친구 전부 삭제
+ *   작성자 : 김상헌
  */
-var deleteFrndData = function( transaction, mbrNo ) {
-	console.log("deleteFrndData(transaction, mbrNo)");
-//	console.log(frndList);
+var deleteAllFrndTable = function(transaction) {
+	console.log("deleteAllFrndTable()");
 
 	var sql = 
 		" delete from FRND " +
 		" where 1 = 1 " +
-		" and 	mbrNo = ?" +
 		" ;";
 	transaction.executeSql(
-			// SQL
 			sql, 
 			// Parameter
-			[
-			 	mbrNo
-			],
-		 	// Success
+			[],
+			// Success
 			function() {
-				console.log("deleteFrndData  success");
+				console.log("deleteAllFrndTable  success");
 			},
 			// Fail
 			function () {
-				console.log("deleteFrndData  fail");
+				console.log("deleteAllFrndTable  fail");
 			});
-		
-			
+
 };
+
+///**
+// * 내용 : 친구목록 전체삭제
+// * 작성자 : 김태경
+// */
+//var deleteFrndData = function( transaction, mbrNo ) {
+//	console.log("deleteFrndData(transaction, mbrNo)");
+////	console.log(frndList);
+//
+//	var sql = 
+//		" delete from FRND " +
+//		" where 1 = 1 " +
+//		" and 	mbrNo = ?" +
+//		" ;";
+//	transaction.executeSql(
+//			// SQL
+//			sql, 
+//			// Parameter
+//			[
+//			 	mbrNo
+//			],
+//		 	// Success
+//			function() {
+//				console.log("deleteFrndData  success");
+//			},
+//			// Fail
+//			function () {
+//				console.log("deleteFrndData  fail");
+//			});
+//		
+//			
+//};
 /**
  * 내용:친구목록 전체 가져오기
  * 작업자:김태경

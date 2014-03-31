@@ -2,8 +2,8 @@ console.log("commonjs...");
 
 //var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
 //var rootPath = "http://localhost:9999/taxi";		//로컬
-//var rootPath = "http://192.168.0.46:9999/taxi";	//상헌
-var rootPath = "http://192.168.43.65:9999/taxi";		//종혁
+var rootPath = "http://192.168.43.61:9999/taxi";	//상헌
+//var rootPath = "http://192.168.1.4:9999/taxi";		//종혁
 //var rootPath = "http://192.168.10.59:9999/taxi";	//태경
 var contentWidth;
 var contentHeight;
@@ -209,7 +209,7 @@ var changeHref = function (url, jsonObject) {
  * 작성자: 김상헌
  */
 var getMyInfo = function() {
-	console.log("getMyInfo{()");
+	console.log("getMyInfo()");
 	
 	var hrefArr = window.location.href.split("/auth/");
 	var curHtml = hrefArr[hrefArr.length-1];
@@ -558,6 +558,11 @@ var push = {
             	console.log("push.onNotificationGCM() message...");
             	console.log(JSON.stringify(e));
             	
+ //          	alert(JSON.stringify(e))
+            	
+            	//alert(e.payload.className)
+            	
+            	
             	// if this flag is set, this notification happened while we were in the foreground.
             	// you might want to play a sound to get the user's attention, throw up a dialog, etc.
             	
@@ -566,7 +571,7 @@ var push = {
             			console.log("push.onNotificationGCM() message.FeedRunnable...");
             			
             			if ( getCurrentHtmlPath() == "room/room.html") {
-            				getAndSetFeedList( e.payload.roomNo );
+            				getAndSetFeedList( e.payload.roomNo )
             			}
             			
             			if (e.payload.feedAction && e.payload.feedAction == "addFeed") {
@@ -574,10 +579,6 @@ var push = {
 		            		notification.beep(1);
             			}
 	            		
-            			if (e.payload.feedAction && e.payload.feedAction == "deleteFeed") {
-            				notification.vibrate(1);
-            			}
-            			
             		} else if ( e.payload && e.payload.className == "RoomRunnable" ) { // 방 푸쉬
             			console.log("push.onNotificationGCM() message.RoomRunnable...");
             			

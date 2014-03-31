@@ -85,7 +85,8 @@ var registerEvent = function() {
 			".roomMbrHiddenBtnArea_0, .roomMbrHiddenBtnArea_1, .roomMbrHiddenBtnArea_2, .roomMbrHiddenBtnArea_3, " +
 			"#popupExit_popup-screen, #popupExit"
 		});
-
+		
+		
 		/**
 		 *    설   명 : 방 슬라이드 스와이프 설정 (열기)
 		 *    작성자 : 장종혁 
@@ -159,7 +160,6 @@ var registerEvent = function() {
 	});
 	$("#popupExit_popup a.aOkBtn").click( function(event){
 		event.stopPropagation();
-		
 		var mbrNo = myInfo.mbrNo;
 		var roomNo = getSessionItem("myRoom").roomNo;
 		outRoom(mbrNo, roomNo);
@@ -179,7 +179,9 @@ var registerEvent = function() {
 	$(".divCancelBtn").on("click",function(){
 		event.stopPropagation();
 		showhideBlackBackground("hide");
-	});	
+	});
+	
+	
 
 	// 블랙리스트 관련
 	$("#blacklistRegister_popup a.aOkBtn").click( function(event){
