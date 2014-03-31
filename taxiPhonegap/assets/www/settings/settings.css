@@ -365,8 +365,6 @@ a.save {
     margin-right: 20%;
 }
 
-/*  a.save:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; } */
-
 .save span {
 font-family: 'Nanum Gothic';
 font-size: large;
@@ -375,39 +373,6 @@ top: 10px;
 color: dimgray;
 text-shadow: none;
 }
-
-/* #rangeSave {
-    cursor: pointer;
-    position: absolute;
-    border: 0.1em solid #eee;
-    z-index: 999;
-    width: 60%;
-    height: 45px;
-    text-align: center;
-    background: #fafbfd;
-    box-shadow: 0px 1px 5px #dadada;
-    border-radius: 3px;
-    margin-left: 20%;
-    margin-right: 20%;
-} */
-
-/* #rangeSave:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; } */
-
-/* #rangeSave span {
-font-family: 'Nanum Gothic';
-font-size: large;
-position: relative;
-top: 10px;
-color: dimgray;
-text-shadow: none;
-} */
-
-
-
-
-
-
-
 
 #outRoom{
     text-decoration: none;
@@ -448,19 +413,6 @@ border-top: 1px solid beige;
     text-decoration-line: none;
     text-underline-width: 0px;
 }
-
-/*
-#spanOut{
-    float: left;
-    margin-left: 41px;
-    margin-top: 8px;
-    color: #999;
-    font-family: 'nanum gothic Bold';
-    font-weight: bold;
-    font-size: 15px;
-    text-shadow: none;
-}*/
-
 
 #spanOut{
     float: left;
@@ -574,8 +526,8 @@ a#btnLeave:hover { background: #c6ecf8;  box-shadow: 0px 1px 5px #c6ecf8; z-inde
 }
 
 #imgMbrPhoto{
-	width: 75px;
-	height: 75px; 
+	width: 60px;
+	height: 60px; 
 	box-shadow: 0px 1px 10px #ccc; 
 	border-radius: 200px 200px 200px 200px; 
 	-moz-border-radius: 200px 200px 200px 200px; 
@@ -618,14 +570,14 @@ a#btnLeave:hover { background: #c6ecf8;  box-shadow: 0px 1px 5px #c6ecf8; z-inde
 }
 #accountInfoArea {
 	position:absolute;
-	padding-left: 10px;
+	padding-left: 20px;
 	top:20%;
 	left:17%;
 	width: 77%;
 }
 #btnAccountLogin {
 	cursor : pointer;
-	font-size: x-large;
+	font-size: large;
 }
 #btnAccountLogin:hover { color : #33b4e4; }
 
