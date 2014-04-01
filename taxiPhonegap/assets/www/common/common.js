@@ -2,8 +2,8 @@ console.log("commonjs...");
 
 //var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
 //var rootPath = "http://localhost:9999/taxi";		//로컬
-var rootPath = "http://192.168.43.61:9999/taxi";	//상헌
-//var rootPath = "http://192.168.1.4:9999/taxi";		//종혁
+//var rootPath = "http://192.168.43.61:9999/taxi";	//상헌
+var rootPath = "http://192.168.43.65:9999/taxi";		//종혁
 //var rootPath = "http://192.168.10.59:9999/taxi";	//태경
 var contentWidth;
 var contentHeight;
@@ -524,8 +524,6 @@ var push = {
     onNotificationGCM: function(e) {
     	console.log("push.onNotificationGCM(e)");
     	//console.log(JSON.stringify(e));
-    	//console.log(e.event )
-    	
     	
     	setSessionItem("pushThis",this);
     	setSessionItem("pushRoomNo",this.roomNo);
@@ -558,11 +556,6 @@ var push = {
             	console.log("push.onNotificationGCM() message...");
             	console.log(JSON.stringify(e));
             	
- //          	alert(JSON.stringify(e))
-            	
-            	//alert(e.payload.className)
-            	
-            	
             	// if this flag is set, this notification happened while we were in the foreground.
             	// you might want to play a sound to get the user's attention, throw up a dialog, etc.
             	
@@ -577,6 +570,10 @@ var push = {
             			if (e.payload.feedAction && e.payload.feedAction == "addFeed") {
 	            			notification.vibrate(500);
 		            		notification.beep(1);
+            			}
+            			
+            			if (e.payload.feedAction && e.payload.feedAction == "deleteFeed") {
+	            			getAndSetFeedList( e.payload.roomNo )
             			}
 	            		
             		} else if ( e.payload && e.payload.className == "RoomRunnable" ) { // 방 푸쉬
