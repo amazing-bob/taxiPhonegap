@@ -2,8 +2,8 @@ console.log("commonjs...");
 
 //var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
 //var rootPath = "http://localhost:9999/taxi";		//로컬
-//var rootPath = "http://192.168.43.61:9999/taxi";	//상헌
-var rootPath = "http://192.168.43.65:9999/taxi";		//종혁
+var rootPath = "http://192.168.0.13:9999/taxi";	//상헌
+//var rootPath = "http://192.168.1.4:9999/taxi";		//종혁
 //var rootPath = "http://192.168.10.59:9999/taxi";	//태경
 var contentWidth;
 var contentHeight;
@@ -692,6 +692,25 @@ var showhideBlackBackground = function(visibleCommand) {
 		}
 		////////////////////////////////////////////*/
 	}
+};
+
+
+/**
+ * 설  명: 메시지 보이기 (웹이면 alert, 안드로이드면 Toast로 메시지 출력)
+ * 작성자: 김상헌
+ */
+var showAlertToast = function( message ) {
+	console.log("showAlertToast(message)");
+//	console.log(message);
+
+	if ( window['Toast'] != undefined ) {
+		Toast.shortshow( message );
+		
+	} else {
+		alert(message);
+		
+	}
+	
 };
 
 

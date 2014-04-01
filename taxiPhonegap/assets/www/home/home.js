@@ -467,7 +467,7 @@ var loadedMyScroll = function() {
 			
 			///////////////////////////////
 			if ( page < 5 && this.maxScrollX > this.x ) { 
-                searchRooms( myInfo.mbrNo, ++page );
+                searchRooms( myInfo.mbrNo, ++page, /* refreshFlag */ false );
                   
             } else { 
                 var currPageX = this.currPageX; 
@@ -658,7 +658,7 @@ var checkEndLocation = function() {
 						locationSession.endName,
 						locationSession.endPrefix );
 
-		searchRooms( myInfo.mbrNo, /*page*/ 0 );
+		searchRooms( myInfo.mbrNo, /*page*/ 0, /* refreshFlag */ false );
 
 	} else {
 		// 최근 목적지 조회 & 목적지로 설정
@@ -796,9 +796,9 @@ var searchLocation = function( target ) {
  * 설  명: 방 목록 조회
  * 작성자: 김상헌
  */
-var searchRooms = function( mbrNo, page ) {
-	console.log("searchRooms(mbrNo, page)");
-//	console.log(mbrNo, page);
+var searchRooms = function( mbrNo, page, refreshFlag ) {
+	console.log("searchRooms(mbrNo, page, refreshFlag)");
+//	console.log(mbrNo, page, refreshFlag);
 
 	var locationSession = getSessionItem("locationSession");
 
@@ -876,13 +876,21 @@ var searchRooms = function( mbrNo, page ) {
 
 					}
 					
-					// 기존의 방리스트에 조회해온 리스트 추가
-                    if ( realignRoomList && realignRoomList.length > 0 ) { 
-                        var roomListLen = roomList.length; 
-                        for( var i = 0 ; i < realignRoomList.length; i++ ) { 
-                        	roomList[roomListLen + i] = realignRoomList[i]; 
-                        } 
-                    }
+					if ( refreshFlag ) {
+						// 기존의 방리스트 초기화 후 조회해 리스트 추가 
+						roomList = new Array();
+						roomList = realignRoomList;
+						
+					} else {
+						// 기존의 방리스트에 조회해온 리스트 추가
+	                    if ( realignRoomList && realignRoomList.length > 0 ) { 
+	                        var roomListLen = roomList.length; 
+	                        for( var i = 0 ; i < realignRoomList.length; i++ ) { 
+	                        	roomList[roomListLen + i] = realignRoomList[i]; 
+	                        } 
+	                    }
+	                    
+					}
 
 					// 내방 여부에 따른 화면 세팅
 					if ( isRoomMbr() ) { 
@@ -1466,7 +1474,8 @@ var joinRoom = function(regId, joinRoomNo) {
 								});
 
 					} else {
-						console.log(result.data);
+						showAlertToast(result.data);
+						searchRooms(myInfo.mbrNo, /* page */ 0, /* refreshFlag */ true);
 
 					}
 				}, "json");
