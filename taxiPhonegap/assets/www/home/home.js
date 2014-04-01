@@ -817,97 +817,118 @@ var searchRooms = function( mbrNo, page, refreshFlag ) {
 			, params
 			, function(result) {
 				if (result.status == "success") {
-					initRoute();
 					
-					var searchRoomList 	= result.data;
-					var roomPathList 	= null;
-					var roomMbrList 	= null;
-					var startInfo 		= null;
-					var endInfo 		= null;
-					var waypoints 		= [];
-					var startTime 		= null;
-					var isMyRoom 		= "false";
-
-					var realignRoomList 		= [];
-
-					// 각 방들의 정보 출력이 쉽도록 값들의 배치 변경
-					for( var i = 0; i < searchRoomList.length; i++ ) {
-						roomMbrList = searchRoomList[i].roomMbrList;
-						isMyRoom 	= isIRoomMember( roomMbrList, myInfo.mbrNo );
+					//추가로 얻어온 방목록이 없고, 스크롤의 에 의한 page 값이 증가했을경우.
+					if(result.data.length == 0 && page > 0){
 						
-						// 출발지 & 목적지 & 경유지 설정
-						roomPathList 	= searchRoomList[i].roomPathList;
-						startInfo 		= null;
-						endInfo 		= null;
-						waypoints 		= [];
+		                var currPageX = this.currPageX; 
+		                
+		    			var roomLi = $( $("#ulRoomList li").get(myScroll.currPageX) );
+
+		    			initRoute();
+
+		    			searchRoute(
+		    					parseFloat( roomLi.data("startX") ),
+		    					parseFloat( roomLi.data("startY") ),
+		    					parseFloat( roomLi.data("endX") ),
+		    					parseFloat( roomLi.data("endY") ),
+		    					"directionsService_callback",
+		    					null );
 						
-						for ( var j in roomPathList) {
-							if ( roomPathList[j].pathRank == 0 ) {
-								startInfo = roomPathList[j];
+					}else{
+						
+						initRoute();
+						
+						var searchRoomList 	= result.data;
+						var roomPathList 	= null;
+						var roomMbrList 	= null;
+						var startInfo 		= null;
+						var endInfo 		= null;
+						var waypoints 		= [];
+						var startTime 		= null;
+						var isMyRoom 		= "false";
 
-							} else if ( roomPathList[j].pathRank == 99 ) {
-								endInfo = roomPathList[j];
+						var realignRoomList 		= [];
 
-							} else {
-								waypoints[waypoints.length] = roomPathList[j];
+						// 각 방들의 정보 출력이 쉽도록 값들의 배치 변경
+						for( var i = 0; i < searchRoomList.length; i++ ) {
+							roomMbrList = searchRoomList[i].roomMbrList;
+							isMyRoom 	= isIRoomMember( roomMbrList, myInfo.mbrNo );
+							
+							// 출발지 & 목적지 & 경유지 설정
+							roomPathList 	= searchRoomList[i].roomPathList;
+							startInfo 		= null;
+							endInfo 		= null;
+							waypoints 		= [];
+							
+							for ( var j in roomPathList) {
+								if ( roomPathList[j].pathRank == 0 ) {
+									startInfo = roomPathList[j];
 
+								} else if ( roomPathList[j].pathRank == 99 ) {
+									endInfo = roomPathList[j];
+
+								} else {
+									waypoints[waypoints.length] = roomPathList[j];
+
+								}
 							}
+
+							// 출발시간 설정
+							startTime = new Date(searchRoomList[i].roomStartTime);
+							startTime = startTime.toTimeString().substr(0, 5);
+							
+							
+							realignRoomList[i] = {
+								roomNo 		: searchRoomList[i].roomNo,
+								startTime 	: startTime,
+								roomDistance: searchRoomList[i].roomDistance,
+								startX 		: startInfo.pathLng,
+								startY 		: startInfo.pathLat,
+								endX 		: endInfo.pathLng,
+								endY 		: endInfo.pathLat,
+								roomMbrCount: searchRoomList[i].roomMbrCount,
+								isMyRoom 	: isMyRoom,
+								waypoints 	: waypoints,
+								roomMbrList : roomMbrList,
+								roomPathList: roomPathList
+							};
+
+						}
+						
+						if ( refreshFlag ) {
+							// 기존의 방리스트 초기화 후 조회해 리스트 추가 
+							roomList = new Array();
+							roomList = realignRoomList;
+							
+						} else {
+							// 기존의 방리스트에 조회해온 리스트 추가
+		                    if ( realignRoomList && realignRoomList.length > 0 ) { 
+		                        var roomListLen = roomList.length; 
+		                        for( var i = 0 ; i < realignRoomList.length; i++ ) { 
+		                        	roomList[roomListLen + i] = realignRoomList[i]; 
+		                        } 
+		                    }
+		                    
 						}
 
-						// 출발시간 설정
-						startTime = new Date(searchRoomList[i].roomStartTime);
-						startTime = startTime.toTimeString().substr(0, 5);
-						
-						
-						realignRoomList[i] = {
-							roomNo 		: searchRoomList[i].roomNo,
-							startTime 	: startTime,
-							roomDistance: searchRoomList[i].roomDistance,
-							startX 		: startInfo.pathLng,
-							startY 		: startInfo.pathLat,
-							endX 		: endInfo.pathLng,
-							endY 		: endInfo.pathLat,
-							roomMbrCount: searchRoomList[i].roomMbrCount,
-							isMyRoom 	: isMyRoom,
-							waypoints 	: waypoints,
-							roomMbrList : roomMbrList,
-							roomPathList: roomPathList
-						};
+						// 내방 여부에 따른 화면 세팅
+						if ( isRoomMbr() ) { 
+							$("#btnAddViewRoom > img").attr("src", "../images/common/button/into_room.png");
+							$("#btnAddViewRoom").data("status", "intoMyRoomBtn");
+							$("#divRoomList").data("isRoomMbr", "true");
+							
+							createRoomList( roomList, true );
+							
+						} else {
+					    	$("#btnAddViewRoom > img").attr("src", "../images/common/button/add_btn.png");
+							$("#btnAddViewRoom").data("status", "addRoomBtn");
+							$("#divRoomList").data("isRoomMbr", "false");
+							
+					    	createRoomList( roomList, false );
+						}
 
 					}
-					
-					if ( refreshFlag ) {
-						// 기존의 방리스트 초기화 후 조회해 리스트 추가 
-						roomList = new Array();
-						roomList = realignRoomList;
-						
-					} else {
-						// 기존의 방리스트에 조회해온 리스트 추가
-	                    if ( realignRoomList && realignRoomList.length > 0 ) { 
-	                        var roomListLen = roomList.length; 
-	                        for( var i = 0 ; i < realignRoomList.length; i++ ) { 
-	                        	roomList[roomListLen + i] = realignRoomList[i]; 
-	                        } 
-	                    }
-	                    
-					}
-
-					// 내방 여부에 따른 화면 세팅
-					if ( isRoomMbr() ) { 
-						$("#btnAddViewRoom > img").attr("src", "../images/common/button/into_room.png");
-						$("#btnAddViewRoom").data("status", "intoMyRoomBtn");
-						$("#divRoomList").data("isRoomMbr", "true");
-						
-						createRoomList( roomList, true );
-						
-					} else {
-				    	$("#btnAddViewRoom > img").attr("src", "../images/common/button/add_btn.png");
-						$("#btnAddViewRoom").data("status", "addRoomBtn");
-						$("#divRoomList").data("isRoomMbr", "false");
-						
-				    	createRoomList( roomList, false );
-					}
-
 				} else {
 					console.log("fail");
 
