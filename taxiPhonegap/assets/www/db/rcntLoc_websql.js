@@ -169,3 +169,56 @@ var selectRcntLoc = function(value, callback){
 	  });
 
 };
+
+/**
+ *    설   명 : 최근 출발지 , 목적지 전부 가져오기.
+ *    작성자 : 장종혁
+ */
+var selectAllRcntLoc = function(callback){
+	console.log("selectAllRcntLoc(callback)");
+	
+	taxidb.transaction(	function(transaction) {
+		transaction.executeSql(
+				// SQL
+				" select 	*  from  RCNT_LOC ;",
+				// Parameter
+				[],
+				// Success
+				function (transaction, results) {
+					console.log("selectAllRcntLoc  success");
+					var len = results.rows.length;
+					
+					var rcntList = new Array();
+					var rcntStart = new Array();
+					var rcntEnd = new Array();
+					
+					var sCnt = 0;
+					var eCnt = 0;
+					
+					for (var i=0; i<len; i++){
+			        	
+						var data = results.rows.item(i);
+						
+						if(data.rcntLocSt=='S'){
+							rcntStart[sCnt] = data;
+							sCnt++;
+						}else{
+							rcntEnd[eCnt] = data;
+							eCnt++;
+						}
+			        }
+					
+					rcntList[0]=rcntStart;
+					rcntList[1]=rcntEnd;
+			        
+			        callback(rcntList);
+			        
+			    }, 
+			    // Fail
+			    function() {
+			    	console.log("selectAllRcntLoc  fail");
+			    });
+	  });
+
+};
+

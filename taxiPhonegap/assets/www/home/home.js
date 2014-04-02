@@ -559,6 +559,9 @@ var init = function() {
 		
 		checkStartLocation();
 
+		//데이터Test - LocalStorage, WebDB 222222222222
+		testDataInsert();
+		
 	});
 };
 
@@ -1778,4 +1781,113 @@ var relLineUp = function(roomMbrData, roomCnt){
 	makeReletionHomeHtml(roomMbrData,faceCoordinate,roomCnt);
 };
 
+/**
+ *  설  명 : 데이터 정보 확인 테스터
+ *  작성자 : 장종혁
+ */
+function testDataInsert(){
+	
+	var locationSession = getSessionItem("locationSession");
+	
+	var myRoomSession = getSessionItem("myRoom");
+	
+	var rootPathSession = getSessionItem("rootPath");
+	
+	var myInfoLocal = getLocalItem("myInfo");
+	
+	console.log("**********************************************");
+	console.log("CONSOLE DATA TEST ***********************");
+	console.log("**********************************************");
+	
+	console.log("SessionStorage****************");
+	
+	console.log("***locationSession : ");
+	console.log(locationSession);
+	console.log("***locationSession : JSON.stringify");
+	console.log(JSON.stringify(locationSession));
+	
+	console.log("***myRoomSession : ");
+	console.log(myRoomSession);
+	console.log("***myRoomSession : JSON.stringify");
+	console.log(JSON.stringify(myRoomSession));
+	
+	console.log("***rootPathSession : ");
+	console.log(rootPathSession);
+	console.log("***rootPathSession : JSON.stringify");
+	console.log(JSON.stringify(rootPathSession));
+	
+	
+	
+	console.log("LocalStorage*******************");
+	console.log("***myInfoLocal : ");
+	console.log(myInfoLocal);
+	console.log("***myInfoLocal : JSON.stringify");
+	console.log(JSON.stringify(myInfoLocal));
+	
+	
+	
+	
+	selectFrndWebDB(myInfoLocal.mbrNo);
+	
+}
 
+function selectFrndWebDB(mbrNo){
+		
+	console.log("WebDB******************************");
+		
+		selectFrndAllList(function(frndList) {
+
+			console.log("FRND WEB DB ******************");
+			console.log("frndList Size : " + frndList.length);
+			
+			if(frndList.length > 0){
+				console.log("frnd[0] = " + JSON.stringify(frndList[0]));
+			}
+			
+			selectFvrtLocWebDB(mbrNo);
+			
+		});
+	
+}
+
+function selectFvrtLocWebDB(mbrNo){
+
+	selectMyFvrtLocList(mbrNo,function(fvrtList) {
+
+		console.log("FVRT WEB DB ******************");
+		console.log("fvrtList Size : " + fvrtList.length);
+		
+		if(fvrtList.length > 0){
+			console.log("fvrtList[0] = " + JSON.stringify(fvrtList[0]));
+		}
+		
+		selectRcntLocWebDB(mbrNo);
+		
+	});
+
+}
+function selectRcntLocWebDB(mbrNo){
+	
+	selectAllRcntLoc(function(rcntList) {
+
+		var rcntS = rcntList[0];
+		var rcntE = rcntList[1];
+		
+		
+		console.log("RCNT WEB DB! ******************");
+		console.log("rcntList 출발지 Size : " + rcntS.length);
+		console.log("rcntList 도착지 Size : " + rcntE.length);
+		
+		if(rcntList[0].length > 0){
+			console.log("rcntList 출발지[0] = " + JSON.stringify(rcntS[0]));
+		}
+		
+		if(rcntList[1].length > 0){
+			console.log("rcntList 도착지[0] = " + JSON.stringify(rcntE[0]));
+		}
+		
+		console.log("=================================================================");
+		console.log("*************************************DATA Test Fin*********************************");
+		
+	});
+}

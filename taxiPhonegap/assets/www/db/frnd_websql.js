@@ -154,40 +154,43 @@ var deleteAllFrndTable = function(transaction) {
  * 내용:친구목록 전체 가져오기
  * 작업자:김태경
  */
-var selectFrndAllList = function( transaction, mbrNo ) {
+var selectFrndAllList = function(callback) {
 	console.log("selelctFrndAllData(transaction, mbrNo)");
 //	console.log(frndList);
 
 	var sql = 
-		" select from FRND " +
-		" where 1 = 1 " +
-		" and 	mbrNo = ?" +
+		" select * from FRND " +
 		" ;";
-	transaction.executeSql(
-			// SQL
-			sql, 
-			// Parameter
-			[
-			 	mbrNo
-			],
-		 	// Success
-			function() {
-				console.log("selelctFrndAllData  success");
-				
-				var len = results.rows.length;
-
-				var frndList = new Array();
-				for( var i = 0; i < len; i++ ){
-					frndList[i] = results.rows.item(i);
-				}
-				
-				setSessionItem("frndList", frndList);
-			},
-			// Fail
-			function () {
-				console.log("selelctFrndAllData  fail");
-			});
+	
+	taxidb.transaction(	function(transaction,frndList) {
 		
+		transaction.executeSql(
+				// SQL
+				sql, 
+				// Parameter
+				[
+				],
+			 	// Success
+				function(transaction, results) {
+					console.log("selelctFrndAllData  success");
+					
+					var len = results.rows.length;
+	
+					var frndList = new Array();
+					for( var i = 0; i < len; i++ ){
+						frndList[i] = results.rows.item(i);
+					}
+					
+					setSessionItem("frndList", frndList);
+					 
+					callback(frndList);
+				},
+				// Fail
+				function (e) {
+					console.log("selelctFrndAllData  fail");
+					console.log(e);
+				});
+	});
 };
 
 
