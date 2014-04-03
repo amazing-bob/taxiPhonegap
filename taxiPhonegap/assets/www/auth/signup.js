@@ -243,7 +243,7 @@ var loginAccount = function(mbrNo, email, password) {
 					}
 					
 				} else {
-					alert(result.data);
+					showAlertToast(result.data);
 					$("#loginPassword").val("");
 					checkLoginBtnActive();
 					
@@ -421,7 +421,7 @@ var createAccount = function(mbrNo, email, password) {
 					changeHref("../settings/settings.html", null);
 					
 				} else {
-					alert(result.data);
+					showAlertToast(result.data);
 					
 				}
 				
@@ -446,7 +446,7 @@ var touchBackBtnCallbackFunc = function() {
 			navigator.app.exitApp();
 		} else {
 			backPressedTime = tempTime;
-			Toast.shortshow("'뒤로'버튼을 한번 더 누르시면 종료됩니다.");
+			showAlertToast("'뒤로'버튼을 한번 더 누르시면 종료됩니다.");
 		}
 	} else {
 		$("#leftPanel").panel("close");

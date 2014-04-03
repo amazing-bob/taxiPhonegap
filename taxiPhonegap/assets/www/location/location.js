@@ -380,7 +380,7 @@ var addAndDelFavoriteLocation = function(idx, locations) {
 		            								function() {});
 		                            	}
 		                            } else { 
-		                                alert(result.data); 
+		                            	showAlertToast(result.data); 
 		                            } 
 		                        }, "json"); 
 		            } 
@@ -404,7 +404,7 @@ var addAndDelFavoriteLocation = function(idx, locations) {
 		                                	deleteFvrtLocTable(myInfo.mbrNo, fvrtLocNo);
 		                                	
 		                                } else { 
-		                                    alert("즐겨찾기 삭제중 오류 발생!!"); 
+		                                	showAlertToast("즐겨찾기 삭제중 오류 발생!!"); 
 		                                    
 		                                } 
 		                            }, "json"); 

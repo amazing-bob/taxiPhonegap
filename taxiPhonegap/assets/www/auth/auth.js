@@ -299,7 +299,7 @@ var isSignUp = function( myInfo, phoneNo, uuid ) {
 						}
 		
 					} else {
-						alert("시스템오류 발생");
+						showAlertToast("시스템오류 발생");
 					}
 				});
 
@@ -431,7 +431,7 @@ var signUp = function( phoneNo, uuid, mbrName, keywordNo, mbrPhotoUrl ) {
 						}
 		
 					} else {
-						alert("회원등록 중 오류 발생");
+						showAlertToast("회원등록 중 오류 발생");
 		
 					}
 				}
@@ -526,7 +526,7 @@ var getKeyword = function(){
 			}
 
 		} else {
-			alert("시스템오류 발생");
+			showAlertToast("시스템오류 발생");
 		}
 	});
 };

@@ -170,6 +170,7 @@ var selectRcntLoc = function(value, callback){
 
 };
 
+
 /**
  *    설   명 : 최근 출발지 , 목적지 전부 가져오기.
  *    작성자 : 장종혁

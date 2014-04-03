@@ -143,8 +143,7 @@ var registerEvent = function(){
 	$("#btnAccountLogin").click(function() {
 		
 		if ( myInfo.accountNo && myInfo.accountNo != 0 ) { 
-			alert("이미 계정연동이 되었습니다.");
-//			Toast.shortshow("이미 계정연동이 되었습니다.");
+			showAlertToast("이미 계정연동이 되었습니다.");
 			
 		} else {
 			changeHref("../auth/signup.html");
@@ -264,7 +263,7 @@ var updateFrndList = function(){
 				$(".btnRefresh").attr("style", "width:40px");
 				$(".btnRefresh").attr("style", "height:40px");
 				$(".btnRefresh").attr("style", "margin-top:-10px");
-				Toast.shortshow("친구목록이 갱신 되었습니다.");
+				showAlertToast("친구목록이 갱신 되었습니다.");
 				var a = result.data;
 				console.log(JSON.stringify(a));
 				executeQuery(
@@ -287,7 +286,7 @@ var updateFrndList = function(){
 				});
 				
 			}else{
-				Toast.shortshow("친구목록 갱신 실패");
+				showAlertToast("친구목록 갱신 실패");
 			}
 			
 		}
@@ -320,15 +319,14 @@ function leaveMember() {
 						dropKeywordTable(transaction);
 						dropRcntLocTable(transaction);
 					});
-			//Toast.shortshow("탈퇴가 성공적으로 되었습니다.");
-			//alert("회원탈퇴 성공");
-			changeHref("../auth/auth.html");
-			console.log("처리됨");
-		} else {
-			/*Toast.shortshow("실행중 오류발생!");*/
-
-		}
-	},
+					showAlertToast("탈퇴가 성공적으로 되었습니다.");
+					changeHref("../auth/auth.html");
+					console.log("처리됨");
+			} else {
+				showAlertToast("실행중 오류발생!");
+	
+			}
+		},
 	"json");
 };
 
@@ -357,7 +355,7 @@ function deleteFvrtLoc() {
 			$("#popupFvrtLoc").popup("close");
 			fvrtLocLists();
 		} else {
-			/*Toast.shortshow("실행중 오류발생!");*/
+			showAlertToast("실행중 오류발생!");
 			console.log(result.data);
 		}
 	});
@@ -382,12 +380,13 @@ function addRange(){
 
 					myInfo.startRange = result.data.startRange;
 					myInfo.endRange = result.data.endRange;
-					//Toast.shortshow("반경설정이 변경되었습니다.");
+					
+					showAlertToast("반경설정이 변경되었습니다.");
 					setLocalItem("myInfo", myInfo);
 					changeHref("../settings/settings.html");
 					
 				} else {
-					Toast.shortshow("실행중 오류발생!");
+					showAlertToast("실행중 오류발생!");
 					console.log(result.data);
 				}
 			},
@@ -404,7 +403,6 @@ function getRadioValue(radioObj){
 		for(var i=0; i<radioObj.length; i++){
 			if(radioObj[i].checked){
 				return radioObj[i].value;
-//				alert(radioObj[radioObj.checkedIndex].value);
 			}
 		}
 	}
@@ -514,13 +512,13 @@ function rankUpdate() {
 						},
 						// Success Callback
 						function() {
-							//Toast.shortshow("우선순위가 변경되었습니다.");
+							showAlertToast("우선순위가 변경되었습니다.");
 							/*$("#sortable").listview('refresh');*/
 							location.href = "../settings/settings.html";
 							
 						});
 			} else {
-				//Toast.shortshow("실행중 오류발생!");
+				showAlertToast("실행중 오류발생!");
 			}
 		},
 	});
@@ -742,26 +740,25 @@ var profileImgUploadSuccess = function(r) {
 			$("#profilePicture").css('display','block')
 				.css('background-image', 'url(' + imageURI + ')');
 	}else{
-			alert("접속이 원할하지 않습니다.\n 잠시 후 다시 시도해 주시기 바랍니다.");
+		showAlertToast("접속이 원할하지 않습니다.\n 잠시 후 다시 시도해 주시기 바랍니다.");
 	}
 };
 
 var fail = function (error) {
 	if(error.code==1){
-		alert("ErrorCode:1\n선택된 파일을 찾을 수 없습니다.\n 다시 시도해 주시기 바랍니다.");
+		showAlertToast("ErrorCode:1\n선택된 파일을 찾을 수 없습니다.\n 다시 시도해 주시기 바랍니다.");
 	}else if(error.code==2){
-		alert("ErrorCode:2\n주소가 유효하지 않습니다. \n 관리자에게 문의 해주시기 바랍니다.");
+		showAlertToast("ErrorCode:2\n주소가 유효하지 않습니다. \n 관리자에게 문의 해주시기 바랍니다.");
 	}else if(error.code==3){
-		alert("ErrorCode:3\n서버와의 접속이 원활하지 않습니다.\n 잠시 후 다시 시도해 주시기 바랍니다.");
+		showAlertToast("ErrorCode:3\n서버와의 접속이 원활하지 않습니다.\n 잠시 후 다시 시도해 주시기 바랍니다.");
 	}else if(error.code==4){
-		alert("ErrorCode:4\n파일 읽기가 중지 되었습니다.");
+		showAlertToast("ErrorCode:4\n파일 읽기가 중지 되었습니다.");
 	}
 };
 
 //사진전송을 위해 라이브러리에서 사진을 가져온다.
 function getPhoto(source) {
 	$("#popupProfile").popup( "close" );
-	//alert("library" + source);
     navigator.camera.getPicture(onPhotoURISuccess, getPhotofail(source), {
         quality: 100,
         targetWidth: 280,
@@ -793,7 +790,6 @@ function capturePhoto() {
 
 //사진 저장이 실패하면
 function capturePhotofail(message) {
-    //alert('실패 : ' + message);
     navigator.notification.alert(
         '사진을 저장할 수 없습니다!',
         '',
@@ -803,5 +799,5 @@ function capturePhotofail(message) {
 }
 
 function onFail(message) {
-  alert('Failed because: ' + message);
+	showAlertToast('Failed because: ' + message);
 }

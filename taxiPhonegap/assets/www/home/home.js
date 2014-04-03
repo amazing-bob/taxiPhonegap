@@ -466,6 +466,8 @@ var loadedMyScroll = function() {
 			console.log("onTouchEnd...");
 			
 			///////////////////////////////
+			
+			//처음home 이로딩 되면서 searchRoom 을 호출 1페이지당 8개의 방목록을 가져온다.
 			if ( page < 5 && this.maxScrollX > this.x ) { 
                 searchRooms( myInfo.mbrNo, ++page, /* refreshFlag */ false );
                   
@@ -559,7 +561,6 @@ var init = function() {
 		
 		checkStartLocation();
 
-		//데이터Test - LocalStorage, WebDB 222222222222
 		testDataInsert();
 		
 	});
@@ -801,7 +802,7 @@ var searchLocation = function( target ) {
  */
 var searchRooms = function( mbrNo, page, refreshFlag ) {
 	console.log("searchRooms(mbrNo, page, refreshFlag)");
-//	console.log(mbrNo, page, refreshFlag);
+	console.log(mbrNo, page, refreshFlag);
 
 	var locationSession = getSessionItem("locationSession");
 
@@ -932,6 +933,7 @@ var searchRooms = function( mbrNo, page, refreshFlag ) {
 						}
 
 					}
+					
 				} else {
 					console.log("fail");
 
@@ -1442,7 +1444,7 @@ var showAddRoomTimePicker = function() {
 	console.log("showAddRoomTimePicker()");
 	
 	if ( isRoomMbr() ) {
-    	Toast.shortshow("이미 방에 참여 중입니다.");
+		showAlertToast("이미 방에 참여 중입니다.");
     	
 	} else {
     	var dateTime = new Date();
@@ -1465,7 +1467,7 @@ var joinRoom = function(regId, joinRoomNo) {
 //	console.log(regId, joinRoomNo);
 
 	if ( isRoomMbr() ) {
-		Toast.shortshow("이미 방에 참여 중입니다.");
+		showAlertToast("이미 방에 참여 중입니다.");
 		
 	} else {
     	var locationSession = getSessionItem("locationSession");
@@ -1532,7 +1534,7 @@ var outRoomToJoinRoom = function(mbrNo, outRoomNo, joinRoomNo) {
 //						joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시
 		
 					} else {
-						alert("실행중 오류발생!"); 
+						showAlertToast("실행중 오류발생!"); 
 						console.log(result.data);
 					}
 				});
@@ -1713,7 +1715,7 @@ var touchBackBtnCallbackFunc = function() {
 			navigator.app.exitApp();
 		} else {
 			backPressedTime = tempTime;
-			Toast.shortshow("'뒤로'버튼을 한번 더 누르시면 종료됩니다.");
+			showAlertToast("'뒤로'버튼을 한번 더 누르시면 종료됩니다.");
 		}
 	} else {
 		$("#leftPanel").panel("close");
@@ -1782,7 +1784,7 @@ var relLineUp = function(roomMbrData, roomCnt){
 };
 
 /**
- *  설  명 : 데이터 정보 확인 테스터
+ *  설   명 : 데이터 정보 확인 테스터
  *  작성자 : 장종혁
  */
 function testDataInsert(){

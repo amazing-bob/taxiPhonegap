@@ -260,7 +260,7 @@ var getAndSetRoomInfo = function(roomNo) {
 					
 		
 				} else {
-					alert("실행중 오류발생!");
+					showAlertToast("실행중 오류발생!");
 					console.log(result.data);
 				}
 			});
@@ -615,7 +615,7 @@ var outRoom = function (mbrNo, roomNo) {
 			changeHref("../home/home.html");
 
 		} else {
-			alert("실행중 오류발생!"); 
+			showAlertToast("실행중 오류발생!"); 
 			console.log(result.data);
 		}
 	});
@@ -705,7 +705,7 @@ var addFeed = function(mbrNo, feedContent, roomNo) {
 					getAndSetFeedList(roomNo);
 
 				} else {
-					alert("실행중 오류발생!");
+					showAlertToast("실행중 오류발생!");
 					console.log(result.data);
 				}
 			},
@@ -729,7 +729,7 @@ var deleteFeed = function(mbrNo, feedNo, roomNo){
 			getAndSetFeedList(roomNo);
 
 		} else {
-			alert("실행중 오류발생!");
+			showAlertToast("실행중 오류발생!");
 			console.log(result.data);
 		}
 	});
@@ -759,7 +759,7 @@ var showRegBlacklsitPopup = function( target ) {
 		});
 		
 	} else {
-		Toast.shortshow("자신은 블랙리스트로 지정 하 수 없습니다.");
+		showAlertToast("자신은 블랙리스트로 지정 하 수 없습니다.");
 		
 	}
 };
