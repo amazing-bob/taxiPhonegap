@@ -216,8 +216,8 @@ $(document).ready(function() {
 	$("#divAddRoom").on("click", function(event) {		
 		event.stopPropagation();
 		
-//		push.initialise("addRoom");
-		addRoom('111111111111111111111111111'); //////////////////////////////////////////// Web용 임시
+		push.initialise("addRoom");
+//		addRoom('111111111111111111111111111'); //////////////////////////////////////////// Web용 임시
 		
 		$("#divAddRoomCondition_popup").popup("close");
 		
@@ -802,19 +802,25 @@ var searchLocation = function( target ) {
  */
 var searchRooms = function( mbrNo, page, refreshFlag ) {
 	console.log("searchRooms(mbrNo, page, refreshFlag)");
-	console.log(mbrNo, page, refreshFlag);
-
+//	console.log(mbrNo, page, refreshFlag);
+	
 	var locationSession = getSessionItem("locationSession");
+	
+	var roomNoArr = new Array();
+	for (var i in roomList) {
+		roomNoArr[i] = roomList[i].roomNo;
+	}
 
 	var params = {
-		mbrNo		: mbrNo,
-		page 		: page,
-		startLat 	: locationSession.startY,
-		startLng 	: locationSession.startX,
-		startRange 	: myInfo.startRange,
-		endLat 		: locationSession.endY,
-		endLng 		: locationSession.endX,
-		endRange 	: myInfo.endRange
+		mbrNo			: mbrNo,
+		page 			: page,
+		roomNoArrString : JSON.stringify(roomNoArr),
+		startLat 		: locationSession.startY,
+		startLng 		: locationSession.startX,
+		startRange 		: myInfo.startRange,
+		endLat 			: locationSession.endY,
+		endLng 			: locationSession.endX,
+		endRange 		: myInfo.endRange
 	};
 	
 	$.post( rootPath + "/room/searchRooms.do"
@@ -900,7 +906,7 @@ var searchRooms = function( mbrNo, page, refreshFlag ) {
 							};
 
 						}
-						
+											
 						if ( refreshFlag ) {
 							// 기존의 방리스트 초기화 후 조회해 리스트 추가 
 							roomList = new Array();
@@ -1133,8 +1139,8 @@ var createRoomList = function( roomList, isRoomMbr ) {
 												});
 												
 											} else {
-//												push.initialise("joinRoom", joinRoomNo);
-												joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시	
+												push.initialise("joinRoom", joinRoomNo);
+//												joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시	
 											}
 											
 											return false;
@@ -1541,8 +1547,8 @@ var outRoomToJoinRoom = function(mbrNo, outRoomNo, joinRoomNo) {
 						// myRoom SessionStorage에 방 정보 제거
 						removeSessionItem("myRoom");
 		
-//						push.initialise("joinRoom", joinRoomNo);
-						joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시
+						push.initialise("joinRoom", joinRoomNo);
+//						joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시
 		
 					} else {
 						showAlertToast("실행중 오류발생!"); 
