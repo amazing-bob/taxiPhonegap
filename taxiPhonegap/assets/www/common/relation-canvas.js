@@ -23,11 +23,11 @@ var makeRelationInfo = function(roomInfo,faceCoordinate){
  *   설  명 : home.html 관계도 그리기
  *   작성자 : 장종혁
  */
-var makeReletionHomeHtml = function(roomMbrData,faceCoordinate,roomCnt){
+var makeReletionHomeHtml = function(roomMbrData,faceCoordinate,roomCnt,roomMbrLimit){
 	console.log("makeReletionHomeHtml(roomMbrData,faceCoordinate,roomCnt)");
 //	console.log(roomMbrData,faceCoordinate,roomCnt);
 	
-	drawHomeRelFace(roomMbrData, roomCnt);
+	drawHomeRelFace(roomMbrData, roomCnt,roomMbrLimit);
 	
 	
 	if(roomMbrData.length==1){
@@ -91,33 +91,22 @@ var roomMbrRange = function(roomInfo){
  *    작성자 : 장종혁
  */
 var drawRelFace = function(roomInfo, roomMbrData){
-//	console.log(roomMbrData);
-//	console.log($(".relFace"));
-	
-	if(roomInfo.roomMbrNumLimit==1){//방 최대인원수가 2명일경우
-		
-		$("#relMbr0").css("display","");
-		$("#relMbr1").css("display","");
-		
-	}else if(roomInfo.roomMbrNumLimit==2){//방 인원수가 3명일경우
-		
-		$("#relMbr0").css("display","");
-		$("#relMbr1").css("display","");
-		$("#relMbr2").css("display","");
-		
-	}else {//방 인원수가 4명일경우
-		
-		$("#relMbr0").css("display","");
-		$("#relMbr1").css("display","");
-		$("#relMbr2").css("display","");
-		$("#relMbr3").css("display","");
-		
-	}
-	
-	//얼굴 및 이름 넣기
-	for(var i = 0; i <roomMbrData.length;i++){
-		$(".relFace")[i].style.backgroundImage = "url("+roomMbrData[i].mbrPhotoUrl+")";
-		$("#relMbr"+i+"Name").text(roomMbrData[i].mbrName);
+
+	for(var i = 0;i<4;i++){
+		if(i<roomInfo.roomMbrNumLimit){
+			if(roomMbrData.length<=i){
+				$(".relFace")[i].style.backgroundImage = "url(../images/common/transparency.png)";
+				$(".relFace")[i].style.display="";
+				$(".relFace")[i].style.width = "80px";
+				$(".relFace")[i].style.height = "80px";
+				$(".relFace")[i].style.margin = "0px 0px 0px -5px";
+			}else{
+				$(".relFace")[i].style.display="";
+				$(".relFace")[i].style.backgroundImage = "url("+roomMbrData[i].mbrPhotoUrl+")";
+			}
+		}else{
+			$(".relFace")[i].style.display="none";
+		}
 	}
 	
 };
@@ -342,44 +331,21 @@ var drawRelLine = function(roomMbrData, faceCoordinate){
  *    설   명 : 관계도 얼굴 그리기(home.html)
  *    작성자 : 장종혁
  */
-var drawHomeRelFace = function(roomMbrData, roomCnt){
+var drawHomeRelFace = function(roomMbrData, roomCnt,roomMbrLimit){
 	
-	if(roomMbrData.length==1){//현재 방 인원수가 1명일경우
-		
-		$(".relFace0")[roomCnt].style.display="";
-		$(".relFace1")[roomCnt].style.display="none";
-		$(".relFace2")[roomCnt].style.display="none";
-		$(".relFace3")[roomCnt].style.display="none";
-		
-	}else if(roomMbrData.length==2){//방 인원수가 2명일경우
-		
-		$(".relFace0")[roomCnt].style.display="";
-		$(".relFace1")[roomCnt].style.display="";
-		$(".relFace2")[roomCnt].style.display="none";
-		$(".relFace3")[roomCnt].style.display="none";
-		
-	}else if(roomMbrData.length==3){//방 인원수가 3명일경우
-		
-		$(".relFace0")[roomCnt].style.display="";
-		$(".relFace1")[roomCnt].style.display="";
-		$(".relFace2")[roomCnt].style.display="";
-		$(".relFace3")[roomCnt].style.display="none";
-		
-	}else {//방 인원수가 4명일경우
-		
-		$(".relFace0")[roomCnt].style.display="";
-		$(".relFace1")[roomCnt].style.display="";
-		$(".relFace2")[roomCnt].style.display="";
-		$(".relFace3")[roomCnt].style.display="";
-		
-	}
-	
-	$(".relMbr"+0+"Name")[0].innerHtml="dd";
-	
-	//얼굴 및 이름 넣기
-	for(var i = 0; i <roomMbrData.length;i++){
-		$(".relFace"+i)[roomCnt].style.backgroundImage = "url("+roomMbrData[i].mbrPhotoUrl+")";
-		$(".relMbr"+i+"Name")[roomCnt].innerText=roomMbrData[i].mbrName;
+	for(var i = 0;i<4;i++){
+		if(i<roomMbrLimit){
+			if(roomMbrData.length<=i){
+				$(".relFace"+i)[roomCnt].style.backgroundImage = "url(../images/common/transparency.png)";
+				$(".relFace"+i)[roomCnt].style.display="";
+				
+			}else{
+				$(".relFace"+i)[roomCnt].style.display="";
+				$(".relFace"+i)[roomCnt].style.backgroundImage = "url("+roomMbrData[i].mbrPhotoUrl+")";
+			}
+		}else{
+			$(".relFace"+i)[roomCnt].style.display="none";
+		}
 	}
 	
 };

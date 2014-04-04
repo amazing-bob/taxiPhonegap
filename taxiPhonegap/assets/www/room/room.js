@@ -493,8 +493,7 @@ var createHeaderSlide = function(roomInfo) {
 			.append( $("<div>").attr("id", "divTouch") );
 
 	if ( contentWidth < 340 || contentHeight < 580 ) {
-
-		$("#divRoomList").css("top", "-297px" );
+		$("#divRoomList").css("top", "-295px" );
 
 		$("#roomFare").css("font-size", "78%");
 		$("#roomStartTime").css("font-size", "200%");
@@ -507,7 +506,7 @@ var createHeaderSlide = function(roomInfo) {
 		.attr("style", "width: 20%");
 
 	} else {
-		$("#divRoomList").css("top", "-327px" );
+		$("#divRoomList").css("top", "-290px" );
 
 		$("#roomFare").attr("style", "font-size: 85%");
 
@@ -531,7 +530,6 @@ var createHeaderSlide = function(roomInfo) {
  */
 var showRelationInfo = function(roomInfo) {
 	console.log("showRelationInfo(roomInfo)");
-//	console.log(roomInfo);
 
 	var faceCoordinate = new Array();
 	for(var i=0; i<$(".relFace").length; i++){
@@ -821,7 +819,7 @@ function openPanel(event){
 		transition({y: ''+ ($("#divRoomList").height()-25) +'px'}, 200, 'linear');
 	}else{
 		$("#divRoomList").attr("data-flag", "open").
-		transition({y: ''+ ($("#divRoomList").height()+20) +'px'}, 200, 'linear');
+		transition({y: ''+ ($("#divRoomList").height()-10) +'px'}, 200, 'linear');
 	}
 	$("#headerVar").attr("src", "../images/common/upheadervar.png");
 	
