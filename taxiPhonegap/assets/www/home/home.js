@@ -17,7 +17,6 @@ var directionMarkers;
 var myScroll;
 
 var roomList = [];
-var page = 0;
 
 
 $(document).ready(function() {
@@ -455,6 +454,7 @@ var initStartTime = function() {
  */
 var loadedMyScroll = function() {
 	console.log("loadedMyScroll()");
+	
 	myScroll = new iScroll('wrapper', {
 		snap 			: "li",
 		momentum 		: false,
@@ -465,20 +465,11 @@ var loadedMyScroll = function() {
 		onTouchEnd 		: function() {
 			console.log("onTouchEnd...");
 			
-			///////////////////////////////
-			
 			//처음home 이로딩 되면서 searchRoom 을 호출 1페이지당 8개의 방목록을 가져온다.
-			if ( page < 5 && this.maxScrollX > this.x ) { 
-                searchRooms( myInfo.mbrNo, ++page, /* refreshFlag */ false );
+			if ( roomList.length < (8*5) && this.maxScrollX > this.x ) {
+                searchRooms( myInfo.mbrNo, /* refreshFlag */ false );
                   
             } else { 
-                var currPageX = this.currPageX; 
-                  
-//                hideMarkers(markers); 
-//                markers[currPageX].setZIndex(++zIdx); 
-//                markers[currPageX].getIcon().url = selectedMarkerImg; 
-//                showMarkers(markers); 
-                
     			var roomLi = $( $("#ulRoomList li").get(myScroll.currPageX) );
 
     			initRoute();
@@ -491,13 +482,7 @@ var loadedMyScroll = function() {
     					"directionsService_callback",
     					null );
   
-//                map.moveTo(markers[currPageX].position, 10); 
             } 
-			////////////////////////////////
-			
-			
-
-
 
 		}
 	});
@@ -550,17 +535,7 @@ var init = function() {
 			zIndex : 1
 	  	});
 
-		
-		// 출발지 & 목적지 테스트 데이터 세팅 ///////////////////////////////////
-		// 출발지
-//		setStartLocationSession("958238.8608608943", "1944407.0290863856", "강남역", null, function() {});// 강남역	958238.8608608943, 1944407.0290863856	37.49798,  127.02755	
-//		setStartLocationSession("949576.8370300145", "1942923.1597472064", "신림역", null, function() {});// 신림역	949576.8370300145, 1942923.1597472064	37.484173, 126.929661
-		// 목적지
-//		setEndLocationSession("956019.1205096169", "1953794.6490542048", "대학로", null, function() {});// 대학로	956019.1205096169, 1953794.6490542048	37.58249,  127.001876
-		////////////////////////////////////
-		
 		checkStartLocation();
-
 		testDataInsert();
 		
 	});
@@ -662,7 +637,7 @@ var checkEndLocation = function() {
 						locationSession.endName,
 						locationSession.endPrefix );
 
-		searchRooms( myInfo.mbrNo, /*page*/ 0, /* refreshFlag */ false );
+		searchRooms( myInfo.mbrNo, /* refreshFlag */ false );
 
 	} else {
 		// 최근 목적지 조회 & 목적지로 설정
@@ -800,9 +775,9 @@ var searchLocation = function( target ) {
  * 설  명: 방 목록 조회
  * 작성자: 김상헌
  */
-var searchRooms = function( mbrNo, page, refreshFlag ) {
-	console.log("searchRooms(mbrNo, page, refreshFlag)");
-//	console.log(mbrNo, page, refreshFlag);
+var searchRooms = function( mbrNo, refreshFlag ) {
+	console.log("searchRooms(mbrNo, refreshFlag)");
+//	console.log(mbrNo, refreshFlag);
 	
 	var locationSession = getSessionItem("locationSession");
 	
@@ -813,7 +788,6 @@ var searchRooms = function( mbrNo, page, refreshFlag ) {
 
 	var params = {
 		mbrNo			: mbrNo,
-		page 			: page,
 		roomNoArrString : JSON.stringify(roomNoArr),
 		startLat 		: locationSession.startY,
 		startLng 		: locationSession.startX,
@@ -828,15 +802,11 @@ var searchRooms = function( mbrNo, page, refreshFlag ) {
 			, function(result) {
 				if (result.status == "success") {
 					
-					//추가로 얻어온 방목록이 없고, 스크롤의 에 의한 page 값이 증가했을경우.
-					if(result.data.length == 0 && page > 0){
-						
-		                var currPageX = this.currPageX; 
-		                
+					//추가로 얻어온 방목록이 없고, 스크롤의 에 의한 첫페이지를 넘어간 우
+					if ( result.data.length == 0 && roomList.length > 8 ) {
 		    			var roomLi = $( $("#ulRoomList li").get(myScroll.currPageX) );
 
 		    			initRoute();
-
 		    			searchRoute(
 		    					parseFloat( roomLi.data("startX") ),
 		    					parseFloat( roomLi.data("startY") ),
@@ -845,7 +815,7 @@ var searchRooms = function( mbrNo, page, refreshFlag ) {
 		    					"directionsService_callback",
 		    					null );
 						
-					}else{
+					} else {
 						
 						initRoute();
 						
@@ -858,7 +828,7 @@ var searchRooms = function( mbrNo, page, refreshFlag ) {
 						var startTime 		= null;
 						var isMyRoom 		= "false";
 
-						var realignRoomList 		= [];
+						var realignRoomList = [];
 
 						// 각 방들의 정보 출력이 쉽도록 값들의 배치 변경
 						for( var i = 0; i < searchRoomList.length; i++ ) {
@@ -1318,14 +1288,15 @@ var addRoom = function( regId ) {
 
 		            	executeQuery(
 								// Transaction Execute
-							function(transaction) {
-								deleteAllRcntLocTable(transaction);
-								insertRcntLocTable(transaction, result.data.rcntLocList);
-							},
-							// Success Callback
-							function() {
-								changeHref("../room/room.html", { roomNo : myRoom.roomNo});
+								function(transaction) {
+									deleteAllRcntLocTable(transaction);
+									insertRcntLocTable(transaction, result.data.rcntLocList);
+								},
+								// Success Callback
+								function() {
+									changeHref("../room/room.html", { roomNo : myRoom.roomNo});
 						});
+
 		            } else {
 		            	console.log(result.data);
 		
@@ -1518,6 +1489,7 @@ var joinRoom = function(regId, joinRoomNo) {
 								function(transaction) {
 									deleteAllRcntLocTable(transaction);
 									insertRcntLocTable(transaction, result.data.rcntLocList);
+									console.log(result.data)
 								},
 								// Success Callback
 								function() {
@@ -1526,7 +1498,7 @@ var joinRoom = function(regId, joinRoomNo) {
 
 					} else {
 						showAlertToast(result.data);
-						searchRooms(myInfo.mbrNo, /* page */ 0, /* refreshFlag */ true);
+						searchRooms(myInfo.mbrNo, /* refreshFlag */ true);
 
 					}
 				}, "json");

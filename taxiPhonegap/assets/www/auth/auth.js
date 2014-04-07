@@ -39,7 +39,7 @@ $(document).ready(function() {
 //				rcntLocList: null,
 //				keyNoList: null
 //		});
-		
+//		
 		// 웹 버전일 경우만 주석 풀어야됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //		isSignUp( getLocalItem("myInfo"), /*phoneNo*/ null, /*uuid*/ null );
 //		isGetContactsComplet = true;
