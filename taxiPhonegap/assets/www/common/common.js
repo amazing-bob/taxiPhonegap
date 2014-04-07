@@ -2,7 +2,7 @@ console.log("commonjs...");
 
 //var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
 //var rootPath = "http://localhost:9999/taxi";		//로컬
-var rootPath = "http://192.168.0.13:9999/taxi";	//상헌
+var rootPath = "http://192.168.10.83:9999/taxi";	//상헌
 //var rootPath = "http://192.168.1.4:9999/taxi";		//종혁
 //var rootPath = "http://192.168.10.59:9999/taxi";	//태경
 var contentWidth;
@@ -10,7 +10,9 @@ var contentHeight;
 
 var myInfo;
 
-var roomColorArr = ['red','blue','yellow'];
+var roomColorArr = ['#DF0101', '#61210B', '#FF4000', '#FE9A2E', '#F7FE2E', 
+                    '#80FF00', '#21610B', '#04B4AE', '#00FFFF', '#013ADF', 
+                    '#642EFE', '#4B088A', '#8904B1', '#FE2E9A'];
 
 /**
  * 설  명: ajax 로딩이미지 초기설정

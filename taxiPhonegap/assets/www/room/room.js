@@ -200,17 +200,29 @@ var registerEvent = function() {
 	});
 
 
-	// 색전환 관련
+	// 색싸인 관련
+	var screenWidth = $(window).width();
+	var screenHeight = "100%";
 	$("#colorSign").click( function(){
-		var screenWidth = $(document).width();
-		var screenHeight = $(document).height(); 
-		$('#roomColor').css({'width':screenWidth,'height':screenHeight, 'background-color':thisRoomColor});
-		$('#roomColor').fadeIn(0);      
-		$('#roomColor').fadeTo("speed",1.0);
+		$("#divColorSignText").css({'width': (screenWidth - 80) } );
+		$('#divColorSign').css({'width':screenWidth, 'height':screenHeight, 'x' : screenWidth, 'background-color':thisRoomColor});
+		$("#divColorSign").show();
+		$('#divColorSign').transition({
+			x 		: 0,
+			opacity : "1"
+		});
 	});
-	$("#colorClear").click( function(){
-		$('#roomColor').css('display',"none");
+	$("#divColorSign").click( function() {
+		$('#divColorSign').transition({
+			x 		: screenWidth,
+			opacity : "0"
+		});
+		setTimeout(function() {
+			$("#divColorSign").hide();
+		}, 1000);
 	});
+	
+
 
 };
 
@@ -445,7 +457,7 @@ var setViewRoomInfo = function( roomInfo ) {
 	var minute = d.toTimeString().substring(3, 5);
 	startTime = hour;
 	memberCount = roomInfo.roomMbrCount;
-	thisRoomColor =roomColorArr[roomInfo.roomColor];
+	thisRoomColor = roomColorArr[roomInfo.roomColor];
 
 	$("#roomStartTime").text( hour +":"+ minute );
 	$("#imgMbrPhoto").attr( "src", myInfo.mbrPhotoUrl );
@@ -902,17 +914,24 @@ var setWaypointMarker = function( coord, imageUrl ) {
 var touchBackBtnCallbackFunc = function() {
 	console.log("touchBackBtnCallbackFunc()");
 
-	var hasOpenPopup = false;
+	var canGoHome = true;
 
+	// 팝업창 떠 있으면 팝업창을 닫음.
 	$("div[data-role=popup]").each(function( idx ) {
 		if ( $(this).data("isOpen") == true ) {
 			$(this).popup("close");
 
-			hasOpenPopup = true;
+			canGoHome = false;
 		}
 	});
-
-	if ( !hasOpenPopup ) {
+	
+	// 싸인화면 상태면 싸인화면 닫음.
+	if ( !($("#divColorSign").css("display") == "none") ) {
+		$("#divColorSign").trigger("click");
+		
+		canGoHome = false;
+	}
+	if ( canGoHome ) {
 		changeHref("../home/home.html");
 	}
 
