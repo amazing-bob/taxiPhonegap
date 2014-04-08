@@ -136,7 +136,6 @@ function onDeviceReady() {
 	console.log("onDeviceReady()");
 	
     getsetPhoneNo();
-    getContacts();
     isSignUp( getLocalItem("myInfo"), phoneNo, device.uuid );
     
 }
@@ -275,6 +274,8 @@ var isSignUp = function( myInfo, phoneNo, uuid ) {
 						
 						if ( myInfo ) {
 							
+							clearWebDBData();
+							
 							//로컬 스토리지에 저장
 							setLocalItem("myInfo", myInfo);
 							
@@ -319,6 +320,7 @@ var clearLocalData = function() {
 	executeQuery(
 			// Transaction Execute
 			function(transaction) {
+				deleteAllFrndTable(transaction);
 				deleteAllFvrtLocTable(transaction);
 				deleteAllRcntLocTable(transaction);
 				deleteAllBlackTable(transaction);
@@ -330,6 +332,24 @@ var clearLocalData = function() {
 			});
 };
 
+/**
+ * 설 명: DB 데이터 삭제(WebDB)
+ * 작성자:  장종혁
+ */
+var clearWebDBData = function() {
+	console.log("clearWebDBData()");
+	executeQuery(
+			// Transaction Execute
+			function(transaction) {
+				deleteAllFrndTable(transaction);
+				deleteAllFvrtLocTable(transaction);
+				deleteAllRcntLocTable(transaction);
+				deleteAllBlackTable(transaction);
+			}, 
+			// Success Callback
+			function() {
+			});
+};
 
 /**
  * 전화번호 입력후 다음 버튼 클릭
@@ -354,6 +374,8 @@ var clickKeyWordPage = function(){
 var clickSignupBtn = function(){
 	console.log("clickSignupBtn()");
 
+	getContacts();
+	
 	var phoneNo = $("#txtPhone").val();
 	var mbrName = $("#txtName").val();
 

@@ -559,6 +559,49 @@ var getNavigationGeolocation = function(timeOut,callType){
 };
 
 /**
+ *  설 명 : 맵 그리기
+ *  작성자 : 장종혁
+ */
+var drawMapCanvas = function(position,callType){
+	
+	var curPoint;
+	
+	if(callType==0){
+		curPoint = new olleh.maps.Point( position.coords.longitude, position.coords.latitude );
+		var srcproj = new olleh.maps.Projection('WGS84');
+		var destproj = new olleh.maps.Projection('UTM_K');
+		olleh.maps.Projection.transform(curPoint, srcproj, destproj);
+		curCoord = new olleh.maps.Coord(curPoint.getX(), curPoint.getY());
+	}else{
+		curCoord = new olleh.maps.Coord("958238.8608608943", "1944407.0290863856");// 강남역	958238.8608608943, 1944407.0290863856	37.49798,  127.02755
+	}
+
+	geocoder = new olleh.maps.Geocoder("KEY");
+	directionsService = new olleh.maps.DirectionsService('frKMcOKXS*l9iO5g');
+	var mapOptions = {
+     	center : curCoord,
+     	mapTypeId : olleh.maps.MapTypeId.BASEMAP,
+     	mapTypeControl: false,
+     	zoom : 10
+  	};
+	
+	map = new olleh.maps.Map(document.getElementById("canvas_map"), mapOptions);
+	var myIcon = new olleh.maps.MarkerImage(
+			"../images/common/marker/my_marker_red.png",
+			new olleh.maps.Size(10, 10),
+			new olleh.maps.Pixel(0,0),
+			new olleh.maps.Pixel(5, 5) );
+	curMarker = new olleh.maps.Marker({
+		position: curCoord,
+		map: map,
+		icon: myIcon,
+		title : '내위치',
+		zIndex : 1
+	});
+	
+}
+
+/**
  * 설  명: 출발지 검사
  * 작성자: 김상헌
  */
