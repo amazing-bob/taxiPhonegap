@@ -599,7 +599,7 @@ var drawMapCanvas = function(position,callType){
 		zIndex : 1
 	});
 	
-}
+};
 
 /**
  * 설  명: 출발지 검사
@@ -647,7 +647,6 @@ var setStartLocation = function (x, y, locName, prefix) {
 	if ( !prefix || prefix == null ) {
 		prefix = "";
 	}
-	
 
 	$("#startInput").val(prefix + locName);
 
@@ -659,27 +658,21 @@ var setStartLocation = function (x, y, locName, prefix) {
 		startCircle.setMap(null);
 	}
 
-	if($(".startInput").val()==""){
-		alert("출발지 위치 정보 없음.")
-	}else{
-		var icon = new olleh.maps.MarkerImage(
-				"../images/common/marker/MapMarker_Ball__Azure.png",
-				new olleh.maps.Size(30, 30),
-				new olleh.maps.Pixel(0,0),
-				new olleh.maps.Pixel(15, 30)
-			);
-		startMarker= new olleh.maps.Marker({
-				position: coord,
-				map: map,
-//				shadow: shadow,
-				icon: icon,
-				title : '출발지',
-				zIndex : 1
-		  	});
-		startCircle = setCircle( coord, "#00ffff", myInfo.startRange );
-	}
-	
-
+	var icon = new olleh.maps.MarkerImage(
+			"../images/common/marker/MapMarker_Ball__Azure.png",
+			new olleh.maps.Size(30, 30),
+			new olleh.maps.Pixel(0,0),
+			new olleh.maps.Pixel(15, 30)
+		);
+	startMarker= new olleh.maps.Marker({
+			position: coord,
+			map: map,
+//			shadow: shadow,
+			icon: icon,
+			title : '출발지',
+			zIndex : 1
+	  	});
+	startCircle = setCircle( coord, "#00ffff", myInfo.startRange );
 };
 
 
@@ -1767,25 +1760,28 @@ var favoriteList = function() {
  */
 var FINSH_INTERVAL_TIME = 2000;
 var backPressedTime = 0;
-
 var touchBackBtnCallbackFunc = function() {
 	console.log("touchBackBtnCallbackFunc()");
 	
 	var tempTime = new Date().getTime();
 	var intervalTime = tempTime - backPressedTime;
-	if ( $(".divBlackBackground").css("visibility") == "hidden") {
+	
+	// 반투명 필름이 보이는 경우는 팝업이나 패널을 닫고,
+	// 2초 동안 두번 연속 클릭 시 어플 종
+	if ( $(".divBlackBackground").css("visibility") == "visible" ) {
+		$("div.divBlackBackground").trigger("click");
+		
+	} else {
 		if ( 0 <= intervalTime && FINSH_INTERVAL_TIME >= intervalTime ) {
 			navigator.app.exitApp();
+			
 		} else {
 			backPressedTime = tempTime;
 			showAlertToast("'뒤로'버튼을 한번 더 누르시면 종료됩니다.");
+			
 		}
-	} else {
-		$("#leftPanel").panel("close");
-		$("#divFavoriteLoc_popup").popup("close");
-		$("#divAddRoomCondition_popup").popup("close");
-		$("#joinRoom_popup").popup("close");
 	}
+	
 };
 
 

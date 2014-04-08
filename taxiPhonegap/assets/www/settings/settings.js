@@ -146,7 +146,7 @@ var registerEvent = function(){
 			showAlertToast("이미 계정연동이 되었습니다.");
 			
 		} else {
-			changeHref("../auth/signup.html");
+			changeHref("../settings/account.html");
 		}
 	});
 	

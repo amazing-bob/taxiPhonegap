@@ -137,6 +137,7 @@ function onDeviceReady() {
 	
     getsetPhoneNo();
     isSignUp( getLocalItem("myInfo"), phoneNo, device.uuid );
+    document.addEventListener("backbutton", touchBackBtnCallbackFunc, false);
     
 }
 
@@ -554,4 +555,28 @@ var getKeyword = function(){
 };
 
 
+/**
+ * 설  명: 뒤로가기 버튼 처리
+ * 작성자: 김상헌
+ */
+var touchBackBtnCallbackFunc = function() {
+	console.log("touchBackBtnCallbackFunc()");
+	
+	// '키워드입력'화면이면 '이름입력'화면으로 이동, 
+	// '이름입력'화면이 '전화번호수집'화면으로 이동,
+	// '전화번호수집'화면이면 어플 종료.
+	var activePageId = $.mobile.activePage.attr("id");
+	
+	if ( activePageId == "keyWordPage" ) {
+		$.mobile.changePage("#divSignUpPage");
+		
+	} else if ( activePageId == "divSignUpPage" ) {
+		$.mobile.changePage("#divPhonePage");
+		
+	} else {
+		navigator.app.exitApp();
+		
+	}
+
+};
 

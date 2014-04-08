@@ -909,7 +909,8 @@ var setWaypointMarker = function( coord, imageUrl ) {
 
 
 /**
- * 뒤로가기 버튼 처리
+ * 설  명: 뒤로가기 버튼 처리
+ * 작성자: 김상헌
  */
 var touchBackBtnCallbackFunc = function() {
 	console.log("touchBackBtnCallbackFunc()");
@@ -917,20 +918,18 @@ var touchBackBtnCallbackFunc = function() {
 	var canGoHome = true;
 
 	// 팝업창 떠 있으면 팝업창을 닫음.
-	$("div[data-role=popup]").each(function( idx ) {
-		if ( $(this).data("isOpen") == true ) {
-			$(this).popup("close");
-
-			canGoHome = false;
-		}
-	});
+	if ( $(".divBlackBackground").css("visibility") == "visible" ) {
+		$("div.divBlackBackground").trigger("click");
+		canGoHome = false;
+	}
 	
 	// 싸인화면 상태면 싸인화면 닫음.
 	if ( !($("#divColorSign").css("display") == "none") ) {
 		$("#divColorSign").trigger("click");
-		
 		canGoHome = false;
 	}
+	
+	// 팝업이나 싸인화면이 노출되지 않은 상태면 홈화면으로 이동 
 	if ( canGoHome ) {
 		changeHref("../home/home.html");
 	}

@@ -2,8 +2,8 @@ console.log("commonjs...");
 
 //var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
 //var rootPath = "http://localhost:9999/taxi";		//로컬
-//var rootPath = "http://192.168.10.83:9999/taxi";	//상헌
-var rootPath = "http://192.168.0.9:9999/taxi";		//종혁
+var rootPath = "http://192.168.43.39:9999/taxi";	//상헌
+//var rootPath = "http://192.168.1.4:9999/taxi";		//종혁
 //var rootPath = "http://192.168.10.59:9999/taxi";	//태경
 var contentWidth;
 var contentHeight;
@@ -660,7 +660,8 @@ var showhideBlackBackground = function(visibleCommand) {
 		var divBackgound = $("<div>")
 	    		.addClass("divBlackBackground")
 			    .css("width"		, (contentWidth + 2) + "px")
-			    .css("height"		, contentHeight + "px")
+//			    .css("height"		, contentHeight + "px")
+			    .css("height"		, "100%")
 			    .css("background"	, "black")
 			    .css("z-index"		, "1099")
 			    .css("left"			, "-1px")
