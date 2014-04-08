@@ -1297,9 +1297,7 @@ var addRoom = function( regId ) {
 
 	var locationSession = getSessionItem("locationSession");
     var startTime = new Date();
-    console.log(startTime);
     var inputTime = $("#inputTime").mobiscroll('getValue');
-    console.log(inputTime);
     // AM,PM 일 때
     if (inputTime[2] == '1') {
     	startTime.setHours( parseInt(inputTime[0]) + 12 );
@@ -1342,14 +1340,16 @@ var addRoom = function( regId ) {
     			params,
 		        function(result) {
 		            if (result.status == "success") {
-		            	var myRoom = result.data;
+		            	var myRoom 		= result.data.myRoom;
+		            	var rcntLocList = result.data.rcntLocList;
+		            	
 		            	setSessionItem("myRoom", myRoom);
 
 		            	executeQuery(
 								// Transaction Execute
 								function(transaction) {
 									deleteAllRcntLocTable(transaction);
-									insertRcntLocTable(transaction, result.data.rcntLocList);
+									insertRcntLocTable(transaction, rcntLocList);
 								},
 								// Success Callback
 								function() {
