@@ -696,7 +696,7 @@ var checkEndLocation = function() {
 						locationSession.endName,
 						locationSession.endPrefix );
 
-		searchRooms( myInfo.mbrNo, /* refreshFlag */ false );
+		searchRooms( myInfo.mbrNo, /* refreshFlag */ true );
 
 	} else {
 		// 최근 목적지 조회 & 목적지로 설정
