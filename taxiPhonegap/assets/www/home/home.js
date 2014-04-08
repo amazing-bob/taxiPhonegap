@@ -494,53 +494,69 @@ document.addEventListener('touchmove', function (e) { e.preventDefault(); }, fal
 document.addEventListener('DOMContentLoaded', loadedMyScroll, false);
 
 /**
- * 설  명: 초기화
- * 작성자: 김상헌
+ * 설  명: 초기화 - 수정내용 ) 위치정보 가져올 때 에러시 맵 안뜨는 오류 수정
+ * 작성자: 김상헌 - 수정자 ) 장종혁
  */
 var init = function() {
-	console.log("init()");
-	// 현재위치 조회
-	navigator.geolocation.getCurrentPosition(function(position) {
-		var curPoint = new olleh.maps.Point( position.coords.longitude, position.coords.latitude );
-		var srcproj = new olleh.maps.Projection('WGS84');
-		var destproj = new olleh.maps.Projection('UTM_K');
-		olleh.maps.Projection.transform(curPoint, srcproj, destproj);
-		curCoord = new olleh.maps.Coord(curPoint.getX(), curPoint.getY());
-//		curCoord = new olleh.maps.Coord("958238.8608608943", "1944407.0290863856");// 강남역	958238.8608608943, 1944407.0290863856	37.49798,  127.02755
-//		curCoord = new olleh.maps.Coord("949576.8370300145", "1942923.1597472064");// 신림역	949576.8370300145, 1942923.1597472064	37.484173, 126.929661
-//		curCoord = new olleh.maps.Coord("956019.1205096169", "1953794.6490542048");// 대학로	956019.1205096169, 1953794.6490542048	37.58249,  127.001876
 
-		geocoder = new olleh.maps.Geocoder("KEY");
-		directionsService = new olleh.maps.DirectionsService('frKMcOKXS*l9iO5g');
-
-	  	var mapOptions = {
-	     	center : curCoord,
-	     	mapTypeId : olleh.maps.MapTypeId.BASEMAP,
-	     	mapTypeControl: false,
-	     	zoom : 10
-	  	};
-	  	map = new olleh.maps.Map(document.getElementById("canvas_map"), mapOptions);
-
-
-		var myIcon = new olleh.maps.MarkerImage(
-				"../images/common/marker/my_marker_red.png",
-				new olleh.maps.Size(10, 10),
-				new olleh.maps.Pixel(0,0),
-				new olleh.maps.Pixel(5, 5) );
-		curMarker = new olleh.maps.Marker({
-			position: curCoord,
-			map: map,
-			icon: myIcon,
-			title : '내위치',
-			zIndex : 1
-	  	});
-
-		checkStartLocation();
-		testDataInsert();
-		
-	});
+	 if (navigator.geolocation) {
+		 getNavigationGeolocation(1000,0);
+	 }else{
+		alert("현재 기기는 위치 정보를 지원하지 않습니다.");
+	 }
+	 
+	 //데이터 들어가 있는지 확인용. 
+	 testDataInsert();
 };
 
+
+/**
+ *  설 명 : GPS 위치정보 수신 재 검사용 (errorCode 3 일경우 재 호출)
+ *  작성자 : 장종혁
+ *  timeOut = getCurrentPosition Timeout 설정값
+ *  callType = 맵 뜨고 난 이후 행동 설정 
+ */
+var getNavigationGeolocation = function(timeOut,callType){
+
+ 	navigator.geolocation.getCurrentPosition(
+ 		    function(position) { //성공일 때
+ 		    	
+ 		    	if(callType==1){
+ 		    		console.log("재도전 시퀀스 성공");
+ 		    		var curPoint = new olleh.maps.Point( position.coords.longitude, position.coords.latitude );
+	 		   		var srcproj = new olleh.maps.Projection('WGS84');
+	 		   		var destproj = new olleh.maps.Projection('UTM_K');
+	 		   		olleh.maps.Projection.transform(curPoint, srcproj, destproj);
+	 		   		realCoord = new olleh.maps.Coord(curPoint.getX(), curPoint.getY());
+	 		   		map.moveTo(realCoord);
+	 		   		drawMapCanvas(position,0);
+	 		   		checkStartLocation();
+		    	}else{
+		    		drawMapCanvas(position,0);
+		    		checkStartLocation();
+		    	}
+ 		    	
+ 		    },
+ 		    function(error){
+ 		    	if(error.code==3){
+ 		    		if(callType==0){
+ 		    			console.log("location 시퀀스 시도 실패! 재도전 시퀀스 시도 - type1");
+ 		    			drawMapCanvas(null,1);
+ 		    			getNavigationGeolocation(10000,1);
+ 		    		}else{
+ 		    			console.log("location 시퀀스 재도전 시퀀스 실행! - timeOut : 2M");
+ 		    			getNavigationGeolocation(120000,1);
+ 		    		}
+ 		    	}else{
+ 		    		alert("error Code( " + error.code+" ) : " +error.message);
+ 		    	}
+ 		    }, {
+ 		    	 maximumAge : Infinity,
+ 		         timeout : timeOut,
+ 		         enableHighAccuracy : false
+ 		    }
+ 		);
+};
 
 /**
  * 설  명: 출발지 검사
@@ -588,6 +604,7 @@ var setStartLocation = function (x, y, locName, prefix) {
 	if ( !prefix || prefix == null ) {
 		prefix = "";
 	}
+	
 
 	$("#startInput").val(prefix + locName);
 
@@ -599,21 +616,27 @@ var setStartLocation = function (x, y, locName, prefix) {
 		startCircle.setMap(null);
 	}
 
-	var icon = new olleh.maps.MarkerImage(
-			"../images/common/marker/MapMarker_Ball__Azure.png",
-			new olleh.maps.Size(30, 30),
-			new olleh.maps.Pixel(0,0),
-			new olleh.maps.Pixel(15, 30)
-		);
-	startMarker= new olleh.maps.Marker({
-			position: coord,
-			map: map,
-//			shadow: shadow,
-			icon: icon,
-			title : '출발지',
-			zIndex : 1
-	  	});
-	startCircle = setCircle( coord, "#00ffff", myInfo.startRange );
+	if($(".startInput").val()==""){
+		alert("출발지 위치 정보 없음.")
+	}else{
+		var icon = new olleh.maps.MarkerImage(
+				"../images/common/marker/MapMarker_Ball__Azure.png",
+				new olleh.maps.Size(30, 30),
+				new olleh.maps.Pixel(0,0),
+				new olleh.maps.Pixel(15, 30)
+			);
+		startMarker= new olleh.maps.Marker({
+				position: coord,
+				map: map,
+//				shadow: shadow,
+				icon: icon,
+				title : '출발지',
+				zIndex : 1
+		  	});
+		startCircle = setCircle( coord, "#00ffff", myInfo.startRange );
+	}
+	
+
 };
 
 
