@@ -1837,7 +1837,19 @@ var relLineUp = function(roomMbrData, roomCnt,roomMbrLimit){
 				offsetHeight : $(".relMapPaper")[0].children[3].offsetTop+h,
 				offsetLeft : $(".relMapPaper")[0].children[3].offsetLeft+w
 		};
-		
+
+		//테스트용 값 출력 2020202020202020
+		console.log("faceCoordinate Test**********************************")
+
+		console.log("face[0] : ");
+		console.log(JSON.stringify(faceCoordinate[0]));
+		console.log("face[1] : ");
+		console.log(JSON.stringify(faceCoordinate[1]));
+		console.log("face[2] : ");
+		console.log(JSON.stringify(faceCoordinate[2]));
+		console.log("face[3] : ");
+		console.log(JSON.stringify(faceCoordinate[3]));
+				
 	makeReletionHomeHtml(roomMbrData,faceCoordinate,roomCnt,roomMbrLimit);
 };
 
