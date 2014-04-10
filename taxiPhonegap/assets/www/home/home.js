@@ -192,16 +192,60 @@ $(document).ready(function() {
 		this.select();
 		return false;
 	});
+    /**
+     *  설 명 : 출발지 삭제버튼 클릭 시 마커 지움
+     *  작성자 : 장종혁
+     */
 	$("#aStartSearchClear").click(function(event) {
 		event.stopPropagation();
 		$("#startInput").val("");
 		$("#aStartSearchClear").css("visibility", "hidden");
+		
+		var originLoc = getSessionItem("locationSession");
+		var newLoc = {
+				endName: originLoc.endName,
+				endPrefix: originLoc.endPrefix,
+				endX: originLoc.endX,
+				endY: originLoc.endY,
+				startName: null,
+				startPrefix: null,
+				startX: null,
+				startY: null
+		};
+		
+		setSessionItem("locationSession",newLoc);
+		
+		startMarker.setMap(null);
+		startCircle.setMap(null);
+		
 		return false;
 	});
+	/**
+     *  설 명 : 목적지 삭제버튼 클릭 시 마커 지움
+     *  작성자 : 장종혁
+     */
 	$("#aEndSearchClear").click(function(event) {
 		event.stopPropagation();
 		$("#endInput").val("");
 		$("#aEndSearchClear").css("visibility", "hidden");
+		
+		var originLoc = getSessionItem("locationSession");
+		var newLoc = {
+				endName: null,
+				endPrefix: null,
+				endX: null,
+				endY: null,
+				startName: originLoc.startName,
+				startPrefix: originLoc.startPrefix,
+				startX: originLoc.startX,
+				startY: originLoc.startY
+		};
+		
+		setSessionItem("locationSession",newLoc);
+		
+		endMarker.setMap(null);
+		endCircle.setMap(null);
+		
 		return false;
 	});
 	
@@ -1837,7 +1881,19 @@ var relLineUp = function(roomMbrData, roomCnt,roomMbrLimit){
 				offsetHeight : $(".relMapPaper")[0].children[3].offsetTop+h,
 				offsetLeft : $(".relMapPaper")[0].children[3].offsetLeft+w
 		};
-		
+
+		//테스트용 값 출력 2020202020202020
+		console.log("faceCoordinate Test**********************************")
+
+		console.log("face[0] : ");
+		console.log(JSON.stringify(faceCoordinate[0]));
+		console.log("face[1] : ");
+		console.log(JSON.stringify(faceCoordinate[1]));
+		console.log("face[2] : ");
+		console.log(JSON.stringify(faceCoordinate[2]));
+		console.log("face[3] : ");
+		console.log(JSON.stringify(faceCoordinate[3]));
+				
 	makeReletionHomeHtml(roomMbrData,faceCoordinate,roomCnt,roomMbrLimit);
 };
 
