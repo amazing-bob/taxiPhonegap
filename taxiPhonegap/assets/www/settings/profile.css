@@ -1,0 +1,114 @@
+@CHARSET "UTF-8";@CHARSET "UTF-8";
+/* 공통 */
+@font-face {
+    font-family: 'Nanum Gothic';
+    src: url('../fonts/NanumGothic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Nanum Gothic Bold';
+    src: url('../fonts/NanumGothicBold.ttf') format('truetype');
+}
+body * {
+	font-family: "Namum Gothic";
+}
+div[data-role=page] {
+	font-family: "Namum Gothic";
+	font-size: large;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    margin-left: 0px;
+    margin-right:  0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+header[data-role=header] {
+    font-family: 'Nanum Gothic';
+    height: 40px;
+    text-align: center;
+}
+header[data-role=header] > h1 {
+    font-family: 'Nanum Gothic';
+    font-size: large;
+    font-weight: bolder;
+}
+section[data-role=content] {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.ui-content .ui-listview {
+	margin: 0;
+}
+
+/* 폼 영역 */
+div.signupFromArea {
+    border-left-width: 0px;
+    border-right-width: 0px;
+    text-align: center;
+}
+div.inputArea {
+	margin-top: 50px;
+}
+.ui-field-contain div.ui-input-text {
+	text-align: center;
+	width: 70%;
+	margin: 10px auto;
+}
+div.ui-input-text input.ui-input-text {
+	display: inline;
+	width: 90%;
+}
+img.inputCheck {
+	position: relative;
+	margin-top: .3em;
+	margin-left: .1em;
+/* 	margin: .4em .1em; */
+	width: 8%;
+}
+
+/* 버튼 영역 */
+div.btnArea {
+	margin-top: 40px;
+}
+a.center-button-enable {
+    cursor: pointer;
+    border: 0.1em solid #eee;
+    width: 60%;
+    height: 45px;
+    text-align: center;
+    background: #fafbfd;
+    box-shadow: 0px 1px 5px #dadada;
+    border-radius: 3px;
+    margin: 10px auto;
+}
+a.center-button-enable:hover { background: #c6ecf8; border: 1px solid #c6ecf8; box-shadow: 0px 1px 5px #c6ecf8; z-index: 999; }
+a.center-button-disable {
+    cursor: default;
+    border: 0.1em solid #bbb;
+    width: 60%;
+    height: 45px;
+    text-align: center;
+    background: #aaaaaa;
+    box-shadow: 0px 1px 5px #989898;
+    border-radius: 3px;
+    margin: 10px auto;
+}
+
+
+
+
+.comment{
+	padding-top : 10%;
+}
+.inputFormDiv{
+	position: relative;
+}
+.deleteProfileInputImg{
+	position: absolute;
+	z-index: 2;
+	top: 31%;
+	left: 80%;
+	height: 40%;
+}

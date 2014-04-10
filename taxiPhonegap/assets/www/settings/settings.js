@@ -46,7 +46,15 @@ var registerEvent = function(){
 					   .css("z-index","999");
 //				$(this).style.boxShadow = "0px 1px 5px #dadada";
 			});
-	
+	$("#accountInfo").hover(
+				function(){
+					 $(this).css("background","#c6ecf8")
+							.css("z-index","999");
+				},
+				function(){
+					 $(this).css("background","#fafbfd")
+					   		.css("z-index","999");
+				});
 
 	$("#btnLogoutAccept").click(function(){
 		logout();
@@ -139,15 +147,31 @@ var registerEvent = function(){
 	
 	$.mobile.loadPage( "settings.html", { showLoadMsg: false } );
 	
-	//계정연동 버튼 회원연동화면으로 이동
-	$("#btnAccountLogin").click(function() {
+	//문제점1. 계정이 연동되어있는경우 이메일 변경 비밀번호 변경 비밀번호 찾기 메뉴가 있어야할듯.
+	$("#account_a").click(function() {
 		
 		if ( myInfo.accountNo && myInfo.accountNo != 0 ) { 
-			showAlertToast("이미 계정연동이 되었습니다.");
+			alert("이미 계정연동이 되었습니다.");
+//			Toast.shortshow("이미 계정연동이 되었습니다.");
 			
 		} else {
-			changeHref("../settings/account.html");
+			changeHref("account.html");
 		}
+	});
+	
+	
+	$("#accountInfo").click(function(){
+		showProfilePage();
+	});
+	$("#profileName_a").click(function(){
+		
+		var request = "name";
+		changeHref("profile.html" , request);
+	});
+	$("#profilePhoneNo_a").click(function(){
+		
+		var request = "phoneNumber";
+		changeHref("profile.html" , request);
 	});
 	
 };
@@ -182,10 +206,10 @@ var displayAccountInfoArea = function() {
 	
 	if ( myInfo.accountNo && myInfo.accountNo > 0 ) {
 		$("#btnAccountLogin").text(myInfo.accountEmail);
-		
+		$("#account_a").text(myInfo.accountEmail);
 	} else {
 		$("#btnAccountLogin").text("TAXI 계정 연동");
-				
+		$("#account_a").text("TAXI 계정 연동");		
 	}
 };
 
@@ -801,3 +825,18 @@ function capturePhotofail(message) {
 function onFail(message) {
 	showAlertToast('Failed because: ' + message);
 }
+
+/**
+ * 내용 : 프로필 정보 페이지 로드
+ * 작성자 : 김태경
+ */
+var showProfilePage = function(){
+	
+	var myInfo = getLocalItem("myInfo");
+	$("#profilePicture").css('display','block')
+	.css('background-image', 'url(' + myInfo.mbrPhotoUrl + ')');
+	$("#profileName_a").text("이름 : "+myInfo.mbrName);
+	$("#profilePhoneNo_a").text("휴대폰 번호 : "+myInfo.mbrPhoneNo);
+	$.mobile.changePage('#pageProfileSetting','slide','reverse');
+	
+};

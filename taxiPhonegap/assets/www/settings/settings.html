@@ -48,12 +48,12 @@
 				<ul id="list" data-role="listview" data-corners="false">
 					<li id="accountInfo">
 						<div id="imgMbrPhotoDiv">
-							<a href="#pageProfileSetting" id="btnProfile" data-inline="false">
+							<a id="btnProfile" data-inline="false">
 								<img id="imgMbrPhoto" src="">
 							</a>
 							<div id="accountInfoArea">
 								<div>
-									<a id="btnAccountLogin">계정</a>
+									<div id="btnAccountLogin">계정</div>
 								</div>
 								<div>
 									<span id="spanMbrName">이름</span> (<span id="spanPhoneNo">핸드폰번호</span>)
@@ -140,36 +140,7 @@
 
 			<!-- 로그인아웃 확인 팝업 -->
 		</div>
-		<!-- //content -->
 
-		<!-- 		<div id="popupLogout" data-role="popup" data-theme="none" data-dismissible="true"
-			data-inset="true" data-overlay-theme="a" data-corners="false">
-		<ul id="exitUi" data-role="listview" data-inset="true"  data-theme="d"  data-corners="false">
-			<li id="exitHeader" class="title_li"  data-role="list-divider" data-theme="f">로그아웃</li>
-			<li id="logOutText">
-				<span id="outTextSpan">정말 로그아웃 하시겠습니까?</span>
-			</li>
-			<li id="outLi">
-				<div id="divCancel">
-					<a class="btnLogoutCancel" data-theme="none" data-rel="back" href="#" data-corners="false">
-						<span id="spanCancel">취소</span>
-					</a>
-				</div>
-				<div id="divExit">
-                	<a id="btnLogoutAccept" href="#" data-theme="none" data-corners="false">
-                		<span id="spanOut">로그아웃</span>
-                	</a>
-				</div>
-			</li>
-		</ul>
-		</div> -->
-
-		<!-- 즐겨찾기 목록 불러오기 및 삭제,수정  -->
-		<!-- <div>
-			<ul id="list" data-role="listview" data-corners="false">
-				<li data-role="list-divider" data-theme="f" id=myInfo></li>
-			</ul>
-		</div> -->
 		<div id="myInfoManager">
 			<!-- 즐겨찾기 우선순위 변경 -->
 			<div data-theme="f" data-content-theme="f" data-corners="false"
@@ -205,15 +176,9 @@
 
 		</div>
 		
-		
-
-
 	</div>
 	<!-- //page -->
 	<!-- 페이지전환되는것 -->
-
-
-
 
 	<div data-role="page" id="pageFvrtSetting">
 		<div id="pages" data-role="header" data-theme="f">
@@ -333,9 +298,12 @@
 				</div>
 				<ul id="list" data-role="listview" data-corners="false">
 					<li id="" data-theme="f">
-					  <a href="" id="profileName" data-inline="false">이름</a></li>
+					  <a id="profileName_a" data-inline="false">이름</a></li>
 					<li id="" data-theme="f">
-					  <a href="" id="profilePhoneNo" data-inline="false">휴대폰 번호</a></li>
+					  <a id="profilePhoneNo_a" data-inline="false">휴대폰 번호</a></li>
+					<li id="account_li" data-theme="f" >
+					  <a id="account_a" data-inline="false"></a></li>
+					<!-- 계정연동 -->
 				</ul>
 			</div>
 		</div>

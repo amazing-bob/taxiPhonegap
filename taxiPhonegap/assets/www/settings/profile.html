@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- JQuery -->
+<link rel="stylesheet" href="../css/jquery.mobile-1.3.2.css">
+<!-- Theme -->
+<link rel="stylesheet" href="../css/themes/taxi.css" />
+<!-- Added -->
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="profile.css">
+
+<!-- JQuery -->
+<script src="../lib/jquery-1.10.2.js"></script>
+<script src="../lib/jquery.mobile-1.3.2.js"></script>
+<script src="../lib/jquery-ui-1.10.3.min.js"></script>
+<script src="../lib/jquery.ui.touch-punch.min.js"></script>
+<!-- MD5 -->
+<script src="../lib/md5.js"></script>
+<!-- Cordova -->
+<script src="../cordova.js"></script>
+<!-- Added -->
+<script src="../db/common_websql.js"></script>
+<script src="../db/black_websql.js"></script>
+<script src="../db/frnd_websql.js"></script>
+<script src="../db/fvrtLoc_websql.js"></script>
+<script src="../db/keyword_websql.js"></script>
+<script src="../db/rcntLoc_websql.js"></script>
+<script src="../common/common.js"></script>
+<script src="profile.js"></script>
+
+
+</head>
+<body>
+	<!-- login page -->
+	
+	<!-- 빈 페이지 -->
+	<div data-role="page" id="" data-theme="f">
+		
+	</div>
+	
+	<!-- 이름변경 페이지 -->
+	<div data-role="page" id="profileNameUpdatePage" data-theme="f">
+		<header data-role="header" data-theme="f">
+			<h1>이름 변경</h1>
+		</header>
+		
+		<section data-role="content" id="content" data-theme="f">
+			<div>
+				<ul data-role="listview" data-corners="false">
+					<li data-role="fieldcontain">
+						<div class="signupFromArea">
+						
+							<div class="comment">
+									변경할 이름은 입력 해주세요.
+							</div>
+							<div class="inputArea">
+				            	<div class="inputFormDiv">
+				            		<img class="deleteProfileInputImg" src="../images/common/button/profileCancle.png">
+				            		<input type="text" id="nameInput" value="" data-clear-btn="false" maxlength="11">
+				            	</div>
+							</div>
+							<div class="btnArea">
+								<a data-role="button" id="nameUpdate" class="center-button-enable" data-enhance="false"> <span>변경</span></a>
+							</div>
+						</div>
+			        </li>
+			        
+				</ul>
+			</div>
+		</section>
+	</div>
+	
+	
+	<!-- 전화번호 변경 페이지 -->
+	<div data-role="page" id="profilePhoneNumberUpdatePage" data-theme="f">
+		<!-- header -->
+		<header data-role="header" data-theme="f">
+			<h1>전화번호 변경</h1>
+		</header>
+		
+		<!-- content -->
+		<section data-role="content" id="content" data-theme="f">
+			<div>
+				<ul data-role="listview" data-corners="false">
+					<li data-role="fieldcontain">
+						<div class="signupFromArea">
+						
+							<div class="comment">
+									변경할 전화번호를 입력 해주세요.
+							</div>
+							<div class="inputArea">
+								<div class="inputFormDiv">
+				            		<img class="deleteProfileInputImg" src="../images/common/button/profileCancle.png">
+				            	<input type="text" id="phoneNumberInput" value="" data-clear-btn="false" maxlength="11">
+				            	</div>
+							</div>
+							<div class="btnArea">
+								<a data-role="button" id="phoneNumberUpdate" class="center-button-enable" data-enhance="false"> <span>변경</span></a>
+							</div>
+						</div>
+			        </li>
+			        
+				</ul>
+			</div>
+		</section>
+		<!-- //content -->
+	</div>
+	<!-- //signup page -->
+</body>
+</html>

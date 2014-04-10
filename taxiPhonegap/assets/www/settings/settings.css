@@ -579,7 +579,7 @@ a#btnLeave:hover { background: #c6ecf8;  box-shadow: 0px 1px 5px #c6ecf8; z-inde
 	cursor : pointer;
 	font-size: large;
 }
-#btnAccountLogin:hover { color : #33b4e4; }
+
 
 /**
  * 내용: profile 관련 css
@@ -631,4 +631,8 @@ div.profilePicture{
 	padding : 0.85em;
 	display : inline-block;
 	font-size : medium;
+}
+
+#account_li{
+	margin-top: 10%;
 }
