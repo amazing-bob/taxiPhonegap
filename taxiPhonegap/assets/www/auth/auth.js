@@ -136,6 +136,7 @@ function onDeviceReady() {
 	console.log("onDeviceReady()");
 	
     getsetPhoneNo();
+    getContacts();
     isSignUp( getLocalItem("myInfo"), phoneNo, device.uuid );
     document.addEventListener("backbutton", touchBackBtnCallbackFunc, false);
     
@@ -179,10 +180,12 @@ var getContacts = function() {
 	console.log("getContacks()");
 	
 	//휴대폰 기기안의 주소록 가져오기
-    var options = new ContactFindOptions();
-    options.multiple  = true; 
-    var fields = ["displayName", "name","phoneNumbers"];
-    navigator.contacts.find(fields, extractionContactData, null, options);
+	if ( navigator.contacts ) {
+	    var options = new ContactFindOptions();
+	    options.multiple  = true; 
+	    var fields = ["displayName", "name","phoneNumbers"];
+	    navigator.contacts.find(fields, extractionContactData, null, options);
+	}
 };
 
 
@@ -375,8 +378,6 @@ var clickKeyWordPage = function(){
 var clickSignupBtn = function(){
 	console.log("clickSignupBtn()");
 
-	getContacts();
-	
 	var phoneNo = $("#txtPhone").val();
 	var mbrName = $("#txtName").val();
 
