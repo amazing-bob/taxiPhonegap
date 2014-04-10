@@ -159,21 +159,25 @@ var searchLocation = function(query, page) {
             function(result) {
                 if ( result.status == "success" ) {
                     var resultData =  JSON.parse(result.data); 
-                    var tmpLocations = [];           
-                    tmpLocations = resultData.payload.RESULTDATA.place.Data; 
-                    if (tmpLocations && tmpLocations.length > 0) { 
-                        var locationLen = locations.length; 
-                        for( var i = 0 ; i < tmpLocations.length; i++ ) { 
-                            locations[locationLen + i] = tmpLocations[i]; 
-                        } 
-                          
-                        var tmpMarkers = setMarkers(tmpLocations); 
-                        var markerLen = markers.length; 
-                        for( var i = 0 ; i < tmpMarkers.length; i++ ) { 
-                            markers[markerLen + i] = tmpMarkers[i]; 
-                        } 
+                    var tmpLocations = [];
+	                var resdata =resultData.payload; 
+                    if(resdata==undefined){
+                    	searchLocation(query, page);
+                    }else{
+	                    tmpLocations = resultData.payload.RESULTDATA.place.Data; 
+	                    if (tmpLocations && tmpLocations.length > 0) { 
+	                        var locationLen = locations.length; 
+	                        for( var i = 0 ; i < tmpLocations.length; i++ ) { 
+	                            locations[locationLen + i] = tmpLocations[i]; 
+	                        } 
+	                          
+	                        var tmpMarkers = setMarkers(tmpLocations); 
+	                        var markerLen = markers.length; 
+	                        for( var i = 0 ; i < tmpMarkers.length; i++ ) { 
+	                            markers[markerLen + i] = tmpMarkers[i]; 
+	                        } 
+	                    }
                     }
-                      
                     createLocationList(locations, page); 
                 } 
             }); 
