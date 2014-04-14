@@ -390,6 +390,9 @@ $(document).ready(function() {
 		var joinRoomNo = $("#joinRoom_popup").data("joinRoomNo");
 		
 		outRoomToJoinRoom(myInfo.mbrNo, outRoomNo, joinRoomNo);
+		$("#joinRoom_popup").popup("close", {
+			transition : "pop"
+		});
 
 		return false;
 	});
