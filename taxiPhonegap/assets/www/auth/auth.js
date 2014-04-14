@@ -154,8 +154,8 @@ var getsetPhoneNo = function() {
     PhoneNumber.getPhoneNo(function(result) {
 
     	phoneNo = result.phoneNo;
-		
-	    if(phoneNo.length!=0){
+
+    	if(phoneNo.length!=0){
 			if(phoneNo.substring(0,3)=="010"){
 				
 			}else{
@@ -166,9 +166,7 @@ var getsetPhoneNo = function() {
 			$('#spnPhoneStatus').text('Valid');
 			$('#spnPhoneStatus').css('color', 'green');
 			$("#btnPhoneNo").removeAttr("disabled").button("refresh");
-
-	    }	
-			
+    	}
 	}, function() {
 		// error
 	});

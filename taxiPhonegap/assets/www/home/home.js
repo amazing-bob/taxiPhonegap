@@ -583,20 +583,11 @@ var getNavigationGeolocation = function(timeOut,callType){
  		    			drawMapCanvas(null,1);
  		    			getNavigationGeolocation(10000,1);
  		    		}else{
- 		    			drawMapCanvas(position,0);
- 			    		checkStartLocation();
  		    			console.log("location 시퀀스 재도전 시퀀스 실행! - timeOut : 2M");
- 		    			getNavigationGeolocation(120000,2);
- 		    			
- 		    			if(callType==2){//만약 2분이 지나도 못가져올 경우 알림
- 		    				alert("위치정보 서비스를 찾을 수 없습니다.\n 휴대폰을 재시작 해주세요.");
- 		    			}
- 		    			
+ 		    			getNavigationGeolocation(120000,1);
  		    		}
  		    	}else{
- 		    		alert("위치 정보 서비스를 찾을 수 없습니다.\n 위치정보 수신을 확인해 주세요.");
- 		    		alert("테스트 : ErrorCode : "+error.code)
-// 		    		alert("error Code( " + error.code+" ) : " +error.message);
+ 		    		alert("error Code( " + error.code+" ) : " +error.message);
  		    	}
  		    }, {
  		    	 maximumAge : Infinity,
@@ -1073,7 +1064,7 @@ var createRoomList = function( roomList, isRoomMbr ) {
 			var rmName1 = "";
 			var rmName2 = "";
 			var rmName3 = "";
-
+			
 			divRoomMbrThumb = $("<div>")
 									.addClass("divRoomMbrThumbs");
 			
@@ -1093,7 +1084,10 @@ var createRoomList = function( roomList, isRoomMbr ) {
 					if(j==1){rmName1= roomMbrList[j].mbrName;}
 					if(j==2){rmName2= roomMbrList[j].mbrName;}
 					if(j==3){rmName3= roomMbrList[j].mbrName;}
+				
 				}
+				
+				
 			}
 
 			$("<li>")
