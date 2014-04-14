@@ -155,17 +155,20 @@ var getsetPhoneNo = function() {
 
     	phoneNo = result.phoneNo;
 		
-		if(phoneNo.substring(0,3)=="010"){
+	    if(phoneNo.length!=0){
+			if(phoneNo.substring(0,3)=="010"){
+				
+			}else{
+				phoneNo = "0"+ phoneNo.substring(3);
+			}
 			
-		}else{
-			phoneNo = "0"+ phoneNo.substring(3);
-		}
-		
-		$("#txtPhone").val(phoneNo);
-		$('#spnPhoneStatus').text('Valid');
-		$('#spnPhoneStatus').css('color', 'green');
-		$("#btnPhoneNo").removeAttr("disabled").button("refresh");
-		
+			$("#txtPhone").val(phoneNo);
+			$('#spnPhoneStatus').text('Valid');
+			$('#spnPhoneStatus').css('color', 'green');
+			$("#btnPhoneNo").removeAttr("disabled").button("refresh");
+
+	    }	
+			
 	}, function() {
 		// error
 	});
