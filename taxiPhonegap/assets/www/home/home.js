@@ -1589,7 +1589,6 @@ var joinRoom = function(regId, joinRoomNo) {
 								function(transaction) {
 									deleteAllRcntLocTable(transaction);
 									insertRcntLocTable(transaction, result.data.rcntLocList);
-									console.log(result.data)
 								},
 								// Success Callback
 								function() {
