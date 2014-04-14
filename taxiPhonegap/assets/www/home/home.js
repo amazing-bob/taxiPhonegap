@@ -743,35 +743,40 @@ var checkEndLocation = function() {
 			mbrNo: myInfo.mbrNo
 		};
 		
-		$.getJSON( rootPath + "/location/getRecentDestination.do", param, function(result) {
-			if (result.status === "success") {
-				var recentDestinationList = result.data;
-				if ( recentDestinationList.length > 0 ) {
-					setEndLocationSession(
-							recentDestinationList[0].rcntLocLng,
-							recentDestinationList[0].rcntLocLat,
-							recentDestinationList[0].rcntLocName,
-							"최근목적지: ",
-							function() {
-								checkEndLocation();
-							} );
-					
-				} else {
-					$("#btnAddViewRoom").css("visibility","hidden");
-					$("<li>")
-					.width(contentWidth +"px")
-					.append(
-							$("<div>")
-							.addClass("divMsgArea")
-							.css("padding-top","14px")
-							.append(
-									$("<h1>")
-										.html("출발지와 도착지를<br>검색해주세요") ) )
-					.appendTo( $("#ulRoomList") );
-					myScroll.disable();
-				}
-			}
+		selectAllRcntLoc(function(rcntList) {
+
+			var rcntE = rcntList[1];
 			
+			if(rcntList[1].length > 0){
+				
+					if (result.status === "success") {
+						var recentDestinationList = rcntE;
+						if ( recentDestinationList.length > 0 ) {
+							setEndLocationSession(
+									recentDestinationList[0].rcntLocLng,
+									recentDestinationList[0].rcntLocLat,
+									recentDestinationList[0].rcntLocName,
+									"최근목적지: ",
+									function() {
+										checkEndLocation();
+									} );
+							
+						} else {
+							$("#btnAddViewRoom").css("visibility","hidden");
+							$("<li>")
+							.width(contentWidth +"px")
+							.append(
+									$("<div>")
+									.addClass("divMsgArea")
+									.css("padding-top","14px")
+									.append(
+											$("<h1>")
+												.html("출발지와 도착지를<br>검색해주세요") ) )
+							.appendTo( $("#ulRoomList") );
+							myScroll.disable();
+						}
+					}
+			}
 		});
 
 	}
