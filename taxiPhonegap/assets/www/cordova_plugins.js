@@ -311,7 +311,6 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "org.apache.cordova.media": "0.2.6",
-    "com.phonegap.plugins.facebookconnect": "0.4.0",
     "com.phonegap.plugins.PushPlugin": "2.1.1",
     "org.apache.cordova.splashscreen": "0.2.5",
     "com.simonmacdonald.telephonenumber": "1.0.0",
