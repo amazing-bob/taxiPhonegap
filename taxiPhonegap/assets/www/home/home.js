@@ -192,10 +192,6 @@ $(document).ready(function() {
 		this.select();
 		return false;
 	});
-    /**
-     *  설 명 : 출발지 삭제버튼 클릭 시 마커 지움
-     *  작성자 : 장종혁
-     */
 	$("#aStartSearchClear").click(function(event) {
 		event.stopPropagation();
 		$("#startInput").val("");
@@ -220,10 +216,6 @@ $(document).ready(function() {
 		
 		return false;
 	});
-	/**
-     *  설 명 : 목적지 삭제버튼 클릭 시 마커 지움
-     *  작성자 : 장종혁
-     */
 	$("#aEndSearchClear").click(function(event) {
 		event.stopPropagation();
 		$("#endInput").val("");
@@ -398,6 +390,9 @@ $(document).ready(function() {
 		var joinRoomNo = $("#joinRoom_popup").data("joinRoomNo");
 		
 		outRoomToJoinRoom(myInfo.mbrNo, outRoomNo, joinRoomNo);
+		$("#joinRoom_popup").popup("close", {
+			transition : "pop"
+		});
 
 		return false;
 	});
@@ -894,8 +889,10 @@ var searchRooms = function( mbrNo, refreshFlag ) {
 	var locationSession = getSessionItem("locationSession");
 	
 	var roomNoArr = new Array();
-	for (var i in roomList) {
-		roomNoArr[i] = roomList[i].roomNo;
+	if ( !refreshFlag ) {
+		for (var i in roomList) {
+			roomNoArr[i] = roomList[i].roomNo;
+		}
 	}
 
 	var params = {
@@ -988,7 +985,7 @@ var searchRooms = function( mbrNo, refreshFlag ) {
 							};
 
 						}
-											
+
 						if ( refreshFlag ) {
 							// 기존의 방리스트 초기화 후 조회해 리스트 추가 
 							roomList = new Array();
@@ -1609,7 +1606,6 @@ var joinRoom = function(regId, joinRoomNo) {
 								function(transaction) {
 									deleteAllRcntLocTable(transaction);
 									insertRcntLocTable(transaction, result.data.rcntLocList);
-									console.log(result.data)
 								},
 								// Success Callback
 								function() {
@@ -1898,7 +1894,7 @@ var relLineUp = function(roomMbrData, roomCnt,roomMbrLimit){
 				offsetHeight : $(".relMapPaper")[0].children[3].offsetTop+h,
 				offsetLeft : $(".relMapPaper")[0].children[3].offsetLeft+w
 		};
-
+	
 		//테스트용 값 출력 2020202020202020
 		console.log("faceCoordinate Test**********************************")
 
@@ -1910,7 +1906,7 @@ var relLineUp = function(roomMbrData, roomCnt,roomMbrLimit){
 		console.log(JSON.stringify(faceCoordinate[2]));
 		console.log("face[3] : ");
 		console.log(JSON.stringify(faceCoordinate[3]));
-				
+		
 	makeReletionHomeHtml(roomMbrData,faceCoordinate,roomCnt,roomMbrLimit);
 };
 

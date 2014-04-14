@@ -4,7 +4,6 @@ console.log("commonjs...");
 //var rootPath = "http://localhost:9999/taxi";		//로컬
 //var rootPath = "http://192.168.0.135:9999/taxi";	//상헌
 var rootPath = "http://192.168.1.17:9999/taxi";		//종혁
-//var rootPath = "http://192.168.25.8:9999/taxi";		//종혁
 //var rootPath = "http://192.168.0.4:9999/taxi";	//태경
 var contentWidth;
 var contentHeight;
