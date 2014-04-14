@@ -229,8 +229,16 @@ var serchFrndTable = function(frndPhoneNumberList, callback){
 					data = getSessionItem("relFrndFrnd");
 
 					if(len==0){
-						data[data.length]="?";
+						
+						var noFrnd = new Array();
+						
+						noFrnd = {
+							frndName:"?"
+						};
+						
+						data[data.length]=noFrnd;
 					}else{
+			
 						data[data.length]= results.rows.item(0);
 					}
 			        

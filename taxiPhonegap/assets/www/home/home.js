@@ -588,11 +588,20 @@ var getNavigationGeolocation = function(timeOut,callType){
  		    			drawMapCanvas(null,1);
  		    			getNavigationGeolocation(10000,1);
  		    		}else{
+ 		    			drawMapCanvas(position,0);
+ 			    		checkStartLocation();
  		    			console.log("location 시퀀스 재도전 시퀀스 실행! - timeOut : 2M");
- 		    			getNavigationGeolocation(120000,1);
+ 		    			getNavigationGeolocation(120000,2);
+ 		    			
+ 		    			if(callType==2){//만약 2분이 지나도 못가져올 경우 알림
+ 		    				alert("위치정보 서비스를 찾을 수 없습니다.\n 휴대폰을 재시작 해주세요.");
+ 		    			}
+ 		    			
  		    		}
  		    	}else{
- 		    		alert("error Code( " + error.code+" ) : " +error.message);
+ 		    		alert("위치 정보 서비스를 찾을 수 없습니다.\n 위치정보 수신을 확인해 주세요.");
+ 		    		alert("테스트 : ErrorCode : "+error.code)
+// 		    		alert("error Code( " + error.code+" ) : " +error.message);
  		    	}
  		    }, {
  		    	 maximumAge : Infinity,
@@ -1063,6 +1072,10 @@ var createRoomList = function( roomList, isRoomMbr ) {
 
 		for ( var i in roomList ) {
 			roomMbrList =  roomList[i].roomMbrList;
+			var rmName0 = "";
+			var rmName1 = "";
+			var rmName2 = "";
+			var rmName3 = "";
 
 			divRoomMbrThumb = $("<div>")
 									.addClass("divRoomMbrThumbs");
@@ -1079,6 +1092,10 @@ var createRoomList = function( roomList, isRoomMbr ) {
 							$("<img>")
 								.attr("src", roomMbrList[j].mbrPhotoUrl )
 								.css("height","2.0em"));
+					if(j==0){rmName0= roomMbrList[j].mbrName;}
+					if(j==1){rmName1= roomMbrList[j].mbrName;}
+					if(j==2){rmName2= roomMbrList[j].mbrName;}
+					if(j==3){rmName3= roomMbrList[j].mbrName;}
 				}
 			}
 
@@ -1153,7 +1170,7 @@ var createRoomList = function( roomList, isRoomMbr ) {
 															.attr("id", "relMbr0")
 															.append(
 																	$("<span>")
-																	.attr("class","relMbr0Name")
+																	.attr("class","relMbr0Name").text(rmName0)
 															))
 												.append(
 														$("<div>")
@@ -1161,7 +1178,7 @@ var createRoomList = function( roomList, isRoomMbr ) {
 															.attr("id", "relMbr1")
 															.append(
 																	$("<span>")
-																	.attr("class","relMbr1Name")
+																	.attr("class","relMbr1Name").text(rmName1)
 															))
 												.append(
 														$("<div>")
@@ -1169,7 +1186,7 @@ var createRoomList = function( roomList, isRoomMbr ) {
 															.attr("id", "relMbr2")
 															.append(
 																	$("<span>")
-																	.attr("class","relMbr2Name")
+																	.attr("class","relMbr2Name").text(rmName2)
 															))
 												.append(
 														$("<div>")
@@ -1177,7 +1194,7 @@ var createRoomList = function( roomList, isRoomMbr ) {
 															.attr("id", "relMbr3")
 															.append(
 																	$("<span>")
-																	.attr("class","relMbr3Name")
+																	.attr("class","relMbr3Name").text(rmName3)
 															))
 												.append(
 														$("<div id='relLine"+i+"'   style='position:absolute; width:100%; height:100%;'>")
