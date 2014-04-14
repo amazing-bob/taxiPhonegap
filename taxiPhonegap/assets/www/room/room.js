@@ -543,6 +543,9 @@ var createHeaderSlide = function(roomInfo) {
 var showRelationInfo = function(roomInfo) {
 	console.log("showRelationInfo(roomInfo)");
 
+	$("#relLine").remove();
+	$("<div>").attr("id","relLine").appendTo($("#relDiv"));
+	
 	var faceCoordinate = new Array();
 	for(var i=0; i<$(".relFace").length; i++){
 	

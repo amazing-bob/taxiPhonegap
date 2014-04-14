@@ -95,6 +95,7 @@ var drawRelFace = function(roomInfo, roomMbrData){
 	for(var i = 0;i<4;i++){
 		if(i<roomInfo.roomMbrNumLimit){
 			if(roomMbrData.length<=i){
+				$("#relMbr"+i+"Name").text("");
 				$(".relFace")[i].style.backgroundImage = "url(../images/common/transparency.png)";
 				$(".relFace")[i].style.display="";
 				$(".relFace")[i].style.width = "80px";
