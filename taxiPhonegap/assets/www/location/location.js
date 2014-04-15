@@ -158,6 +158,9 @@ var searchLocation = function(query, page) {
             },  
             function(result) {
                 if ( result.status == "success" ) {
+                	
+                	console.log(result.data)
+                	
                     var resultData =  JSON.parse(result.data); 
                     var tmpLocations = [];
 	                var resdata =resultData.payload; 

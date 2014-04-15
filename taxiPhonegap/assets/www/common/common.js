@@ -2,9 +2,9 @@ console.log("commonjs...");
 
 //var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
 //var rootPath = "http://localhost:9999/taxi";		//로컬
-//var rootPath = "http://192.168.0.16:9999/taxi";	//상헌
-var rootPath = "http://192.168.1.6:9999/taxi";		//종혁
-//var rootPath = "http://192.168.10.59:9999/taxi";	//태경
+var rootPath = "http://192.168.43.39:9999/taxi";	//상헌
+//var rootPath = "http://192.168.1.4:9999/taxi";		//종혁
+//var rootPath = "http://192.168.43.148:9999/taxi";	//태경
 var contentWidth;
 var contentHeight;
 
@@ -728,9 +728,6 @@ var showhideBlackBackgroundInSetttings  = function(visibleCommand) {
 					click: function(){
 						$(".ui-popup").popup("close");
 				    	showhideBlackBackground("hide");
-					},
-					swipeleft: function() {
-						showhideBlackBackground("hide");
 					}
 				});
 		$("div[data-role=page]").append( divBackgound );

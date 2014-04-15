@@ -111,7 +111,7 @@ var registerEvent = function() {
 	$(".provCk").on("touchend",function(){
 		checkProvision();
 	});
-		
+	
 	$("#btnLogin").on("touchend", function() { 
 		taxiLogin(); 
 	});
@@ -326,7 +326,7 @@ var isSignUp = function( myInfo, phoneNo, uuid ) {
 							
 						} else {
 							clearLocalData();
-							// 회원가입 화면 이동
+							// 회원가입 화면 이동 
 							$.mobile.changePage("#divProvisionPage");
 						}
 		
@@ -594,7 +594,6 @@ var touchBackBtnCallbackFunc = function() {
 	// '이름입력'화면이 '전화번호수집'화면으로 이동,
 	// '전화번호수집'화면이면 어플 종료.
 	var activePageId = $.mobile.activePage.attr("id");
-	
 	if(activePageId == "divPhonePage"){
 		checkProvision();
 		$.mobile.changePage("#divProvisionPage");

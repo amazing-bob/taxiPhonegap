@@ -586,6 +586,8 @@ var getNavigationGeolocation = function(timeOut,callType){
  		    		}else if(callType==2){
  		    			alert("위치정보 서비스를 이용할 수 없습니다. 확인 후 다시 실행해 주시기 바랍니다.");
  		    		}else{
+ 		    			drawMapCanvas(position,0);
+ 			    		checkStartLocation();
  		    			console.log("location 시퀀스 재도전 시퀀스 실행! - timeOut : 2M");
  		    			getNavigationGeolocation(60000,2);
  		    		}

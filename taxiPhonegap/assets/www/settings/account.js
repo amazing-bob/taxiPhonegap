@@ -80,11 +80,16 @@ var registerEvents = function() {
 		$.mobile.changePage("#signupPage");
 	});
 	$("#btnLogin").click(function() {
-		var password = b64_md5( $("#loginPassword").val() );
+		var password = hex_md5( $("#loginPassword").val() );
 		if ( $(this).hasClass("center-button-enable") ) {
 			loginAccount( 	/* mbrNo */  	myInfo.mbrNo, 
 							/* email */  	$("#loginEmail").val(), 
 							/* password */ 	password );
+		}
+	});
+	$("#btnFindPassword").click(function() {
+		if ( $(this).hasClass("center-button-enable") ) {
+			findPassword( $("#loginEmail").val() );
 		}
 	});
 	
@@ -109,7 +114,7 @@ var registerEvents = function() {
 	});
 	
 	$("#btnCreateAccount").click(function() {
-		var password = b64_md5( $("#signPassword").val() );
+		var password = hex_md5( $("#signPassword").val() );
 		if ( $(this).hasClass("center-button-enable") ) {
 			createAccount( 	/* mbrNo */ 	myInfo.mbrNo, 
 							/* email */ 	$("#signEmail").val(), 
@@ -198,7 +203,7 @@ var loginAccount = function(mbrNo, email, password) {
 	console.log("loginAccount(mbrNo, email, password)");
 //	console.log(mbrNo, email, password);
 	
-	$.getJSON(
+	$.post(
 			// URL
 			rootPath + "/auth/loginAccount.do",
 			// Params
@@ -403,7 +408,7 @@ var createAccount = function(mbrNo, email, password) {
 	console.log("createAccount(mbrNo, email, password)");
 //	console.log(mbrNo, email, password);
 	
-	$.getJSON(
+	$.post(
 			// URL
 			rootPath + "/auth/createAccount.do",
 			// Params
@@ -451,4 +456,37 @@ var touchBackBtnCallbackFunc = function() {
 
 };
 
+
+/**
+ * 설  명: 비밀번호 찾기
+ * 작성자: 김상
+ */
+var findPassword = function( email ) {
+	console.log("findPassword(email)");
+//	console.log(email);
+	
+	$.getJSON(
+			// URL
+			rootPath + "/auth/findPassword.do",
+			// Params
+			{
+				accountEmail : email
+			},
+			// Success
+			function(result) {
+				console.log(result);
+				if ( result.status == "success") {
+					var accountEmail = result.data;
+					if ( accountEmail ) {
+						var msg = "계정 이메일로 임시 비밀번호를 발송하였습니다.\n로그인 후 비밀번호를 변경해주세요."
+						showAlertToast(msg);
+					}
+					
+				} else {
+					console.log(result.data);
+					showAlertToast(result.data);
+				}
+			});
+	
+};
 
