@@ -696,7 +696,47 @@ var showhideBlackBackground = function(visibleCommand) {
 		////////////////////////////////////////////*/
 	}
 };
-
+/**
+ * 설  명 : 반투명 검은 화면 셋팅에서의 적용 function()
+ * 작성자 : 김상헌
+ */
+var showhideBlackBackgroundInSetttings  = function(visibleCommand) {
+	console.log("showhideBlackBackgroundInSettings(visibleCommand)");
+	
+	if ( $(".divBlackBackground")[0] ) {
+		if ( visibleCommand == "show" ) {
+			$(".divBlackBackground").show();
+			
+		} else {
+			$(".divBlackBackground").hide();
+		}
+	} else {
+		var divBackgound = $("<div>")
+	    		.addClass("divBlackBackground")
+			    .css("width"		, (contentWidth + 2) + "px")
+//			    .css("height"		, contentHeight + "px")
+			    .css("height"		, "100%")
+			    .css("background"	, "black")
+			    .css("z-index"		, "1099")
+			    .css("left"			, "-1px")
+			    .css("top"			, "0")
+			    .css("position"		, "absolute")
+			    .css("opacity"		, "0.5")
+			    .css("visibility"	, "visible")
+			    .on({
+//					touchend:function(){
+					click: function(){
+						$(".ui-popup").popup("close");
+				    	showhideBlackBackground("hide");
+					},
+					swipeleft: function() {
+						showhideBlackBackground("hide");
+					}
+				});
+		$("div[data-role=page]").append( divBackgound );
+		
+	}
+};
 
 /**
  * 설  명: 메시지 보이기 (웹이면 alert, 안드로이드면 Toast로 메시지 출력)

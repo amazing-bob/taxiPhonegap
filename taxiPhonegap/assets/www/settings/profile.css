@@ -112,3 +112,62 @@ a.center-button-disable {
 	left: 80%;
 	height: 40%;
 }
+
+
+
+
+/**
+ * 내용: profile 관련 css
+ * 작성자: 이 용 준
+ */
+div.profilePicture{
+	border:4px solid rgba(255,255,255,1)
+	background:rgba(255,255,255,1);
+	border-radius:100%;
+	background-image: url('../images/common/basicProfile.png');
+	background-size:100% 100%;
+	height:110px;
+	width:110px;
+	padding:7px;
+	margin: 2% 0 10% 30%;
+}
+
+#profileOptionUi{
+	background : ghostwhite;
+	padding : 0px;
+	list-style : none;
+	width: 18em; 
+	height: 100%;
+	font-family: 'nanum gothic Bold';
+	font-weight: bold;
+	text-shadow: none;
+	font-size: large;
+}
+
+#popupProfile{
+	visibility: hidden;
+}
+
+#profileTitleLi{
+	padding : 0.85em;
+	border-bottom: 2px solid #008299;	
+	font-weight : bolder;
+	color: #008299;
+}
+
+#profileGallery{
+	padding : 0.85em;
+	display : inline-block;
+	font-size : medium;
+	
+	
+}
+#profileCamera{
+	padding : 0.85em;
+	display : inline-block;
+	font-size : medium;
+}
+
+#account_li{
+	margin-top: 10%;
+}

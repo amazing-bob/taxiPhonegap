@@ -2,8 +2,6 @@ console.log("settings...");
 
 var that = this;
 var fvrtLocNo;
-var pictureSource;   // picture source
-var destinationType; // sets the format of returned value
 
 $(document).ready(function() {
 	getUpdatedTime();
@@ -105,65 +103,26 @@ var registerEvent = function(){
 		fvrtLocUpdate();
 	});
 	
-	
-	
 	$("#save").click(function(){
 		rankUpdate();
 	});
-
 	
-	$(".content").hide();
-	$("#btnList").show();
-	$("#btnList").click(function () {
-		$(".content").toggle("slide");
-	});
 
 	$(".contents").hide();
 	$("#btnChange").show();
 	$("#btnChange").click(function () {
 		$(".contents").toggle("slide");
 	});
-
-	$(".profilePicture").click(function(){
-		$("#popupProfile").popup();
-		$("#popupProfile").css("visibility","visible");
-		$("#popupProfile").popup("open", { transition  : "pop" });
-	});
-
-	$("#btnProfile").click(function(){
-		$("#profilePicture").css('display','block')
-		.css('background-image', 'url(' + myInfo.mbrPhotoUrl + ')');
-		$("#profileName").text("이름 : "+myInfo.mbrName);
-		$("#profilePhoneNo").text("휴대폰 번호 : "+myInfo.mbrPhoneNo);
-	});
-
-	$("#profileGallery").click(function(){
-		getPhoto(pictureSource.PHOTOLIBRARY);
-	});
-
-	$("#profileCamera").click(function(){
-		capturePhoto();
-	});
 	
 	$.mobile.loadPage( "settings.html", { showLoadMsg: false } );
 	
-	//문제점1. 계정이 연동되어있는경우 이메일 변경 비밀번호 변경 비밀번호 찾기 메뉴가 있어야할듯.
-	$("#account_a").click(function() {
-		
-		if ( myInfo.accountNo && myInfo.accountNo != 0 ) { 
-			alert("이미 계정연동이 되었습니다.");
-//			Toast.shortshow("이미 계정연동이 되었습니다.");
-			
-		} else {
-			changeHref("account.html");
-		}
-	});
+	
 	
 	
 	$("#accountInfo").click(function(){
-		showProfilePage();
+		changeHref("profile.html");
 	});
-	$("#profileName_a").click(function(){
+	/*$("#profileName_a").click(function(){
 		
 		var request = "name";
 		changeHref("profile.html" , request);
@@ -172,7 +131,7 @@ var registerEvent = function(){
 		
 		var request = "phoneNumber";
 		changeHref("profile.html" , request);
-	});
+	});*/
 	
 };
 
@@ -206,10 +165,8 @@ var displayAccountInfoArea = function() {
 	
 	if ( myInfo.accountNo && myInfo.accountNo > 0 ) {
 		$("#btnAccountLogin").text(myInfo.accountEmail);
-		$("#account_a").text(myInfo.accountEmail);
 	} else {
 		$("#btnAccountLogin").text("TAXI 계정 연동");
-		$("#account_a").text("TAXI 계정 연동");		
 	}
 };
 
@@ -561,8 +518,7 @@ var touchBackBtnCallbackFunc = function() {
 	if ( pageId && (   pageId == 'pageFvrtSetting' 
 					|| pageId == 'pageRangeSetting' 
 					|| pageId == 'pageBlakcListSetting'
-					|| pageId == 'pageSafeServiceSetting'
-					|| pageId == 'pageProfileSetting')
+					|| pageId == 'pageSafeServiceSetting')
 		) {
 		changeHref("../settings/settings.html");
 	} else {
@@ -716,129 +672,5 @@ var getUpdateTime = function(){
 };
 
 
-/**
- * 내용: profile 사진 수정 & 사진 서버로 전송
- * 작성자: 이 용 준
- */
-function onPhotoURISuccess(imageURI) {
-	
-	var UploadUrl = rootPath + "/setting/uploadUserPhoto.do"
-	
-	var options = new FileUploadOptions();
-
-	options.headers = {	Connection: "close"}
-	options.chunkedMode = false;
-
-	options.fileKey = "file";
-	options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
-	options.mimeType = "text/plain";
-	
-	var params = {
-			mbrNo 		: myInfo.mbrNo,
-			rootPath    : rootPath
-	};
-
-	options.params = params;
-
-		var ft = new FileTransfer();
-		ft.upload(imageURI, encodeURI(UploadUrl),function(r){ profileImgUploadSuccess(r);}, fail, options);
-}
 
 
-/**
- *   설  명 : 업로드 성공 시 프로필 사진 바꾸기
- *   작성자 : 장종혁
- */
-var profileImgUploadSuccess = function(r) {
-			
-	var result=   JSON.parse(r.response);
-	
-	if(result.status=="success"){
-		var newMyInfoData = myInfo;
-		var imageURI = result.data;
-		
-		newMyInfoData.mbrPhotoUrl = imageURI;
-		
-		myInfo.mbrPhotoUrl = imageURI;
-		
-		setLocalItem("myInfo",newMyInfoData);
-
-			$("#profilePicture").css('display','block')
-				.css('background-image', 'url(' + imageURI + ')');
-	}else{
-		showAlertToast("접속이 원할하지 않습니다.\n 잠시 후 다시 시도해 주시기 바랍니다.");
-	}
-};
-
-var fail = function (error) {
-	if(error.code==1){
-		showAlertToast("ErrorCode:1\n선택된 파일을 찾을 수 없습니다.\n 다시 시도해 주시기 바랍니다.");
-	}else if(error.code==2){
-		showAlertToast("ErrorCode:2\n주소가 유효하지 않습니다. \n 관리자에게 문의 해주시기 바랍니다.");
-	}else if(error.code==3){
-		showAlertToast("ErrorCode:3\n서버와의 접속이 원활하지 않습니다.\n 잠시 후 다시 시도해 주시기 바랍니다.");
-	}else if(error.code==4){
-		showAlertToast("ErrorCode:4\n파일 읽기가 중지 되었습니다.");
-	}
-};
-
-//사진전송을 위해 라이브러리에서 사진을 가져온다.
-function getPhoto(source) {
-	$("#popupProfile").popup( "close" );
-    navigator.camera.getPicture(onPhotoURISuccess, getPhotofail(source), {
-        quality: 100,
-        targetWidth: 280,
-        targetHeight: 280,
-    	encodingType: Camera.EncodingType.PNG,
-        destinationType: destinationType.FILE_URI,
-        sourceType: source
-    });
-}
-
-//라이브러리에서 사진가져오기 실패하면 - 다시 시도.
-function getPhotofail(source) {
-	
-	console.log(source);
-	
-	//getPhoto(source);
-}
-
-//사진찍기
-function capturePhoto() {
-	$("#popupProfile").popup( "close" );
-    navigator.camera.getPicture(onPhotoURISuccess, capturePhotofail, {   
-    	quality: 100,
-    	targetWidth: 280,
-    	 targetHeight: 280,
-    	encodingType: Camera.EncodingType.PNG,
-        destinationType: destinationType.FILE_URI });
-}
-
-//사진 저장이 실패하면
-function capturePhotofail(message) {
-    navigator.notification.alert(
-        '사진을 저장할 수 없습니다!',
-        '',
-        '저장실패',
-        '확인'
-    );
-}
-
-function onFail(message) {
-	showAlertToast('Failed because: ' + message);
-}
-
-/**
- * 내용 : 프로필 정보 페이지 로드
- * 작성자 : 김태경
- */
-var showProfilePage = function(){
-	
-	var myInfo = getLocalItem("myInfo");
-	$("#profilePicture").css('display','block')
-	.css('background-image', 'url(' + myInfo.mbrPhotoUrl + ')');
-	$("#profileName_a").text("이름 : "+myInfo.mbrName);
-	$("#profilePhoneNo_a").text("휴대폰 번호 : "+myInfo.mbrPhoneNo);
-	$.mobile.changePage('#pageProfileSetting','slide','reverse');
-	
-};
