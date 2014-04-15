@@ -35,11 +35,53 @@
 
 </head>
 <body>
-	<!-- login page -->
-	
-	<!-- 빈 페이지 -->
-	<div data-role="page" id="" data-theme="f">
+	<!-- 
+		내용: profile 관련 css
+		작성자: 이 용 준 
+	-->
+	<!-- 내 프로필 변경 -->
+	<div data-role="page" id="pageProfileSetting" data-theme="f">
+		<div data-role="header" data-theme="f">
+			<h1 id="page3">내 프로필</h1>
+		</div>
+		<div data-theme="f" data-role="content" data-icon="list"
+			data-iconpos="right" data-content-theme="f" data-corners="false">
+			<div>
+				<div id="profilePicture" class="profilePicture" data-rel="popup" data-position-to="window" data-inline="false">
+				</div>
+				<ul id="list" data-role="listview" data-corners="false">
+					<li id="" data-theme="f">
+					  <a class="profileUpdate" id="profileName_a" data-inline="false">이름</a></li>
+					<li id="" data-theme="f">
+					  <a class="profileUpdate" id="profilePhoneNo_a" data-inline="false">휴대폰 번호</a></li>
+					<li id="account_li" data-theme="f" >
+					  <a class="profileUpdate" id="account_a" data-inline="false"></a></li>
+					<!-- 계정연동 -->
+				</ul>
+			</div>
+		</div>
 		
+		
+		<div id="popupImageView" data-role="popup" data-theme="none" 
+				data-dismissible="true" data-inset="true" data-overlay-theme="a"
+				data-corners="false">
+				<ul id="imageViewUl" data-role="listview" data-inset="true"
+					data-theme="d" data-corners="false">
+					<li id="imageViewLi" data-role="list-divider"
+						data-theme="f">사진 선택</li>
+					
+					
+				</ul>
+		</div>
+	</div>
+	
+	
+	<div id="popupProfile" data-role="popup" data-theme="none" data-corners="false">
+			<ul id="profileOptionUi" data-role="listview" data-inset="true" data-theme="d">
+	           <li id="profileTitleLi" data-role="list-divider" data-theme="f" >사진선택</li>
+	           <li><a id="profileGallery">사진 앨범</a></li>
+	           <li><a id="profileCamera">카메라</a></li>
+	        </ul>
 	</div>
 	
 	<!-- 이름변경 페이지 -->
