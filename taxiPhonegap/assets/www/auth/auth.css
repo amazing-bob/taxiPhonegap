@@ -79,4 +79,21 @@ header[data-role=header] h1 {
     margin-left: 50px;
 }
 
+#divProvisionPage{
+	height:100%;
+	width:100%;
+	backgrount: #FFF;
+}
+
+#serviceProvisionSection{
+	height:auto;
+	backgrount: #FFF;
+	 overflow: 'auto','-webkit-overflow-scrolling': 'touch';
+}
+
+#personProvisionSection{
+	height:auto;
+	backgrount: #FFF;
+	overflow: 'auto','-webkit-overflow-scrolling': 'touch';
+}
 

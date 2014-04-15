@@ -11,6 +11,8 @@ var keywordNo;
 
 var phoneNo;
 
+var provisionChk = 0;
+
 
 $(document).ready(function() {
 	console.log("ready()");
@@ -86,6 +88,30 @@ var registerEvent = function() {
 		}
 	});
 
+	//계약 페이지 다음 클릭시 호출 - pc
+	$("#provisionBtn").on("click",function(){
+		if(provisionChk!=0){
+			$.mobile.changePage("#divPhonePage");
+		}
+	});
+	
+	//계약 페이지 다음 터치시 호출 - mobile
+	$("#provisionBtn").on("touchend",function(){
+		if(provisionChk!=0){
+			$.mobile.changePage("#divPhonePage");
+		}
+	});
+	
+	//계약 동의 클릭시 호출 - pc
+	$(".provCk").on("click",function(){
+		checkProvision();
+	});
+	
+	//계약 동의 터치시 호출 - mobile
+	$(".provCk").on("touchend",function(){
+		checkProvision();
+	});
+		
 	$("#btnLogin").on("touchend", function() { 
 		taxiLogin(); 
 	});
@@ -300,8 +326,8 @@ var isSignUp = function( myInfo, phoneNo, uuid ) {
 							
 						} else {
 							clearLocalData();
-							// 회원가입 화면 이동 
-							$.mobile.changePage("#divPhonePage");
+							// 회원가입 화면 이동
+							$.mobile.changePage("#divProvisionPage");
 						}
 		
 					} else {
@@ -312,7 +338,7 @@ var isSignUp = function( myInfo, phoneNo, uuid ) {
 	} else {
 		clearLocalData();
 		// 회원가입 화면 이동
-		$.mobile.changePage("#divPhonePage");
+		$.mobile.changePage("#divProvisionPage");
 	}
 };
 
@@ -569,7 +595,11 @@ var touchBackBtnCallbackFunc = function() {
 	// '전화번호수집'화면이면 어플 종료.
 	var activePageId = $.mobile.activePage.attr("id");
 	
-	if ( activePageId == "keyWordPage" ) {
+	if(activePageId == "divPhonePage"){
+		checkProvision();
+		$.mobile.changePage("#divProvisionPage");
+	}
+	else if ( activePageId == "keyWordPage" ) {
 		$.mobile.changePage("#divSignUpPage");
 		
 	} else if ( activePageId == "divSignUpPage" ) {
@@ -582,3 +612,20 @@ var touchBackBtnCallbackFunc = function() {
 
 };
 
+/**
+ *  설  명 : 계약동의 처리
+ *  작성자 : 장종혁
+ */
+function checkProvision(){
+	var service = $("#serviceCheckbox").prop('checked');
+	var person = $("#personCheckbox").prop('checked');
+	
+	if(service==true && person==true){
+		$("#provisionBtn").removeAttr("disabled").button("refresh");
+		provisionChk=1;
+	}else{
+	
+		$("#provisionBtn").attr("disabled", "disabled").button("refresh");
+		provisionChk=0;
+	}
+}
