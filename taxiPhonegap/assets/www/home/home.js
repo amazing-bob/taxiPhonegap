@@ -581,10 +581,13 @@ var getNavigationGeolocation = function(timeOut,callType){
  		    		if(callType==0){
  		    			console.log("location 시퀀스 시도 실패! 재도전 시퀀스 시도 - type1");
  		    			drawMapCanvas(null,1);
+ 		    			checkStartLocation();
  		    			getNavigationGeolocation(10000,1);
+ 		    		}else if(callType==2){
+ 		    			alert("위치정보 서비스를 이용할 수 없습니다. 확인 후 다시 실행해 주시기 바랍니다.");
  		    		}else{
  		    			console.log("location 시퀀스 재도전 시퀀스 실행! - timeOut : 2M");
- 		    			getNavigationGeolocation(120000,1);
+ 		    			getNavigationGeolocation(60000,2);
  		    		}
  		    	}else{
  		    		alert("error Code( " + error.code+" ) : " +error.message);
@@ -749,7 +752,6 @@ var checkEndLocation = function() {
 			
 			if(rcntList[1].length > 0){
 				
-					if (result.status === "success") {
 						var recentDestinationList = rcntE;
 						if ( recentDestinationList.length > 0 ) {
 							setEndLocationSession(
@@ -775,7 +777,19 @@ var checkEndLocation = function() {
 							.appendTo( $("#ulRoomList") );
 							myScroll.disable();
 						}
-					}
+			}else{
+				$("#btnAddViewRoom").css("visibility","hidden");
+				$("<li>")
+				.width(contentWidth +"px")
+				.append(
+						$("<div>")
+						.addClass("divMsgArea")
+						.css("padding-top","14px")
+						.append(
+								$("<h1>")
+									.html("출발지와 도착지를<br>검색해주세요") ) )
+				.appendTo( $("#ulRoomList") );
+				myScroll.disable();
 			}
 		});
 
