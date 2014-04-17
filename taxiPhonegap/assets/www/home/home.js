@@ -259,10 +259,12 @@ $(document).ready(function() {
 	    		locationSession.startY 		&& locationSession.startY != null 		&& locationSession.startY != "" 	&&
 	    		locationSession.endName 	&& locationSession.endName != null 		&& locationSession.endName != "" 	&&
 	    		locationSession.endX 		&& locationSession.endX != null 		&& locationSession.endX != "" 		&&
-	    		locationSession.endY 		&& locationSession.endY != null 		&& locationSession.endY != ""
-	    		) {
-	    	push.initialise("addRoom");
-//			addRoom('111111111111111111111111111'); //////////////////////////////////////////// Web용 임시
+	    		locationSession.endY 		&& locationSession.endY != null 		&& locationSession.endY != "" ) {
+	    	if ( window["cordova"] != undefined ) {
+	    		push.initialise("addRoom");
+	    	} else {
+	    		addRoom('111111111111111111111111111'); //////////////////////////////////////////// Web용 임시
+	    	}
 	    }else{
 	    	showAlertToast("출발지 또는 목적지가 설정하세요.");
 	    }
@@ -550,18 +552,18 @@ document.addEventListener('DOMContentLoaded', loadedMyScroll, false);
  * 작성자: 김상헌 - 수정자 ) 장종혁
  */
 var init = function() {
-	
+    	
 	if($("#endInput").val() == ""){
 		$("#aEndSearchClear").css("visibility", "hidden");
 	}
-	 if (navigator.geolocation) {
-		 getNavigationGeolocation(1000,0);
-	 }else{
+	if (navigator.geolocation) {
+		getNavigationGeolocation(1000,0);
+	}else{
 		alert("현재 기기는 위치 정보를 지원하지 않습니다.");
-	 }
-	 
-	 //데이터 들어가 있는지 확인용. 
-	 testDataInsert();
+	}
+	
+	//데이터 들어가 있는지 확인용. 
+	testDataInsert();
 };
 
 
@@ -1262,8 +1264,11 @@ var createRoomList = function( roomList, isRoomMbr ) {
 												});
 												
 											} else {
-												push.initialise("joinRoom", joinRoomNo);
-//												joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시	
+												if ( window["cordova"] != undefined ) {
+													push.initialise("joinRoom", joinRoomNo);
+												} else {
+													joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시
+												}
 											}
 											
 											return false;
@@ -1444,7 +1449,7 @@ var addRoom = function( regId ) {
 	
 	            }
 	        },
-	"json");
+			"json");
 };
 
 
@@ -1666,9 +1671,11 @@ var outRoomToJoinRoom = function(mbrNo, outRoomNo, joinRoomNo) {
 					if(result.status == "success") {
 						// myRoom SessionStorage에 방 정보 제거
 						removeSessionItem("myRoom");
-		
-						push.initialise("joinRoom", joinRoomNo);
-//						joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시
+						if ( window["cordova"] != undefined ) {
+							push.initialise("joinRoom", joinRoomNo);
+						} else {
+							joinRoom('111111111111111111111111111', joinRoomNo); //////////////////////////////////////////// Web용 임시
+						}
 		
 					} else {
 						showAlertToast("실행중 오류발생!"); 
