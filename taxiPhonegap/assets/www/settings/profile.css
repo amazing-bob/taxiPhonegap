@@ -43,13 +43,19 @@ section[data-role=content] {
 }
 
 /* 폼 영역 */
-div.signupFromArea {
+div.inputFromArea {
     border-left-width: 0px;
     border-right-width: 0px;
     text-align: center;
 }
 div.inputArea {
 	margin-top: 50px;
+}
+div.passwordInputArea {
+	margin-top: 20px;
+}
+div#userAccount{
+	font-family: 'Nanum Gothic';
 }
 .ui-field-contain div.ui-input-text {
 	text-align: center;
@@ -102,8 +108,15 @@ a.center-button-disable {
 .comment{
 	padding-top : 10%;
 }
+.passwordComment{
+	padding-top : 5%;
+}
 .inputFormDiv{
 	position: relative;
+}
+
+.passwordInputArea{
+	
 }
 .deleteProfileInputImg{
 	position: absolute;
@@ -113,7 +126,17 @@ a.center-button-disable {
 	height: 40%;
 }
 
-
+.x_or_check_button{
+	position: absolute;
+	height: 50%;
+	top: 28%;
+	z-index: 2;
+	right: 16%;
+	visibility: hidden;
+}
+.passwordInputFormDiv{
+	position: relative;
+}
 
 
 /**

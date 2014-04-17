@@ -54,7 +54,7 @@ var registerEvents = function(){
 		getValidationResultPhoneNumber();
 	});
 
-	$(".deleteProfileInputImg").click(function(){
+	$(".deleteProfileInputImg").on("click", function(event){
 		deleteInputText();
 	});
 	$("#nameUpdate").on("click", function(event) {
@@ -63,7 +63,15 @@ var registerEvents = function(){
 	$("#phoneNumberUpdate").on("click", function(event) {
 		checkPhoneNumber();
 	});
-	
+	$("#passwordUpdate").on("click",function(){
+		
+		if( $(this).hasClass("center-button-enable")){
+			passwordUpdate();
+		}else{
+			
+		}
+		
+	});
 
 	$(".profilePicture").on("click", function(event) {
 	
@@ -80,10 +88,19 @@ var registerEvents = function(){
 	$("#profileCamera").on("click", function(event) {
 		capturePhoto();
 	});
+	
+	$(".pwd").on("input",function(e){
+		
+		var isCheckedPassword = validPassword();
+		var isCheckedPasswordConfrim = comparePasswrodConfirm();
+		
+		updateButtonChange( isCheckedPassword , isCheckedPasswordConfrim );
+	});
+
 };
 
 /**
- * 설  명: 요청에 따른 화면 구성
+ * 설  명: 요청에 따른 화면 가져오기
  * 작성자 : 김태경
  */
 var checkRequest = function(pageId){
@@ -91,29 +108,20 @@ var checkRequest = function(pageId){
 	console.log(pageId);
 	
 	if(pageId == "profileName_a"){
-		$.mobile.changePage('#profileNameUpdatePage','slide','reverse');
-		console.log(myInfo.mbrName);
-		$("#nameInput").val(myInfo.mbrName);
-		$("#nameUpdate").removeClass("center-button-enable");
-		$("#nameUpdate").addClass("center-button-disable");
-		$("#nameInput").css("color",'red');
-		$(".deleteProfileInputImg").show();
+		
+		showNameUpdatePage();
+		
 
 	}else if(pageId  == "profilePhoneNo_a"){
-		console.log(myInfo.mbrPhoneNo);
-		$.mobile.changePage('#profilePhoneNumberUpdatePage','slide','reverse');
-		$("#phoneNumberInput").val(myInfo.mbrPhoneNo);
-		$("#phoneNumberUpdate").removeClass("center-button-enable");
-		$("#phoneNumberUpdate").addClass("center-button-disable");
-		$("#phoneNumberInput").css("color",'red');
-		$(".deleteProfileInputImg").show();
+		
+		showPhoneNumberUpdatePage();
+		
+		
 	}else if(pageId == 'account_a'){
 		
 		//문제점1. 계정이 연동되어있는경우 이메일 변경 비밀번호 변경 비밀번호 찾기 메뉴가 있어야할듯.
 		if ( myInfo.accountNo && myInfo.accountNo != 0 ) { 
-			alert("이미 계정연동이 되었습니다.");
-//			Toast.shortshow("이미 계정연동이 되었습니다.");
-			
+			showPasswordUpdatePage();
 		} else {
 			changeHref("account.html");
 		}
@@ -380,26 +388,6 @@ var checkPhoneNumber = function(){
 	
 };
 
-/**
- * 내용 : 프로필 정보 페이지 로드
- * 작성자 : 김태경
- */
-var showProfilePage = function(){
-	
-	var myInfo = getLocalItem("myInfo");
-	$("#profilePicture").css('display','block')
-	.css('background-image', 'url(' + myInfo.mbrPhotoUrl + ')');
-	$("#profileName_a").text("이름 : "+myInfo.mbrName);
-	$("#profilePhoneNo_a").text("휴대폰 번호 : "+myInfo.mbrPhoneNo);
-	if ( myInfo.accountNo && myInfo.accountNo > 0 ) {
-		$("#account_a").text(myInfo.accountEmail);
-	} else {
-		$("#account_a").text("TAXI 계정 연동");
-	}
-	$.mobile.changePage('#pageProfileSetting','slide','reverse');
-	
-};
-
 
 /**
  * 내용: profile 사진 수정 & 사진 서버로 전송
@@ -519,21 +507,258 @@ function onFail(message) {
  */
 var touchBackBtnCallbackFunc = function(){
 	
-	
-//	if($(".ui-popup-container[class=ui-popup-active]")){
+//  팝업이 떠있는 경우
+//	if($()){
 		
+//	팝업이 안떠있는 경우
 //	}else{
 		var pageId = $.mobile.activePage.attr('id');
 		console.log(pageId);
 		if(pageId == "pageProfileSetting"){
 			changeHref("settings.html");
-		}else if(pageId == "profilePhoneNumberUpdatePage"){
-			$.mobile.changePage('#pageProfileSetting','slide','reverse');
-		}else if(pageId == "profileNameUpdatePage"){
+		}else{
 			$.mobile.changePage('#pageProfileSetting','slide','reverse');
 		};
 		
 		
 //	}
+	
+};
+
+/**
+ * 설  명 : 전화번호변경 페이지
+ * 작성자 : 김태경
+ */
+var showPhoneNumberUpdatePage = function(){
+	console.log(myInfo.mbrPhoneNo);
+	$.mobile.changePage('#profilePhoneNumberUpdatePage','slide','reverse');
+	$("#phoneNumberInput").val(myInfo.mbrPhoneNo);
+	$("#phoneNumberUpdate").removeClass("center-button-enable");
+	$("#phoneNumberUpdate").addClass("center-button-disable");
+	$("#phoneNumberInput").css("color",'red');
+	$(".deleteProfileInputImg").show();
+};
+/**
+ * 설  명 : 이름변경 페이지
+ * 작성자 : 김태경
+ */
+var showNameUpdatePage = function(){
+	$.mobile.changePage('#profileNameUpdatePage','slide','reverse');
+	console.log(myInfo.mbrName);
+	$("#nameInput").val(myInfo.mbrName);
+	$("#nameUpdate").removeClass("center-button-enable");
+	$("#nameUpdate").addClass("center-button-disable");
+	$("#nameInput").css("color",'red');
+	$(".deleteProfileInputImg").show();
+};
+/**
+ * 설  명 : 비밀번호 변경 페이지
+ * 작성자 : 김태경
+ */
+var showPasswordUpdatePage = function(){
+	
+	var myInfo = getLocalItem("myInfo");
+	$.mobile.changePage('#passwordUpdatePage','slide','reverse');
+	$("#userAccount").text(myInfo.accountEmail);
+	$("#passwordUpdate").removeClass("center-button-enable");
+	$("#passwordUpdate").addClass("center-button-disable");
+	$(".pwd").val("");
+	$(".x_or_check_button").css("visibility","hidden");
+	
+};
+
+/**
+ * 내용 : 프로필 정보 메인페이지
+ * 작성자 : 김태경
+ */
+var showProfilePage = function(){
+	
+	var myInfo = getLocalItem("myInfo");
+	$("#profilePicture").css('display','block')
+	.css('background-image', 'url(' + myInfo.mbrPhotoUrl + ')');
+	$("#profileName_a").text("이름 : "+myInfo.mbrName);
+	$("#profilePhoneNo_a").text("휴대폰 번호 : "+myInfo.mbrPhoneNo);
+	if ( myInfo.accountNo && myInfo.accountNo > 0 ) {
+		
+		$("#account_a").text("비밀번호 변경");
+	} else {
+		$("#account_a").text("TAXI 계정 연동");
+	}
+	$.mobile.changePage('#pageProfileSetting','slide','reverse');
+	
+};
+/**
+ * 설  명:비밀번호 입력 완료시 비밀번호 검사.
+ * 작성자 : 김태경
+ */
+/*var submitPassword = function(){
+	console.log("submitPassword()");
+	var password = $("#passwordInput").val();
+	console.log(password);
+	
+	var params = {
+			mbrNo 	 : myInfo.mbrNo,
+			accountPassword : password
+	};
+
+	$.ajax( rootPath + "/auth/submitPassword.do",{
+		type : "POST",
+		data : params,
+		dataType : "json",
+		contentType : "application/json",
+		success : function(result){
+			
+		}
+		
+	});
+};*/
+
+/**
+ * 설  명 : 비밀번호 validation check
+ * 작성자 : 김태경
+ */
+var validPassword = function(){
+	
+	console.log("validPassword()");
+	var isPasswordValid =true;
+	console.log($("#newPasswordInput").val().length);
+	var textLength = $("#newPasswordInput").val().length;
+	// 8~24자
+	if( textLength < 8 || textLength > 24 ) {
+		isPasswordValid = false;
+	}
+	// 비밀번호는 영문, 숫자, 특수분자(!@$%^&* 만 허용)
+	if( !$("#newPasswordInput").val().match(/([a-zA-Z0-9!,@,#,$,%,^,&,*,?,_,~])/) ) {
+		isPasswordValid = false;
+	}
+	
+	if( $("#newPasswordInput").val() != ""){
+		
+		if( isPasswordValid ){
+			
+			//비밀번호 형식이 맞을떄 그린체크 이미지 보여주고
+			$("#password_red").css("visibility","hidden");
+			$("#password_green").css("visibility","visible");
+			
+			return true;
+		}else{
+			//비밀번호 형식이 틀릴때 레드 x 이미지 보여주고
+			$("#password_red").css("visibility","visible");
+			$("#password_green").css("visibility","hidden");
+			
+			return false;
+			//다시 포커스주기
+		}
+		
+	}
+	
+	
+	
+	
+};
+
+/**
+ * 설  명 : 비밀번호 와 비밀번화 확인 값 비교 
+ * 작성자 : 김태경
+ */
+var comparePasswrodConfirm = function(){
+	console.log("comparePasswrodConfirm()");
+	
+	//비밀번호 확인에 무언가 입력이 되었을때
+	var textLength = $("#checkNewPasswordInput").val().length;
+	console.log(textLength);
+	if ( textLength > 0 ) {
+		
+		console.log("비밀번호확인 입력됨");
+		//입력된 비밀번호와 비밀번호 확인 값이 같을때
+		if ( $("#checkNewPasswordInput").val() == $("#newPasswordInput").val() ) {
+			
+			//그린체크이미지 보여주고
+			console.log("그린이미지");
+			$("#password_confrim_red").css("visibility","hidden");
+			$("#password_confrim_green").css("visibility","visible");
+			
+			return true;
+			//변경버튼 활성화
+		} else {
+			//레트x 이미지 보여주고
+			console.log("레드이미지");
+			$("#password_confrim_green").css("visibility","hidden");
+			$("#password_confrim_red").css("visibility","visible");
+			
+			return false;
+		}
+	}
+	
+	
+};
+/**
+ * 설  명:입력폼  validation 체크 에따른 변경버튼 활성화
+ * 작성자 : 김태경
+ */
+var updateButtonChange = function( isCheckedPassword , isCheckedPasswordConfrim ){
+	
+	console.log("updateButtonChange" +"/"+ isCheckedPassword +"/"+ isCheckedPasswordConfrim);
+	
+	console.log($("#passwordInput").val());
+	console.log($("#passwordInput").val().length);
+	if( $("#passwordInput").val()		!= ""
+			&& isCheckedPassword 		== true
+			&& isCheckedPasswordConfrim == true){
+		
+		$("#passwordUpdate").removeClass("center-button-disable");
+		$("#passwordUpdate").addClass("center-button-enable");
+		
+	}else{
+		
+		$("#passwordUpdate").removeClass("center-button-enable");
+		$("#passwordUpdate").addClass("center-button-disable");
+		
+	}
+};
+/**
+* 설  명: 비밀번호 업데이트
+* 작성자 : 김태경
+*/
+
+var passwordUpdate = function(){
+	console.log("passwordUpdate");
+	
+	var password = hex_md5($("#passwordInput").val());
+	var newPassword = hex_md5($("#newPasswordInput").val());
+	console.log(password);
+	
+	var params = {
+			
+			accountNo 	 : myInfo.accountNo,
+			accountPassword : password,
+			accountNewPassword : newPassword
+	};
+	
+	$.ajax( rootPath + "/auth/passwordUpdate.do",{
+		type : "POST",
+		data : JSON.stringify( params ),
+		dataType : "json",
+		contentType : "application/json",
+		success : function(result){
+			
+			if(result.data){
+				
+				showProfilePage();
+				showAlertToast("비밀번호가 변경 되었습니다.");
+				
+			}else{
+				console.log(result.data);
+				$("#passwordInput").val("");
+				$("#passwordInput").focus();
+				showAlertToast("비밀번호가 맞지 않습니다.");
+				
+				
+				
+			}
+		},
+		
+		
+	});
 	
 };

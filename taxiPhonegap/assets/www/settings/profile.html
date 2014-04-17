@@ -41,9 +41,9 @@
 	-->
 	<!-- 내 프로필 변경 -->
 	<div data-role="page" id="pageProfileSetting" data-theme="f">
-		<div data-role="header" data-theme="f">
-			<h1 id="page3">내 프로필</h1>
-		</div>
+		<header data-role="header" data-theme="f">
+			<h1>내 프로필</h1>
+		</header>
 		<div data-theme="f" data-role="content" data-icon="list"
 			data-iconpos="right" data-content-theme="f" data-corners="false">
 			<div>
@@ -94,7 +94,7 @@
 			<div>
 				<ul data-role="listview" data-corners="false">
 					<li data-role="fieldcontain">
-						<div class="signupFromArea">
+						<div class="inputFromArea">
 						
 							<div class="comment">
 									변경할 이름은 입력 해주세요.
@@ -129,7 +129,7 @@
 			<div>
 				<ul data-role="listview" data-corners="false">
 					<li data-role="fieldcontain">
-						<div class="signupFromArea">
+						<div class="inputFromArea">
 						
 							<div class="comment">
 									변경할 전화번호를 입력 해주세요.
@@ -151,6 +151,49 @@
 		</section>
 		<!-- //content -->
 	</div>
-	<!-- //signup page -->
+	
+	<!-- 계정비밀번호 변경 페이지 -->
+	<div data-role="page" id="passwordUpdatePage" data-theme="f">
+		<!-- header -->
+		<header data-role="header" data-theme="f">
+			<h1>비밀번호 변경</h1>
+		</header>
+		
+		<!-- content -->
+		<section data-role="content" id="content" data-theme="f">
+			<div>
+				<ul data-role="listview" data-corners="false">
+					<li data-role="fieldcontain">
+						<div class="inputFromArea">
+						
+							<div class="userAccount" id="userAccount"></div>
+							<div class="passwordInputArea">
+								<div class="inputFormDiv">
+								
+								<!-- 이미지 -->
+				            		<input type="password" class="pwd" id="passwordInput" value="" data-clear-btn="false" placeholder="비밀번호">
+				            		
+				            		<div class="passwordInputFormDiv">
+				            			<input type="password" class="pwd" id="newPasswordInput" value="" data-clear-btn="false" placeholder="새로운 비밀번호">
+				            			<img class="x_or_check_button" id="password_red" src="../images/common/check_x_red.png" >
+				            			<img class="x_or_check_button" id="password_green" src="../images/common/check_mark_green.png">
+				            		</div>
+				            		<div class="passwordInputFormDiv">
+				            			<input type="password" class="pwd" id="checkNewPasswordInput" value="" data-clear-btn="false" placeholder="비밀번호 확인">
+				            			<img class="x_or_check_button" id="password_confrim_red" src="../images/common/check_x_red.png" >
+				            			<img class="x_or_check_button" id="password_confrim_green" src="../images/common/check_mark_green.png">
+				            		</div>
+				            	</div>
+							</div>
+							<div class="btnArea">
+								<a data-role="button" id="passwordUpdate" class="center-button-enable" data-enhance="false"> <span>변경</span></a>
+							</div>
+						</div>
+			        </li>
+			        
+				</ul>
+			</div>
+		</section>
+	</div>
 </body>
 </html>
