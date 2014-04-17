@@ -251,8 +251,23 @@ $(document).ready(function() {
 	$("#divAddRoom").on("click", function(event) {		
 		event.stopPropagation();
 		
-		push.initialise("addRoom");
-//		addRoom('111111111111111111111111111'); //////////////////////////////////////////// Web용 임시
+	    var locationSession = getSessionItem("locationSession");
+	    var startTime = new Date();
+	    var inputTime = $("#inputTime").mobiscroll('getValue');
+	    if ( startTime && startTime != null && startTime != "" &&
+	    		locationSession 			&& locationSession != null &&
+	    		locationSession.startName 	&& locationSession.startName != null 	&& locationSession.startName != "" 	&&
+	    		locationSession.startX 		&& locationSession.startX != null 		&& locationSession.startX != "" 	&&
+	    		locationSession.startY 		&& locationSession.startY != null 		&& locationSession.startY != "" 	&&
+	    		locationSession.endName 	&& locationSession.endName != null 		&& locationSession.endName != "" 	&&
+	    		locationSession.endX 		&& locationSession.endX != null 		&& locationSession.endX != "" 		&&
+	    		locationSession.endY 		&& locationSession.endY != null 		&& locationSession.endY != ""
+	    		) {
+	    	push.initialise("addRoom");
+//			addRoom('111111111111111111111111111'); //////////////////////////////////////////// Web용 임시
+	    }else{
+	    	showAlertToast("출발지 또는 목적지가 설정하세요.");
+	    }
 		
 		$("#divAddRoomCondition_popup").popup("close");
 		
@@ -537,7 +552,10 @@ document.addEventListener('DOMContentLoaded', loadedMyScroll, false);
  * 작성자: 김상헌 - 수정자 ) 장종혁
  */
 var init = function() {
-
+	
+	if($("#endInput").val() == ""){
+		$("#aEndSearchClear").css("visibility", "hidden");
+	}
 	 if (navigator.geolocation) {
 		 getNavigationGeolocation(1000,0);
 	 }else{
@@ -811,6 +829,12 @@ var setEndLocation = function (x, y, locName, prefix) {
 	}
 
 	$("#endInput").val(prefix + locName);
+	
+	if($("#endInput").val() == ""){
+		$("#aEndSearchClear").css("visibility", "hidden");
+	}else{
+		$("#aEndSearchClear").css("visibility", "visible");
+	}
 	
 	if ( !($("#startInput").val()) || !($("#endInput").val()) ) {
 		$("#btnAddViewRoom").css("visibility","hidden");
@@ -1383,59 +1407,48 @@ var addRoom = function( regId ) {
     	startTime.setDate(startTime.getDate() + 1);
     }
     
-    if ( startTime && startTime != null && startTime != "" &&
-    		locationSession 			&& locationSession != null &&
-    		locationSession.startName 	&& locationSession.startName != null 	&& locationSession.startName != "" 	&&
-    		locationSession.startX 		&& locationSession.startX != null 		&& locationSession.startX != "" 	&&
-    		locationSession.startY 		&& locationSession.startY != null 		&& locationSession.startY != "" 	&&
-    		locationSession.endName 	&& locationSession.endName != null 		&& locationSession.endName != "" 	&&
-    		locationSession.endX 		&& locationSession.endX != null 		&& locationSession.endX != "" 		&&
-    		locationSession.endY 		&& locationSession.endY != null 		&& locationSession.endY != ""
-    		) {
-    	
-    	var params = {
-    			mbrNo			: myInfo.mbrNo,
-	    		gcmRegId 		: regId,
-	    	    roomStartTime 	: startTime,
-	    	    roomMbrNumLimit : $('#roomMbrNumLimit').attr("data-val"),	// 2차 개발 수정 완료(이용준)
-	    	    roomColor		: (Math.ceil(Math.random() * roomColorArr.length) - 1),	// 방 생성 시 룸 칼라의 번호
-	            startLocName 	: locationSession.startName,
-	            startLocLng 	: locationSession.startX,
-	            startLocLat 	: locationSession.startY,
-	    	    startLocRank 	: 0,
-	            endLocName 		: locationSession.endName,
-	            endLocLng 		: locationSession.endX,
-	            endLocLat 		: locationSession.endY,
-	            endLocRank 		: 99
-        };
-    	
-    	$.post( rootPath + "/room/addRoom.do",
-    			params,
-		        function(result) {
-		            if (result.status == "success") {
-		            	var myRoom 		= result.data.myRoom;
-		            	var rcntLocList = result.data.rcntLocList;
-		            	
-		            	setSessionItem("myRoom", myRoom);
+	var params = {
+			mbrNo			: myInfo.mbrNo,
+    		gcmRegId 		: regId,
+    	    roomStartTime 	: startTime,
+    	    roomMbrNumLimit : $('#roomMbrNumLimit').attr("data-val"),	// 2차 개발 수정 완료(이용준)
+    	    roomColor		: (Math.ceil(Math.random() * roomColorArr.length) - 1),	// 방 생성 시 룸 칼라의 번호
+            startLocName 	: locationSession.startName,
+            startLocLng 	: locationSession.startX,
+            startLocLat 	: locationSession.startY,
+    	    startLocRank 	: 0,
+            endLocName 		: locationSession.endName,
+            endLocLng 		: locationSession.endX,
+            endLocLat 		: locationSession.endY,
+            endLocRank 		: 99
+    };
+	
+	$.post( rootPath + "/room/addRoom.do",
+			params,
+	        function(result) {
+	            if (result.status == "success") {
+	            	var myRoom 		= result.data.myRoom;
+	            	var rcntLocList = result.data.rcntLocList;
+	            	
+	            	setSessionItem("myRoom", myRoom);
 
-		            	executeQuery(
-								// Transaction Execute
-								function(transaction) {
-									deleteAllRcntLocTable(transaction);
-									insertRcntLocTable(transaction, rcntLocList);
-								},
-								// Success Callback
-								function() {
-									changeHref("../room/room.html", { roomNo : myRoom.roomNo});
-						});
+	            	executeQuery(
+							// Transaction Execute
+							function(transaction) {
+								deleteAllRcntLocTable(transaction);
+								insertRcntLocTable(transaction, rcntLocList);
+							},
+							// Success Callback
+							function() {
+								changeHref("../room/room.html", { roomNo : myRoom.roomNo});
+					});
 
-		            } else {
-		            	console.log(result.data);
-		
-		            }
-		        },
-		        "json");
-    }
+	            } else {
+	            	console.log(result.data);
+	
+	            }
+	        },
+	"json");
 };
 
 
