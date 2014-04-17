@@ -88,37 +88,37 @@ var registerEvent = function() {
 		}
 	});
 
-	//계약 페이지 다음 클릭시 호출 - pc
-	$("#provisionBtn").on("click",function(){
+	//계약 페이지 다음 클릭시 호출
+	$("#provisionBtn").on("click", function(event) {
 		if(provisionChk!=0){
 			$.mobile.changePage("#divPhonePage");
 		}
 	});
 	
-	//계약 페이지 다음 터치시 호출 - mobile
-	$("#provisionBtn").on("touchend",function(){
-		if(provisionChk!=0){
-			$.mobile.changePage("#divPhonePage");
-		}
-	});
-	
-	//계약 동의 클릭시 호출 - pc
-	$(".provCk").on("click",function(){
+	//계약 동의 클릭시 호출
+	$(".provCk").on("click", function(event) {
 		checkProvision();
 	});
 	
-	//계약 동의 터치시 호출 - mobile
-	$(".provCk").on("touchend",function(){
-		checkProvision();
-	});
-	
-	$("#btnLogin").on("touchend", function() { 
+	$("#btnLogin").on("click", function(event) {
 		taxiLogin(); 
 	});
 
-	$("#btnPhoneNo").on('click', clickNextBtn);
-	$("#btnName").on('click', clickKeyWordPage);
-	$("#signUpComplete").on('click', clickSignupBtn);
+	// 전화번호 입력후 다음 버튼 클릭
+	$("#btnPhoneNo").on("click", function(event) {
+    	$.mobile.changePage("#divSignUpPage");
+    });
+	
+	// 이름 입력후 다음 버튼 클릭
+	$("#btnName").on("click", function(event) {
+    	getKeyword();
+    	$.mobile.changePage("#keyWordPage");
+    });
+	
+	// 회원가입(완료) 버튼 클릭
+	$("#signUpComplete").on("click", function(event) {
+    	prepareSignupData();
+    });
 
 	
 	// 키워드 입력란 검색어 입력
@@ -144,7 +144,7 @@ var registerEvent = function() {
 	});
 	
 	// 키워드 클릭 
-	$('body').on('click', ".listdata", function (e) { 
+	$("body").on("click", ".listdata", function(event) {
 		var i = $(this)[0];
 		keywordNo = i.dataset.no;
 		console.log(i.dataset.no);
@@ -382,28 +382,13 @@ var clearWebDBData = function() {
 			});
 };
 
-/**
- * 전화번호 입력후 다음 버튼 클릭
- */
-var clickNextBtn = function(){
-//	console.log("clickNextBtn 클릭");
-	$.mobile.changePage("#divSignUpPage");
-};
-/**
- * 이름 입력후 다음 버튼 클릭
- */
-var clickKeyWordPage = function(){
-	console.log("getKeyword()");
-	
-	getKeyword();
-	$.mobile.changePage("#keyWordPage");
 
-};
 /**
- * 회원가입(완료) 버튼 클릭
+ * 설  명: 회원가입을 위한 정보 준비 (휴대폰번호, uuid, 이름, 키워드, 프로필 사)
+ * 작성자: 김상헌
  */
-var clickSignupBtn = function(){
-	console.log("clickSignupBtn()");
+var prepareSignupData = function(){
+	console.log("prepareSignupData()");
 
 	var phoneNo = $("#txtPhone").val();
 	var mbrName = $("#txtName").val();
@@ -420,7 +405,7 @@ var clickSignupBtn = function(){
 		
 
 	} else {
-		console.log("clickSignupBtn 예외발생");
+		console.log("회원가입 준비중 오류 발생");
 
 	}
 

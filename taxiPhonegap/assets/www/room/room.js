@@ -113,7 +113,7 @@ var registerEvent = function() {
 	});
 	
 	// 사이드 패널 관련
-	$("#btnShowMenu").click(function() {
+	$("#btnShowMenu").on("click", function(event) {
 		$("#leftPanel").panel("open");
 		showhideBlackBackground("show");
 		return false;
@@ -137,7 +137,8 @@ var registerEvent = function() {
 	});
 
 	// 피드 삭제 클릭
-	$(document).on("click", ".btnDelete", function(event){
+	$("body").on("click", ".btnDelete", function(event) {
+		
 		event.stopPropagation();
 		var mbrNo = $(this).attr("data-mbrNo");
 		var feedNo = $(this).attr("data-feedNo");
@@ -148,7 +149,7 @@ var registerEvent = function() {
 	});
 
 	// 방 나가기 관련
-	$("#btnExitRoom").click( function(){
+	$("#btnExitRoom").on("click", function(event) {
 		event.stopPropagation();
 		showhideBlackBackground("show");
 		
@@ -158,7 +159,7 @@ var registerEvent = function() {
 
 		return false;
 	});
-	$("#popupExit_popup a.aOkBtn").click( function(event){
+	$("#popupExit_popup a.aOkBtn").on("click", function(event) {
 		event.stopPropagation();
 		var mbrNo = myInfo.mbrNo;
 		var roomNo = getSessionItem("myRoom").roomNo;
@@ -176,7 +177,7 @@ var registerEvent = function() {
 	 *  설    명 : 방 나가기 취소시 뒷 배경 제거  
 	 *   작성자 : 장종혁
 	 */
-	$(".divCancelBtn").on("click",function(){
+	$(".divCancelBtn").on("click", function(event) {
 		event.stopPropagation();
 		showhideBlackBackground("hide");
 	});
@@ -184,7 +185,7 @@ var registerEvent = function() {
 	
 
 	// 블랙리스트 관련
-	$("#blacklistRegister_popup a.aOkBtn").click( function(event){
+	$("#blacklistRegister_popup a.aOkBtn").on("click", function(event) {
 		event.stopPropagation();
 		
 		var blackMbrNo = $("#spanBlackText").data("blackMbrNo");
@@ -203,7 +204,7 @@ var registerEvent = function() {
 	// 색싸인 관련
 	var screenWidth = $(window).width();
 	var screenHeight = "100%";
-	$("#colorSign").click( function(){
+	$("#colorSign").on("click", function(event) { 
 		$("#divColorSignText").css({'width': (screenWidth - 80) } );
 		$('#divColorSign').css({'width':screenWidth, 'height':screenHeight, 'x' : screenWidth, 'background-color':thisRoomColor});
 		$("#divColorSign").show();
@@ -212,7 +213,7 @@ var registerEvent = function() {
 			opacity : "1"
 		});
 	});
-	$("#divColorSign").click( function() {
+	$("#divColorSign").on("click", function(event) {
 		$('#divColorSign').transition({
 			x 		: screenWidth,
 			opacity : "0"
@@ -495,7 +496,7 @@ var createHeaderSlide = function(roomInfo) {
 				.css("position","absolute")
 				.css("bottom","-10px")
 				.css("width","100%")
-				.click(function(event) {
+				.on("click", function(event) {
 					closePanel(event);
 				})
 	.appendTo(divRoomList);
@@ -587,16 +588,14 @@ var showRelationInfo = function(roomInfo) {
 var createMenuPanel = function() {
 	console.log("createMenuPanel()");
 	
-	$("#btnSettings").click(function(event) {
-	//event.stopPropagation();
-	changeHref("../settings/settings.html");
-	return false;
+	$("#btnSettings").on("click", function(event) {
+		changeHref("../settings/settings.html");
+		return false;
 	});
 	
-	$("#btnComment").click(function(event) {
-	//event.stopPropagation();
-	changeHref("../comment/comment.html");
-	return false;
+	$("#btnComment").on("click", function(event) {
+		changeHref("../comment/comment.html");
+		return false;
 	});
 	
 	$("#leftPanel ul li a:link").css("width", ((contentWidth / 2) -10) + "px");

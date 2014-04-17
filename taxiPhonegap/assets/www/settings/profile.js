@@ -43,7 +43,7 @@ var registerEvents = function(){
 	
 	
 	
-	$(".profileUpdate").click(function(){
+	$(".profileUpdate").on("click", function(event) {
 		var pageId =  $(this).attr("id");
 		checkRequest(pageId);
 	});
@@ -57,15 +57,15 @@ var registerEvents = function(){
 	$(".deleteProfileInputImg").click(function(){
 		deleteInputText();
 	});
-	$("#nameUpdate").click(function(){
+	$("#nameUpdate").on("click", function(event) {
 		checkNameInput();
 	});
-	$("#phoneNumberUpdate").click(function(){
+	$("#phoneNumberUpdate").on("click", function(event) {
 		checkPhoneNumber();
 	});
 	
 
-	$(".profilePicture").click(function(){
+	$(".profilePicture").on("click", function(event) {
 	
 		$("#popupProfile").popup();
 		$("#popupProfile").css("visibility","visible");
@@ -73,11 +73,11 @@ var registerEvents = function(){
 		
 	});
 
-	$("#profileGallery").click(function(){
+	$("#profileGallery").on("click", function(event) {
 		getPhoto(pictureSource.PHOTOLIBRARY);
 	});
 
-	$("#profileCamera").click(function(){
+	$("#profileCamera").on("click", function(event) {
 		capturePhoto();
 	});
 };

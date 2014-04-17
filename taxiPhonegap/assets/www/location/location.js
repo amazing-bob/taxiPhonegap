@@ -50,14 +50,14 @@ $(document).ready(function() {
             $("#aSearchClear").css("visibility", "visible"); 
         } 
     }); 
-    $("#searchInput").click(function(event) { 
+    $("#searchInput").on("click", function(event) {
         event.stopPropagation(); 
         this.select(); 
         
         return false;
     }); 
       
-    $("#aSearchClear").click(function(event) { 
+    $("#aSearchClear").on("click", function(event) {
         event.stopPropagation(); 
         $("#searchInput").val(""); 
         $("#aSearchClear").css("visibility", "hidden");
@@ -158,7 +158,6 @@ var searchLocation = function(query, page) {
             },  
             function(result) {
                 if ( result.status == "success" ) {
-                	
                 	console.log(result.data)
                 	
                     var resultData =  JSON.parse(result.data); 
@@ -216,11 +215,17 @@ var createLocationList = function(locations, page) {
                                         .attr("src", "../images/common/favorite-non-icon.png") 
                                         .attr("href","#") 
                                         .attr("data-status","false") ) 
-                           .click(function(event) {
- //                           .on("touchend", function(event) {
-                                event.stopPropagation(); 
-                                var liIdx = $(this).attr("data-idx"); 
-                                addAndDelFavoriteLocation(liIdx, locations);
+                            .on("touchend click", function(event) { 
+                            	// touchend click 과 같이 써줘야 하는 부분 burutouch 만들면 사라질 부분 
+                            	if ( window["device"] != undefined ) {
+                            		if ( event.originalEvent.type && event.originalEvent.type == "click" ) {
+                            			return false;
+                            		}
+                            	}
+                            	// touchend click 과 같이 써줘야 하는 부분 burutouch 만들면 사라질 부분 
+                        		event.stopPropagation(); 
+                    			var liIdx = $(this).attr("data-idx"); 
+                    			addAndDelFavoriteLocation(liIdx, locations);	
                             }) ) 
                 .append( 
                         $("<div>") 
@@ -242,7 +247,7 @@ var createLocationList = function(locations, page) {
                                         .addClass("locationStart") 
                                         .attr("href","#") 
                                         .append( $("<span>").text("출발") ) 
-                                        .click(function(event) { 
+                                        .on("click", function(event) {
                                             event.stopPropagation(); 
                                             var liIdx =  $(this).parents(".locationStartAndEnd").attr("data-idx"); 
                                             setStartLocationSession( 
@@ -261,7 +266,7 @@ var createLocationList = function(locations, page) {
                                         .addClass("locationEnd") 
                                         .attr("href","#") 
                                         .append( $("<span>").text("도착") ) 
-                                        .click(function(event) { 
+                                        .on("click", function(event) {
                                             event.stopPropagation(); 
                                             var liIdx =  $(this).parents(".locationStartAndEnd").attr("data-idx"); 
                                             setEndLocationSession( 
@@ -314,6 +319,7 @@ var createLocationList = function(locations, page) {
 		                } 
 		            } 
 		        }); 
+        myScroll.enable();
           
     } else { 
     	$("<li>")
@@ -338,7 +344,7 @@ var createLocationList = function(locations, page) {
  * 작성자: 김상헌
  */
 var addAndDelFavoriteLocation = function(idx, locations) { 
-    console.log("favoriteLocation(idx, locations)"); 
+    console.log("addAndDelFavoriteLocation(idx, locations)"); 
 //    console.log(idx, location); 
 
     // WebDB 에서 즐겨찾기 목록 가져오기

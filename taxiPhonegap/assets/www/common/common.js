@@ -2,7 +2,7 @@ console.log("commonjs...");
 
 //var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
 //var rootPath = "http://localhost:9999/taxi";		//로컬
-var rootPath = "http://192.168.43.39:9999/taxi";	//상헌
+var rootPath = "http://192.168.10.52:9999/taxi";	//상헌
 //var rootPath = "http://192.168.1.4:9999/taxi";		//종혁
 //var rootPath = "http://192.168.43.148:9999/taxi";	//태경
 var contentWidth;
@@ -829,3 +829,17 @@ var showAlertToast = function( message ) {
 })();
 
 
+/**
+ * 설  명: 핸드폰 일 때 클릭이벤트 무시 (burutouch plugin 만들면 없어져야 할 부분이다.)  제길랄 작동 안함...... 이거 꼭 burutouch로 바꿈 이거 사용 안함  제길 그래도 일단 보존 
+ * 작성자: 김상
+ */
+var ignoreClickEventOnPhone = function (event) {
+	console.log("ignoreClickEventOnPhone()");
+	
+	console.log("=====================" + event.originalEvent.type);
+	if ( window["device"] != undefined ) {
+		if ( event.originalEvent.type && event.originalEvent.type == "click" ) {
+			return false;
+		}
+	}
+}; 
