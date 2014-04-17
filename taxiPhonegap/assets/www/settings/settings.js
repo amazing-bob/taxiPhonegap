@@ -19,7 +19,7 @@ var registerEvent = function(){
 	
 	console.log(myInfo.mbrPhotoUrl);
 	
-	$("#seach").click(function() {
+	$("#seach").on("click", function(event) {
 		myInfo = getLocalItem("myInfo");
 		startRangeChk();
 		endRangeChk();
@@ -27,7 +27,7 @@ var registerEvent = function(){
 		});
 	});
 	
-	$("#rangeSave").click(function() {
+	$("#rangeSave").on("click", function(event) {
 		addRange();
 	});
 	
@@ -54,14 +54,14 @@ var registerEvent = function(){
 					   		.css("z-index","999");
 				});
 
-	$("#btnLogoutAccept").click(function(){
+	$("#btnLogoutAccept").on("click", function(event) {
 		logout();
 	});
-	$("#btnLogoutCancel").click(function() {
+	$("#btnLogoutCancel").on("click", function(event) {
 		$("#popupLogout").popup("close");
 	});
 
-	$("#btnRefresh").click(function() {
+	$("#btnRefresh").on("click", function(event) {
 		
 		$("#frndUpdateDate").text("갱신중...");
 		$(".btnRefresh").attr("src", "../images/common/loading-update.gif");
@@ -75,42 +75,42 @@ var registerEvent = function(){
 		that.getFrndList();
 	});
 
-	$("#divExit").click(function(){
+	$("#divExit").on("click", function(event) {
 		console.log("회원탈퇴");
 		leaveMember();
 	});
-	$("#divCancel").click(function(){
+	$("#divCancel").on("click", function(event) {
 		console.log("close");
 		$("#popupLeaveMember").popup("close");
 	});
-	$("#btnDeleteLocCancel").click(function() {
+	$("#btnDeleteLocCancel").on("click", function(event) {
 		$("#popupFvrtLoc").popup("close");
 	});
 
-	$("#btnChange").click(function(){
+	$("#btnChange").on("click", function(event) {
 		fvrtLocLists();
 	});
 
-	$("#btnDeleteLoc").click(function() {
+	$("#btnDeleteLoc").on("click", function(event) {
 
 		deleteFvrtLoc();
 	});
 
-	$("#btnList").click(function(){
+	$("#btnList").on("click", function(event) {
 		listFvrtLoc();
 	});
-	$("#btnFvrtLocUpdate").click(function(){
+	$("#btnFvrtLocUpdate").on("click", function(event) {
 		fvrtLocUpdate();
 	});
 	
-	$("#save").click(function(){
+	$("#save").on("click", function(event) {
 		rankUpdate();
 	});
 	
 
 	$(".contents").hide();
 	$("#btnChange").show();
-	$("#btnChange").click(function () {
+	$("#btnChange").on("click", function(event) {
 		$(".contents").toggle("slide");
 	});
 	
@@ -119,19 +119,9 @@ var registerEvent = function(){
 	
 	
 	
-	$("#accountInfo").click(function(){
+	$("#accountInfo").on("click", function(event) {
 		changeHref("profile.html");
 	});
-	/*$("#profileName_a").click(function(){
-		
-		var request = "name";
-		changeHref("profile.html" , request);
-	});
-	$("#profilePhoneNo_a").click(function(){
-		
-		var request = "phoneNumber";
-		changeHref("profile.html" , request);
-	});*/
 	
 };
 

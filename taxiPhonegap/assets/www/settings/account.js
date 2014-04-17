@@ -76,10 +76,10 @@ var registerEvents = function() {
 		checkLoginBtnActive();
 	});
 	
-	$("#btnGoSignup").click(function() {
+	$("#btnGoSignup").on("click", function(event) {
 		$.mobile.changePage("#signupPage");
 	});
-	$("#btnLogin").click(function() {
+	$("#btnLogin").on("click", function(event) {
 		var password = hex_md5( $("#loginPassword").val() );
 		if ( $(this).hasClass("center-button-enable") ) {
 			loginAccount( 	/* mbrNo */  	myInfo.mbrNo, 
@@ -87,7 +87,7 @@ var registerEvents = function() {
 							/* password */ 	password );
 		}
 	});
-	$("#btnFindPassword").click(function() {
+	$("#btnFindPassword").on("click", function(event) {
 		if ( $(this).hasClass("center-button-enable") ) {
 			findPassword( $("#loginEmail").val() );
 		}
@@ -109,11 +109,11 @@ var registerEvents = function() {
 	});
 	
 	// 버튼 이벤트
-	$("#btnBackToLogin").click(function() {
+	$("#btnBackToLogin").on("click", function(event) {
 		$.mobile.changePage("#loginPage");
 	});
 	
-	$("#btnCreateAccount").click(function() {
+	$("#btnCreateAccount").on("click", function(event) {
 		var password = hex_md5( $("#signPassword").val() );
 		if ( $(this).hasClass("center-button-enable") ) {
 			createAccount( 	/* mbrNo */ 	myInfo.mbrNo, 

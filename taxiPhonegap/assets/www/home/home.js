@@ -41,13 +41,12 @@ $(document).ready(function() {
 	
 	initStartTime();
 
-	$("#btnSettings").click(function(event) {
-//		event.stopPropagation();
+	$("#btnSettings").on("click", function(event) {
 		changeHref("../settings/settings.html");
 		return false;
 	});
 
-	$("#btnCurrentLoc").click(function(event) {
+	$("#btnCurrentLoc").on("click", function(event) {
 		event.stopPropagation();
     	map.moveTo(curCoord);
     	setStartLocationSession(
@@ -61,12 +60,12 @@ $(document).ready(function() {
     	return false;
     });
 
-	 $("#btnFavoriteLoc").click(function(){
-		favoriteList();
-		showhideBlackBackground("show");
-		return false;
+	 $("#btnFavoriteLoc").on("click", function(event) {
+		 favoriteList();
+		 showhideBlackBackground("show");
+		 return false;
 	 });
-	 $("#favorite_Header").click(function(){
+	 $("#favorite_Header").on("click", function(event) {
 		 $("#divFavoriteLoc_popup").popup("close");
 		 return false;
 	 });
@@ -182,17 +181,17 @@ $(document).ready(function() {
 			});
 		}
 	});
-    $("#startInput").click(function(event) {
+    $("#startInput").on("click", function(event) {
 		event.stopPropagation();
 		this.select();
 		return false;
 	});
-    $("#endInput").click(function(event) {
+    $("#endInput").on("click", function(event) {
 		event.stopPropagation();
 		this.select();
 		return false;
 	});
-	$("#aStartSearchClear").click(function(event) {
+	$("#aStartSearchClear").on("click", function(event) {
 		event.stopPropagation();
 		$("#startInput").val("");
 		$("#aStartSearchClear").css("visibility", "hidden");
@@ -216,7 +215,7 @@ $(document).ready(function() {
 		
 		return false;
 	});
-	$("#aEndSearchClear").click(function(event) {
+	$("#aEndSearchClear").on("click", function(event) {
 		event.stopPropagation();
 		$("#endInput").val("");
 		$("#aEndSearchClear").css("visibility", "hidden");
@@ -241,14 +240,13 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$("#btnAddViewRoom").click(function(event) {
+	$("#btnAddViewRoom").on("click", function(event) {
 		event.stopPropagation();
 		clickAddViewRoom();
 		
 		return false;
 	});
-//	$(".btnAddRoomUI").on("touchend", function(event) {
-	$("#divAddRoom").on("click", function(event) {		
+	$("#divAddRoom").on("click", function(event) {
 		event.stopPropagation();
 		
 	    var locationSession = getSessionItem("locationSession");
@@ -274,7 +272,7 @@ $(document).ready(function() {
 		return false;
     });
 	
-	$("#btnComment").click(function(event) {
+	$("#btnComment").on("click", function(event) {
 //		event.stopPropagation();
 		changeHref("../comment/comment.html");
 		return false;
@@ -331,12 +329,12 @@ $(document).ready(function() {
     $(".divLeftSection").parent().addClass("liBtnArea ui-btn-up-d");
     $("#favoriteUl").css("width",  (contentWidth - 50) + "px");
     
-    $("#divTomorrow").click(function() {
+    $("#divTomorrow").on("click", function(event) {
     	$('#divToday').css('background','whitesmoke');
     	$('#divTomorrow').css('background','white');
     	$('#inputTime').attr("data-val","tomorrow");
     });
-    $("#divToday").click(function() {
+    $("#divToday").on("click", function(event) {
     	$('#divToday').css('background','white');
     	$('#divTomorrow').css('background','whitesmoke');
     	$('#inputTime').attr("data-val","today");
@@ -346,21 +344,21 @@ $(document).ready(function() {
      * 설  명 : 방 생성 시 인원제한 관련
      * 작성자 : 이용준
      */
-    $("#divMemTwo").click(function() {
+    $("#divMemTwo").on("click", function(event) {
     	$('#divMemTwo').css('background','white');
     	$('#divMemThree').css('background','whitesmoke');
     	$('#divMemFour').css('background','whitesmoke');
     	$('#roomMbrNumLimit').attr("data-val","2");
     });
     
-    $("#divMemThree").click(function() {
+    $("#divMemThree").on("click", function(event) {
     	$('#divMemTwo').css('background','whitesmoke');
     	$('#divMemThree').css('background','white');
     	$('#divMemFour').css('background','whitesmoke');
     	$('#roomMbrNumLimit').attr("data-val","3");
     });
     
-    $("#divMemFour").click(function() {
+    $("#divMemFour").on("click", function(event) {
     	$('#divMemTwo').css('background','whitesmoke');
     	$('#divMemThree').css('background','whitesmoke');
     	$('#divMemFour').css('background','white');
@@ -379,7 +377,7 @@ $(document).ready(function() {
 	$("#leftPanel ul li a:visited").css("width", ((contentWidth / 2) - 10) + "px");
 	$(".ui-panel").css("width", (contentWidth / 2) + "px");
 
-	$("#btnShowMenu").click(function() {
+	$("#btnShowMenu").on("click", function(event) {
 		$("#leftPanel").panel("open");
 		showhideBlackBackground("show");
 		return false;
@@ -399,7 +397,7 @@ $(document).ready(function() {
 
 		return false;
 	});
-	$("#joinRoom_popup a.aOkBtn").on("click", function(event){
+	$("#joinRoom_popup a.aOkBtn").on("click", function(event) {
 		event.stopPropagation();
 		var outRoomNo = $("#joinRoom_popup").data("outRoomNo");
 		var joinRoomNo = $("#joinRoom_popup").data("joinRoomNo");
@@ -1246,7 +1244,6 @@ var createRoomList = function( roomList, isRoomMbr ) {
 										.append(
 												$("<span>")
 													.text("같이타자") )
-//										.on("touchend", function(event) {
 										.on("click", function(event) {
 											event.stopPropagation();
 											
@@ -1336,8 +1333,7 @@ var createRoomList = function( roomList, isRoomMbr ) {
 									.append(
 											$("<span>")
 												.text(btnText) ) )
-//						.on("touchend", function(event) {
-						.click(function(event) {
+						.on("click", function(event) {
 							event.stopPropagation();
 							clickAddViewRoom();
 							
@@ -1699,6 +1695,7 @@ var favoriteList = function() {
     		myInfo.mbrNo,
     		// Callback
     		function( favoriteLocationList ) {
+    			console.log("------------------");
 	            var ul = $("#favoriteUl");
 	            
 	            $("#favoriteUl .favoriteList").remove();
@@ -1712,7 +1709,7 @@ var favoriteList = function() {
 	                    .data("endY" 		, favoriteLocationList[i].fvrtLocLat)
 	                    .data("locName" 	, favoriteLocationList[i].fvrtLocName)
 	                    .data("locNo"		, favoriteLocationList[i].fvrtLocNo)
-	                    .click( function(event){
+	                    .on("click", function(event) {
 	                    	
 	                    	$('.fvrbtn').remove();
 	                    	
@@ -1744,7 +1741,7 @@ var favoriteList = function() {
                             		.css("border","0.5px dotted  gray")
                             		.css("bottom","11%")
                             		.text("도착")
-                            		.click( function(event){
+                            		.on("click", function(event) {
                             			
                             			setEndLocationSession(
     	    	                       			loc.locX,
@@ -1769,7 +1766,7 @@ var favoriteList = function() {
                             		.css("bottom","10%")
                             		//.css("border","0.5px dotted  gray")
                             		.text("출발")
-                            		.click(function(event) {
+                            		.on("click", function(event) {
                             			
                             			setStartLocationSession(
     	    	                     			loc.locX,

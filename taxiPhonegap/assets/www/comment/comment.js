@@ -8,10 +8,10 @@ $(document).ready(function() {
 	
 	document.addEventListener("deviceready", onDeviceReady, false);
 	
-	$("#btnCommentSend").click(function(){
+	$("#btnCommentSend").on("click", function(event) {
 		commentSend();
 	});
-	$("#commentCancel").click(function() {
+	$("#commentCancel").on("click", function(event) {
 		$("#commentPOP").popup("close");
 	});
 
