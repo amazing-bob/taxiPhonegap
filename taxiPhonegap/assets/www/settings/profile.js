@@ -470,8 +470,10 @@ var getPhoto = function(source) {
 
 //라이브러리에서 사진가져오기 실패하면 - 다시 시도.
 function getPhotofail(source) {
-	
-	console.log(source);
+
+	if(source==undefined && source == null){
+			getPhoto(pictureSource.PHOTOLIBRARY);
+	}
 	
 	//getPhoto(source);
 }
