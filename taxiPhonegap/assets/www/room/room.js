@@ -131,8 +131,11 @@ var registerEvent = function() {
 		if (keyPressed == 13) {
 
 			var feedContent = $("#reply").val();
-			$("#reply").val("");
-			addFeed(mbrNo, feedContent, myRoom.roomNo);
+			
+			if($("#reply").val().length != 0){
+				$("#reply").val("");
+				addFeed(mbrNo, feedContent, myRoom.roomNo);
+			}
 		}
 	});
 
