@@ -21,8 +21,9 @@ package com.taxi;
 
 import org.apache.cordova.Config;
 import org.apache.cordova.CordovaActivity;
-
 import android.os.Bundle;
+import android.webkit.WebSettings;
+import android.webkit.WebSettings.ZoomDensity;
 
 public class TaxiPhonegap extends CordovaActivity 
 {
@@ -35,6 +36,10 @@ public class TaxiPhonegap extends CordovaActivity
 //        super.setIntegerProperty("loadUrlTimeoutValue", 7000);
         super.loadUrl(Config.getStartUrl());
         //super.loadUrl("file:///android_asset/www/index.html")
+        WebSettings settings = appView.getSettings();
+        settings.setBuiltInZoomControls(false);
+        settings.setSupportZoom(false);
+        settings.setDefaultZoom(ZoomDensity.FAR);
     }
 }
 

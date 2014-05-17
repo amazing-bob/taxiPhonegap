@@ -16,6 +16,9 @@ var directionMarkers;
 
 var myScroll;
 
+var currFFZoom = 1;
+var currIEZoom = 100;
+
 var roomList = [];
 
 
@@ -420,12 +423,33 @@ $(document).ready(function() {
 		showhideBlackBackground("show");
 	});
 	
-	
-	
-	
 }); //ready()
 
+function setupScale (minWidth) {
+    var viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth);
+    var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+    var portWidth = Math.min(viewWidth, viewHeight);
+    var landWidth = Math.max(viewWidth, viewHeight);
+    var fixScale = function () {
+        if (Math.abs(window.orientation) != 90) {
+            // portrait
+            document.body.style.zoom = portWidth / minWidth;
+        } else if (landWidth < minWidth) {
+            // landscape, but < minWidth
+            document.body.style.zoom = landWidth / minWidth;
+        } else {
+            // landscape >= minWidth. Turn off zoom.
+            // This will make things "larger" in landscape.
+            document.body.style.zoom = 1;
+        }
+    };
 
+    if (gPortWidth >= minWidth) {
+        return;     // device is greater than minWidth even in portrait.
+    }
+    fixScale();                             // fix the current scale.       
+    window.onorientationchange = fixScale;  // and when orientation is changed
+}
 /**
  * 설  명: deviceready 이벤트
  * 작성자: 김상헌

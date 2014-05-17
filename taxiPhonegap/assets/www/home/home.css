@@ -36,7 +36,7 @@ section[data-role=content] {
 #startInput {
 	border: 1px solid #aaa;
  	position: absolute;
-	width: 100%;
+	width: 50%;
 	height: 33px;
 	padding: 0px 30px;
 	z-index:99;
@@ -52,7 +52,7 @@ section[data-role=content] {
 #endInput {
 	border: 1px solid #aaa;
  	position: absolute;
-	width: 100%;
+	width: 40%;
 	height: 33px;
 	padding: 0px 30px;
 	z-index: 99;
