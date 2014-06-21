@@ -20,7 +20,8 @@ var thisRoomColor;
 
 $(document).ready(function(){
 	initAjaxLoading();
-
+	
+	
 	var params = getHrefParams();
 
 	var roomNo = params.roomNo;  
