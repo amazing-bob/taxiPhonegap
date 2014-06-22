@@ -524,6 +524,11 @@ var push = {
 
     // onnotificationGCM callback
     onNotificationGCM: function(e) {
+    	
+    	if(e.event!="registered"){
+    		alert(JSON.stringify(e))
+    	}
+    	
     	console.log("push.onNotificationGCM(e)");
     	//console.log(JSON.stringify(e));
     	
