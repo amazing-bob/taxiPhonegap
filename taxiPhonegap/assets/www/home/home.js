@@ -16,9 +16,6 @@ var directionMarkers;
 
 var myScroll;
 
-var currFFZoom = 1;
-var currIEZoom = 100;
-
 var roomList = [];
 
 
@@ -423,33 +420,12 @@ $(document).ready(function() {
 		showhideBlackBackground("show");
 	});
 	
+	
+	
+	
 }); //ready()
 
-function setupScale (minWidth) {
-    var viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth);
-    var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-    var portWidth = Math.min(viewWidth, viewHeight);
-    var landWidth = Math.max(viewWidth, viewHeight);
-    var fixScale = function () {
-        if (Math.abs(window.orientation) != 90) {
-            // portrait
-            document.body.style.zoom = portWidth / minWidth;
-        } else if (landWidth < minWidth) {
-            // landscape, but < minWidth
-            document.body.style.zoom = landWidth / minWidth;
-        } else {
-            // landscape >= minWidth. Turn off zoom.
-            // This will make things "larger" in landscape.
-            document.body.style.zoom = 1;
-        }
-    };
 
-    if (gPortWidth >= minWidth) {
-        return;     // device is greater than minWidth even in portrait.
-    }
-    fixScale();                             // fix the current scale.       
-    window.onorientationchange = fixScale;  // and when orientation is changed
-}
 /**
  * 설  명: deviceready 이벤트
  * 작성자: 김상헌
@@ -587,7 +563,7 @@ var init = function() {
 	}
 	
 	//데이터 들어가 있는지 확인용. 
-	testDataInsert();
+	//testDataInsert();
 };
 
 
@@ -1057,7 +1033,7 @@ var searchRooms = function( mbrNo, refreshFlag ) {
 		                        var roomListLen = roomList.length; 
 		                        for( var i = 0 ; i < realignRoomList.length; i++ ) { 
 		                        	roomList[roomListLen + i] = realignRoomList[i]; 
-		                        } 
+		                        }
 		                    }
 		                    
 						}
@@ -1071,7 +1047,7 @@ var searchRooms = function( mbrNo, refreshFlag ) {
 							createRoomList( roomList, true );
 							
 						} else {
-					    	$("#btnAddViewRoom > img").attr("src", "../images/common/button/add_btn.png");
+					    	$("#c > img").attr("src", "../images/common/button/add_btn.png");
 							$("#btnAddViewRoom").data("status", "addRoomBtn");
 							$("#divRoomList").data("isRoomMbr", "false");
 							
@@ -1100,7 +1076,13 @@ var isIRoomMember = function( roomMbrList, myMbrNo ) {
 //	console.log(roomMbrList);
 	
 	for ( var j in roomMbrList ) {
+		
+		console.log( roomMbrList[j].mbrNo +"/////"+ myMbrNo);
+		
+		
 		if ( roomMbrList[j].mbrNo == myMbrNo ) {
+			
+			console.log("이방에 주인은 나야");
 			return "true";
 		}
 	}
@@ -1126,13 +1108,18 @@ var createRoomList = function( roomList, isRoomMbr ) {
 	if (roomList && roomList.length > 0) { // 검색된 방이 있는 경우
 		var roomMbrList = null;
 		var divRoomMbrThumb = null;
-
+		
 		for ( var i in roomList ) {
 			roomMbrList =  roomList[i].roomMbrList;
 			var rmName0 = "";
 			var rmName1 = "";
 			var rmName2 = "";
 			var rmName3 = "";
+			
+			var btnText = "같이타자";
+			if(roomList[i].isMyRoom == "true" ){
+				btnText = "내방가기";
+			}
 			
 			divRoomMbrThumb = $("<div>")
 									.addClass("divRoomMbrThumbs");
@@ -1269,14 +1256,27 @@ var createRoomList = function( roomList, isRoomMbr ) {
 										.addClass("btnJoinRoom")
 										.append(
 												$("<span>")
-													.text("같이타자") )
+													.text(btnText) )
 										.on("click", function(event) {
 											event.stopPropagation();
 											
 											var joinRoomNo = $(this).parents("li").data("roomNo");
 											
 											if ( isRoomMbr ) {
+												
+												
+												
+												
 												var outRoomNo = getSessionItem("myRoom").roomNo;
+												console.log("현재 방에 참여중입니까========"+isRoomMbr);
+												console.log("기존 내방 번호==========="+outRoomNo);
+												
+												if( joinRoomNo == outRoomNo){
+													
+													goMyroom();
+													return false;
+													
+												}
 												
 												$("#joinRoom_popup").data("outRoomNo", outRoomNo);
 												$("#joinRoom_popup").data("joinRoomNo", joinRoomNo);
