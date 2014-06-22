@@ -251,16 +251,23 @@ function extractionContactData(contacts) {
     }
     
     var num = 0;
-//    console.log(contactsList);
+    var pnstr = "";
     for(var i = 0; i<contactsList.length;i++){
     	
     //	console.log("정보 )    타입 : " + contactsList[i].type + "   | 이름 : " + contactsList[i].name + "   |번호 : " + contactsList[i].value+"\n");
 
     	if( contactsList[i].value.substring(0,3)=="010"){
     		
+    		pnstr = contactsList[i].value;
+    		
+    		if(pnstr.length> 9){
+    			pnstr = pnstr.replace("-", "");
+    			pnstr = pnstr.replace("-", "");
+    		}
+    		
     		frndList[num] = {
     				frndName : contactsList[i].name ,
-    				frndPhoneNo : contactsList[i].value
+    				frndPhoneNo : pnstr
     				//frndPhoneNo : b64_md5(contactsList[i].value)
     		};
     		

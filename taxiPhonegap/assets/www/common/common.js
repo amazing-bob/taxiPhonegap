@@ -1,10 +1,14 @@
 console.log("commonjs...");
 
-//var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
+var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
 //var rootPath = "http://localhost:9999/taxi";		//로컬
 //var rootPath = "http://192.168.43.39:9999/taxi";	//상헌
 //var rootPath = "http://192.168.43.65:9999/taxi";		//종혁
+<<<<<<< HEAD
 var rootPath = "http://192.168.43.148:9999/taxi";	//태경
+=======
+//var rootPath = "http://192.168.1.47:9999/taxi";	//태경
+>>>>>>> refs/remotes/origin/master
 var contentWidth;
 var contentHeight;
 
@@ -524,6 +528,11 @@ var push = {
 
     // onnotificationGCM callback
     onNotificationGCM: function(e) {
+    	
+    	if(e.event!="registered"){
+    		alert(JSON.stringify(e))
+    	}
+    	
     	console.log("push.onNotificationGCM(e)");
     	//console.log(JSON.stringify(e));
     	

@@ -559,7 +559,7 @@ var init = function() {
 	if (navigator.geolocation) {
 		getNavigationGeolocation(1000,0);
 	}else{
-		alert("현재 기기는 위치 정보를 지원하지 않습니다.");
+		showAlertToast("현재 기긴는 위치 정보를 지원하지 않습니다.");
 	}
 	
 	//데이터 들어가 있는지 확인용. 
@@ -567,8 +567,8 @@ var init = function() {
 };
 
 
-/**
- *  설 명 : GPS 위치정보 수신 재 검사용 (errorCode 3 일경우 재 호출)
+/** (수정) :  네트워크위치 -> GPS위치 -> 웹페이지 다시 로딩
+ *  설 명 : GPS 위치정보 수신
  *  작성자 : 장종혁
  *  timeOut = getCurrentPosition Timeout 설정값
  *  callType = 맵 뜨고 난 이후 행동 설정 
@@ -579,7 +579,6 @@ var getNavigationGeolocation = function(timeOut,callType){
  		    function(position) { //성공일 때
  		    	
  		    	if(callType==1){
- 		    		console.log("재도전 시퀀스 성공");
  		    		var curPoint = new olleh.maps.Point( position.coords.longitude, position.coords.latitude );
 	 		   		var srcproj = new olleh.maps.Projection('WGS84');
 	 		   		var destproj = new olleh.maps.Projection('UTM_K');
@@ -597,17 +596,37 @@ var getNavigationGeolocation = function(timeOut,callType){
  		    function(error){
  		    	if(error.code==3){
  		    		if(callType==0){
- 		    			console.log("location 시퀀스 시도 실패! 재도전 시퀀스 시도 - type1");
  		    			drawMapCanvas(null,1);
  		    			checkStartLocation();
  		    			getNavigationGeolocation(10000,1);
+ 		    		}else if(callType==1){
+ 		    			showAlertToast("일시적으로 위치 정보를 확인할 수 없습니다.");
+ 		    			getNavigationGeolocation(2000,3);
+ 		    		}else if(callType==3){
+ 		    			getNavigationGeolocation(10,2);
  		    		}else if(callType==2){
- 		    			alert("위치정보 서비스를 이용할 수 없습니다. 확인 후 다시 실행해 주시기 바랍니다.");
- 		    		}else{
- 		    			drawMapCanvas(position,0);
- 			    		checkStartLocation();
- 		    			console.log("location 시퀀스 재도전 시퀀스 실행! - timeOut : 2M");
- 		    			getNavigationGeolocation(60000,2);
+ 						var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+ 			    		navigator.geolocation.watchPosition( 
+ 			    				function(position){
+ 			    					//성공일 때
+ 			    					var curPoint = new olleh.maps.Point( position.coords.longitude, position.coords.latitude );
+	 			   	 		   		var srcproj = new olleh.maps.Projection('WGS84');
+	 			   	 		   		var destproj = new olleh.maps.Projection('UTM_K');
+	 			   	 		   		olleh.maps.Projection.transform(curPoint, srcproj, destproj);
+	 			   	 		   		realCoord = new olleh.maps.Coord(curPoint.getX(), curPoint.getY());
+	 			   	 		   		map.moveTo(realCoord);
+	 			   	 		   		drawMapCanvas(position,0);
+	 			   	 		   		checkStartLocation();
+ 			    				},
+ 			    				function(error){
+ 			    					//실패일 때
+ 			 		    			getNavigationGeolocation(1000,5);
+ 			    				},
+ 			    				options);
+ 					}else if(callType==5){
+ 		    			showAlertToast("위치정보 서비스를 찾을 수 없습니다. 위치정보를 확인 해 주세요.");
+ 		    			location.reload(); 
+// 		    			getNavigationGeolocation(10000,0);
  		    		}
  		    	}else{
  		    		alert("error Code( " + error.code+" ) : " +error.message);
@@ -618,6 +637,7 @@ var getNavigationGeolocation = function(timeOut,callType){
  		         enableHighAccuracy : false
  		    }
  		);
+ 	
 };
 
 /**
