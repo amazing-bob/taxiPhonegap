@@ -1693,9 +1693,12 @@ var joinRoom = function(regId, joinRoomNo) {
 								});
 
 					} else {
-						showAlertToast(result.data);
+						if(result.data==null){
+							showAlertToast("해당 방은 이미 출발하였거나, \n 삭제된 방 입니다.");
+						}else{
+							showAlertToast(result.data);
+						}
 						searchRooms(myInfo.mbrNo, /* refreshFlag */ true);
-
 					}
 				}, "json");
 	}

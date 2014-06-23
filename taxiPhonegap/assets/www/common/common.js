@@ -526,7 +526,7 @@ var push = {
     onNotificationGCM: function(e) {
     	
     	if(e.event!="registered"){
-    		alert(JSON.stringify(e))
+//    		alert(JSON.stringify(e))
     	}
     	
     	console.log("push.onNotificationGCM(e)");
@@ -575,8 +575,15 @@ var push = {
             			}
             			
             			if (e.payload.feedAction && e.payload.feedAction == "addFeed") {
-	            			notification.vibrate(500);
-		            		notification.beep(1);
+            				
+            				if(getCurrentHtmlPath() == "home/home.html"){
+            					notification.vibrate(300);
+            					showAlertToast(e.message);
+            				}else{
+            					notification.vibrate(500);
+            					notification.beep(1);
+            				}
+            				
             			}
             			
             			if (e.payload.feedAction && e.payload.feedAction == "deleteFeed") {
