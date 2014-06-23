@@ -18,6 +18,8 @@ var myScroll;
 
 var roomList = [];
 
+var gpscnt=0;
+
 
 $(document).ready(function() {
 	initAjaxLoading();
@@ -567,7 +569,7 @@ var init = function() {
 };
 
 
-/** (수정) :  네트워크위치 -> GPS위치 -> 웹페이지 다시 로딩
+/** (수정) :  네트워크위치(2회) -> GPS위치(3회 약 13.5초 시간줌) -> 웹페이지 다시 로딩
  *  설 명 : GPS 위치정보 수신
  *  작성자 : 장종혁
  *  timeOut = getCurrentPosition Timeout 설정값
@@ -603,9 +605,9 @@ var getNavigationGeolocation = function(timeOut,callType){
  		    			showAlertToast("일시적으로 위치 정보를 확인할 수 없습니다.");
  		    			getNavigationGeolocation(2000,3);
  		    		}else if(callType==3){
- 		    			getNavigationGeolocation(10,2);
+ 		    			getNavigationGeolocation(4500,2);
  		    		}else if(callType==2){
- 						var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+ 						var options = { maximumAge: 3000, timeout: timeOut, enableHighAccuracy: true };
  			    		navigator.geolocation.watchPosition( 
  			    				function(position){
  			    					//성공일 때
@@ -620,7 +622,12 @@ var getNavigationGeolocation = function(timeOut,callType){
  			    				},
  			    				function(error){
  			    					//실패일 때
- 			 		    			getNavigationGeolocation(1000,5);
+ 			    					if(gpscnt>3){
+ 			    						getNavigationGeolocation(3500,5);
+ 			    					}else{
+ 			    						gpscnt++;
+ 			    						getNavigationGeolocation(3500,3);
+ 			    					}
  			    				},
  			    				options);
  					}else if(callType==5){
