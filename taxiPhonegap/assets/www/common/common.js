@@ -1,10 +1,10 @@
 console.log("commonjs...");
 
-//var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
+var rootPath = "http://buru1020.cafe24.com/taxi";	//호스팅
 //var rootPath = "http://localhost:9999/taxi";		//로컬
 //var rootPath = "http://192.168.43.39:9999/taxi";	//상헌
 //var rootPath = "http://192.168.43.65:9999/taxi";		//종혁
-var rootPath = "http://192.168.1.47:9999/taxi";	//태경
+//var rootPath = "http://192.168.1.47:9999/taxi";	//태경
 var contentWidth;
 var contentHeight;
 

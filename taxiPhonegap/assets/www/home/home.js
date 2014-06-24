@@ -1372,8 +1372,8 @@ var createRoomList = function( roomList, isRoomMbr ) {
 		if(swipeStatus == "up"){
 			
 			console.log(swipeStatus);
-			$(".divRoomDetailInfo").attr("visibility","visible");
-			$(".divRoomDetailInfo").attr("opacity",1);
+			$(".divRoomDetailInfo").css("visibility","visible");
+			$(".divRoomDetailInfo").css("opacity",1);
 			$(".headerVar").attr("src", "../images/common/downheadervar.png");
 			$(".divRoomMbrThumbs").css("display", "none");
 			$(".divRoomDistanceAndFare").css("display", "");
@@ -1388,10 +1388,6 @@ var createRoomList = function( roomList, isRoomMbr ) {
 
 		$(".startLocName").width( ($(".divRoomPathInfo").outerWidth() - 70 ) + "px");
 		$(".endLocName").width( ($(".divRoomPathInfo").outerWidth() - 70 ) + "px");
-
-		$(".divRoomDetailInfo").css("visibility", "hidden");
-		$(".divRoomMbrThumbs").css("display", "");
-		$(".divRoomDistanceAndFare").css("display", "none");
 
 		var roomLi = $( $("#ulRoomList li").get(0) );
 

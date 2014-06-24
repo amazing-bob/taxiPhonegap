@@ -206,7 +206,7 @@ div.divRoomInfoArea h2 {
 }
 div.divRoomInfoArea > span.spanStartLabel {
 	float: left;
-	margin: 2.8em 0 0 -2em;
+	margin: 2.3em 0 0 -1.9em;
 	font-size: 81%;
 	font-family: "Nanum Gothic Bold";
 	color: #999;
@@ -214,7 +214,7 @@ div.divRoomInfoArea > span.spanStartLabel {
 }
 div.divRoomInfoArea > span.spanStartDateLabel {
 	float: left;
-	margin: 1.4em 0 0 0.4em;
+	margin: 0.8em 0 0 0.4em;
 	font-size: 81%;
 	font-family: "Nanum Gothic Bold";
 	color: #999;
