@@ -10,6 +10,9 @@ var contentHeight;
 
 var myInfo;
 
+//App버전
+var appVersion = "1.0.1";
+
 var roomColorArr = ['#DF0101', '#61210B', '#FF4000', '#FE9A2E', '#F7FE2E', 
                     '#80FF00', '#21610B', '#04B4AE', '#00FFFF', '#013ADF', 
                     '#642EFE', '#4B088A', '#8904B1', '#FE2E9A'];

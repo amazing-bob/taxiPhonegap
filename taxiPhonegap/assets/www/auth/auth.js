@@ -161,6 +161,7 @@ var registerEvent = function() {
 function onDeviceReady() {
 	console.log("onDeviceReady()");
 	
+	chkAppVersion();
     getsetPhoneNo();
     getContacts();
     isSignUp( getLocalItem("myInfo"), phoneNo, device.uuid );
@@ -168,6 +169,48 @@ function onDeviceReady() {
     
 }
 
+/**
+ *  설   명 : 현재 클라이언트에 설치된 App의 정보와 App스토어에 올라간 App의 버전을 체크 및 공지알림 (현재는 alert 적용안됨)
+ *  작성자 : 장종혁
+ */
+var chkAppVersion = function(){
+	$.getJSON( rootPath + "/auth/appVersionck.do",
+			// Param
+			{},
+			// Success
+			function(result) {
+				if(result.status == "success") {
+					appInfo = result.data;
+					
+					var ver = appInfo.version;
+
+					if(ver == appVersion){
+						
+						if(appInfo.noticeType==1){
+						
+							navigator.notification.alert(appInfo.notice,alertCallback, "공지", "확인");
+							
+						}else if(appInfo.noticeType==2){
+							
+							navigator.notification.alert(appInfo.notice,alertCallback, "점검중", "확인");
+							
+						}
+						
+					}else{
+						
+						navigator.notification.alert("새로운 업데이트가 있습니다.",alertCallback, "새로운 업데이트", "확인");
+						
+					}
+					
+				} else {
+					showAlertToast("서버와의 연결이 불안정 합니다.");
+				}
+			});
+};
+
+function alertCallback() {
+	
+}
 
 /**
  *  설   명 : 휴대폰 전화번호를 자동으로 txtPhone 에 추가.
