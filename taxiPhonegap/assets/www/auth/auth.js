@@ -161,7 +161,7 @@ var registerEvent = function() {
 function onDeviceReady() {
 	console.log("onDeviceReady()");
 	
-	chkAppVersion();
+//	chkAppVersion();
     getsetPhoneNo();
     getContacts();
     isSignUp( getLocalItem("myInfo"), phoneNo, device.uuid );
