@@ -1050,7 +1050,8 @@ var searchRooms = function( mbrNo, refreshFlag ) {
 								waypoints 	: waypoints,
 								roomMbrNumLimit : result.data[i].roomMbrNumLimit,
 								roomMbrList : roomMbrList,
-								roomPathList: roomPathList
+								roomPathList: roomPathList,
+								relationCd : searchRoomList[i].relationCd
 							};
 
 						}
@@ -1202,6 +1203,13 @@ var createRoomList = function( roomList, isRoomMbr ) {
 													.addClass("headerVar"))) )
 				.append(
 						$("<div>")
+							.addClass("relMark")
+							.append(
+									$("<img>")
+									.attr("src", "../images/common/blankBookmark.png")
+									.addClass("relMarkImg")))
+				.append(
+						$("<div>")
 						.addClass("divRoomInfoArea")
 						.append(
 								$("<h2>")
@@ -1331,7 +1339,13 @@ var createRoomList = function( roomList, isRoomMbr ) {
 											return false;
 										}) ) )
 				.appendTo( $("#ulRoomList") );
-
+			//북마크 표시
+			if(roomList[i].relationCd==1){
+				$(".relMarkImg")[i].src = "../images/common/bookmark_green_2.png";
+			}else if(roomList[i].relationCd==2){
+				$(".relMarkImg")[i].src = "../images/common/bookmark_yellow_2.png";
+			}
+			
 			//방관계도 그리기
 			relLineUp(roomMbrList,i,roomList[i].roomMbrNumLimit);
 			
