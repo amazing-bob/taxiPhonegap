@@ -567,7 +567,7 @@ var init = function() {
 	if (navigator.geolocation) {
 		getNavigationGeolocation(1000,0);
 	}else{
-		alert("현재 기기는 위치 정보를 지원하지 않습니다.");
+		showAlertToast("현재 기기는 위치 정보를 지원하지 않습니다.");
 	}
 	
 	//데이터 들어가 있는지 확인용. 
@@ -575,7 +575,7 @@ var init = function() {
 };
 
 
-/** (수정) :  네트워크위치 -> GPS위치 -> 웹페이지 다시 로딩
+/** (수정) :  네트워크위치(2회) -> GPS위치(3회 약 13.5초 시간줌) -> 웹페이지 다시 로딩
  *  설 명 : GPS 위치정보 수신
  *  작성자 : 장종혁
  *  timeOut = getCurrentPosition Timeout 설정값
@@ -599,6 +599,7 @@ var getNavigationGeolocation = function(timeOut,callType){
 		    		drawMapCanvas(position,0);
 		    		checkStartLocation();
 		    	}
+		    	
  		    },
  		    function(error){
  		    	if(error.code==3){
@@ -1059,8 +1060,9 @@ var searchRooms = function( mbrNo, refreshFlag ) {
 								waypoints 	: waypoints,
 								roomMbrNumLimit : result.data[i].roomMbrNumLimit,
 								roomMbrList : roomMbrList,
+								startDate	: startDate,
 								roomPathList: roomPathList,
-								startDate	: startDate
+								relationCd : searchRoomList[i].relationCd
 							};
 
 						}
@@ -1212,6 +1214,13 @@ var createRoomList = function( roomList, isRoomMbr ) {
 													.addClass("headerVar"))) )
 				.append(
 						$("<div>")
+							.addClass("relMark")
+							.append(
+									$("<img>")
+									.attr("src", "../images/common/blankBookmark.png")
+									.addClass("relMarkImg")))
+				.append(
+						$("<div>")
 						.addClass("divRoomInfoArea")
 						.append(
 								$("<h2>")
@@ -1345,7 +1354,13 @@ var createRoomList = function( roomList, isRoomMbr ) {
 											return false;
 										}) ) )
 				.appendTo( $("#ulRoomList") );
-
+			//북마크 표시
+			if(roomList[i].relationCd==1){
+				$(".relMarkImg")[i].src = "../images/common/bookmark_green_2.png";
+			}else if(roomList[i].relationCd==2){
+				$(".relMarkImg")[i].src = "../images/common/bookmark_yellow_2.png";
+			}
+			
 			//방관계도 그리기
 			relLineUp(roomMbrList,i,roomList[i].roomMbrNumLimit);
 			
