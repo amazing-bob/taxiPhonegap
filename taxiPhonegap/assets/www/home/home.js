@@ -10,7 +10,7 @@ var startMarker;
 var startCircle;
 var endMarker;
 var endCircle;
-
+var swipeStatus = "down";
 var directionsRenderer;
 var directionMarkers;
 
@@ -287,6 +287,9 @@ $(document).ready(function() {
     var moveHeight = contentHeight - divWrapperHeight;
     var transitionDuration = 300;
     $("#wrapper").on("swipeup", function() {
+    	
+    	swipeStatus = "up";
+    	
     	$("#wrapper").height(contentHeight - 1);
     	$("#scroller li").height(contentHeight - 1);
 
@@ -304,6 +307,9 @@ $(document).ready(function() {
     });
 
     $("#wrapper").on("swipedown", function() {
+    	
+    	swipeStatus = "down";
+    	
     	$("#wrapper").transition({y: 0}, transitionDuration);
     	$(".divRoomDetailInfo").transition({ opacity: 0}, transitionDuration );
 
@@ -1332,6 +1338,23 @@ var createRoomList = function( roomList, isRoomMbr ) {
 			
 			$("#scroller").css("width", parseInt($("#scroller").css("width")) + contentWidth + "px");
 
+		}
+		
+		if(swipeStatus == "up"){
+			
+			console.log(swipeStatus);
+			$(".divRoomDetailInfo").attr("visibility","visible");
+			$(".divRoomDetailInfo").attr("opacity",1);
+			$(".headerVar").attr("src", "../images/common/downheadervar.png");
+			$(".divRoomMbrThumbs").css("display", "none");
+			$(".divRoomDistanceAndFare").css("display", "");
+			
+		}else{
+
+			$(".divRoomDetailInfo").css("visibility", "hidden");
+			$(".divRoomMbrThumbs").css("display", "");
+			$(".divRoomDistanceAndFare").css("display", "none");
+			
 		}
 
 		$(".startLocName").width( ($(".divRoomPathInfo").outerWidth() - 70 ) + "px");
