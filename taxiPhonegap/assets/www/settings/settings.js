@@ -602,7 +602,7 @@ function extractionContactData(contacts) {
     				mbrNo : myInfo.mbrNo
     				//frndPhoneNo : b64_md5(contactsList[i].value)
     		};
-
+    		
     		num++;
     		
     	}
@@ -640,7 +640,7 @@ var getUpdateTime = function(){
 	var text = "";
 	
 	var t1 = new Date();
-	var t2 = new Date(getLocalItem("updatedTime"))
+	var t2 = new Date(getLocalItem("updatedTime"));
 	var t3 = t1-t2;
 	var getDiffTimeMinute  = Math.floor((t3/(1000*60)));
 	
@@ -649,7 +649,7 @@ var getUpdateTime = function(){
 	
 	if(getDiffTimeMinute < 60){
 		
-		text = getDiffTimeMinute+"분전"
+		text = getDiffTimeMinute+"분전";
 		
 	}else if( getDiffTimeMinute >= 60 ){
 		

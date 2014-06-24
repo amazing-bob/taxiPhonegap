@@ -190,7 +190,12 @@ var getValidationResultName = function(){
 		
 	}else{
 		
+		//이름 벨리데이션체크 no1
+		
 		var result = that.validationCheckName(name);
+		
+		//이름 벨리데이션체크 no2.
+		//var result = that.validationCheckName2(name);
 		console.log(result);
 		if(result){
 			
@@ -238,11 +243,28 @@ var validationCheckPhoneNumber = function(text){
 		return false;
 	};
 };
+
+/**
+ * 설  명 : 이름 validation 체크(공백 x)
+ * 작성자 : 김태경
+ */
+var validationCheckName = function(text){
+	
+	console.log(text.trim().length);
+	console.log(text.length);
+	text.replace(" ","");
+	if(text.replace(" ","").length == text.length){
+		return true;
+	}else{
+		return false;
+	}
+	
+};
 /**
  * 설  명 : 이름 validation 체크(영문 x , 자음모음 따로 떨어지는거 x)
  * 작성자 : 김태경
  */
-var validationCheckName = function(text){
+/*var validationCheckName2 = function(text){
 	console.log(text);
 	var form = text;
 	for(var i = 0; i < form.length; i++){
@@ -258,7 +280,7 @@ var validationCheckName = function(text){
 		}
 	}
 	return true;
-};
+};*/
 
 /**
  * 설  명 : 입력폼 값 지우는 버튼 

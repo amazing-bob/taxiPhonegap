@@ -36,7 +36,7 @@ section[data-role=content] {
 #startInput {
 	border: 1px solid #aaa;
  	position: absolute;
-	width: 50%;
+	width: 100%;
 	height: 33px;
 	padding: 0px 30px;
 	z-index:99;
@@ -52,7 +52,7 @@ section[data-role=content] {
 #endInput {
 	border: 1px solid #aaa;
  	position: absolute;
-	width: 40%;
+	width: 100%;
 	height: 33px;
 	padding: 0px 30px;
 	z-index: 99;
@@ -206,8 +206,16 @@ div.divRoomInfoArea h2 {
 }
 div.divRoomInfoArea > span.spanStartLabel {
 	float: left;
-	margin: 2.3em 0 0 0;
-	font-size: 80%;
+	margin: 2.8em 0 0 -2em;
+	font-size: 81%;
+	font-family: "Nanum Gothic Bold";
+	color: #999;
+	font-weight: bold;
+}
+div.divRoomInfoArea > span.spanStartDateLabel {
+	float: left;
+	margin: 1.4em 0 0 0.4em;
+	font-size: 81%;
 	font-family: "Nanum Gothic Bold";
 	color: #999;
 	font-weight: bold;

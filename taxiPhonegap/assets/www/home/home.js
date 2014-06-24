@@ -567,7 +567,7 @@ var init = function() {
 	if (navigator.geolocation) {
 		getNavigationGeolocation(1000,0);
 	}else{
-		showAlertToast("현재 기긴는 위치 정보를 지원하지 않습니다.");
+		alert("현재 기기는 위치 정보를 지원하지 않습니다.");
 	}
 	
 	//데이터 들어가 있는지 확인용. 
@@ -575,7 +575,7 @@ var init = function() {
 };
 
 
-/** (수정) :  네트워크위치(2회) -> GPS위치(3회 약 13.5초 시간줌) -> 웹페이지 다시 로딩
+/** (수정) :  네트워크위치 -> GPS위치 -> 웹페이지 다시 로딩
  *  설 명 : GPS 위치정보 수신
  *  작성자 : 장종혁
  *  timeOut = getCurrentPosition Timeout 설정값
@@ -599,7 +599,6 @@ var getNavigationGeolocation = function(timeOut,callType){
 		    		drawMapCanvas(position,0);
 		    		checkStartLocation();
 		    	}
- 		    	
  		    },
  		    function(error){
  		    	if(error.code==3){
@@ -608,7 +607,7 @@ var getNavigationGeolocation = function(timeOut,callType){
  		    			checkStartLocation();
  		    			getNavigationGeolocation(10000,1);
  		    		}else if(callType==1){
- 		    			showAlertToast("일시적으로 위치 정보를 확인할 수 없습니다.");
+		    			showAlertToast("일시적으로 위치 정보를 확인할 수 없습니다.");
  		    			getNavigationGeolocation(2000,3);
  		    		}else if(callType==3){
  		    			getNavigationGeolocation(4500,2);
@@ -1004,6 +1003,7 @@ var searchRooms = function( mbrNo, refreshFlag ) {
 						var endInfo 		= null;
 						var waypoints 		= [];
 						var startTime 		= null;
+						var startDate		= null;
 						var isMyRoom 		= "false";
 
 						var realignRoomList = [];
@@ -1034,7 +1034,16 @@ var searchRooms = function( mbrNo, refreshFlag ) {
 
 							// 출발시간 설정
 							startTime = new Date(searchRoomList[i].roomStartTime);
+							var nowTime  = new Date();
+							
+							if(startTime.getDate() - nowTime.getDate() > 0){
+								startDate = "내일";
+							}else{
+								startDate = "오늘";
+							}
+								
 							startTime = startTime.toTimeString().substr(0, 5);
+							
 							
 							
 							realignRoomList[i] = {
@@ -1050,7 +1059,8 @@ var searchRooms = function( mbrNo, refreshFlag ) {
 								waypoints 	: waypoints,
 								roomMbrNumLimit : result.data[i].roomMbrNumLimit,
 								roomMbrList : roomMbrList,
-								roomPathList: roomPathList
+								roomPathList: roomPathList,
+								startDate	: startDate
 							};
 
 						}
@@ -1206,6 +1216,10 @@ var createRoomList = function( roomList, isRoomMbr ) {
 						.append(
 								$("<h2>")
 									.text( roomList[i].startTime ) )
+						.append(
+								$("<span>")
+									.addClass("spanStartDateLabel")
+									.text(roomList[i].startDate) )
 						.append(
 								$("<span>")
 									.addClass("spanStartLabel")
@@ -1720,7 +1734,7 @@ var joinRoom = function(regId, joinRoomNo) {
 							showAlertToast("해당 방은 이미 출발하였거나, \n 삭제된 방 입니다.");
 						}else{
 							showAlertToast(result.data);
-						}
+						}						
 						searchRooms(myInfo.mbrNo, /* refreshFlag */ true);
 					}
 				}, "json");
