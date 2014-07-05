@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>홈</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script type="text/javascript"
+      src="http://api.ktgis.com:10080/v3/olleh/mapAPI.js?key=VThnQjRtU3ZPUHlUQkxKWVMzeU1HaVpkM2ljQ1RNNWQ3Y0JXT05wc2IyZTB2QlByOFk6dUNvYm9tbHROMUZQR0NCVjB1SnZyZngxQ1dhb3JkV21DY1U4Rm0wZkJKelhqQlN6VkE=">
+</script>
+
+<script>
+/**
+ * 작성자 : 장종혁
+ * 설  명 : Olleh map api ver3.0 을 이용하기위한 Test.
+           현재 역지오코딩 부분은 xml 파싱부분 처리 덜됨.(api상으론 업데이트 안되서 다른 경로로 주소 가져오는 시스템.)
+ */
+
+
+	function initialize() {
+		 var mapOpts = {
+			center: new olleh.maps.UTMK(965913.7, 1928949.522),
+			zoom: 9,
+			mapTypeId: 'ROADMAP',
+		    disableDefaultUI: true // 전체 컨트롤 삭제
+	 	};
+	 	var map = new olleh.maps.Map(document.getElementById('canvas_map'), mapOpts);
+	 	geo();
+	 }
+	window.onload = initialize;
+	
+	function geo(){
+		var xmlDoc, resultData;
+		
+		var text = ""; 
+		var url = "http://api.ktgis.com:10080/v1/rest/geocode/Rgeocode.xml?x=952115&y=1951291";
+		
+		
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		  {// code for IE7+, Firefox, Chrome, Opera, Safari
+		  xmlhttp=new XMLHttpRequest();
+		  }
+		else
+		  {// code for IE6, IE5
+		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		  }
+		xmlhttp.onreadystatechange=function()
+		  {
+		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		    {
+			  
+			 text = xmlhttp.response;
+			 
+			// console.log("*******************");
+			// console.log(text);
+			// console.log("*******************");
+			 
+				if (window.DOMParser)
+				{
+				    parser=new DOMParser();
+				    xmlDoc=parser.parseFromString(text,"text/xml");
+				}
+				else // 인터넷 익스플로러
+				{
+				    xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+				    xmlDoc.async=false;
+				    xmlDoc.loadXML(text); 
+				} 
+				
+				// documentElement는 항상 루트 노드를 나타낸다
+				x=xmlDoc.documentElement.childNodes;
+				
+				for (i=0;i<x.length;i++)
+				{	
+					if(new String(x[i].childNodes[0]).valueOf() == new String("[object Element]").valueOf()){
+						var y = x[i].childNodes[0].childNodes;
+						
+						console.log(y);
+						
+						for(j=0; j<y.length;j++){
+							
+							
+							if(y[j].childNodes.length==0){
+								console.log(y[j].nodeName + ": " + y[j].childNodes[0].nodeValue);
+							}else{
+								
+								var z = y[j].childNodes[0].childNodes;
+								
+								
+								for(k=0; k<z.length; k++){
+									
+									if(z[k].childNodes.length==0){
+
+										console.log(z[k].nodeName + ": " + z[k].childNodes[0].nodeValue);
+										
+									}else{
+										var za = z[k].childNodes[0];
+										
+										console.log("zaza");
+										console.log(za.childNodes);
+										for(l=0; l<za.childNodes.length; l++){
+											
+											if(za[l].childNodes.length==0){
+
+												console.log(za[l].nodeName + ": " + za[l].childNodes[0].nodeValue);
+												
+											}else{
+												
+												var zb = za[l].childNodes[0].childNodes;
+												
+												for(n=0; n<zb.length; n++){
+													
+												console.log("zbzb");
+												console.log(zb[n]);
+												
+												
+													if(zb[n].childNodes.length==0){
+
+														console.log(zb[n].nodeName + ": " + zb[n].childNodes[0].nodeValue);
+														
+													}else{
+														
+														var zc = zc[n].childNodes[0].childNodes;
+														
+														for(m=0; m<zc.length;m++){
+															
+															if(zc[m].childNodes.length==0){
+																console.log(zc[m].nodeName + ": " + zc[m].childNodes[0].nodeValue);
+															}else{
+																
+															}
+															
+														}
+														
+													}
+												
+												
+											}
+											
+											
+										}
+										
+									}
+									
+									
+								}
+								
+								
+							}
+							
+						}
+						
+					}
+					}else{
+				    	console.log(x[i].nodeName + ": " + x[i].childNodes[0].nodeValue);
+					}
+				}
+			 
+			 
+			 
+			 
+			 
+			 
+		    //document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+		    }else{
+		    //	alert(xmlhttp.readyState);
+		    //	alert(xmlhttp.status);
+		    }
+		}
+		xmlhttp.open("GET",url,true);
+		xmlhttp.send();
+		
+		console.log(xmlhttp);
+
+
+		
+	}
+	
+	
+	// Changes XML to JSON
+	function xmlToJson(xml) {
+		
+		// Create the return object
+		var obj = {};
+
+		if (xml.nodeType == 1) { // element
+			// do attributes
+			if (xml.attributes.length > 0) {
+			obj["@attributes"] = {};
+				for (var j = 0; j < xml.attributes.length; j++) {
+					var attribute = xml.attributes.item(j);
+					obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+				}
+			}
+		} else if (xml.nodeType == 3) { // text
+			obj = xml.nodeValue;
+		}
+
+		// do children
+		if (xml.hasChildNodes()) {
+			for(var i = 0; i < xml.childNodes.length; i++) {
+				var item = xml.childNodes.item(i);
+				var nodeName = item.nodeName;
+				if (typeof(obj[nodeName]) == "undefined") {
+					obj[nodeName] = xmlToJson(item);
+				} else {
+					if (typeof(obj[nodeName].push) == "undefined") {
+						var old = obj[nodeName];
+						obj[nodeName] = [];
+						obj[nodeName].push(old);
+					}
+					obj[nodeName].push(xmlToJson(item));
+				}
+			}
+		}
+		return obj;
+	};
+	
+	
+	
+	
+	
+</script>
+
+</head>
+<body>  
+ <div id="canvas_map" style="position:absolute; width:100%; height:100%; left:0px; top:0px;"></div>
+</body>
+</html>
